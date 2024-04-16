@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Sora } from "next/font/google";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/ui/Header";
 
 const plusJKSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
-const sora = Sora({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Lumière",
