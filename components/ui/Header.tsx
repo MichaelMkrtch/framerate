@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SearchModal from "../search/SearchModal";
 
 export default function Header() {
   return (
@@ -32,9 +33,11 @@ export default function Header() {
         </ul>
       </nav>
 
-      <button className="rounded bg-[#00e4f5] px-4 py-2 font-medium tracking-wide text-zinc-900/90 outline-none ring-1 ring-[#00d1e0] transition-colors duration-200 ease-out active:bg-[#00becc]">
-        Add Film
-      </button>
+      <SearchModal>
+        <button className="rounded bg-[#00e4f5] px-4 py-2 font-medium tracking-wide text-zinc-900/90 outline-none ring-1 ring-[#00d1e0] transition-colors duration-200 ease-out active:bg-[#00becc]">
+          Search
+        </button>
+      </SearchModal>
     </header>
   );
 }
