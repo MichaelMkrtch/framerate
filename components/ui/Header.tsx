@@ -1,14 +1,14 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function Header() {
   return (
     <header className="flex items-center justify-between py-8">
       <Link href="/">
-        <h1 className="text-3xl font-semibold">Lumière</h1>
+        <h1 className="text-3xl font-semibold text-zinc-200">Lumière</h1>
       </Link>
 
       <nav>
-        <ul className="flex items-center text-sm font-medium rounded-full bg-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur h-10 px-3 text-zinc-800 tracking-wide">
+        <ul className="flex h-10 items-center rounded-full bg-zinc-800/95 px-3 text-sm font-medium tracking-wide text-zinc-200 shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur">
           <li>
             <Link href="/films" className="px-3 py-2">
               Films
@@ -25,14 +25,14 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/library" className="px-3 py-2 text-violet-600">
+            <Link href="/library" className="px-3 py-2 text-[#00e4f5]">
               Library
             </Link>
           </li>
         </ul>
       </nav>
 
-      <button className="rounded bg-violet-500 px-4 py-2 text-white outline-none transition-colors duration-15000 ease-out active:bg-violet-600 font-medium tracking-wide">
+      <button className="rounded bg-[#00e4f5] px-4 py-2 font-medium tracking-wide text-zinc-900/90 outline-none ring-1 ring-[#00d1e0] transition-colors duration-200 ease-out active:bg-[#00becc]">
         Add Film
       </button>
     </header>
