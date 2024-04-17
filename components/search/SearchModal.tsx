@@ -1,5 +1,6 @@
-import Modal from "../ui/Modal";
 import { ReactNode } from "react";
+import Modal from "../ui/Modal";
+import SearchBar from "./SearchBar";
 
 export default function SearchModal({ children }: { children: ReactNode }) {
   return (
@@ -10,7 +11,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
         title="Search"
         description="Search for a film by it's title."
       >
-        <p>This works!</p>
+        <SearchBar />
       </Modal.Content>
     </Modal>
   );
