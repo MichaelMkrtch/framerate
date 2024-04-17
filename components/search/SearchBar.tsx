@@ -7,8 +7,12 @@ export default function SearchBar() {
         <MagnifyingGlassIcon className="my-auto" />
       </div>
       <input
+        id="title"
         type="text"
-        className="w-full bg-[#232323] py-2 font-medium outline-none placeholder:font-medium placeholder:tracking-wide placeholder:text-[#434343]"
+        name="title"
+        placeholder="Search"
+        required
+        className="bg-gray-850 placeholder:text-gray-750 w-full py-2 font-medium outline-none placeholder:font-medium placeholder:tracking-wide"
       />
     </div>
   );

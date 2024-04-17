@@ -9,10 +9,10 @@ export function MagnifyingGlassIcon({ ...props }) {
       {...props}
     >
       <g
-        stroke="#D3D4D9"
+        stroke="#d4d4d8"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={1.14}
+        strokeWidth={1.4}
       >
         <path d="M6.369 12.206a5.838 5.838 0 1 0 0-11.675 5.838 5.838 0 0 0 0 11.675ZM14.33 14.33l-3.716-3.716" />
       </g>

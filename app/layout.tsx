@@ -18,8 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={plusJKSans.className}>
-        <div className="fixed inset-0 bg-gray-950 sm:px-8">
+      <body className={`${plusJKSans.className} bg-gray-950 text-zinc-200`}>
+        <div className="fixed inset-0 sm:px-8">
           <div className="m-auto w-full max-w-7xl">
             <Header />
             {children}
