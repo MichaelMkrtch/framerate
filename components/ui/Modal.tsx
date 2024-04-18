@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { VisuallyHidden } from "./VisuallyHidden";
 import {
   Dialog,
@@ -24,17 +24,14 @@ function ModalContent({
   children: ReactNode;
 }) {
   return (
-    <DialogContent className="bg-gray-850 ring-gray-750 border-0 text-zinc-300 caret-zinc-300 ring-1 sm:max-w-[425px]">
+    <DialogContent className="bg-gray-850 ring-gray-750 border-0 text-zinc-300 caret-zinc-300 outline-none ring-1 md:px-3 md:py-3.5 lg:w-1/2">
       <VisuallyHidden asChild>
         <DialogHeader>
-          <DialogTitle className="">{title}</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
       </VisuallyHidden>
       {children}
-      <DialogFooter>
-        <button type="submit">Save changes</button>
-      </DialogFooter>
     </DialogContent>
   );
 }
