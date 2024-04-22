@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import Modal from "../ui/Modal";
 import SearchBar from "./SearchBar";
 import SearchResultList from "./SearchResultList";

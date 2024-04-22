@@ -1,5 +1,39 @@
+"use client";
+
+import { type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import SearchModal from "../search/SearchModal";
+
+type ListItemProps = { path: string; children: ReactNode };
+
+function ListItem({ path, children }: ListItemProps) {
+  const pathname = usePathname();
+
+  return (
+    <li>
+      <Link
+        href={`${path}`}
+        className={`px-3 py-2 transition-colors duration-100 ease-in ${pathname === path ? "text-cyan-350" : null}`}
+      >
+        {children}
+      </Link>
+    </li>
+  );
+}
+
+function NavBar() {
+  return (
+    <nav>
+      <ul className="flex h-10 items-center rounded-full bg-zinc-800/95 px-3 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur">
+        <ListItem path="/films">Films</ListItem>
+        <ListItem path="/lists">Lists</ListItem>
+        <ListItem path="/articles">Articles</ListItem>
+        <ListItem path="/library">Library</ListItem>
+      </ul>
+    </nav>
+  );
+}
 
 export default function Header() {
   return (
@@ -8,30 +42,7 @@ export default function Header() {
         <h1 className="text-3xl font-semibold">Lumière</h1>
       </Link>
 
-      <nav>
-        <ul className="flex h-10 items-center rounded-full bg-zinc-800/95 px-3 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur">
-          <li>
-            <Link href="/films" className="px-3 py-2">
-              Films
-            </Link>
-          </li>
-          <li>
-            <Link href="/lists" className="px-3 py-2">
-              Lists
-            </Link>
-          </li>
-          <li>
-            <Link href="/articles" className="px-3 py-2">
-              Articles
-            </Link>
-          </li>
-          <li>
-            <Link href="/library" className="px-3 py-2 text-cyan-350">
-              Library
-            </Link>
-          </li>
-        </ul>
-      </nav>
+      <NavBar />
 
       <SearchModal>
         <button className="rounded bg-cyan-350 px-4 py-2 font-medium tracking-wide text-gray-850 outline-none ring-1 ring-cyan-450 transition-colors duration-200 ease-out active:bg-cyan-550">
