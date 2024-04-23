@@ -11,10 +11,10 @@ function ListItem({ path, children }: ListItemProps) {
   const pathname = usePathname();
 
   return (
-    <li>
+    <li className="active:scale-95 duration-75 ease-in-out">
       <Link
         href={`${path}`}
-        className={`px-3 py-2 transition-colors duration-100 ease-in ${pathname === path ? "text-cyan-350" : null}`}
+        className={`px-3 py-2 transition-colors duration-75 ease-in ${pathname === path ? "text-cyan-350" : null}`}
       >
         {children}
       </Link>
