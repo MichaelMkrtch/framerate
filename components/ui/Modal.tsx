@@ -1,4 +1,3 @@
-import { type ReactNode } from "react";
 import { VisuallyHidden } from "./VisuallyHidden";
 import {
   Dialog,
@@ -8,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
+import { type ReactNode } from "react";
 
 export default function Modal({ children }: { children: ReactNode }) {
   return <Dialog>{children}</Dialog>;

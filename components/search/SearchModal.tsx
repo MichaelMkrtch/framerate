@@ -1,7 +1,7 @@
-import { type ReactNode } from "react";
 import Modal from "../ui/Modal";
 import SearchBar from "./SearchBar";
 import SearchResultList from "./SearchResultList";
+import { type ReactNode } from "react";
 
 export default function SearchModal({ children }: { children: ReactNode }) {
   return (

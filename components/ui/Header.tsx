@@ -1,9 +1,9 @@
 "use client";
 
-import { type ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import SearchModal from "../search/SearchModal";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { type ReactNode } from "react";
 
 type ListItemProps = { path: string; children: ReactNode };
 
