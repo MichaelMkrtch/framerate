@@ -1,13 +1,13 @@
 {
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
   "import-order": [
     "<THIRD_PARTY_MODULES>",
     "^@/lib/(.*)$",
     "^@/components/(.*)$",
     "^@/app/(.*)$",
     "^./(.*)$"
-  ],
-  "plugins": [
-    "prettier-plugin-tailwindcss",
-    "@trivago/prettier-plugin-sort-imports"
   ]
 }
