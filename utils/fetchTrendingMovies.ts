@@ -1,6 +1,6 @@
-const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN as string;
-
 import { Results } from "@/types";
+
+const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN as string;
 
 export async function fetchTrendingMovies() {
   const options = {

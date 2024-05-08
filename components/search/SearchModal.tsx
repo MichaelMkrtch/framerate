@@ -5,8 +5,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { type Film } from "@/types";
 import { fetchTrendingMovies } from "@/utils/fetchTrendingMovies";
 import { useQuery } from "@tanstack/react-query";
-import { type ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 export default function SearchModal({ children }: { children: ReactNode }) {
   const [query, setQuery] = useState("");

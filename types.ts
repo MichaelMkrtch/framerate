@@ -2,8 +2,8 @@ export interface Film {
   id: number;
   title: string;
   directorList: { name: string }[]
-  releaseDate: string;
-  posterPath: string;
+  release_date: string;
+  poster_path: string;
   backdrops: { path: string }[]
 }
 

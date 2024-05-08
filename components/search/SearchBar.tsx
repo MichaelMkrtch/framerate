@@ -12,7 +12,7 @@ export default function SearchBar() {
         name="title"
         placeholder="Search"
         required
-        className="bg-gray-850 placeholder:text-gray-750 w-full py-2 font-medium outline-none placeholder:font-medium placeholder:tracking-wide"
+        className="bg-gray-850 placeholder:text-gray-750 w-full py-2 font-medium outline-none placeholder:font-medium placeholder:tracking-normal"
       />
     </div>
   );
