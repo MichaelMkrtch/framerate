@@ -3,10 +3,26 @@ import Image from "next/image";
 import { type ReactNode } from "react";
 
 interface SearchResult extends Film {
+  renderIndex: number;
+  selectedIndex: number;
   children: ReactNode;
 }
 
 const IMG_BASE_URL = process.env.NEXT_PUBLIC_IMG_BASE_URL;
+
+function assignClasses(renderIndex: number, selectedIndex: number) {
+  let classes =
+    "first:!bg-cyan-350/80 hover:bg-gray-750/40 mt-1.5 flex items-center justify-start rounded-md py-2";
+
+  if (selectedIndex > 0)
+    classes = classes.replace("first:!bg-cyan-350/80", "first:bg-transparent");
+
+  if (selectedIndex === renderIndex)
+    classes +=
+      " !bg-cyan-350/80 text-gray-850 [&_>button>div>span]:text-gray-850/60 font-medium";
+
+  return classes;
+}
 
 export default function SearchResult({
   id,
@@ -15,9 +31,12 @@ export default function SearchResult({
   release_date,
   poster_path,
   backdrops,
+  renderIndex,
+  selectedIndex,
   children,
 }: SearchResult) {
   const releaseYear = release_date.slice(0, 4);
+  const parentClasses = assignClasses(renderIndex, selectedIndex);
 
   const poster = (
     <Image
@@ -34,7 +53,7 @@ export default function SearchResult({
   );
 
   return (
-    <div className="first:!bg-cyan-350/80 hover:bg-gray-750/40 mt-1.5 flex items-center justify-start rounded-md py-2">
+    <div className={parentClasses}>
       <button className="flex w-full cursor-default items-center outline-none">
         <div className="pointer-events-none flex mr-1.5 px-2">
           {poster_path ? poster : gradient}
