@@ -1,6 +1,7 @@
-import { type Film } from "@/types";
 import Image from "next/image";
 import { type ReactNode } from "react";
+
+import { type Film } from "@/types";
 
 interface SearchResult extends Film {
   renderIndex: number;

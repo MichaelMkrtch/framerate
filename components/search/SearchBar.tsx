@@ -1,5 +1,6 @@
-import { MagnifyingGlassIcon } from "../ui/Icons";
 import { type ChangeEventHandler, forwardRef, useEffect } from "react";
+
+import { MagnifyingGlassIcon } from "../ui/Icons";
 
 type SearchBarProps = {
   searchQuery: string;

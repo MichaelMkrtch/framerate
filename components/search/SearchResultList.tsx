@@ -1,6 +1,8 @@
-import SearchResult from "./SearchResult";
-import { type Results } from "@/types";
 import { useCallback, useEffect, useState } from "react";
+
+import { type Results } from "@/types";
+
+import SearchResult from "./SearchResult";
 
 export default function SearchResultList({ results }: Results) {
   const [selectedIndex, setSelectedIndex] = useState(0);

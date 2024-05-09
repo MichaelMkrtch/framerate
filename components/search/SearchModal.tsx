@@ -1,12 +1,16 @@
+import { useQuery } from "@tanstack/react-query";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+
+import { type Film } from "@/types";
+
+import { useDebounce } from "@/hooks/useDebounce";
+
+import { fetchTrendingMovies } from "@/utils/fetchTrendingMovies";
+import { searchMovies } from "@/utils/searchMovies";
+
 import Modal from "../ui/Modal";
 import SearchBar from "./SearchBar";
 import SearchResultList from "./SearchResultList";
-import { useDebounce } from "@/hooks/useDebounce";
-import { type Film } from "@/types";
-import { fetchTrendingMovies } from "@/utils/fetchTrendingMovies";
-import { searchMovies } from "@/utils/searchMovies";
-import { useQuery } from "@tanstack/react-query";
-import { type ReactNode, useEffect, useRef, useState } from "react";
 
 export default function SearchModal({ children }: { children: ReactNode }) {
   const [query, setQuery] = useState("");

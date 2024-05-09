@@ -1,10 +1,11 @@
 "use client";
 
-import SearchModal from "../search/SearchModal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode } from "react";
+
+import SearchModal from "../search/SearchModal";
 
 const queryClient = new QueryClient();
 
