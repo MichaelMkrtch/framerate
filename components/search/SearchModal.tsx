@@ -4,12 +4,14 @@ import SearchResultList from "./SearchResultList";
 import { useDebounce } from "@/hooks/useDebounce";
 import { type Film } from "@/types";
 import { fetchTrendingMovies } from "@/utils/fetchTrendingMovies";
+import { searchMovies } from "@/utils/searchMovies";
 import { useQuery } from "@tanstack/react-query";
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 export default function SearchModal({ children }: { children: ReactNode }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Film[]>([]);
+  const searchElement = useRef<HTMLInputElement>(null);
   const debouncedQuery = useDebounce(query);
 
   const { data: trendingData } = useQuery({
@@ -19,11 +21,28 @@ export default function SearchModal({ children }: { children: ReactNode }) {
     enabled: debouncedQuery === "",
   });
 
+  const { data: searchData, isFetching } = useQuery({
+    queryKey: ["films", debouncedQuery],
+    queryFn: ({ signal }) => searchMovies({ signal, query }),
+    staleTime: 1 * 60 * 1000,
+    enabled: debouncedQuery !== "",
+  });
+
   useEffect(() => {
-    if (trendingData) {
+    if (trendingData && !isFetching) {
       setResults(trendingData);
     }
-  }, [trendingData]);
+
+    if (searchData) {
+      setResults(searchData);
+    }
+  }, [trendingData, searchData, isFetching]);
+
+  function handleChange() {
+    if (searchElement.current) {
+      setQuery(searchElement.current.value);
+    }
+  }
 
   return (
     <Modal>
@@ -33,7 +52,12 @@ export default function SearchModal({ children }: { children: ReactNode }) {
         title="Search"
         description="Search for a film by it's title."
       >
-        <SearchBar />
+        <SearchBar
+          ref={searchElement}
+          searchQuery={query}
+          setSearchQuery={setQuery}
+          onChange={handleChange}
+        />
         <SearchResultList results={results} />
       </Modal.Content>
     </Modal>
