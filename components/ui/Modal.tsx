@@ -1,5 +1,6 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -37,4 +38,5 @@ function ModalContent({
 }
 
 Modal.Trigger = DialogTrigger;
+Modal.Close = DialogClose;
 Modal.Content = ModalContent;

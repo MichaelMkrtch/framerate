@@ -1,7 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { type ReactNode } from "react";
 
 import { type Film } from "@/types";
+
+import Modal from "../ui/Modal";
 
 interface SearchResult extends Film {
   renderIndex: number;
@@ -53,18 +56,30 @@ export default function SearchResult({
     <div className="h-12 w-8 rounded bg-gradient-to-tr from-indigo-600 to-rose-600" />
   );
 
+  // Removes special characters and formats title for URL
+  const simpleTitle = title
+    .replaceAll(/[^a-zA-Z0-9 ]/g, "")
+    .replaceAll(/\s{2,}/g, "-")
+    .replaceAll(" ", "-")
+    .toLowerCase();
+
   return (
     <div className={parentClasses}>
-      <button className="flex w-full cursor-default items-center outline-none">
-        <div className="pointer-events-none flex mr-1.5 px-2">
-          {poster_path ? poster : gradient}
-        </div>
-        <div className="flex items-baseline text-left">
-          <p>
-            {children} ({releaseYear})
-          </p>
-        </div>
-      </button>
+      <Modal.Close asChild>
+        <Link
+          href={`/film/${simpleTitle}-${releaseYear}`}
+          className="flex w-full cursor-default items-center outline-none"
+        >
+          <div className="pointer-events-none flex mr-1.5 px-2">
+            {poster_path ? poster : gradient}
+          </div>
+          <div className="flex items-baseline text-left">
+            <p>
+              {children} ({releaseYear})
+            </p>
+          </div>
+        </Link>
+      </Modal.Close>
     </div>
   );
 }
