@@ -1,3 +1,4 @@
+import { useFilmStore } from "@/store/filmStore";
 import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode } from "react";
@@ -29,23 +30,20 @@ function assignClasses(renderIndex: number, selectedIndex: number) {
 }
 
 export default function SearchResult({
-  id,
-  title,
-  directorList,
-  release_date,
-  poster_path,
-  backdrops,
   renderIndex,
   selectedIndex,
   children,
+  ...film
 }: SearchResult) {
-  const releaseYear = release_date.slice(0, 4);
+  const setFilm = useFilmStore((state) => state.setFilm);
+
+  const releaseYear = film.release_date.slice(0, 4);
   const parentClasses = assignClasses(renderIndex, selectedIndex);
 
   const poster = (
     <Image
-      src={`${IMG_BASE_URL}w92${poster_path}`}
-      alt={`A poster from the film ${title}`}
+      src={`${IMG_BASE_URL}w92${film.poster_path}`}
+      alt={`A poster from the film ${film.title}`}
       width={92}
       height={138}
       className="h-12 w-8 rounded"
@@ -57,7 +55,7 @@ export default function SearchResult({
   );
 
   // Removes special characters and formats title for URL
-  const simpleTitle = title
+  const simpleTitle = film.title
     .replaceAll(/[^a-zA-Z0-9 ]/g, "")
     .replaceAll(/\s{2,}/g, "-")
     .replaceAll(" ", "-")
@@ -67,11 +65,12 @@ export default function SearchResult({
     <div className={parentClasses}>
       <Modal.Close asChild>
         <Link
-          href={`/film/${simpleTitle}-${releaseYear}`}
+          href={`/film/${film.id}/${simpleTitle}`}
+          onClick={() => setFilm(film)}
           className="flex w-full cursor-default items-center outline-none"
         >
           <div className="pointer-events-none flex mr-1.5 px-2">
-            {poster_path ? poster : gradient}
+            {film.poster_path ? poster : gradient}
           </div>
           <div className="flex items-baseline text-left">
             <p>
