@@ -6,6 +6,7 @@ type Credits = {
   id: number;
   cast: CastMember[];
   crew: CrewMember[];
+  directorList: CrewMember[];
 };
 
 export async function fetchCredits(id: number) {
@@ -29,8 +30,7 @@ export async function fetchCredits(id: number) {
 
     const data: Credits = await response.json();
 
-    data.cast = data.cast.length > 15 ? data.cast.slice(0, 15) : data.cast;
-    data.crew = data.crew.filter(
+    data.directorList = data.crew.filter(
       (crewMember: CrewMember) => crewMember.job === "Director",
     );
 

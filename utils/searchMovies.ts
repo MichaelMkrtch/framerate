@@ -36,7 +36,13 @@ export async function searchMovies({ signal, query }: FetchDataParams) {
 
     const data: Results = await response.json();
 
-    return data.results.slice(0, 5);
+    const searchResults = data.results.slice(0, 5);
+
+    searchResults.forEach(
+      (film) => (film.release_date = film.release_date.slice(0, 4)),
+    );
+
+    return searchResults;
   } catch (error) {
     console.log(error);
   }

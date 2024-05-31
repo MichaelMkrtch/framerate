@@ -23,6 +23,9 @@ export async function fetchTrendingMovies() {
 
     const data: Results = await response.json();
     const results = data.results.slice(0, 5);
+    results.forEach(
+      (film) => (film.release_date = film.release_date.slice(0, 4)),
+    );
 
     return results;
   } catch (error) {

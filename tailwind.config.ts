@@ -38,6 +38,11 @@ const config = {
           950: "#181a1e",
         },
       },
+      fontFamily: {
+        gothic: ["var(--font-gothic)"],
+        jakarta: ["var(--font-jakarta)"],
+        noto: ["var(--font-noto)"],
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

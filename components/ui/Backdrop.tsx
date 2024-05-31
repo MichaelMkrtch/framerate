@@ -13,7 +13,7 @@ export default function Backdrop() {
 
   return (
     backdrop_path && (
-      <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[675px] w-[1200px]">
+      <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[675px] w-[1200px] max-w-full">
         <Image
           src={`${IMG_BASE_URL}w300${backdrop_path}`}
           alt={`Still image from the film ${title}`}
@@ -31,7 +31,7 @@ export default function Backdrop() {
           fill
           priority
         />
-        <div className="before:bg-backdrop-shadow left-0 before:pointer-events-none before:absolute before:top-0 before:block before:h-[675px] before:w-[1200px] before:bg-no-repeat" />
+        <div className="before:bg-backdrop-shadow before:pointer-events-none before:absolute before:top-0 before:block before:h-[675px] before:w-[1200px] before:bg-no-repeat" />
       </div>
     )
   );

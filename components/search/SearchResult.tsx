@@ -37,7 +37,8 @@ export default function SearchResult({
 }: SearchResult) {
   const setFilm = useFilmStore((state) => state.setFilm);
 
-  const releaseYear = film.release_date.slice(0, 4);
+  // const releaseYear = film.release_date.slice(0, 4);
+
   const parentClasses = assignClasses(renderIndex, selectedIndex);
 
   const poster = (
@@ -69,12 +70,12 @@ export default function SearchResult({
           onClick={() => setFilm(film)}
           className="flex w-full cursor-default items-center outline-none"
         >
-          <div className="pointer-events-none flex mr-1.5 px-2">
+          <div className="pointer-events-none mr-1.5 flex px-2">
             {film.poster_path ? poster : gradient}
           </div>
           <div className="flex items-baseline text-left">
             <p>
-              {children} ({releaseYear})
+              {children} ({film.release_date})
             </p>
           </div>
         </Link>
