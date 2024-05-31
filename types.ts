@@ -4,7 +4,7 @@ export interface Film {
   director_list: { name: string }[];
   release_date: string;
   poster_path: string;
-  backdrops: { path: string }[];
+  backdrop_path: { path: string }[];
 }
 
 export interface Results {

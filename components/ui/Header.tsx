@@ -12,7 +12,7 @@ function ListItem({ path, children }: ListItemProps) {
   const pathname = usePathname();
 
   return (
-    <li className="active:scale-95 duration-75 ease-in-out">
+    <li className="duration-75 ease-in-out active:scale-95">
       <Link
         href={`${path}`}
         className={`px-3 py-2 transition-colors duration-75 ease-in ${pathname === path ? "text-cyan-350" : null}`}
@@ -26,7 +26,7 @@ function ListItem({ path, children }: ListItemProps) {
 function NavBar() {
   return (
     <nav>
-      <ul className="flex h-10 items-center rounded-full bg-zinc-800/95 px-3 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur">
+      <ul className="flex h-10 items-center rounded-full bg-zinc-800/45 px-3 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur-md">
         <ListItem path="/films">Films</ListItem>
         <ListItem path="/lists">Lists</ListItem>
         <ListItem path="/articles">Articles</ListItem>
