@@ -22,9 +22,28 @@ export interface Film {
   crew: CrewMember[];
   release_date: string;
   poster_path: string;
-  backdrop_path: { path: string }[];
+  backdrop_path: string;
 }
 
 export interface Results {
   results: Film[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface Details {
+  id: number;
+  genres: Genre[];
+  runtime: number;
+  tagline: string;
+  overview: string;
+  belongs_to_collection: {
+    id: number;
+    name: string;
+    poster_path: string;
+    backdrop_path: string;
+  };
 }

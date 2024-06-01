@@ -35,10 +35,7 @@ export default function SearchResult({
   children,
   ...film
 }: SearchResult) {
-  const { filmList, setFilm } = useFilmStore((state) => ({
-    filmList: state.films,
-    setFilm: state.setFilm,
-  }));
+  const setFilm = useFilmStore((state) => state.setFilm);
 
   const parentClasses = assignClasses(renderIndex, selectedIndex);
 
