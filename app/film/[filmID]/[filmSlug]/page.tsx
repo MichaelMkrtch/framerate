@@ -9,8 +9,12 @@ import { useParams } from "next/navigation";
 import { fetchCredits } from "@/utils/fetchCredits";
 
 export default function FilmDetailsPage() {
-  const params = useParams<{ filmSlug: string }>();
-  const film = useFilmStore((state) => state.film);
+  const params = useParams<{ filmID: string }>();
+  const filmList = useFilmStore((state) => state.films);
+
+  const film = filmList.filter(
+    (film) => film.id === parseInt(params.filmID),
+  )[0];
 
   const { data: creditsData } = useQuery({
     queryKey: ["credit", film.id],

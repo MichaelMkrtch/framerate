@@ -1,19 +1,25 @@
 import { useFilmStore } from "@/store/filmStore";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
 import useImageOnLoad from "@/hooks/useImageOnLoad";
 
 const IMG_BASE_URL = process.env.NEXT_PUBLIC_IMG_BASE_URL;
 
 export default function Backdrop() {
-  const film = useFilmStore((state) => state.film);
+  const params = useParams<{ filmID: string }>();
+  const filmList = useFilmStore((state) => state.films);
+  const film = filmList.filter(
+    (film) => film.id === parseInt(params.filmID),
+  )[0];
+
   const { handleImageOnLoad, transitionStyles } = useImageOnLoad();
 
   const { title, backdrop_path } = film;
 
   return (
     backdrop_path && (
-      <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[675px] w-[1200px] max-w-full">
+      <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[675px] w-[1200px] max-w-full overflow-hidden">
         <Image
           src={`${IMG_BASE_URL}w300${backdrop_path}`}
           alt={`Still image from the film ${title}`}
