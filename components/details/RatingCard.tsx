@@ -1,17 +1,9 @@
 import Card from "../ui/Card";
-import {
-  BookmarkIcon,
-  EyeIcon,
-  PenIcon,
-  PlayIcon,
-  StarIcon,
-} from "../ui/Icons";
+import { StarIcon } from "../ui/Icons";
 import StarRating from "../ui/StarRating";
+import IconsSection from "./IconsSection";
 
 export default function RatingCard() {
-  const iconClasses =
-    "h-8 w-8 transition-all duration-150 ease active:scale-90";
-
   return (
     <>
       <Card>
@@ -31,12 +23,7 @@ export default function RatingCard() {
           </div>
         </div>
         <StarRating />
-        <div className="mx-0.5 mt-12 flex justify-between">
-          <PlayIcon fill="#333" classes={`${iconClasses} hover:fill-[#FF153A]` } />
-          <EyeIcon fill="#333" classes={`${iconClasses} hover:fill-[#00e4f5]`} />
-          <BookmarkIcon fill="#333" classes={`${iconClasses} hover:fill-[#32EC44]`} />
-          <PenIcon fill="#333" classes={`${iconClasses} hover:fill-[#7468F3]`} />
-        </div>
+        <IconsSection />
       </Card>
     </>
   );

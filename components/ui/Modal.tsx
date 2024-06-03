@@ -1,3 +1,5 @@
+import { type ReactNode } from "react";
+
 import {
   Dialog,
   DialogClose,
@@ -6,9 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
-import { type ReactNode } from "react";
-
+} from "./Dialog";
 import { VisuallyHidden } from "./VisuallyHidden";
 
 export default function Modal({ children }: { children: ReactNode }) {
@@ -25,7 +25,7 @@ function ModalContent({
   children: ReactNode;
 }) {
   return (
-    <DialogContent className="bg-gray-850 ring-gray-750 hidden border-0 text-zinc-300 caret-zinc-300 outline-none ring-1 md:block md:px-3 md:py-2.5 lg:w-1/2 md:h-[427px]">
+    <DialogContent className="hidden border-0 bg-gray-850 text-zinc-300 caret-zinc-300 outline-none ring-1 ring-gray-750 md:block md:h-[427px] md:px-3 md:py-2.5 lg:w-1/2">
       <VisuallyHidden asChild>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
