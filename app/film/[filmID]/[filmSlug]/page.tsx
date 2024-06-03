@@ -14,9 +14,11 @@ export default function FilmDetailsPage() {
   )[0];
 
   return (
-    <>
-      <Backdrop title={film.title} backdrop_path={film.backdrop_path} />
-      <DetailsSection film={film} />
-    </>
+    film && (
+      <>
+        <Backdrop title={film.title} backdrop_path={film.backdrop_path} />
+        <DetailsSection film={film} />
+      </>
+    )
   );
 }

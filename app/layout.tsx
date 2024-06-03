@@ -40,7 +40,7 @@ export default function RootLayout({
         className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} font-jakarta bg-gray-950 text-zinc-200`}
       >
         <div className="inset-0 sm:px-8">
-          <div className="m-auto w-full max-w-5xl">
+          <div className="m-auto w-full lg:max-w-5xl xl:max-w-6xl">
             <QueryProvider>
               <Header />
               {children}

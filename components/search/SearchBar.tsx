@@ -17,7 +17,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
     return (
       <div className="flex justify-center">
         <div className="mx-4 flex pr-2">
-          <MagnifyingGlassIcon className="my-auto" />
+          <MagnifyingGlassIcon classes="my-auto" />
         </div>
         <input
           ref={ref}

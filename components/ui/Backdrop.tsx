@@ -30,6 +30,7 @@ export default function Backdrop({ title, backdrop_path }: BackdropProps) {
           className="object-cover"
           style={transitionStyles.highRes}
           fill
+          sizes="100vw"
           priority
         />
         <div className="before:bg-backdrop-shadow before:pointer-events-none before:absolute before:top-0 before:block before:h-[675px] before:w-[1200px] before:bg-no-repeat" />

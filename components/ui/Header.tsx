@@ -26,7 +26,7 @@ function ListItem({ path, children }: ListItemProps) {
 function NavBar() {
   return (
     <nav>
-      <ul className="flex h-10 items-center rounded-full bg-zinc-800/45 px-3 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur-md">
+      <ul className="flex h-10 items-center rounded-full bg-zinc-800/45 px-3 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur">
         <ListItem path="/films">Films</ListItem>
         <ListItem path="/lists">Lists</ListItem>
         <ListItem path="/articles">Articles</ListItem>
@@ -38,7 +38,7 @@ function NavBar() {
 
 export default function Header() {
   return (
-    <header className="fixed flex w-full max-w-5xl items-center justify-between py-5">
+    <header className="fixed flex w-full lg:max-w-5xl xl:max-w-6xl items-center justify-between py-5">
       <Link href="/">
         <h1 className="font-noto text-3xl font-bold">Lumière</h1>
       </Link>
