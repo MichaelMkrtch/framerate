@@ -27,7 +27,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           placeholder="Search"
           value={searchQuery}
           onChange={onChange}
-          className="bg-gray-850 placeholder:text-gray-750 w-full py-2 font-medium outline-none placeholder:font-medium placeholder:tracking-normal"
+          className="w-full bg-neutral-900 py-2 font-medium outline-none placeholder:font-medium placeholder:text-gray-750"
         />
       </div>
     );

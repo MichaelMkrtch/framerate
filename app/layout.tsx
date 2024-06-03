@@ -1,4 +1,5 @@
 import Header from "@/components/ui/Header";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import {
   League_Gothic,
@@ -47,6 +48,13 @@ export default function RootLayout({
             </QueryProvider>
           </div>
         </div>
+        <Toaster
+          toastOptions={{
+            classNames: {
+              toast: "bg-[#1e1e21] border-gray-750/45 text-zinc-200",
+            },
+          }}
+        />
       </body>
     </html>
   );

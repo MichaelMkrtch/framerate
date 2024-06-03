@@ -25,7 +25,7 @@ function ModalContent({
   children: ReactNode;
 }) {
   return (
-    <DialogContent className="hidden border-0 bg-gray-850 text-zinc-300 caret-zinc-300 outline-none ring-1 ring-gray-750 md:block md:h-[427px] md:px-3 md:py-2.5 lg:w-1/2">
+    <DialogContent className="hidden border-0 bg-neutral-900 text-zinc-300 caret-zinc-300 outline-none ring-1 ring-neutral-800 md:block md:h-[427px] md:px-3 md:py-2.5 lg:w-1/2">
       <VisuallyHidden asChild>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

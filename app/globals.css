@@ -5,3 +5,7 @@
 ::selection {
   background: #00becc;
 }
+
+img {
+  -webkit-user-drag: none;
+}

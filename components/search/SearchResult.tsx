@@ -17,7 +17,7 @@ const IMG_BASE_URL = process.env.NEXT_PUBLIC_IMG_BASE_URL;
 
 function assignClasses(renderIndex: number, selectedIndex: number) {
   let classes =
-    "first:!bg-cyan-350/80 hover:bg-gray-750/40 mt-1.5 flex items-center justify-start rounded-md py-2";
+    "first:!bg-cyan-350/80 hover:bg-neutral-800/60 mt-1.5 flex items-center justify-start rounded-md py-2";
 
   if (selectedIndex > 0)
     classes = classes.replace("first:!bg-cyan-350/80", "first:bg-transparent");

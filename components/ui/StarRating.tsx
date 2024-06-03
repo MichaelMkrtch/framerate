@@ -1,6 +1,5 @@
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
-
-import { type Film } from "@/types";
+import { toast } from "sonner";
 
 import { StarIcon } from "./Icons";
 
@@ -52,8 +51,10 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
     if (rating === ratingValue) {
       setRating(null);
       setHover(null);
+      toast.info("Rating removed");
     } else {
       setRating(ratingValue);
+      toast.success("Rating added");
     }
   }
 
