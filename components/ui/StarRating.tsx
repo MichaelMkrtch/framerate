@@ -14,43 +14,56 @@ export default function StarRating() {
     [4.5, 5],
   ];
 
-  return (
-    <div className="flex items-center justify-center">
-      {groupedStars.map((group, index) => {
-        return (
-          <span
-            key={index}
-            className="relative transition-transform duration-100 ease-out hover:scale-[1.15]"
-          >
-            {group.map((star, index) => {
-              const ratingValue = star;
+  function handleRating(ratingValue: number | null) {
+    if (rating === ratingValue) {
+      setRating(null);
+      setHover(null);
+    } else {
+      setRating(ratingValue);
+    }
+  }
 
-              return (
-                <label
-                  key={ratingValue}
-                  className={`${ratingValue % 1 !== 0 ? "absolute w-[50%] overflow-hidden" : ""}`}
-                >
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={ratingValue}
-                    onClick={() => setRating(ratingValue)}
-                    className="hidden"
-                  />
-                  <StarIcon
-                    fill={
-                      ratingValue <= (hover || rating!) ? "#FFD43B" : "#434343"
-                    }
-                    classes="h-8 w-10"
-                    onMouseEnter={() => setHover(ratingValue)}
-                    onMouseLeave={() => setHover(null)}
-                  />
-                </label>
-              );
-            })}
-          </span>
-        );
-      })}
+  return (
+    <div className="relative">
+      <div className="peer flex items-center justify-center">
+        {groupedStars.map((group, index) => {
+          return (
+            <span
+              key={index}
+              className="relative transition-transform duration-100 ease-out hover:scale-[1.15] active:scale-105"
+            >
+              {group.map((star) => {
+                const ratingValue = star;
+
+                return (
+                  <label
+                    key={ratingValue}
+                    className={`${ratingValue % 1 !== 0 ? "absolute w-[50%] overflow-hidden" : ""}`}
+                  >
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={ratingValue}
+                      onClick={() => handleRating(ratingValue)}
+                      className="hidden"
+                    />
+                    <StarIcon
+                      fill={
+                        ratingValue <= (hover || rating!)
+                          ? "#FFD43B"
+                          : "#434343"
+                      }
+                      classes="h-8 w-10"
+                      onMouseEnter={() => setHover(ratingValue)}
+                      onMouseLeave={() => setHover(null)}
+                    />
+                  </label>
+                );
+              })}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }
