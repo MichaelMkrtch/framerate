@@ -1,9 +1,21 @@
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+
+import { type Film } from "@/types";
 
 import { StarIcon } from "./Icons";
 
-export default function StarRating() {
-  const [rating, setRating] = useState<number | null>(null);
+type Review = {
+  id: number;
+  rating: number;
+};
+
+type StarRatingProps = {
+  id: number;
+  rating: number | null;
+  setRating: Dispatch<SetStateAction<number | null>>;
+};
+
+export default function StarRating({ id, rating, setRating }: StarRatingProps) {
   const [hover, setHover] = useState<number | null>(null);
 
   const groupedStars = [
@@ -13,6 +25,28 @@ export default function StarRating() {
     [3.5, 4],
     [4.5, 5],
   ];
+
+  const storedReview = localStorage.getItem(id.toString());
+
+  function parseData(): Review | null {
+    try {
+      if (storedReview) {
+        const parsedReview: Review = JSON.parse(storedReview);
+        return parsedReview;
+      }
+    } catch (error) {
+      console.log("There was an error parsing stored film data.");
+    }
+    return null;
+  }
+
+  useEffect(() => {
+    const parsedFilm: Review | null = parseData();
+    if (parsedFilm) {
+      const storedRating = parsedFilm.rating;
+      setRating(storedRating);
+    }
+  }, [storedReview]);
 
   function handleRating(ratingValue: number | null) {
     if (rating === ratingValue) {

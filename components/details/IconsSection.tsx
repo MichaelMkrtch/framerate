@@ -19,7 +19,7 @@ export default function IconsSection() {
           classes={`${iconClasses} hover:fill-[#32EC44]`}
         />
       </IconsTooltip>
-      <IconsTooltip content={<p>Log</p>}>
+      <IconsTooltip content={<p>Review</p>}>
         <PenIcon fill="#333" classes={`${iconClasses} hover:fill-[#7468F3]`} />
       </IconsTooltip>
     </div>

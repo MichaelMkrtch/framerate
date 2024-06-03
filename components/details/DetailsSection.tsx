@@ -29,7 +29,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
           </div>
         </div>
         <div className="flex basis-1/3 items-center justify-end">
-          <RatingCard />
+          <RatingCard film={film} />
         </div>
       </div>
     </>
