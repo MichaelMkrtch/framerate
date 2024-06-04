@@ -22,11 +22,9 @@ export default function RatingCard({ film }: RatingCardProps) {
       poster_path: film.poster_path,
     };
 
-    if (review.rating) {
-      const reviewJSON = JSON.stringify(review);
-      localStorage.setItem(film.id.toString(), reviewJSON);
-      window.dispatchEvent(new Event("storage"));
-    }
+    const reviewJSON = JSON.stringify(review);
+    localStorage.setItem(film.id.toString(), reviewJSON);
+    window.dispatchEvent(new Event("storage"));
   }, [film.id, film.title, rating, film.poster_path]);
 
   return (
