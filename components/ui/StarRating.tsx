@@ -3,9 +3,11 @@ import { toast } from "sonner";
 
 import { StarIcon } from "./Icons";
 
-type Review = {
+export type Review = {
   id: number;
+  title: string;
   rating: number;
+  poster_path: string;
 };
 
 type StarRatingProps = {

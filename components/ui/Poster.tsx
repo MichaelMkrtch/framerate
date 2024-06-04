@@ -32,7 +32,7 @@ export default function Poster({
   }
 
   return (
-    <div className="[perspective:800px]">
+    <div className="w-fit [perspective:800px]">
       <div
         onMouseEnter={(event) => {
           boundingRef.current = event.currentTarget.getBoundingClientRect();
@@ -70,7 +70,7 @@ export default function Poster({
               alt={`A poster from the film ${title}`}
               width={width}
               height={height}
-              className="absolute rounded object-cover blur-[4px] drop-shadow [image-rendering:_pixelated]"
+              className="absolute h-[264px] w-44 rounded object-cover blur-[4px] drop-shadow [image-rendering:_pixelated]"
               style={transitionStyles.lowRes}
               priority
             />
@@ -80,7 +80,7 @@ export default function Poster({
               alt={`A poster from the film ${title}`}
               width={width}
               height={height}
-              className="relative top-0 h-auto w-auto select-none rounded object-cover drop-shadow"
+              className="relative top-0 h-[264px] w-44 select-none rounded object-cover drop-shadow"
               style={transitionStyles.highRes}
               priority
             />

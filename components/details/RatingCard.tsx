@@ -14,7 +14,12 @@ type RatingCardProps = {
 export default function RatingCard({ film }: RatingCardProps) {
   const [rating, setRating] = useState<number | null>(null);
 
-  const review = { id: film.id, rating };
+  const review = {
+    id: film.id,
+    title: film.title,
+    rating,
+    poster_path: film.poster_path,
+  };
 
   useEffect(() => {
     if (review.rating) {
