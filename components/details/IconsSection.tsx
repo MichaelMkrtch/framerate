@@ -11,9 +11,9 @@ export default function IconsSection() {
         <PlayIcon fill="#333" classes={`${iconClasses} hover:fill-[#FF153A]`} />
       </IconsTooltip>
       <IconsTooltip content={<p>Mark watched</p>}>
-        <EyeIcon fill="#333" classes={`${iconClasses} hover:fill-[#00e4f5]`} />
+        <EyeIcon fill="#333" classes={`${iconClasses} hover:fill-cyan-350`} />
       </IconsTooltip>
-      <IconsTooltip content={<p>Add to watchlist</p>}>
+      <IconsTooltip content={<p>Save to watchlist</p>}>
         <BookmarkIcon
           fill="#333"
           classes={`${iconClasses} hover:fill-[#32EC44]`}

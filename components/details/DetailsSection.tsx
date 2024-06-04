@@ -23,9 +23,13 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
           />
         </aside>
         <div className="flex grow basis-2/3 flex-col items-baseline">
-          <Credits film={film} />
+          <Credits
+            title={film.title}
+            director={film.director}
+            releaseDate={film.release_date}
+          />
           <div className="mt-5 w-4/5 flex-wrap">
-            <Details film={film} />
+            <Details tagline={film.tagline} overview={film.overview} />
           </div>
         </div>
         <div className="flex basis-1/3 items-center justify-end">

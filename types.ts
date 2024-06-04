@@ -11,22 +11,6 @@ interface Credit {
   id: number;
   name: string;
   profile_path: string;
-  known_for_department: string;
-}
-
-export interface Film {
-  id: number;
-  title: string;
-  director: string;
-  cast: CastMember[];
-  crew: CrewMember[];
-  release_date: string;
-  poster_path: string;
-  backdrop_path: string;
-}
-
-export interface Results {
-  results: Film[];
 }
 
 interface Genre {
@@ -34,16 +18,30 @@ interface Genre {
   name: string;
 }
 
-export interface Details {
+export interface Film {
   id: number;
-  genres: Genre[];
-  runtime: number;
+  title: string;
+  release_date: string;
+  director: string;
+  directorList: CrewMember[];
   tagline: string;
   overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  credits: {
+    cast: CastMember[];
+    crew: CrewMember[];
+  };
+  runtime: number;
+  genres: Genre[];
   belongs_to_collection: {
     id: number;
     name: string;
     poster_path: string;
     backdrop_path: string;
   };
+}
+
+export interface Results {
+  results: Film[];
 }

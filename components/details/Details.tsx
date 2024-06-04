@@ -1,27 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { type Film } from "@/types";
-
-import { fetchDetails } from "@/utils/fetchDetails";
-
 type DetailsProps = {
-  film: Film;
+  tagline: string;
+  overview: string;
 };
 
-export default function Details({ film }: DetailsProps) {
-  const { data: detailsData } = useQuery({
-    queryKey: ["details", film.id],
-    queryFn: () => fetchDetails(film.id),
-    staleTime: 1 * 60 * 1000,
-    enabled: film.id > 0,
-  });
-
+export default function Details({ tagline, overview }: DetailsProps) {
   return (
-    detailsData && (
-      <>
-        <h3 className="uppercase font-light text-sm tracking-wide">{detailsData.tagline}</h3>
-        <p className="mt-2.5 leading-relaxed">{detailsData.overview}</p>
-      </>
-    )
+    <>
+      <h3 className="text-sm font-light uppercase tracking-wide">{tagline}</h3>
+      <p className="mt-2.5 leading-relaxed">{overview}</p>
+    </>
   );
 }
