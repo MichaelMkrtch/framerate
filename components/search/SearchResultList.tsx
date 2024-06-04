@@ -1,5 +1,5 @@
 import { useSuspenseQueries } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { type Film, type Results } from "@/types";
 
@@ -7,8 +7,12 @@ import { fetchDetails } from "@/utils/fetchDetails";
 
 import SearchResult from "./SearchResult";
 
+type LinkRefs = { [key: number]: { current: HTMLAnchorElement | null } };
+
 export default function SearchResultList({ results }: Results) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const linkRefs = useRef<LinkRefs>({});
+
   const idList: number[] = [];
   const updatedResults: Film[] = [];
 
@@ -62,6 +66,7 @@ export default function SearchResultList({ results }: Results) {
           setSelectedIndex((prevIndex) => prevIndex + 1);
         }
         if (event.key === "Enter" && selectedIndex >= 0) {
+          linkRefs.current[selectedIndex].current?.click();
         }
       } else {
         setSelectedIndex(0);
@@ -88,6 +93,7 @@ export default function SearchResultList({ results }: Results) {
             key={film.id}
             renderIndex={index}
             selectedIndex={selectedIndex}
+            ref={(linkRefs.current[index] ??= { current: null })}
             {...film}
           >
             {film.title}

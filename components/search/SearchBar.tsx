@@ -1,10 +1,16 @@
-import { type ChangeEventHandler, forwardRef, useEffect } from "react";
+import {
+  type ChangeEventHandler,
+  type Dispatch,
+  type SetStateAction,
+  forwardRef,
+  useEffect,
+} from "react";
 
 import { MagnifyingGlassIcon } from "../ui/Icons";
 
 type SearchBarProps = {
   searchQuery: string;
-  setSearchQuery: (query: string) => void;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 

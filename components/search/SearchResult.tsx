@@ -1,13 +1,15 @@
 import { useFilmStore } from "@/store/filmStore";
 import Image from "next/image";
 import Link from "next/link";
-import { type ReactNode } from "react";
+import { type ReactNode, forwardRef } from "react";
 
 import { type Film } from "@/types";
 
+import simplifyTitle from "@/utils/simplifyTitle";
+
 import Modal from "../ui/Modal";
 
-interface SearchResult extends Film {
+interface SearchResultProps extends Film {
   renderIndex: number;
   selectedIndex: number;
   children: ReactNode;
@@ -29,58 +31,55 @@ function assignClasses(renderIndex: number, selectedIndex: number) {
   return classes;
 }
 
-export default function SearchResult({
-  renderIndex,
-  selectedIndex,
-  children,
-  ...film
-}: SearchResult) {
-  const setFilm = useFilmStore((state) => state.setFilm);
+const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
+  function SearchResult(
+    { renderIndex, selectedIndex, children, ...film },
+    ref,
+  ) {
+    const setFilm = useFilmStore((state) => state.setFilm);
+    const simpleTitle = simplifyTitle(film.title);
 
-  const parentClasses = assignClasses(renderIndex, selectedIndex);
+    const parentClasses = assignClasses(renderIndex, selectedIndex);
 
-  const poster = (
-    <Image
-      src={`${IMG_BASE_URL}w92${film.poster_path}`}
-      alt={`A poster from the film ${film.title}`}
-      width={92}
-      height={138}
-      className="h-12 w-8 rounded"
-    />
-  );
+    const poster = (
+      <Image
+        src={`${IMG_BASE_URL}w92${film.poster_path}`}
+        alt={`A poster from the film ${film.title}`}
+        width={92}
+        height={138}
+        className="h-12 w-8 rounded"
+      />
+    );
 
-  const gradient = (
-    <div className="h-12 w-8 rounded bg-gradient-to-tr from-indigo-600 to-rose-600" />
-  );
+    const gradient = (
+      <div className="h-12 w-8 rounded bg-gradient-to-tr from-indigo-600 to-rose-600" />
+    );
 
-  // Removes special characters and formats title for URL
-  const simpleTitle = film.title
-    .replaceAll(/[^a-zA-Z0-9 ]/g, "")
-    .replaceAll(/\s{2,}/g, "-")
-    .replaceAll(" ", "-")
-    .toLowerCase();
+    return (
+      <div className={parentClasses}>
+        <Modal.Close asChild>
+          <Link
+            ref={ref}
+            href={`/film/${film.id}/${simpleTitle}`}
+            onClick={() => setFilm(film)}
+            className="flex w-full cursor-default items-center outline-none"
+          >
+            <div className="pointer-events-none mr-1.5 flex px-2">
+              {film.poster_path ? poster : gradient}
+            </div>
+            <div className="flex items-baseline text-left">
+              <p>
+                {children} ({film.release_date})
+                <span className="pl-2.5 text-sm font-medium tracking-wide text-neutral-600">
+                  {film.director}
+                </span>
+              </p>
+            </div>
+          </Link>
+        </Modal.Close>
+      </div>
+    );
+  },
+);
 
-  return (
-    <div className={parentClasses}>
-      <Modal.Close asChild>
-        <Link
-          href={`/film/${film.id}/${simpleTitle}`}
-          onClick={() => setFilm(film)}
-          className="flex w-full cursor-default items-center outline-none"
-        >
-          <div className="pointer-events-none mr-1.5 flex px-2">
-            {film.poster_path ? poster : gradient}
-          </div>
-          <div className="flex items-baseline text-left">
-            <p>
-              {children} ({film.release_date})
-              <span className="pl-2.5 text-sm font-medium tracking-wide text-neutral-600">
-                {film.director}
-              </span>
-            </p>
-          </div>
-        </Link>
-      </Modal.Close>
-    </div>
-  );
-}
+export default SearchResult;
