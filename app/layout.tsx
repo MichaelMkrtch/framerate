@@ -1,5 +1,5 @@
 import Header from "@/components/ui/Header";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/Sonner";
 import type { Metadata } from "next";
 import {
   League_Gothic,

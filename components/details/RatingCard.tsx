@@ -14,20 +14,20 @@ type RatingCardProps = {
 export default function RatingCard({ film }: RatingCardProps) {
   const [rating, setRating] = useState<number | null>(null);
 
-  const review = {
-    id: film.id,
-    title: film.title,
-    rating,
-    poster_path: film.poster_path,
-  };
-
   useEffect(() => {
+    const review = {
+      id: film.id,
+      title: film.title,
+      rating,
+      poster_path: film.poster_path,
+    };
+
     if (review.rating) {
       const reviewJSON = JSON.stringify(review);
       localStorage.setItem(film.id.toString(), reviewJSON);
       window.dispatchEvent(new Event("storage"));
     }
-  }, [rating]);
+  }, [film.id, film.title, rating, film.poster_path]);
 
   return (
     <Card>

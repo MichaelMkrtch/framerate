@@ -1,4 +1,10 @@
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "sonner";
 
 import { StarIcon } from "./Icons";
@@ -29,7 +35,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
 
   const storedReview = localStorage.getItem(id.toString());
 
-  function parseData(): Review | null {
+  const parseData = useCallback((): Review | null => {
     try {
       if (storedReview) {
         const parsedReview: Review = JSON.parse(storedReview);
@@ -39,7 +45,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
       console.log("There was an error parsing stored film data.");
     }
     return null;
-  }
+  }, [storedReview]);
 
   useEffect(() => {
     const parsedFilm: Review | null = parseData();
@@ -47,7 +53,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
       const storedRating = parsedFilm.rating;
       setRating(storedRating);
     }
-  }, [storedReview]);
+  }, [parseData, storedReview]);
 
   function handleRating(ratingValue: number | null) {
     if (rating === ratingValue) {

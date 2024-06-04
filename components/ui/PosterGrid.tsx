@@ -40,9 +40,8 @@ export default function PosterGrid() {
             .toLowerCase();
 
           return (
-            <Link href={`/film/${review.id}/${simpleTitle}`}>
+            <Link key={review.id} href={`/film/${review.id}/${simpleTitle}`}>
               <Poster
-                key={review.id}
                 title={review.title}
                 src={review.poster_path}
                 fetchSize="w342"
