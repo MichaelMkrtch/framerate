@@ -1,3 +1,4 @@
+import QueryProvider from "@/components/QueryProvider";
 import Header from "@/components/ui/Header";
 import { Toaster } from "@/components/ui/Sonner";
 import type { Metadata } from "next";
@@ -6,8 +7,6 @@ import {
   Noto_Sans_JP,
   Plus_Jakarta_Sans,
 } from "next/font/google";
-
-import QueryProvider from "@/utils/queryProvider";
 
 import "./globals.css";
 
@@ -38,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} font-jakarta bg-gray-950 text-zinc-200`}
+        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} bg-gray-950 font-jakarta text-zinc-200`}
       >
         <div className="inset-0 sm:px-8">
           <div className="m-auto w-full lg:max-w-5xl xl:max-w-6xl">

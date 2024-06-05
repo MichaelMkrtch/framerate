@@ -51,10 +51,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
     <Modal>
       <Modal.Trigger asChild>{children}</Modal.Trigger>
 
-      <Modal.Content
-        title="Search"
-        description="Search for a film by it's title."
-      >
+      <Modal.Content title="Search" description="Search by title.">
         <SearchBar
           ref={searchElement}
           searchQuery={query}
