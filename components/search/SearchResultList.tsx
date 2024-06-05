@@ -1,9 +1,8 @@
+import { fetchDetails } from "@/services/fetchDetails";
 import { useSuspenseQueries } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { type Film, type Results } from "@/types";
-
-import { fetchDetails } from "@/utils/fetchDetails";
 
 import SearchResult from "./SearchResult";
 

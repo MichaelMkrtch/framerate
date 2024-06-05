@@ -1,12 +1,11 @@
+import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
+import { searchMovies } from "@/services/searchMovies";
 import { useQuery } from "@tanstack/react-query";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { type Film } from "@/types";
 
 import { useDebounce } from "@/hooks/useDebounce";
-
-import { fetchTrendingMovies } from "@/utils/fetchTrendingMovies";
-import { searchMovies } from "@/utils/searchMovies";
 
 import Modal from "../ui/Modal";
 import SearchBar from "./SearchBar";
