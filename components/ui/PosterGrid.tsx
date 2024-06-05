@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 import simplifyTitle from "@/utils/simplifyTitle";
 
 import { StarIcon } from "./Icons";
-import IconsTooltip from "./IconsTooltip";
 import Poster from "./Poster";
 import { type Review } from "./StarRating";
+import TooltipProvider from "./TooltipProvider";
 
 export default function PosterGrid() {
   const [reviews, setReviews] = useState<Review[]>();
@@ -35,7 +34,7 @@ export default function PosterGrid() {
   }, []);
 
   return (
-    <div className="grid gap-4 md:grid-cols-5 lg:grid-cols-6">
+    <div className="grid gap-[18px] md:grid-cols-5 lg:grid-cols-6">
       {reviews &&
         reviews.map((review) => {
           const simpleTitle = simplifyTitle(review.title);
@@ -53,7 +52,7 @@ export default function PosterGrid() {
           );
 
           return (
-            <IconsTooltip side="bottom" content={tooltipContent}>
+            <TooltipProvider delay={400} side="bottom" content={tooltipContent}>
               <Link key={review.id} href={`/film/${review.id}/${simpleTitle}`}>
                 <Poster
                   title={review.title}
@@ -64,7 +63,7 @@ export default function PosterGrid() {
                   classes="h-[264px] w-44"
                 />
               </Link>
-            </IconsTooltip>
+            </TooltipProvider>
           );
         })}
     </div>

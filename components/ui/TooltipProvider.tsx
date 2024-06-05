@@ -1,31 +1,33 @@
 import { ReactElement, type ReactNode } from "react";
 
 import {
+  TooltipProvider as Provider,
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "./Tooltip";
 
-type IconsTooltipProps = {
-  content: ReactElement;
+type TooltipProviderProps = {
+  delay?: number;
   side?: "bottom" | "top" | "right" | "left";
+  content: ReactElement;
   children: ReactNode;
 };
 
-export default function IconsTooltip({
-  content,
+export default function TooltipProvider({
+  delay,
   side,
+  content,
   children,
-}: IconsTooltipProps) {
+}: TooltipProviderProps) {
   return (
-    <TooltipProvider>
-      <Tooltip delayDuration={300}>
+    <Provider>
+      <Tooltip delayDuration={delay}>
         <TooltipTrigger asChild>
           <button>{children}</button>
         </TooltipTrigger>
         <TooltipContent side={side}>{content}</TooltipContent>
       </Tooltip>
-    </TooltipProvider>
+    </Provider>
   );
 }
