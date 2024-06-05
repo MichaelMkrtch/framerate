@@ -1,4 +1,4 @@
-import { Results } from "@/types";
+import { SearchResults } from "@/types";
 
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN as string;
 
@@ -34,7 +34,7 @@ export async function searchMovies({ signal, query }: FetchDataParams) {
       throw error;
     }
 
-    const data: Results = await response.json();
+    const data: SearchResults = await response.json();
 
     const searchResults = data.results.slice(0, 5);
 

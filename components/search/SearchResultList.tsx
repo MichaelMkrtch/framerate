@@ -2,56 +2,15 @@ import { fetchDetails } from "@/services/fetchDetails";
 import { useSuspenseQueries } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { type Film, type Results } from "@/types";
+import { type Film, type SearchResults } from "@/types";
 
 import SearchResult from "./SearchResult";
 
 type LinkRefs = { [key: number]: { current: HTMLAnchorElement | null } };
 
-export default function SearchResultList({ results }: Results) {
+export default function SearchResultList({ results }: SearchResults) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const linkRefs = useRef<LinkRefs>({});
-
-  const idList: number[] = [];
-  const updatedResults: Film[] = [];
-
-  results.forEach((result) => idList.push(result.id));
-
-  const detailsQuery = useSuspenseQueries({
-    queries: idList.map((id) => ({
-      queryKey: ["credits", id],
-      queryFn: () => fetchDetails(id),
-      staleTime: 2 * 6 * 1000,
-      enabled: id >= 0,
-    })),
-  });
-
-  if (detailsQuery) {
-    detailsQuery.forEach((detailsResult, index) => {
-      let resultData = results[index];
-
-      if (detailsResult.data) {
-        const directorList = detailsResult.data.directorList;
-
-        if (directorList.length > 2) {
-          resultData.director =
-            directorList
-              .map((director) => director.name)
-              .slice(0, 2)
-              .join(", ") + "...";
-        } else if (directorList.length === 2) {
-          resultData.director = directorList
-            .map((director) => director.name)
-            .join(", ");
-        } else if (directorList.length === 1) {
-          resultData.director = directorList[0].name;
-        } else {
-          resultData.director = "Unknown";
-        }
-        updatedResults.push(resultData);
-      }
-    });
-  }
 
   // This ensures handleKeyPress is only updated when necessary,
   // rather than on every re-render
@@ -86,7 +45,7 @@ export default function SearchResultList({ results }: Results) {
 
   return (
     <div className="mb-0.5 mt-2.5 cursor-default select-none border-t border-gray-750 pt-1 outline-none">
-      {updatedResults.map((film, index) => {
+      {results.map((film, index) => {
         return (
           <SearchResult
             key={film.id}

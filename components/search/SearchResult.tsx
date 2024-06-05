@@ -69,7 +69,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
             </div>
             <div className="flex items-baseline text-left">
               <p>
-                {children} ({film.release_date})
+                {children} ({film.release_date.slice(0, 4)})
                 <span className="text-nowrap pl-2.5 text-sm font-medium tracking-wide text-neutral-600">
                   {film.director}
                 </span>

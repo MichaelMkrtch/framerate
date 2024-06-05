@@ -1,9 +1,10 @@
+import { fetchDetails } from "@/services/fetchDetails";
 import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
 import { searchMovies } from "@/services/searchMovies";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQueries } from "@tanstack/react-query";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
-import { type Film } from "@/types";
+import { type Film, SearchResults } from "@/types";
 
 import { useDebounce } from "@/hooks/useDebounce";
 
@@ -16,6 +17,10 @@ export default function SearchModal({ children }: { children: ReactNode }) {
   const [results, setResults] = useState<Film[]>([]);
   const searchElement = useRef<HTMLInputElement>(null);
   const debouncedQuery = useDebounce(query);
+
+  const idList: number[] = [];
+  const detailsResults: Film[] = [];
+  results.forEach((result) => idList.push(result.id));
 
   const { data: trendingData } = useQuery({
     queryKey: ["trending"],
@@ -30,6 +35,21 @@ export default function SearchModal({ children }: { children: ReactNode }) {
     staleTime: 1 * 60 * 1000,
     enabled: debouncedQuery !== "",
   });
+
+  const detailsQuery = useSuspenseQueries({
+    queries: idList.map((id) => ({
+      queryKey: ["details", id],
+      queryFn: () => fetchDetails(id),
+      staleTime: 2 * 6 * 1000,
+      enabled: id >= 0,
+    })),
+  });
+
+  if (detailsQuery) {
+    detailsQuery.forEach((detailResult) => {
+      detailResult.data && detailsResults.push(detailResult.data);
+    });
+  }
 
   useEffect(() => {
     if (trendingData && !isFetching) {
@@ -58,7 +78,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
           setSearchQuery={setQuery}
           onChange={handleChange}
         />
-        <SearchResultList results={results} />
+        <SearchResultList results={detailsResults} />
       </Modal.Content>
     </Modal>
   );

@@ -52,8 +52,13 @@ export default function PosterGrid() {
           );
 
           return (
-            <TooltipProvider delay={400} side="bottom" content={tooltipContent}>
-              <Link key={review.id} href={`/film/${review.id}/${simpleTitle}`}>
+            <TooltipProvider
+              key={review.id}
+              delay={400}
+              side="bottom"
+              content={tooltipContent}
+            >
+              <Link href={`/film/${review.id}/${simpleTitle}`}>
                 <Poster
                   title={review.title}
                   src={review.poster_path}

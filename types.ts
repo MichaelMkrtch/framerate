@@ -42,6 +42,6 @@ export interface Film {
   };
 }
 
-export interface Results {
+export interface SearchResults {
   results: Film[];
 }

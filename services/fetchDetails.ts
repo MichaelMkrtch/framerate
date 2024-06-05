@@ -23,9 +23,26 @@ export async function fetchDetails(id: number) {
 
     const data: Film = await response.json();
 
+    // format Director information
     data.directorList = data.credits.crew.filter(
       (crewMember: CrewMember) => crewMember.job === "Director",
     );
+
+    const { directorList } = data;
+
+    if (directorList.length > 2) {
+      data.director =
+        directorList
+          .map((director) => director.name)
+          .slice(0, 2)
+          .join(", ") + "...";
+    } else if (directorList.length === 2) {
+      data.director = directorList.map((director) => director.name).join(", ");
+    } else if (directorList.length === 1) {
+      data.director = directorList[0].name;
+    } else {
+      data.director = "Unknown";
+    }
 
     return data;
   } catch (error) {
