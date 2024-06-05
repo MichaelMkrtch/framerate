@@ -9,17 +9,22 @@ import {
 
 type IconsTooltipProps = {
   content: ReactElement;
+  side?: "bottom" | "top" | "right" | "left";
   children: ReactNode;
 };
 
-export default function IconsTooltip({ content, children }: IconsTooltipProps) {
+export default function IconsTooltip({
+  content,
+  side,
+  children,
+}: IconsTooltipProps) {
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
           <button>{children}</button>
         </TooltipTrigger>
-        <TooltipContent>{content}</TooltipContent>
+        <TooltipContent side={side}>{content}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
