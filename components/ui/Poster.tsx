@@ -11,7 +11,7 @@ type PosterProps = {
   fetchSize: string;
   width: number;
   height: number;
-  grid?: boolean;
+  classes: string;
 };
 
 export default function Poster({
@@ -20,6 +20,7 @@ export default function Poster({
   src,
   width,
   height,
+  classes,
 }: PosterProps) {
   const boundingRef = useRef<DOMRect | null>(null);
 
@@ -70,7 +71,7 @@ export default function Poster({
               alt={`A poster from the film ${title}`}
               width={width}
               height={height}
-              className="absolute h-[264px] w-44 rounded object-cover blur-[4px] drop-shadow [image-rendering:_pixelated]"
+              className={`${classes} absolute rounded object-cover blur-[4px] drop-shadow [image-rendering:_pixelated]`}
               style={transitionStyles.lowRes}
               priority
             />
@@ -80,7 +81,7 @@ export default function Poster({
               alt={`A poster from the film ${title}`}
               width={width}
               height={height}
-              className="relative top-0 h-[264px] w-44 select-none rounded object-cover drop-shadow"
+              className={`${classes} relative top-0 select-none rounded object-cover drop-shadow`}
               style={transitionStyles.highRes}
               priority
             />
