@@ -45,7 +45,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
       console.log("There was an error parsing stored film data.");
     }
     return null;
-  }, []);
+  }, [storedReview]);
 
   useEffect(() => {
     const parsedFilm: Review | null = parseData();
@@ -53,7 +53,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
       const storedRating = parsedFilm.rating;
       setRating(storedRating);
     }
-  }, [parseData]);
+  }, [parseData, setRating]);
 
   function handleRating(ratingValue: number | null) {
     if (rating === ratingValue) {
