@@ -26,21 +26,19 @@ export default function RatingCard({ film }: RatingCardProps) {
       title: film.title,
       rating,
       poster_path: film.poster_path,
-      time: formattedDate,
+      date: formattedDate,
     };
 
     const storedReview = localStorage.getItem(film.id.toString());
+    const parsedReview = parseData(storedReview);
 
-    if (rating && storedReview === null) {
+    if (rating && parsedReview === null) {
       const reviewJSON = JSON.stringify(review);
       localStorage.setItem(film.id.toString(), reviewJSON);
-    } else if (rating && storedReview) {
-      const parsedReview = parseData(storedReview)!;
+    } else if (rating && parsedReview) {
       parsedReview.rating = rating;
       const reviewJSON = JSON.stringify(parsedReview);
       localStorage.setItem(film.id.toString(), reviewJSON);
-    } else if (rating === null && storedReview === null) {
-      localStorage.removeItem(film.id.toString());
     }
   }, [film.id, film.title, rating, film.poster_path]);
 

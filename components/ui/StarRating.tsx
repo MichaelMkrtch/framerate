@@ -1,10 +1,4 @@
-import {
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { type Review } from "@/types";
@@ -43,6 +37,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
     if (rating === ratingValue) {
       setRating(null);
       setHover(null);
+      localStorage.removeItem(id.toString());
       toast.info("Rating removed");
     } else {
       setRating(ratingValue);
