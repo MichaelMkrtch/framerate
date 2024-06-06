@@ -57,7 +57,9 @@ export default function RatingCard({ film }: RatingCardProps) {
               </span>
               <span className="font-noto font-medium"> / </span>5
             </p>
-            <span className="text-sm">13k</span>
+            <span className="text-sm">
+              {(Math.floor(Math.random() * 100_000) / 1e3).toFixed(1)}K
+            </span>
           </div>
         </div>
       </div>
