@@ -7,14 +7,11 @@ import {
 } from "react";
 import { toast } from "sonner";
 
-import { StarIcon } from "./Icons";
+import { type Review } from "@/types";
 
-export type Review = {
-  id: number;
-  title: string;
-  rating: number;
-  poster_path: string;
-};
+import parseData from "@/utils/parseData";
+
+import { StarIcon } from "./Icons";
 
 type StarRatingProps = {
   id: number;
@@ -35,25 +32,12 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
 
   const storedReview = localStorage.getItem(id.toString());
 
-  const parseData = useCallback((): Review | null => {
-    try {
-      if (storedReview) {
-        const parsedReview: Review = JSON.parse(storedReview);
-        return parsedReview;
-      }
-    } catch (error) {
-      console.log("There was an error parsing stored film data.");
-    }
-    return null;
-  }, [storedReview]);
-
   useEffect(() => {
-    const parsedFilm: Review | null = parseData();
+    const parsedFilm: Review | null = parseData(storedReview);
     if (parsedFilm) {
-      const storedRating = parsedFilm.rating;
-      setRating(storedRating);
+      setRating(parsedFilm.rating);
     }
-  }, [parseData, setRating]);
+  }, [storedReview, setRating]);
 
   function handleRating(ratingValue: number | null) {
     if (rating === ratingValue) {

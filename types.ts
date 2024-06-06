@@ -45,3 +45,10 @@ export interface Film {
 export interface SearchResults {
   results: Film[];
 }
+
+export type Review = {
+  id: number;
+  title: string;
+  rating: number | null;
+  poster_path: string;
+};

@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 
 import { type Film } from "@/types";
 
+import getFormattedDate from "@/utils/getFormattedDate";
+import parseData from "@/utils/parseData";
+
 import Card from "../ui/Card";
 import { StarIcon } from "../ui/Icons";
 import StarRating from "../ui/StarRating";
@@ -15,18 +18,28 @@ export default function RatingCard({ film }: RatingCardProps) {
   const [rating, setRating] = useState<number | null>(null);
 
   useEffect(() => {
+    const date = new Date();
+    const formattedDate = getFormattedDate(date);
+
     const review = {
       id: film.id,
       title: film.title,
       rating,
       poster_path: film.poster_path,
+      time: formattedDate,
     };
 
-    if (rating) {
+    const storedReview = localStorage.getItem(film.id.toString());
+
+    if (rating && storedReview === null) {
       const reviewJSON = JSON.stringify(review);
       localStorage.setItem(film.id.toString(), reviewJSON);
-      window.dispatchEvent(new Event("storage"));
-    } else {
+    } else if (rating && storedReview) {
+      const parsedReview = parseData(storedReview)!;
+      parsedReview.rating = rating;
+      const reviewJSON = JSON.stringify(parsedReview);
+      localStorage.setItem(film.id.toString(), reviewJSON);
+    } else if (rating === null && storedReview === null) {
       localStorage.removeItem(film.id.toString());
     }
   }, [film.id, film.title, rating, film.poster_path]);

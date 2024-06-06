@@ -5,7 +5,7 @@ import { type ReactNode, forwardRef } from "react";
 
 import { type Film } from "@/types";
 
-import simplifyTitle from "@/utils/simplifyTitle";
+import getSimpleTitle from "@/utils/getSimpleTitle";
 
 import Modal from "../ui/Modal";
 
@@ -37,7 +37,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
     ref,
   ) {
     const setFilm = useFilmStore((state) => state.setFilm);
-    const simpleTitle = simplifyTitle(film.title);
+    const simpleTitle = getSimpleTitle(film.title);
 
     const parentClasses = assignClasses(renderIndex, selectedIndex);
 

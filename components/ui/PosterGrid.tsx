@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import simplifyTitle from "@/utils/simplifyTitle";
+import { type Review } from "@/types";
+
+import getSimpleTitle from "@/utils/getSimpleTitle";
 
 import { StarIcon } from "./Icons";
 import Poster from "./Poster";
-import { type Review } from "./StarRating";
 import TooltipProvider from "./TooltipProvider";
 
 export default function PosterGrid() {
@@ -26,10 +27,6 @@ export default function PosterGrid() {
       setReviews(filteredReviews);
     }
 
-    window.addEventListener("storage", () => {
-      getRatedFilms();
-    });
-
     getRatedFilms();
   }, []);
 
@@ -37,7 +34,7 @@ export default function PosterGrid() {
     <div className="grid gap-[18px] md:grid-cols-5 lg:grid-cols-6">
       {reviews &&
         reviews.map((review) => {
-          const simpleTitle = simplifyTitle(review.title);
+          const simpleTitle = getSimpleTitle(review.title);
 
           const tooltipContent = (
             <div className="max-w-48">
