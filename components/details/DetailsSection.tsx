@@ -20,7 +20,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
             fetchSize="w500"
             width={230}
             height={345}
-            classes="w-auto h-auto"
+            classes="w-[230px] h-[345px]"
           />
         </aside>
         <div className="flex grow basis-2/3 flex-col items-baseline">
