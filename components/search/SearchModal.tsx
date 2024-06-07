@@ -1,12 +1,11 @@
-import { fetchDetails } from "@/services/fetchDetails";
-import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
-import { searchMovies } from "@/services/searchMovies";
 import { useQuery, useSuspenseQueries } from "@tanstack/react-query";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
-import { type Film, SearchResults } from "@/types";
+import { type Film } from "@/types";
 
 import { useDebounce } from "@/hooks/useDebounce";
+
+import fetchRoute from "@/utils/fetchRoute";
 
 import Modal from "../ui/Modal";
 import SearchBar from "./SearchBar";
@@ -24,14 +23,14 @@ export default function SearchModal({ children }: { children: ReactNode }) {
 
   const { data: trendingData } = useQuery({
     queryKey: ["trending"],
-    queryFn: fetchTrendingMovies,
+    queryFn: () => fetchRoute("/api/trending"),
     staleTime: 60 * 1000,
     enabled: debouncedQuery === "",
   });
 
   const { data: searchData, isFetching } = useQuery({
     queryKey: ["films", debouncedQuery],
-    queryFn: ({ signal }) => searchMovies({ signal, query }),
+    queryFn: () => fetchRoute(`/api/search?query=${debouncedQuery}`),
     staleTime: 1 * 60 * 1000,
     enabled: debouncedQuery !== "",
   });
@@ -39,7 +38,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
   const detailsQuery = useSuspenseQueries({
     queries: idList.map((id) => ({
       queryKey: ["details", id],
-      queryFn: () => fetchDetails(id),
+      queryFn: () => fetchRoute(`/api/details?id=${id}`),
       staleTime: 2 * 6 * 1000,
       enabled: id >= 0,
     })),
