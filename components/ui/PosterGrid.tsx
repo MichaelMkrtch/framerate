@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 import { type Review } from "@/types";
 
@@ -11,25 +8,15 @@ import { StarIcon } from "./Icons";
 import Poster from "./Poster";
 import TooltipProvider from "./TooltipProvider";
 
-export default function PosterGrid() {
-  const [reviews, setReviews] = useState<Review[]>();
+type PosterGridProps = {
+  reviews: Review[] | undefined;
+  tooltipEnabled?: boolean;
+};
 
-  useEffect(() => {
-    function getRatedFilms() {
-      const allKeysJSON = Object.keys(localStorage);
-      const reviewsJSON = allKeysJSON.map((key) => localStorage.getItem(key));
-      const parsedReviews: Review[] = reviewsJSON.map((review) => {
-        if (review) return JSON.parse(review);
-      });
-      const filteredReviews: Review[] = parsedReviews.filter(
-        (review) => review.rating,
-      );
-      setReviews(filteredReviews);
-    }
-
-    getRatedFilms();
-  }, []);
-
+export default function PosterGrid({
+  reviews,
+  tooltipEnabled,
+}: PosterGridProps) {
   return (
     <div className="grid gap-[18px] md:grid-cols-5 lg:grid-cols-6">
       {reviews &&
@@ -51,6 +38,7 @@ export default function PosterGrid() {
           return (
             <TooltipProvider
               key={review.id}
+              isEnabled={tooltipEnabled}
               delay={400}
               side="bottom"
               content={tooltipContent}

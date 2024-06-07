@@ -8,6 +8,7 @@ import {
 } from "./Tooltip";
 
 type TooltipProviderProps = {
+  isEnabled?: boolean;
   delay?: number;
   side?: "bottom" | "top" | "right" | "left";
   content: ReactElement;
@@ -15,6 +16,7 @@ type TooltipProviderProps = {
 };
 
 export default function TooltipProvider({
+  isEnabled,
   delay,
   side,
   content,
@@ -22,7 +24,7 @@ export default function TooltipProvider({
 }: TooltipProviderProps) {
   return (
     <Provider>
-      <Tooltip delayDuration={delay}>
+      <Tooltip open={isEnabled} delayDuration={delay}>
         <TooltipTrigger asChild>
           <button>{children}</button>
         </TooltipTrigger>
