@@ -1,6 +1,8 @@
 import QueryProvider from "@/components/QueryProvider";
 import Header from "@/components/ui/Header";
 import { Toaster } from "@/components/ui/Sonner";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import {
   League_Gothic,
@@ -54,6 +56,8 @@ export default function RootLayout({
             },
           }}
         />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
