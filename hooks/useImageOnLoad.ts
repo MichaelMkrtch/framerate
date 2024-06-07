@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useImageOnLoad = () => {
+export default function useImageOnLoad() {
   const [isLoaded, setIsLoaded] = useState(false);
   const handleImageOnLoad = () => setIsLoaded(true);
 
@@ -16,6 +16,4 @@ const useImageOnLoad = () => {
   };
 
   return { handleImageOnLoad, isLoaded, setIsLoaded, transitionStyles };
-};
-
-export default useImageOnLoad;
+}

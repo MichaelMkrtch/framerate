@@ -2,7 +2,7 @@ import { SearchResults } from "@/types";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 
-export async function fetchTrendingMovies() {
+export async function fetchTrendingMovies(timeWindow: string) {
   const options = {
     method: "GET",
     headers: {
@@ -11,7 +11,7 @@ export async function fetchTrendingMovies() {
     },
   };
 
-  const url = "https://api.themoviedb.org/3/trending/movie/day?language=en-US";
+  const url = `https://api.themoviedb.org/3/trending/movie/${timeWindow}?language=en-US`;
 
   try {
     const response = await fetch(url, options);
