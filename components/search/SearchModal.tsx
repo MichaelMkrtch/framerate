@@ -21,7 +21,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (trendingData && !isFetching) {
-      setResults(trendingData);
+      setResults(trendingData.slice(0, 5));
     }
 
     if (searchData) {

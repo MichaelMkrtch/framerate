@@ -7,11 +7,10 @@ import { useParams } from "next/navigation";
 
 export default function FilmDetailsPage() {
   const params = useParams<{ filmID: string }>();
+  const filmID = parseInt(params.filmID);
   const filmList = useFilmStore((state) => state.films);
 
-  const film = filmList.filter(
-    (film) => film.id === parseInt(params.filmID),
-  )[0];
+  let film = filmList.filter((film) => film.id === filmID)[0];
 
   return (
     film && (

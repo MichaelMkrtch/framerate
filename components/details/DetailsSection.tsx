@@ -20,6 +20,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
             fetchSize="w500"
             width={230}
             height={345}
+            perspectiveEnabled={true}
             classes="w-[230px] h-[345px]"
           />
         </aside>

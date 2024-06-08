@@ -11,6 +11,7 @@ type PosterProps = {
   fetchSize: string;
   width: number;
   height: number;
+  perspectiveEnabled: boolean;
   classes: string;
 };
 
@@ -21,13 +22,14 @@ export default function Poster({
   width,
   height,
   classes,
+  perspectiveEnabled,
 }: PosterProps) {
   const boundingRef = useRef<DOMRect | null>(null);
 
   const { handleImageOnLoad, isLoaded, transitionStyles } = useImageOnLoad();
 
   let perspectiveClasses = "";
-  if (isLoaded) {
+  if (isLoaded && perspectiveEnabled) {
     perspectiveClasses =
       "group rounded relative transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]";
   }
