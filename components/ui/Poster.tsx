@@ -31,7 +31,7 @@ export default function Poster({
   let perspectiveClasses = "";
   if (isLoaded && perspectiveEnabled) {
     perspectiveClasses =
-      "group rounded relative transition-transform ease-out md:hover:scale-105 md-tablet:hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]";
+      "group rounded relative transition-transform ease-out md-tablet:hover:scale-105 md-tablet:hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]";
   }
 
   return (
