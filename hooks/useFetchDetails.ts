@@ -4,7 +4,7 @@ import { type Film } from "@/types";
 
 import fetchRoute from "@/utils/fetchRoute";
 
-export default function useFetchDetails(results: Film[]) {
+export default function useFetchDetails(results: { id: number }[]) {
   const idList: number[] = [];
   const detailsResults: Film[] = [];
 

@@ -2,15 +2,16 @@
 
 import DetailsSection from "@/components/details/DetailsSection";
 import Backdrop from "@/components/ui/Backdrop";
-import { useFilmStore } from "@/store/filmStore";
 import { useParams } from "next/navigation";
+
+import useFetchDetails from "@/hooks/useFetchDetails";
 
 export default function FilmDetailsPage() {
   const params = useParams<{ filmID: string }>();
   const filmID = parseInt(params.filmID);
-  const filmList = useFilmStore((state) => state.films);
 
-  let film = filmList.filter((film) => film.id === filmID)[0];
+  const detailsList = useFetchDetails([{ id: filmID }]);
+  const film = detailsList[0];
 
   return (
     film && (
