@@ -31,7 +31,7 @@ export default function Poster({
   let perspectiveClasses = "";
   if (isLoaded && perspectiveEnabled) {
     perspectiveClasses =
-      "group rounded relative transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]";
+      "group rounded relative transition-transform ease-out md:hover:scale-105 md-tablet:hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]";
   }
 
   return (
@@ -90,7 +90,7 @@ export default function Poster({
           </>
         )}
         {/* the radial gradient is positioned according to mouse position */}
-        <div className="pointer-events-none absolute inset-0 rounded drop-shadow group-hover:bg-[radial-gradient(at_var(--x)_var(--y),rgba(255,255,255,0.1)_15%,transparent_70%)]" />
+        <div className="md-tablet:group-hover:bg-[radial-gradient(at_var(--x)_var(--y),rgba(255,255,255,0.1)_15%,transparent_70%)] pointer-events-none absolute inset-0 rounded drop-shadow" />
       </div>
     </div>
   );

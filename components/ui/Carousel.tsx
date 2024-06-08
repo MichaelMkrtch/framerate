@@ -160,7 +160,7 @@ const CarouselContent = React.forwardRef<
   return (
     <div
       ref={carouselRef}
-      className="flex h-[277px] items-center overflow-hidden rounded"
+      className="md-tablet:h-[220px] flex items-center overflow-hidden rounded md:h-[189px] lg:h-[261px] xl:h-[277px]"
     >
       <div
         ref={ref}

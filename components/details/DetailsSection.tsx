@@ -34,9 +34,12 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
             <Details tagline={film.tagline} overview={film.overview} />
           </div>
         </div>
-        <div className="flex basis-1/3 items-center justify-end">
+        <div className="hidden basis-1/3 items-center justify-end lg:flex">
           <RatingCard film={film} />
         </div>
+      </div>
+      <div className="mt-5 flex items-center justify-start lg:hidden">
+        <RatingCard film={film} />
       </div>
     </>
   );

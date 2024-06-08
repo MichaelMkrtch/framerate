@@ -26,19 +26,16 @@ export default function Trending() {
   return (
     <Carousel
       opts={{ align: "start", loop: true, skipSnaps: true }}
-      className="h-[264px]"
+      className=""
     >
       <CarouselContent className="">
         {trendingData?.map((film) => {
           const simpleTitle = getSimpleTitle(film.title);
 
           return (
-            <CarouselItem
-              key={film.id}
-              className="md:basis-1/4 lg:basis-1/5 xl:basis-1/6"
-            >
-              <Link href={`/film/${film.id}/${simpleTitle}`}>
-                <div className="transition-all duration-150 hover:scale-105">
+            <CarouselItem key={film.id} className="md:basis-1/5 xl:basis-1/6">
+              <Link href={`/film/${film.id}/${simpleTitle}`} className="">
+                <div className="md-tablet:hover:scale-105 transition-all duration-150">
                   <Poster
                     title={film.title}
                     src={film.poster_path}
@@ -46,7 +43,7 @@ export default function Trending() {
                     width={160}
                     height={240}
                     perspectiveEnabled={false}
-                    classes="h-[264px] w-44"
+                    classes="md:w-[120px] md:h-[180px] md-tablet:w-[140px] md-tablet:h-[210px] lg:w-[166px] lg:h-[249px] xl:w-44 xl:h-[264px]"
                   />
                 </div>
               </Link>

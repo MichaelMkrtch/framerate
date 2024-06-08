@@ -38,7 +38,7 @@ function NavBar() {
 
 export default function Header() {
   return (
-    <header className="fixed flex w-full lg:max-w-5xl xl:max-w-6xl items-center justify-between py-5">
+    <header className="md-tablet:max-w-3xl fixed m-auto flex w-full items-center justify-between py-5 md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
       <Link href="/">
         <h1 className="font-noto text-3xl font-bold">Lumière</h1>
       </Link>

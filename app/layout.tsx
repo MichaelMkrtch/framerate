@@ -39,10 +39,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} bg-gray-950 font-jakarta text-zinc-200`}
+        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} mb-5 bg-gray-950 font-jakarta text-zinc-200`}
       >
-        <div className="inset-0 sm:px-8">
-          <div className="m-auto w-full lg:max-w-5xl xl:max-w-6xl">
+        <div className="inset-0 md:px-8">
+          <div className="md-tablet:max-w-3xl relative m-auto w-full md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
             <QueryProvider>
               <Header />
               {children}

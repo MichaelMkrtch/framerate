@@ -18,7 +18,7 @@ export default function PosterGrid({
   tooltipEnabled,
 }: PosterGridProps) {
   return (
-    <div className="grid gap-[18px] md:grid-cols-5 lg:grid-cols-6">
+    <div className="md-tablet:gap-3 md-tablet:grid-cols-5 grid sm:grid-cols-3 sm:gap-2 md:grid-cols-4 lg:grid-cols-6 lg:gap-4 xl:gap-[18px]">
       {reviews &&
         reviews.map((result) => {
           const simpleTitle = getSimpleTitle(result.title);
@@ -51,7 +51,7 @@ export default function PosterGrid({
                   width={160}
                   height={240}
                   perspectiveEnabled={true}
-                  classes="h-[264px] w-44"
+                  classes="xl:h-[264px] xl:w-44"
                 />
               </Link>
             </TooltipProvider>

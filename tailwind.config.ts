@@ -53,6 +53,9 @@ const config = {
           to: { height: "0" },
         },
       },
+      screens: {
+        "md-tablet": "840px",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
