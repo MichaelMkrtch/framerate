@@ -43,7 +43,7 @@ export default function PosterGrid({
               side="bottom"
               content={tooltipContent}
             >
-              <Link href={`/result/${result.id}/${simpleTitle}`}>
+              <Link href={`/film/${result.id}/${simpleTitle}`}>
                 <Poster
                   title={result.title}
                   src={result.poster_path}

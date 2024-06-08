@@ -24,17 +24,14 @@ export default function Trending() {
   }
 
   return (
-    <Carousel
-      opts={{ align: "start", loop: true, skipSnaps: true }}
-      className=""
-    >
-      <CarouselContent className="">
+    <Carousel opts={{ align: "start", loop: true, skipSnaps: true }}>
+      <CarouselContent>
         {trendingData?.map((film) => {
           const simpleTitle = getSimpleTitle(film.title);
 
           return (
             <CarouselItem key={film.id} className="md:basis-1/5 xl:basis-1/6">
-              <Link href={`/film/${film.id}/${simpleTitle}`} className="">
+              <Link href={`/film/${film.id}/${simpleTitle}`}>
                 <div className="md-tablet:hover:scale-105 transition-all duration-150">
                   <Poster
                     title={film.title}
