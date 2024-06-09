@@ -32,7 +32,7 @@ export default function Trending() {
           return (
             <CarouselItem key={film.id} className="md:basis-1/5 xl:basis-1/6">
               <Link href={`/film/${film.id}/${simpleTitle}`}>
-                <div className="md-tablet:hover:scale-105 transition-all duration-150">
+                <div className="transition-all duration-150 hover:scale-105">
                   <Poster
                     title={film.title}
                     src={film.poster_path}

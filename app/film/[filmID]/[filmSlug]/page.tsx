@@ -11,13 +11,16 @@ export default function FilmDetailsPage() {
   const filmID = parseInt(params.filmID);
 
   const detailsList = useFetchDetails([{ id: filmID }]);
-  const film = detailsList[0];
+  const fetchedFilm = detailsList[0];
 
   return (
-    film && (
+    fetchedFilm && (
       <>
-        <Backdrop title={film.title} backdrop_path={film.backdrop_path} />
-        <DetailsSection film={film} />
+        <Backdrop
+          title={fetchedFilm.title}
+          backdrop_path={fetchedFilm.backdrop_path}
+        />
+        <DetailsSection film={fetchedFilm} />
       </>
     )
   );
