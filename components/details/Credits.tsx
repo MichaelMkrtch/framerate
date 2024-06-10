@@ -20,7 +20,9 @@ export default function Credits({
         </span>
         <span className="text-sm tracking-wide md:text-base">
           Directed by{" "}
-          <p className="text-sm font-medium md:text-base">{director}</p>
+          <p className="text-sm font-medium md:inline-block md:text-base">
+            {director}
+          </p>
         </span>
       </div>
     </>

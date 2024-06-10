@@ -47,7 +47,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
 
   return (
     <div className="relative">
-      <div className="peer flex items-center justify-center">
+      <div className="flex items-center justify-center">
         {groupedStars.map((group, index) => {
           return (
             <span
@@ -75,7 +75,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
                           ? "#FFD43B"
                           : "#434343"
                       }
-                      classes="h-8 w-10"
+                      classes="h-7 w-9 lg:h-8 lg:w-10"
                       onMouseEnter={() => setHover(ratingValue)}
                       onMouseLeave={() => setHover(null)}
                     />

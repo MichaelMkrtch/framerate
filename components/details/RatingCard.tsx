@@ -44,12 +44,12 @@ export default function RatingCard({ film }: RatingCardProps) {
 
   return (
     <Card>
-      <div className="mx-0.5 mb-8 flex items-center justify-between">
+      <div className="mx-0.5 mb-6 flex items-center justify-between lg:mb-8">
         <h3 className="inline font-medium">Ratings</h3>
         <div className="flex items-center">
           <StarIcon fill="#FFD43B" classes="h-6 w-6" />
           <div className="flex flex-col pl-2">
-            <p className="text-center">
+            <p className="text-center text-sm">
               <span className="font-semibold">
                 {(Math.random() * 4.5 + 0.5).toFixed(1)}
               </span>

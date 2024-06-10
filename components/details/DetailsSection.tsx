@@ -13,8 +13,8 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
   return (
     <>
       {/* Tablet and Desktop layout */}
-      <div className="hidden w-full pt-[470px] md:flex">
-        <aside className="mr-16 shrink-0 md:h-[345px] md:w-[230px]">
+      <div className="hidden w-full md:flex md:pt-[330px] lg:pt-[400px] xl:pt-[470px]">
+        <aside className="mr-6 shrink-0 md:h-[300px] md:w-[200px] lg:h-[345px] lg:w-[230px] xl:mr-16">
           <Poster
             title={film.title}
             src={film.poster_path}
@@ -31,7 +31,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
             director={film.director}
             releaseDate={film.release_date}
           />
-          <div className="mt-5 w-4/5 flex-wrap">
+          <div className="mt-3 w-full pr-6 lg:mt-5 lg:w-11/12 lg:pr-0 xl:w-4/5">
             <Details tagline={film.tagline} overview={film.overview} />
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex w-full pt-56 md:hidden">
+      <div className="flex w-full pt-[55%] md:hidden">
         <div className="flex grow basis-2/3 flex-col items-baseline pr-3">
           <Credits
             title={film.title}
@@ -52,7 +52,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
             releaseDate={film.release_date}
           />
         </div>
-        <aside className="-mt-5 h-[168px] w-28 shrink-0">
+        <aside className="-mt-5 h-48 w-32 shrink-0">
           <Poster
             title={film.title}
             src={film.poster_path}
@@ -67,7 +67,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
           <RatingCard film={film} />
         </div>
       </div>
-      <div className="mt-2.5 w-full">
+      <div className="mt-2.5 w-full md:hidden">
         <Details tagline={film.tagline} overview={film.overview} />
       </div>
     </>

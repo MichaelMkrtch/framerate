@@ -20,7 +20,7 @@ export default function Backdrop({ title, backdrop_path }: BackdropProps) {
           alt={`Still image from the film ${title}`}
           width={15}
           height={10}
-          className="h-[241px] w-full object-cover [image-rendering:_pixelated] md:h-auto"
+          className="h-auto w-full object-cover [image-rendering:_pixelated] md:h-auto"
           style={transitionStyles.lowRes}
         />
         <Image
