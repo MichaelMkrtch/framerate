@@ -6,9 +6,9 @@ type LibraryLayoutProps = {
 
 export default function LibraryLayout({ children }: LibraryLayoutProps) {
   return (
-    <div className="pt-32">
-      <h2 className="text-2xl font-medium">Library</h2>
-      <section className="mt-6">{children}</section>
+    <div className="px-3 pt-20 md:pt-32">
+      <h2 className="text-lg font-medium md:text-xl">Library</h2>
+      <section className="mt-3">{children}</section>
     </div>
   );
 }

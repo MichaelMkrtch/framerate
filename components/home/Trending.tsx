@@ -24,7 +24,14 @@ export default function Trending() {
   }
 
   return (
-    <Carousel opts={{ align: "start", loop: true, skipSnaps: true }}>
+    <Carousel
+      opts={{
+        align: "start",
+        startIndex: 0,
+        loop: true,
+        skipSnaps: true,
+      }}
+    >
       <CarouselContent>
         {trendingData?.map((film) => {
           const simpleTitle = getSimpleTitle(film.title);
@@ -40,7 +47,7 @@ export default function Trending() {
                     width={160}
                     height={240}
                     perspectiveEnabled={false}
-                    classes="md:w-[120px] md:h-[180px] md-tablet:w-[140px] md-tablet:h-[210px] lg:w-[166px] lg:h-[249px] xl:w-44 xl:h-[264px]"
+                    classes="w-24 h-36 md:w-[120px] md:h-[180px] md-tablet:w-[140px] md-tablet:h-[210px] lg:w-[166px] lg:h-[249px] xl:w-44 xl:h-[264px]"
                   />
                 </div>
               </Link>
@@ -48,8 +55,8 @@ export default function Trending() {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="hidden md:block" />
+      <CarouselNext className="hidden md:block" />
     </Carousel>
   );
 }

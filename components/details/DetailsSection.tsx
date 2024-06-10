@@ -12,8 +12,9 @@ type DetailsSectionProps = {
 export default function DetailsSection({ film }: DetailsSectionProps) {
   return (
     <>
-      <div className="flex w-full pt-[470px]">
-        <aside className="mr-16 h-[345px] w-[230px] shrink-0">
+      {/* Tablet and Desktop layout */}
+      <div className="hidden w-full pt-[470px] md:flex">
+        <aside className="mr-16 shrink-0 md:h-[345px] md:w-[230px]">
           <Poster
             title={film.title}
             src={film.poster_path}
@@ -21,7 +22,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
             width={230}
             height={345}
             perspectiveEnabled={true}
-            classes="w-[230px] h-[345px]"
+            classes="w-full h-auto"
           />
         </aside>
         <div className="flex grow basis-2/3 flex-col items-baseline">
@@ -38,8 +39,36 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
           <RatingCard film={film} />
         </div>
       </div>
-      <div className="mt-5 flex items-center justify-start lg:hidden">
+      <div className="mt-5 hidden items-center justify-start md:flex lg:hidden">
         <RatingCard film={film} />
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="flex w-full pt-56 md:hidden">
+        <div className="flex grow basis-2/3 flex-col items-baseline pr-3">
+          <Credits
+            title={film.title}
+            director={film.director}
+            releaseDate={film.release_date}
+          />
+        </div>
+        <aside className="-mt-5 h-[168px] w-28 shrink-0">
+          <Poster
+            title={film.title}
+            src={film.poster_path}
+            fetchSize="w500"
+            width={230}
+            height={345}
+            perspectiveEnabled={true}
+            classes="w-full h-auto"
+          />
+        </aside>
+        <div className="hidden basis-1/3 items-center justify-end lg:flex">
+          <RatingCard film={film} />
+        </div>
+      </div>
+      <div className="mt-2.5 w-full">
+        <Details tagline={film.tagline} overview={film.overview} />
       </div>
     </>
   );

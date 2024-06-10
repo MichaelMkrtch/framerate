@@ -7,7 +7,7 @@ export default function Details({ tagline, overview }: DetailsProps) {
   return (
     <>
       <h3 className="text-sm font-light uppercase tracking-wide">{tagline}</h3>
-      <p className="mt-2.5 leading-relaxed">{overview}</p>
+      <p className="mt-2.5 leading-normal">{overview}</p>
     </>
   );
 }
