@@ -2,43 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type ReactNode } from "react";
+import { type MouseEventHandler, type ReactNode } from "react";
 
 import SearchModal from "../search/SearchModal";
+import NavBar from "./NavBar";
 
-type ListItemProps = { path: string; classes?: string; children: ReactNode };
+type ListItemProps = {
+  path: string;
+  activeLink: string | undefined;
+  handleClick: MouseEventHandler;
+  classes: string;
+  children: ReactNode;
+};
 
-function ListItem({ path, classes, children }: ListItemProps) {
+export function ListItem({
+  path,
+  activeLink,
+  handleClick,
+  classes,
+  children,
+}: ListItemProps) {
   const pathname = usePathname();
-
   return (
     <li className="duration-75 ease-in-out active:scale-95">
       <Link
-        href={`${path}`}
-        className={`${classes} px-3 py-2 transition-colors duration-75 ease-in ${pathname === path ? "text-cyan-350" : null}`}
+        href={activeLink ? pathname : path}
+        onClick={handleClick}
+        className={`${path === activeLink ? "" : classes} px-2 py-1.5 transition-colors duration-75 ease-in md:px-3 md:py-2 ${pathname === path && path !== "/" ? "text-cyan-350" : ""}`}
       >
         {children}
       </Link>
     </li>
-  );
-}
-
-function NavBar() {
-  return (
-    <nav>
-      <ul className="flex h-10 items-center rounded-full bg-zinc-800/45 px-1 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur md:px-3">
-        <ListItem classes="hidden" path="/films">
-          Films
-        </ListItem>
-        <ListItem classes="hidden" path="/lists">
-          Lists
-        </ListItem>
-        <ListItem classes="hidden" path="/articles">
-          Articles
-        </ListItem>
-        <ListItem path="/library">Library</ListItem>
-      </ul>
-    </nav>
   );
 }
 
