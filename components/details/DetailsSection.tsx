@@ -3,6 +3,7 @@ import { type Film } from "@/types";
 import Poster from "../ui/Poster";
 import Credits from "./Credits";
 import Details from "./Details";
+import IconsSection from "./IconsSection";
 import RatingCard from "./RatingCard";
 
 type DetailsSectionProps = {
@@ -44,31 +45,33 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex w-full pt-[55%] md:hidden">
-        <div className="flex grow basis-2/3 flex-col items-baseline pr-3">
-          <Credits
-            title={film.title}
-            director={film.director}
-            releaseDate={film.release_date}
-          />
+      <div className="md:hidden">
+        <div className="flex w-full pt-[55%] md:hidden">
+          <div className="flex grow basis-2/3 flex-col items-baseline pr-3">
+            <Credits
+              title={film.title}
+              director={film.director}
+              releaseDate={film.release_date}
+            />
+          </div>
+          <aside className="-mt-5 h-48 w-32 shrink-0">
+            <Poster
+              title={film.title}
+              src={film.poster_path}
+              fetchSize="w500"
+              width={230}
+              height={345}
+              perspectiveEnabled={true}
+              classes="w-full h-auto"
+            />
+          </aside>
         </div>
-        <aside className="-mt-5 h-48 w-32 shrink-0">
-          <Poster
-            title={film.title}
-            src={film.poster_path}
-            fetchSize="w500"
-            width={230}
-            height={345}
-            perspectiveEnabled={true}
-            classes="w-full h-auto"
-          />
-        </aside>
-        <div className="hidden basis-1/3 items-center justify-end lg:flex">
+        <div className="mt-2.5 w-full md:hidden">
+          <Details tagline={film.tagline} overview={film.overview} />
+        </div>
+        <div className="mt-6">
           <RatingCard film={film} />
         </div>
-      </div>
-      <div className="mt-2.5 w-full md:hidden">
-        <Details tagline={film.tagline} overview={film.overview} />
       </div>
     </>
   );
