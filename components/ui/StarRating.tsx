@@ -15,6 +15,9 @@ type StarRatingProps = {
 
 export default function StarRating({ id, rating, setRating }: StarRatingProps) {
   const [hover, setHover] = useState<number | null>(null);
+  const [storedReview, setStoredReview] = useState(
+    localStorage.getItem(id.toString()),
+  );
 
   const groupedStars = [
     [0.5, 1],
@@ -24,7 +27,7 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
     [4.5, 5],
   ];
 
-  const storedReview = localStorage.getItem(id.toString());
+  // const storedReview = localStorage.getItem(id.toString());
 
   useEffect(() => {
     const parsedFilm: Review | null = parseData(storedReview);

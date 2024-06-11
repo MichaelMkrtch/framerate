@@ -43,7 +43,7 @@ export default function RatingCard({ film }: RatingCardProps) {
   }, [film.id, film.title, rating, film.poster_path]);
 
   return (
-    <div className="flex items-center justify-between gap-4 md:block">
+    <div className="flex items-center justify-between gap-[10px] md:block">
       <Card classes="basis-3/4 md:basis-full">
         <div className="mx-0.5 mb-6 flex items-center justify-between lg:mb-8">
           <h3 className="inline font-medium">Ratings</h3>
