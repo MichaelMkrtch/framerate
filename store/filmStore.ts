@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { type Film } from "@/types";
 
-interface FilmState {
+interface FilmStore {
   films: Film[];
   setFilm: (film: Film) => void;
 }
@@ -15,7 +15,7 @@ function enforceUniqueFilms(newFilm: Film, films: Film[]) {
   return uniqueFilms;
 }
 
-export const useFilmStore = create<FilmState>()(
+export const useFilmStore = create<FilmStore>()(
   persist(
     (set) => ({
       films: [] as Film[],

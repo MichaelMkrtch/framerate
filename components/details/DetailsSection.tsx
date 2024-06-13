@@ -3,7 +3,6 @@ import { type Film } from "@/types";
 import Poster from "../ui/Poster";
 import Credits from "./Credits";
 import Details from "./Details";
-import IconsSection from "./IconsSection";
 import RatingCard from "./RatingCard";
 
 type DetailsSectionProps = {
