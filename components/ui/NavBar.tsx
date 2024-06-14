@@ -7,7 +7,7 @@ import { ListItem } from "./Header";
 export default function NavBar() {
   const [activePath, setActivePath] = useState<string>();
   const [linkName, setLinkName] = useState<string>("");
-  const matches = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
   const ref = useRef(null);
 
@@ -28,17 +28,17 @@ export default function NavBar() {
   }, [pathname]);
 
   useEffect(() => {
-    if (!matches) {
+    if (!isMobile) {
       setActivePath(undefined);
     }
-  }, [matches]);
+  }, [isMobile]);
 
   function handleClick() {
     setActivePath(undefined);
   }
 
   function handleClickOutside() {
-    if (matches) {
+    if (isMobile) {
       setActivePath(pathname);
     }
   }
@@ -51,7 +51,7 @@ export default function NavBar() {
         ref={ref}
         className="flex h-10 items-center rounded-full bg-zinc-800/45 px-1 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur md:px-3"
       >
-        {matches && activePath === pathname ? (
+        {isMobile && activePath === pathname ? (
           <ListItem path={pathname} classes="" handleClick={handleClick}>
             {linkName}
           </ListItem>
