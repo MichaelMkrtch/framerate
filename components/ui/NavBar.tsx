@@ -1,13 +1,16 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useMediaQuery, useOnClickOutside } from "usehooks-ts";
+import { useOnClickOutside } from "usehooks-ts";
 
 import { ListItem } from "./Header";
 
-export default function NavBar() {
+type NavBarProps = {
+  isMobile: boolean;
+};
+
+export default function NavBar({ isMobile }: NavBarProps) {
   const [activePath, setActivePath] = useState<string>();
   const [linkName, setLinkName] = useState<string>("");
-  const isMobile = useMediaQuery("(max-width: 768px)");
   const pathname = usePathname();
   const ref = useRef(null);
 
@@ -52,18 +55,18 @@ export default function NavBar() {
         className="flex h-10 items-center rounded-full bg-zinc-800/45 px-1 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur md:px-3"
       >
         {isMobile && activePath === pathname ? (
-          <ListItem path={pathname} classes="" handleClick={handleClick}>
+          <ListItem path={pathname} handleClick={handleClick}>
             {linkName}
           </ListItem>
         ) : (
           <>
-            <ListItem path="/lists" classes="" handleClick={handleClick}>
+            <ListItem path="/lists" handleClick={handleClick}>
               Lists
             </ListItem>
-            <ListItem path="/articles" classes="" handleClick={handleClick}>
+            <ListItem path="/articles" handleClick={handleClick}>
               Articles
             </ListItem>
-            <ListItem path="/library" classes="" handleClick={handleClick}>
+            <ListItem path="/library" handleClick={handleClick}>
               Library
             </ListItem>
           </>

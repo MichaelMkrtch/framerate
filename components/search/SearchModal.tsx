@@ -1,4 +1,13 @@
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/Drawer";
 import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { type Film } from "@/types";
 
@@ -6,13 +15,18 @@ import useFetchDetails from "@/hooks/useFetchDetails";
 import useFetchTrending from "@/hooks/useFetchTrending";
 import useSearchFilms from "@/hooks/useSearchFilms";
 
+import { cn } from "@/lib/utils";
+
 import Modal from "../ui/Modal";
+import { VisuallyHidden } from "../ui/VisuallyHidden";
 import SearchBar from "./SearchBar";
 import SearchResultList from "./SearchResultList";
 
 export default function SearchModal({ children }: { children: ReactNode }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Film[]>([]);
+  const [open, setOpen] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const searchElement = useRef<HTMLInputElement>(null);
 
   const trendingData = useFetchTrending("day");
@@ -35,11 +49,40 @@ export default function SearchModal({ children }: { children: ReactNode }) {
     }
   }
 
-  return (
-    <Modal>
-      <Modal.Trigger asChild>{children}</Modal.Trigger>
+  if (isDesktop) {
+    return (
+      <Modal>
+        <Modal.Trigger asChild>{children}</Modal.Trigger>
 
-      <Modal.Content title="Search" description="Search by title.">
+        <Modal.Content title="Search" description="Search by title.">
+          <SearchBar
+            ref={searchElement}
+            searchQuery={query}
+            setSearchQuery={setQuery}
+            onChange={handleChange}
+          />
+          <SearchResultList results={detailsData} />
+        </Modal.Content>
+      </Modal>
+    );
+  }
+
+  return (
+    <Drawer
+      open={open}
+      onOpenChange={setOpen}
+      shouldScaleBackground
+      setBackgroundColorOnScale={false}
+    >
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
+      <DrawerContent>
+        <VisuallyHidden>
+          <DrawerHeader>
+            <DrawerTitle>Search</DrawerTitle>
+            <DrawerDescription>Search by title.</DrawerDescription>
+          </DrawerHeader>
+        </VisuallyHidden>
+
         <SearchBar
           ref={searchElement}
           searchQuery={query}
@@ -47,7 +90,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
           onChange={handleChange}
         />
         <SearchResultList results={detailsData} />
-      </Modal.Content>
-    </Modal>
+      </DrawerContent>
+    </Drawer>
   );
 }
