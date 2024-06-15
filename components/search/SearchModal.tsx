@@ -83,13 +83,15 @@ export default function SearchModal({ children }: { children: ReactNode }) {
           </DrawerHeader>
         </VisuallyHidden>
 
-        <SearchBar
-          ref={searchElement}
-          searchQuery={query}
-          setSearchQuery={setQuery}
-          onChange={handleChange}
-        />
-        <SearchResultList results={detailsData} />
+        <div className="no-scrollbar w-full max-w-md overflow-auto">
+          <SearchBar
+            ref={searchElement}
+            searchQuery={query}
+            setSearchQuery={setQuery}
+            onChange={handleChange}
+          />
+          <SearchResultList results={detailsData} />
+        </div>
       </DrawerContent>
     </Drawer>
   );

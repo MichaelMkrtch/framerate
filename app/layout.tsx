@@ -39,9 +39,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} bg-gray-950 font-jakarta text-zinc-200`}
+        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} h-screen bg-gray-950 font-jakarta text-zinc-200`}
       >
-        <div className="inset-0 pb-4 md:px-8 md:py-0" vaul-drawer-wrapper="">
+        <div
+          className="inset-0 h-screen pb-4 md:px-8 md:py-0"
+          vaul-drawer-wrapper=""
+        >
           <div className="relative m-auto max-w-md md:max-w-2xl md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
             <QueryProvider>
               <Header />

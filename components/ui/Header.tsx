@@ -46,7 +46,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed m-auto flex w-full items-center justify-between px-3 py-3 md:max-w-2xl md:justify-between md:px-0 md:py-5 md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
+    <header className="fixed z-50 m-auto flex w-full items-center justify-between px-3 py-3 md:max-w-2xl md:justify-between md:px-0 md:py-5 md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
       <Link href="/">
         <h1 className="font-noto text-lg font-medium md:block md:text-3xl md:font-bold">
           Lumière
@@ -57,7 +57,7 @@ export default function Header() {
 
       <SearchModal>
         {isClient && isMobile ? (
-          <button className="fixed bottom-0 right-0 mb-10 mr-5 flex items-center rounded-full bg-zinc-800/45 p-4 shadow-lg ring-1 ring-white/10 backdrop-blur md:hidden">
+          <button className="fixed bottom-0 right-0 z-50 mb-8 mr-5 flex items-center rounded-full bg-zinc-800/45 p-4 shadow-lg outline-none ring-1 ring-white/10 backdrop-blur md:hidden">
             <MagnifyingGlassIcon classes="my-auto h-5 w-5" />
           </button>
         ) : (

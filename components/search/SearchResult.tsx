@@ -19,7 +19,7 @@ const IMG_BASE_URL = process.env.NEXT_PUBLIC_IMG_BASE_URL;
 
 function assignClasses(renderIndex: number, selectedIndex: number) {
   let classes =
-    "md:first:!bg-cyan-350/80 hover:bg-neutral-800/60 mt-1.5 flex items-center justify-start rounded-md py-2";
+    "md:first:!bg-cyan-350/80 hover:bg-neutral-800/60 mt-0 py-1.5 md:mt-1.5 flex items-center justify-start rounded-md md:py-2";
 
   if (selectedIndex > 0)
     classes = classes.replace(
@@ -67,7 +67,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
             onClick={() => setFilm(film)}
             className="flex w-full cursor-default items-center outline-none"
           >
-            <div className="pointer-events-none mr-1.5 flex px-2">
+            <div className="pointer-events-none mr-1.5 flex md:px-2">
               {film.poster_path ? poster : gradient}
             </div>
             <div className="flex items-baseline text-left">
