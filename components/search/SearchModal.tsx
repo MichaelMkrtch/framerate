@@ -15,8 +15,6 @@ import useFetchDetails from "@/hooks/useFetchDetails";
 import useFetchTrending from "@/hooks/useFetchTrending";
 import useSearchFilms from "@/hooks/useSearchFilms";
 
-import { cn } from "@/lib/utils";
-
 import Modal from "../ui/Modal";
 import { VisuallyHidden } from "../ui/VisuallyHidden";
 import SearchBar from "./SearchBar";
@@ -73,6 +71,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
       onOpenChange={setOpen}
       shouldScaleBackground
       setBackgroundColorOnScale={false}
+      direction="top"
     >
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent>
@@ -83,7 +82,10 @@ export default function SearchModal({ children }: { children: ReactNode }) {
           </DrawerHeader>
         </VisuallyHidden>
 
-        <div className="no-scrollbar w-full max-w-md overflow-auto">
+        <div
+          data-vaul-no-drag
+          className="no-scrollbar w-full max-w-md overflow-auto"
+        >
           <SearchBar
             ref={searchElement}
             searchQuery={query}

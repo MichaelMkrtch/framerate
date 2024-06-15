@@ -42,7 +42,7 @@ export default function SearchResultList({ results }: SearchResults) {
   }, [handleKeyPress]);
 
   return (
-    <div className="no-scrollbar mx-3 mb-0.5 mt-2.5 h-[300px] cursor-default select-none overflow-auto outline-none md:mx-0 md:h-[350px] md:border-t md:border-neutral-700/60 md:pt-1">
+    <div className="no-scrollbar mx-3 h-[300px] cursor-default select-none overflow-auto outline-none md:mx-0 md:mt-2 md:h-[355px] md:border-t md:border-neutral-700/60 md:pt-1">
       {results.map((film, index) => {
         return (
           <SearchResult

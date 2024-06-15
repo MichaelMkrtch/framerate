@@ -21,7 +21,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
     }, [setSearchQuery]);
 
     return (
-      <div className="mx-3 flex justify-center bg-transparent pb-1 md:mx-0 md:pb-0">
+      <div className="mx-3 flex justify-center pb-1 md:mx-0 md:pb-0">
         <div className="mx-4 hidden pr-2 md:flex">
           <MagnifyingGlassIcon classes="my-auto" />
         </div>
@@ -33,7 +33,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           placeholder="Search"
           value={searchQuery}
           onChange={onChange}
-          className="fixed left-3 right-3 top-4 rounded-full bg-neutral-800 px-[18px] py-2.5 font-medium outline-none ring-1 ring-white/10 placeholder:font-medium placeholder:text-gray-750 md:static md:w-full md:rounded-none md:bg-neutral-900 md:px-0 md:ring-0"
+          className="fixed left-3 right-3 top-4 rounded-full bg-neutral-800 px-[18px] py-2.5 font-medium outline-none ring-1 ring-white/15 placeholder:font-medium placeholder:text-gray-750 md:static md:w-full md:rounded-none md:bg-neutral-900 md:px-0 md:ring-0"
           autoFocus
         />
       </div>

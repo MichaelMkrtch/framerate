@@ -70,12 +70,20 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
             <div className="pointer-events-none mr-1.5 flex md:px-2">
               {film.poster_path ? poster : gradient}
             </div>
-            <div className="flex items-baseline text-left">
-              <p>
+            {/* <div className="flex items-baseline text-left text-base">
+              <p className="w-full">
                 {children} ({film.release_date.slice(0, 4)})
-                <span className="text-nowrap pl-2.5 text-sm font-medium tracking-wide text-neutral-600">
+                <span className="text-nowrap pl-2.5 text-xs font-medium tracking-wide text-neutral-600 md:text-sm">
                   {film.director}
                 </span>
+              </p>
+            </div> */}
+            <div className="flex flex-col items-baseline text-left">
+              <p className="text-[15px] font-medium">
+                {children} ({film.release_date.slice(0, 4)})
+              </p>
+              <p className="text-nowrap text-xs font-semibold tracking-wide text-neutral-500 md:text-sm md:font-medium md:text-neutral-700">
+                {film.director}
               </p>
             </div>
           </Link>

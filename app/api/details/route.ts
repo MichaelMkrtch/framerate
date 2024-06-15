@@ -1,6 +1,5 @@
 import { fetchDetails } from "@/services/fetchDetails";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -13,7 +12,7 @@ export async function GET(request: Request) {
 
       const data = await fetchDetails(id);
 
-      return NextResponse.json(data);
+      return Response.json(data);
     } else {
       throw new Error("ID does not exist");
     }
