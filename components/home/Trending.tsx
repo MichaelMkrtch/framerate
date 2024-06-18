@@ -7,17 +7,23 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/Carousel";
+import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-
-import useFetchTrending from "@/hooks/useFetchTrending";
 
 import getSimpleTitle from "@/utils/getSimpleTitle";
 
 import Poster from "../ui/Poster";
 
 export default function Trending() {
-  const data = useFetchTrending("week");
   let trendingData;
+
+  const { data } = useQuery({
+    queryKey: ["trending-week"],
+    queryFn: () => fetchTrendingMovies("week"),
+    staleTime: 1000 * 60 * 10,
+    gcTime: 1000 * 60 * 10,
+  });
 
   if (data) {
     trendingData = data.slice(0, 12);

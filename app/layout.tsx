@@ -1,6 +1,12 @@
 import QueryProvider from "@/components/QueryProvider";
 import Header from "@/components/ui/Header";
 import { Toaster } from "@/components/ui/Sonner";
+import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -31,6 +37,22 @@ export const metadata: Metadata = {
     "Lumière is a social platform for sharing your interests in film. Use it to record your opinions about films you watch, or just to keep track of what you've seen!",
 };
 
+async function PrefetchHeader() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["trending-day"],
+    queryFn: () => fetchTrendingMovies("day"),
+    staleTime: 10 * 60 * 1000,
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Header />
+    </HydrationBoundary>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,7 +69,7 @@ export default function RootLayout({
         >
           <div className="relative m-auto max-w-md md:max-w-2xl md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
             <QueryProvider>
-              <Header />
+              <PrefetchHeader />
               {children}
             </QueryProvider>
           </div>

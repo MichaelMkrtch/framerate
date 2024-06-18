@@ -1,4 +1,4 @@
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 
 import { type Film } from "@/types";
 
@@ -10,7 +10,7 @@ export default function useFetchDetails(results: { id: number }[]) {
 
   results.forEach((result) => idList.push(result.id));
 
-  const detailsQuery = useSuspenseQueries({
+  const detailsQuery = useQueries({
     queries: idList.map((id) => ({
       queryKey: ["details", id],
       queryFn: () => fetchRoute(`/api/details?id=${id}`),

@@ -6,13 +6,14 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/Drawer";
+import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
+import { useQuery } from "@tanstack/react-query";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { type Film } from "@/types";
 
 import useFetchDetails from "@/hooks/useFetchDetails";
-import useFetchTrending from "@/hooks/useFetchTrending";
 import useSearchFilms from "@/hooks/useSearchFilms";
 
 import Modal from "../ui/Modal";
@@ -27,7 +28,13 @@ export default function SearchModal({ children }: { children: ReactNode }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const searchElement = useRef<HTMLInputElement>(null);
 
-  const trendingData = useFetchTrending("day");
+  const { data: trendingData } = useQuery({
+    queryKey: ["trending-day"],
+    queryFn: () => fetchTrendingMovies("day"),
+    staleTime: 500 * 60 * 10,
+    gcTime: 1000 * 60 * 10,
+  });
+
   const detailsData = useFetchDetails(results);
   const { searchData, isFetching } = useSearchFilms(query);
 
