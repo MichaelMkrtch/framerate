@@ -18,14 +18,16 @@ export default function Modal({ children }: { children: ReactNode }) {
 function ModalContent({
   title,
   description,
+  classes,
   children,
 }: {
   title: string;
   description: string;
+  classes?: string;
   children: ReactNode;
 }) {
   return (
-    <DialogContent className="hidden border-0 text-zinc-300 caret-zinc-300 outline-none ring-1 md:block md:h-[427px] md:px-3 md:py-2.5 lg:w-1/2 dark:bg-neutral-900 dark:ring-neutral-800">
+    <DialogContent className="hidden max-w-2xl border-0 text-zinc-300 caret-zinc-300 outline-none ring-1 md:block md:h-[427px] md:px-3 md:py-2.5 dark:bg-neutral-900 dark:ring-neutral-800">
       <VisuallyHidden asChild>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

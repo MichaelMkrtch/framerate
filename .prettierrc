@@ -3,7 +3,14 @@
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ],
-  "importOrder": ["types", "hooks/", "utils", "^components/(.*)$", "^[./]"],
+  "importOrder": [
+    "types",
+    "hooks/",
+    "utils",
+    "^components/(.*)$",
+    "^[./]",
+    "@/"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
