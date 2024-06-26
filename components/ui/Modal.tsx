@@ -18,12 +18,10 @@ export default function Modal({ children }: { children: ReactNode }) {
 function ModalContent({
   title,
   description,
-  classes,
   children,
 }: {
   title: string;
   description: string;
-  classes?: string;
   children: ReactNode;
 }) {
   return (

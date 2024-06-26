@@ -4,7 +4,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 
-import SignUpForm from "@/components/home/SignUpForm";
+import SignupDialog from "@/components/home/SignupDialog";
 import Trending from "@/components/home/Trending";
 import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
 
@@ -33,7 +33,7 @@ export default async function Home() {
         </h2>
         <Trending /> */}
 
-        <SignUpForm quote={randomQuote} />
+        <SignupDialog quote={randomQuote} />
       </main>
     </HydrationBoundary>
   );
