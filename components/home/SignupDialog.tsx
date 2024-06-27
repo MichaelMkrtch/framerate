@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import SignupForm from "../ui/SignupForm";
+import SignupForm from "./SignupForm";
 
 import {
   Dialog,
@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/Dialog";
 
-export default function SignUpDialog({ quote }: { quote: string }) {
+export default function SignupDialog({ quote }: { quote: string }) {
   const [open, setOpen] = useState(false);
 
   return (

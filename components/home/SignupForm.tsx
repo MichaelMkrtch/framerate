@@ -1,9 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Dispatch, type SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useRef, useState } from "react";
+import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+
+import { Toaster } from "../ui/Sonner";
+import { formSchema } from "./formSchema";
 
 import { signup } from "@/actions/auth-actions";
 import {
@@ -16,31 +21,18 @@ import {
 } from "@/components/ui/Form";
 import Input from "@/components/ui/Input";
 
-const formSchema = z.object({
-  email: z.string().trim().email({ message: "Invalid email address." }),
-  name: z
-    .string()
-    .trim()
-    .min(1, { message: "Name must be at least 1 character." })
-    .max(50, { message: "Name must be at most 50 characters." }),
-  username: z
-    .string()
-    .trim()
-    .min(2, { message: "Username must be at least 2 characters." })
-    .max(15, { message: "Username must be at most 15 characters. " }),
-  password: z
-    .string()
-    .trim()
-    .min(10, { message: "Password must be at least 10 characters." })
-    .max(30, { message: "Password must be at most 30 characters." }),
-});
-
 export default function SignupForm({
   setOpen,
 }: {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [formState, formAction] = useFormState(signup, {
+    status: "",
+    message: "",
+  });
   const [page, setPage] = useState(1);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,15 +52,26 @@ export default function SignupForm({
     }
   }
 
-  function handleSubmit(values: z.infer<typeof formSchema>) {
+  if (formState.status === "success") {
     setOpen(false);
-    signup(values);
+    toast.success(formState.message);
+    formState.status = "";
+  } else if (formState.status === "fail") {
+    toast.error(formState.message, { duration: 5000 });
+    formState.status = "";
   }
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
+        ref={formRef}
+        action={formAction}
+        onSubmit={(event) => {
+          event.preventDefault();
+          form.handleSubmit(() => {
+            formAction(new FormData(formRef.current!));
+          })(event);
+        }}
         className="mx-auto flex h-full w-full flex-col items-center justify-center"
       >
         <div className={page === 1 ? "w-full" : "hidden"}>
