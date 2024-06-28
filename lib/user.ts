@@ -1,29 +1,8 @@
-import supabase from "@/utils/supabase/client";
+// import supabase from "@/utils/supabase/client";
+import { type InsertUser, usersTable } from "../db/schema";
 
-type Response = {
-  id: number;
-  email: string;
-  name: string;
-  username: string;
-  password: string;
-  created_at: string;
-};
+import { db } from "@/db";
 
-export async function createUser(
-  email: string,
-  name: string,
-  username: string,
-  hashedPassword: string,
-) {
-  const { data, error } = await supabase
-    .from("users")
-    .insert([{ email, name, username, password: hashedPassword }])
-    .select()
-    .returns<Response>();
-
-  if (error) {
-    throw error;
-  }
-
-  return data;
+export async function createUser(data: InsertUser) {
+  await db.insert(usersTable).values(data);
 }
