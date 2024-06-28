@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { formSchema } from "@/components/home/formSchema";
+import { createAuthSession } from "@/lib/auth";
 import { hashUserPassword } from "@/lib/hash";
 import { createUser } from "@/lib/user";
 
@@ -42,7 +43,15 @@ export async function signup(
   const hashedPassword = hashUserPassword(password);
 
   try {
-    await createUser({ email, name, username, password: hashedPassword });
+    const id = await createUser({
+      email,
+      name,
+      username,
+      password: hashedPassword,
+    });
+
+    await createAuthSession(id);
+    redirect("/library");
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes("email")) {
@@ -58,6 +67,4 @@ export async function signup(
     console.log(error);
     throw error;
   }
-
-  redirect("/library");
 }
