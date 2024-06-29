@@ -8,6 +8,16 @@ import { ListItem } from "./Header";
 import { AvatarIcon } from "./Icons";
 
 import { logout } from "@/actions/auth-actions";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@/components/ui/Navigation-Menu";
 
 type NavBarProps = {
   isMobile: boolean;
@@ -77,15 +87,27 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
             </ListItem>
             {user ? (
               <div className="px-3">
-                <Avatar>
-                  <AvatarImage src="" />
-                  <AvatarFallback>
-                    <AvatarIcon fill="#52525b" classes="h-9 w-7" />
-                  </AvatarFallback>
-                </Avatar>
-                {/* <form action={logout}>
-                  <button>Logout</button>
-                </form> */}
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger className="!bg-transparent !p-0">
+                        <Avatar>
+                          <AvatarImage src="" />
+                          <AvatarFallback>
+                            <AvatarIcon fill="#52525b" classes="h-9 w-7" />
+                          </AvatarFallback>
+                        </Avatar>
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <NavigationMenuLink>
+                          <form action={logout} className="px-2.5 py-1.5">
+                            <button>Logout</button>
+                          </form>
+                        </NavigationMenuLink>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+                </NavigationMenu>
               </div>
             ) : null}
           </>
