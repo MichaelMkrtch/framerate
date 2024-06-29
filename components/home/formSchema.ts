@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export const signupFormSchema = z.object({
-  email: z.string().trim().email({ message: "Invalid email address." }),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Invalid email address." })
+    .toLowerCase(),
   name: z
     .string()
     .trim()
@@ -20,7 +24,11 @@ export const signupFormSchema = z.object({
 });
 
 export const loginFormSchema = z.object({
-  email: z.string().trim().email({ message: "Invalid email address. " }),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Invalid email address. " })
+    .toLowerCase(),
   password: z
     .string()
     .trim()

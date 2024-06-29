@@ -42,7 +42,7 @@ export async function signup(
     };
   }
 
-  if (!/^[a-z_-]+$/.test(parsed.data.name)) {
+  if (!/^[a-zA-Z_-]+$/.test(parsed.data.name)) {
     return {
       status: "fail",
       message:
@@ -53,7 +53,8 @@ export async function signup(
   if (!/^[a-z0-9_-]+$/.test(parsed.data.username)) {
     return {
       status: "fail",
-      message: "Special characters are not allowed in the username field",
+      message:
+        "Special or uppercase characters are not allowed in the username field",
     };
   }
 
