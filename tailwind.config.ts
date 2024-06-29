@@ -21,6 +21,7 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "ios-safari-prevent-scroll-on-focus": "ios-safari-prevent-scroll-on-focus 0.1s"
       },
       backgroundImage: {
         "backdrop-shadow":
@@ -51,6 +52,10 @@ const config = {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
+        },
+        "ios-safari-prevent-scroll-on-focus": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
       },
       screens: {

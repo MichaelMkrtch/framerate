@@ -31,7 +31,7 @@ function AuthModalContent({
   const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
   return (
-    <DialogContent className="hidden h-fit w-1/2 max-w-md border-0 p-6 text-zinc-300 caret-zinc-300 outline-none ring-1 md:block dark:bg-neutral-900 dark:ring-neutral-800">
+    <DialogContent className="top-[30%] w-4/5 border-0 p-6 text-zinc-300 caret-zinc-300 outline-none ring-1 md:top-[50%] md:w-1/2 md:max-w-md dark:bg-neutral-900 dark:ring-neutral-800">
       <DialogHeader className="mb-6">
         <DialogTitle className="tracking-wide">{title}</DialogTitle>
         <DialogDescription className="pt-1 text-zinc-200">

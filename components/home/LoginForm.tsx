@@ -65,12 +65,7 @@ export default function LoginForm() {
               <FormItem className="pb-6">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <FormControl>
-                  <Input
-                    id="email"
-                    placeholder="Email"
-                    field={field}
-                    autocomplete="email"
-                  />
+                  <Input id="email" field={field} autocomplete="email" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
