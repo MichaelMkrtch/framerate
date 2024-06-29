@@ -2,10 +2,13 @@
 
 import { redirect } from "next/navigation";
 
-import { formSchema } from "@/components/home/formSchema";
+import {
+  loginFormSchema,
+  signupFormSchema,
+} from "@/components/home/formSchema";
 import { createAuthSession } from "@/lib/auth";
-import { hashUserPassword } from "@/lib/hash";
-import { createUser } from "@/lib/user";
+import { hashUserPassword, verifyPassword } from "@/lib/hash";
+import { createUser, getUserByEmail } from "@/lib/user";
 
 type FormState = {
   status: string;
@@ -17,7 +20,7 @@ export async function signup(
   data: FormData,
 ): Promise<FormState> {
   const formData = Object.fromEntries(data);
-  const parsed = formSchema.safeParse(formData);
+  const parsed = signupFormSchema.safeParse(formData);
 
   if (!parsed.success) {
     return {
@@ -34,7 +37,23 @@ export async function signup(
   ) {
     return {
       status: "fail",
-      message: "Please remove instances of 'support' or 'admin'",
+      message:
+        "Please remove instances of 'support' or 'admin' from username or name fields",
+    };
+  }
+
+  if (!/^[a-z_-]+$/.test(parsed.data.name)) {
+    return {
+      status: "fail",
+      message:
+        "Special characters or numbers are not allowed in the name field",
+    };
+  }
+
+  if (!/^[a-z0-9_-]+$/.test(parsed.data.username)) {
+    return {
+      status: "fail",
+      message: "Special characters are not allowed in the username field",
     };
   }
 
@@ -51,7 +70,7 @@ export async function signup(
     });
 
     await createAuthSession(id);
-    redirect("/library");
+    redirect("/");
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes("email")) {
@@ -67,4 +86,42 @@ export async function signup(
     console.log(error);
     throw error;
   }
+}
+
+export async function login(
+  prevState: FormState,
+  data: FormData,
+): Promise<FormState> {
+  const formData = Object.fromEntries(data);
+  const parsed = loginFormSchema.safeParse(formData);
+
+  if (!parsed.success) {
+    return {
+      status: "fail",
+      message: "Please fill all fields correctly",
+    };
+  }
+
+  const { email, password } = parsed.data;
+
+  const existingUser = await getUserByEmail(email);
+
+  if (!existingUser || existingUser.length === 0) {
+    return {
+      status: "fail",
+      message: "Could not authenticate user. Please check your credentials",
+    };
+  }
+
+  const isValidPassword = verifyPassword(existingUser[0].password, password);
+
+  if (!isValidPassword) {
+    return {
+      status: "fail",
+      message: "Could not authenticate user. Please check your credentials",
+    };
+  }
+
+  await createAuthSession(existingUser[0].id);
+  redirect("/");
 }

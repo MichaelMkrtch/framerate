@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const formSchema = z.object({
+export const signupFormSchema = z.object({
   email: z.string().trim().email({ message: "Invalid email address." }),
   name: z
     .string()
@@ -17,4 +17,12 @@ export const formSchema = z.object({
     .trim()
     .min(10, { message: "Password must be at least 10 characters." })
     .max(30, { message: "Password must be at most 30 characters." }),
+});
+
+export const loginFormSchema = z.object({
+  email: z.string().trim().email({ message: "Invalid email address. " }),
+  password: z
+    .string()
+    .trim()
+    .max(80, { message: "Password cannot exceed 80 characters. " }),
 });

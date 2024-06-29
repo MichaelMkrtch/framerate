@@ -1,7 +1,3 @@
-import QueryProvider from "@/components/QueryProvider";
-import Header from "@/components/ui/Header";
-import { Toaster } from "@/components/ui/Sonner";
-import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
 import {
   HydrationBoundary,
   QueryClient,
@@ -9,7 +5,6 @@ import {
 } from "@tanstack/react-query";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import type { Metadata } from "next";
 import {
   League_Gothic,
   Noto_Sans_JP,
@@ -17,6 +12,11 @@ import {
 } from "next/font/google";
 
 import "./globals.css";
+
+import QueryProvider from "@/components/QueryProvider";
+import Header from "@/components/ui/Header";
+import { Toaster } from "@/components/ui/Sonner";
+import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
 
 const leagueGothic = League_Gothic({
   subsets: ["latin"],
@@ -31,7 +31,7 @@ const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto",
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Lumière",
   description:
     "Lumière is a social platform for sharing your interests in film. Use it to record your opinions about films you watch, or just to keep track of what you've seen!",

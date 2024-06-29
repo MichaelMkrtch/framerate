@@ -1,14 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Dispatch, type SetStateAction, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Toaster } from "../ui/Sonner";
-import { formSchema } from "./formSchema";
+import { signupFormSchema } from "./formSchema";
 
 import { signup } from "@/actions/auth-actions";
 import {
@@ -21,11 +20,7 @@ import {
 } from "@/components/ui/Form";
 import Input from "@/components/ui/Input";
 
-export default function SignupForm({
-  setOpen,
-}: {
-  setOpen: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function SignupForm() {
   const [formState, formAction] = useFormState(signup, {
     status: "",
     message: "",
@@ -34,8 +29,8 @@ export default function SignupForm({
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signupFormSchema>>({
+    resolver: zodResolver(signupFormSchema),
     defaultValues: {
       email: "",
       name: "",
@@ -53,7 +48,6 @@ export default function SignupForm({
   }
 
   if (formState.status === "success") {
-    setOpen(false);
     toast.success(formState.message);
     formState.status = "";
   } else if (formState.status === "fail") {
@@ -82,12 +76,7 @@ export default function SignupForm({
               <FormItem className="pb-6">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <FormControl>
-                  <Input
-                    id="email"
-                    placeholder="john@email.com"
-                    field={field}
-                    autocomplete="email"
-                  />
+                  <Input id="email" field={field} autocomplete="email" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -100,12 +89,7 @@ export default function SignupForm({
               <FormItem>
                 <FormLabel htmlFor="name">Name</FormLabel>
                 <FormControl>
-                  <Input
-                    id="name"
-                    placeholder="John"
-                    field={field}
-                    autocomplete="name"
-                  />
+                  <Input id="name" field={field} autocomplete="name" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,12 +104,7 @@ export default function SignupForm({
               <FormItem className="pb-6">
                 <FormLabel htmlFor="username">Username</FormLabel>
                 <FormControl>
-                  <Input
-                    id="username"
-                    placeholder="john123"
-                    field={field}
-                    autocomplete="username"
-                  />
+                  <Input id="username" field={field} autocomplete="username" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

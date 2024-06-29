@@ -1,19 +1,23 @@
-import { type ControllerRenderProps, FieldPath } from "react-hook-form";
+import { type ControllerRenderProps } from "react-hook-form";
+
+type Field =
+  | ControllerRenderProps<
+      {
+        name: string;
+        email: string;
+        username: string;
+        password: string;
+      },
+      any
+    >
+  | ControllerRenderProps<{ email: string; password: string }, any>;
 
 type InputProps = {
   id: string;
   type?: string;
   placeholder?: string;
   autocomplete?: string;
-  field: ControllerRenderProps<
-    {
-      name: string;
-      email: string;
-      username: string;
-      password: string;
-    },
-    any
-  >;
+  field: Field;
 };
 
 export default function Input({
