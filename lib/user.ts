@@ -1,4 +1,3 @@
-// import supabase from "@/utils/supabase/client";
 import { eq } from "drizzle-orm";
 
 import { type InsertUser, usersTable } from "../db/schema";

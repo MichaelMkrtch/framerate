@@ -1,5 +1,6 @@
 "use client";
 
+import { type User } from "lucia";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -36,7 +37,7 @@ export function ListItem({ path, handleClick, children }: ListItemProps) {
   );
 }
 
-export default function Header() {
+export default function Header({ user }: { user: User | null }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const [isClient, setIsClient] = useState(false);
@@ -53,7 +54,7 @@ export default function Header() {
         </h1>
       </Link>
 
-      <NavBar isMobile={isMobile} />
+      <NavBar isMobile={isMobile} user={user} />
 
       <SearchModal>
         {isClient && isMobile ? (

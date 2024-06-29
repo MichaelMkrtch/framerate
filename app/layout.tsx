@@ -16,6 +16,7 @@ import "./globals.css";
 import QueryProvider from "@/components/QueryProvider";
 import Header from "@/components/ui/Header";
 import { Toaster } from "@/components/ui/Sonner";
+import { validateRequest } from "@/lib/auth";
 import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
 
 const leagueGothic = League_Gothic({
@@ -38,6 +39,7 @@ export const metadata = {
 };
 
 async function PrefetchHeader() {
+  const result = await validateRequest();
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -48,7 +50,7 @@ async function PrefetchHeader() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Header />
+      <Header user={result.user} />
     </HydrationBoundary>
   );
 }

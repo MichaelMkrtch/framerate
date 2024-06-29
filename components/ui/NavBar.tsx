@@ -1,14 +1,18 @@
+import { type User } from "lucia";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 import { ListItem } from "./Header";
 
+import { logout } from "@/actions/auth-actions";
+
 type NavBarProps = {
   isMobile: boolean;
+  user: User | null;
 };
 
-export default function NavBar({ isMobile }: NavBarProps) {
+export default function NavBar({ isMobile, user }: NavBarProps) {
   const [activePath, setActivePath] = useState<string>();
   const [linkName, setLinkName] = useState<string>("");
   const pathname = usePathname();
@@ -69,6 +73,11 @@ export default function NavBar({ isMobile }: NavBarProps) {
             <ListItem path="/library" handleClick={handleClick}>
               Library
             </ListItem>
+            {user ? (
+              <form action={logout}>
+                <button>Logout</button>
+              </form>
+            ) : null}
           </>
         )}
       </ul>
