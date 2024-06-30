@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { HideIcon, ShowIcon } from "../ui/Icons";
 import { signupFormSchema } from "./formSchema";
 
 import { signup } from "@/actions/auth-actions";
@@ -18,9 +19,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/Form";
-import Input from "@/components/ui/Input";
+import { Input } from "@/components/ui/Input";
 
 export default function SignupForm() {
+  const [isVisible, setIsVisible] = useState(false);
+
   const [formState, formAction] = useFormState(signup, {
     status: "",
     message: "",
@@ -55,6 +58,14 @@ export default function SignupForm() {
     formState.status = "";
   }
 
+  function toggleVisibility() {
+    if (isVisible) {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  }
+
   return (
     <Form {...form}>
       <form
@@ -74,9 +85,9 @@ export default function SignupForm() {
             name="email"
             render={({ field }) => (
               <FormItem className="pb-6">
-                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input id="email" field={field} autocomplete="email" />
+                  <Input type="email" autoComplete="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,9 +98,9 @@ export default function SignupForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="name">Name</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input id="name" field={field} autocomplete="name" />
+                  <Input type="name" autoComplete="name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -102,9 +113,9 @@ export default function SignupForm() {
             name="username"
             render={({ field }) => (
               <FormItem className="pb-6">
-                <FormLabel htmlFor="username">Username</FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input id="username" field={field} autocomplete="username" />
+                  <Input type="username" autoComplete="username" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -115,14 +126,29 @@ export default function SignupForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <FormControl id="password">
-                  <Input
-                    id="password"
-                    type="password"
-                    field={field}
-                    autocomplete="password"
-                  />
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <div className="flex rounded bg-neutral-800 ring-1 ring-white/10">
+                    <Input
+                      type={isVisible ? "text" : "password"}
+                      autoComplete="new-password"
+                      minLength={10}
+                      maxLength={30}
+                      className="ring-0"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      className="relative right-2 float-right pl-3 pr-2.5 outline-none"
+                      onClick={toggleVisibility}
+                    >
+                      {isVisible ? (
+                        <HideIcon fill="#d4d4d8" classes="h-5 w-5" />
+                      ) : (
+                        <ShowIcon fill="#d4d4d8" classes="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

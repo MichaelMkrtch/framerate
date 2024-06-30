@@ -63,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} bg-gray-950 font-jakarta text-zinc-200`}
+        className={`${leagueGothic.variable} ${notoSansJP.variable} ${plusJKSans.variable} !pointer-events-auto bg-gray-950 font-jakarta text-zinc-200`}
       >
         <div
           className="inset-0 h-[calc(100dvh)] pb-4 md:px-8 md:py-0"

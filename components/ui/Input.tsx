@@ -1,40 +1,25 @@
-import { type ControllerRenderProps } from "react-hook-form";
+import * as React from "react";
 
-type Field =
-  | ControllerRenderProps<
-      {
-        name: string;
-        email: string;
-        username: string;
-        password: string;
-      },
-      any
-    >
-  | ControllerRenderProps<{ email: string; password: string }, any>;
+import { cn } from "@/lib/utils";
 
-type InputProps = {
-  id: string;
-  type?: string;
-  placeholder?: string;
-  autocomplete?: string;
-  field: Field;
-};
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-export default function Input({
-  id,
-  field,
-  placeholder = "",
-  type = "text",
-  autocomplete = "on",
-}: InputProps) {
-  return (
-    <input
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      className="focus:animate-ios-safari-prevent-scroll-on-focus block w-full rounded bg-neutral-800 px-2 py-2 font-medium outline-none ring-1 ring-white/10 placeholder:select-none placeholder:font-medium placeholder:text-gray-750 md:focus:animate-none"
-      autoComplete={autocomplete}
-      {...field}
-    />
-  );
-}
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "focus:animate-ios-safari-prevent-scroll-on-focus flex h-9 w-full rounded px-3 py-2 text-sm font-medium text-zinc-200 shadow-sm outline-none ring-1 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:select-none placeholder:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:focus:animate-none dark:bg-neutral-800 dark:ring-white/10 dark:placeholder:text-gray-750",
+          className,
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+Input.displayName = "Input";
+
+export { Input };
