@@ -20,24 +20,24 @@ export default async function Home() {
       <Trending />
     </>
   ) : (
-    <>
-      <AuthModal>
-        <AuthModal.Trigger asChild>
-          <button className="rounded bg-emerald-400 px-4 py-2 font-medium text-gray-850">
-            Sign Up
-          </button>
-        </AuthModal.Trigger>
+    <div className="m-auto flex h-full items-center justify-center">
+      <div className="flex w-[214px] justify-between">
+        <AuthModal>
+          <AuthModal.Trigger asChild>
+            <button className="rounded bg-emerald-400 px-4 py-2 font-medium text-gray-850">
+              Sign up
+            </button>
+          </AuthModal.Trigger>
 
-        <AuthModal.Content title="Join Lumière">
-          <SignupForm />
-        </AuthModal.Content>
-      </AuthModal>
+          <AuthModal.Content title="Join Lumière">
+            <SignupForm />
+          </AuthModal.Content>
+        </AuthModal>
 
-      <div className="ml-4 inline-block">
         <AuthModal>
           <AuthModal.Trigger asChild>
             <button className="rounded bg-cyan-350 px-4 py-2 font-medium text-gray-850">
-              Login
+              Log in
             </button>
           </AuthModal.Trigger>
 
@@ -46,7 +46,7 @@ export default async function Home() {
           </AuthModal.Content>
         </AuthModal>
       </div>
-    </>
+    </div>
   );
 
   const queryClient = new QueryClient();
@@ -58,7 +58,9 @@ export default async function Home() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <main className="px-3 pt-20 md:px-0 md:pt-32">{pageContent}</main>
+      <main className="h-[calc(90dvh)] px-3 pt-20 md:px-0 md:pt-32">
+        {pageContent}
+      </main>
     </HydrationBoundary>
   );
 }

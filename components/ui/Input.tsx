@@ -32,7 +32,7 @@ export default function Input({
       id={id}
       type={type}
       placeholder={placeholder}
-      className="focus:animate-ios-safari-prevent-scroll-on-focus block w-full rounded bg-neutral-800 px-2 py-2 font-medium outline-none ring-1 ring-white/10 placeholder:select-none placeholder:font-medium placeholder:text-gray-750"
+      className="focus:animate-ios-safari-prevent-scroll-on-focus block w-full rounded bg-neutral-800 px-2 py-2 font-medium outline-none ring-1 ring-white/10 placeholder:select-none placeholder:font-medium placeholder:text-gray-750 md:focus:animate-none"
       autoComplete={autocomplete}
       {...field}
     />

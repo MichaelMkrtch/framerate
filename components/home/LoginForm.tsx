@@ -78,7 +78,12 @@ export default function LoginForm() {
               <FormItem>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <FormControl>
-                  <Input id="password" type="password" field={field} />
+                  <Input
+                    id="password"
+                    type="password"
+                    field={field}
+                    autocomplete="password"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

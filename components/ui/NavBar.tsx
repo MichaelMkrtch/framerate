@@ -94,7 +94,10 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
                         <Avatar>
                           <AvatarImage src="" />
                           <AvatarFallback>
-                            <AvatarIcon fill="#52525b" classes="h-8 w-6" />
+                            <AvatarIcon
+                              fill="#52525b"
+                              classes="h-8 w-6 opacity-[55%]"
+                            />
                           </AvatarFallback>
                         </Avatar>
                       </NavigationMenuTrigger>

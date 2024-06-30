@@ -71,7 +71,6 @@ export async function signup(
     });
 
     await createAuthSession(id);
-    redirect("/");
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes("email")) {
@@ -86,6 +85,8 @@ export async function signup(
     }
     console.log(error);
     throw error;
+  } finally {
+    redirect("/");
   }
 }
 

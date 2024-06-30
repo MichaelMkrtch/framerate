@@ -116,8 +116,13 @@ export default function SignupForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="password">Password</FormLabel>
-                <FormControl>
-                  <Input id="password" type="password" field={field} />
+                <FormControl id="password">
+                  <Input
+                    id="password"
+                    type="password"
+                    field={field}
+                    autocomplete="password"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
