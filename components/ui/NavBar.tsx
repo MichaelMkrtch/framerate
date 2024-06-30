@@ -96,7 +96,7 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
                           <AvatarFallback>
                             <AvatarIcon
                               fill="#52525b"
-                              classes="h-8 w-6 opacity-[55%]"
+                              classes="h-7 w-5 opacity-[55%]"
                             />
                           </AvatarFallback>
                         </Avatar>
