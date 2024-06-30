@@ -87,7 +87,12 @@ export default function SignupForm() {
               <FormItem className="pb-6">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" autoComplete="email" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    autoComplete="email"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -100,7 +105,12 @@ export default function SignupForm() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input type="name" autoComplete="name" {...field} />
+                  <Input
+                    type="name"
+                    placeholder="Enter your name"
+                    autoComplete="name"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -115,7 +125,12 @@ export default function SignupForm() {
               <FormItem className="pb-6">
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input type="username" autoComplete="username" {...field} />
+                  <Input
+                    type="username"
+                    placeholder="Enter your username"
+                    autoComplete="username"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -131,15 +146,16 @@ export default function SignupForm() {
                   <div className="flex rounded bg-neutral-800 ring-1 ring-white/10">
                     <Input
                       type={isVisible ? "text" : "password"}
+                      placeholder="Enter your password"
                       autoComplete="new-password"
                       minLength={10}
                       maxLength={30}
-                      className="ring-0"
+                      className="peer ring-0"
                       {...field}
                     />
                     <button
                       type="button"
-                      className="relative right-2 float-right pl-3 pr-2.5 outline-none"
+                      className="relative right-2 float-right pl-3 pr-2.5 outline-none peer-placeholder-shown:hidden"
                       onClick={toggleVisibility}
                     >
                       {isVisible ? (
@@ -179,7 +195,7 @@ export default function SignupForm() {
               type="submit"
               className="rounded bg-emerald-400 px-3 py-1.5 font-medium text-gray-850 outline-none ring-1 ring-emerald-300 transition-all duration-150 ease-in hover:shadow-[0_2px_20px_rgba(52,_211,_153,_0.7)]"
             >
-              Submit
+              Let&apos;s go
             </button>
           )}
         </div>

@@ -25,7 +25,7 @@ export default async function Home() {
         <AuthModal>
           <AuthModal.Trigger asChild>
             <button className="rounded bg-emerald-400 px-4 py-2 font-medium text-gray-850">
-              Sign up
+              Get started
             </button>
           </AuthModal.Trigger>
 
@@ -37,11 +37,11 @@ export default async function Home() {
         <AuthModal>
           <AuthModal.Trigger asChild>
             <button className="rounded bg-cyan-350 px-4 py-2 font-medium text-gray-850">
-              Log in
+              Sign in
             </button>
           </AuthModal.Trigger>
 
-          <AuthModal.Content title="Login">
+          <AuthModal.Content title="Sign in to your account">
             <LoginForm />
           </AuthModal.Content>
         </AuthModal>
