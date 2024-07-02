@@ -18,10 +18,11 @@ export default function PosterGrid({
   tooltipEnabled,
 }: PosterGridProps) {
   return (
-    <div className="md-tablet:gap-3 md-tablet:grid-cols-5 grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 lg:gap-4 xl:gap-[18px]">
+    <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md-tablet:grid-cols-5 md-tablet:gap-3 lg:grid-cols-6 lg:gap-4 xl:gap-[18px]">
       {reviews &&
         reviews.map((result) => {
           const simpleTitle = getSimpleTitle(result.title);
+          const rating = result.rating && parseFloat(result.rating);
 
           const tooltipContent = (
             <div className="max-w-48">
@@ -29,7 +30,7 @@ export default function PosterGrid({
                 <p className="font-medium tracking-wide">{result.title}</p>
                 <div className="mt-2 flex justify-end">
                   <StarIcon fill="#FFD43B" classes="h-4 w-4" />
-                  <span className="ml-1 font-semibold">{result.rating}</span>
+                  <span className="ml-1 font-semibold">{rating}</span>
                 </div>
               </div>
             </div>

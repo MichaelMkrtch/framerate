@@ -33,20 +33,20 @@ export default function StarRating({
 
   useEffect(() => {
     (async () => {
-      const result = await getMovieRating();
-      if (result[0].rating !== null) {
+      const result = await getMovieRating({ movieId: film.id });
+      if (result && result.length > 0 && result[0].rating !== null) {
         const dbRating = parseFloat(result[0].rating);
         setRating(dbRating);
       }
     })();
-  }, [setRating]);
+  }, [film.id, setRating]);
 
   async function handleClick(ratingValue: number) {
     const result = await validateRequest();
     if (rating === ratingValue && result.user) {
       setRating(null);
       setHover(null);
-      await deleteMovieReview({ userId: result.user.id, movieId: film.id });
+      await deleteMovieReview({ movieId: film.id });
       toast.info("Rating removed");
     } else {
       setRating(ratingValue);

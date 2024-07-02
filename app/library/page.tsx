@@ -1,27 +1,23 @@
 "use client";
 
-import PosterGrid from "@/components/ui/PosterGrid";
 import { useEffect, useState } from "react";
 
 import { type Review } from "@/types";
+
+import PosterGrid from "@/components/ui/PosterGrid";
+import { getMovies } from "@/lib/review";
 
 export default function Library() {
   const [reviews, setReviews] = useState<Review[]>();
 
   useEffect(() => {
-    function getRatedFilms() {
-      const allKeysJSON = Object.keys(localStorage);
-      const reviewsJSON = allKeysJSON.map((key) => localStorage.getItem(key));
-      const parsedReviews: Review[] = reviewsJSON.map((review) => {
-        if (review) return JSON.parse(review);
-      });
-      const filteredReviews: Review[] = parsedReviews.filter(
-        (review) => review.rating,
-      );
-      setReviews(filteredReviews);
-    }
-
-    getRatedFilms();
+    (async () => {
+      const result = await getMovies();
+      if (result && result.length > 0) {
+        result.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+        setReviews(result);
+      }
+    })();
   }, []);
 
   return <PosterGrid reviews={reviews} />;

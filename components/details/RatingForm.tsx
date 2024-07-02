@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Dispatch, type SetStateAction, useRef } from "react";
+import { useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -16,15 +16,9 @@ import { movieRatingSchema } from "./reviewSchema";
 import { review } from "@/actions/review-action";
 import { validateRequest } from "@/lib/auth";
 
-export default function RatingForm({
-  film,
-  rating,
-  setRating,
-}: {
-  film: Film;
-  rating: number | null;
-  setRating: Dispatch<SetStateAction<number | null>>;
-}) {
+export default function RatingForm({ film }: { film: Film }) {
+  const [rating, setRating] = useState<number | null>(null);
+
   const [formState, formAction] = useFormState(review.bind(null, film), {
     status: "",
     message: "",

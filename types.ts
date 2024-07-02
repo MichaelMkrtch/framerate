@@ -49,6 +49,7 @@ export interface SearchResults {
 export type Review = {
   id: number;
   title: string;
-  rating: number | null;
+  rating: string | null;
   poster_path: string;
+  createdAt: Date;
 };
