@@ -2,6 +2,8 @@
 
 import { type Film } from "@/types";
 
+import { pick } from "@/utils/pickProperties";
+
 import { movieRatingSchema } from "@/components/details/reviewSchema";
 import { validateRequest } from "@/lib/auth";
 import { createMovie } from "@/lib/movie";
@@ -49,23 +51,15 @@ export async function review(
     };
   }
 
-  const {
-    id,
-    title,
-    poster_path,
-    backdrop_path,
-    release_date,
-    runtime,
-    ...remainingfilmData
-  } = filmData;
-  const film = {
-    id,
-    title,
-    posterPath: poster_path,
-    backdropPath: backdrop_path,
-    releaseDate: release_date,
-    runtime,
-  };
+  const film = pick(
+    filmData,
+    "id",
+    "title",
+    "posterPath",
+    "backdropPath",
+    "releaseDate",
+    "runtime",
+  );
 
   try {
     const { rating } = parsed.data;

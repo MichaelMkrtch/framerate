@@ -1,5 +1,7 @@
 import { type CrewMember, type Film } from "@/types";
 
+import { recursiveToCamel } from "@/utils/snakeCaseToCamelCase";
+
 const API_TOKEN = process.env.API_TOKEN as string;
 
 export async function fetchDetails(id: number) {
@@ -44,7 +46,9 @@ export async function fetchDetails(id: number) {
       data.director = "Unknown";
     }
 
-    return data;
+    const formattedData = recursiveToCamel(data);
+
+    return formattedData;
   } catch (error) {
     console.log(error);
   }

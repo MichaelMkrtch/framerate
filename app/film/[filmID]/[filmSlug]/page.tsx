@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 
 import useFetchDetails from "@/hooks/useFetchDetails";
 
+import { pick } from "@/utils/pickProperties";
+
 import DetailsSection from "@/components/details/DetailsSection";
 import Backdrop from "@/components/ui/Backdrop";
-import { getMovie } from "@/lib/movie";
+import { createMovie, getMovie } from "@/lib/movie";
 
 type Movie = {
   id: number;
@@ -29,22 +31,37 @@ export default function FilmDetailsPage() {
   const fetchedFilm = detailsList[0];
 
   useEffect(() => {
-    async () => {
+    (async () => {
+      const film =
+        fetchedFilm &&
+        pick(
+          fetchedFilm,
+          "id",
+          "title",
+          "posterPath",
+          "backdropPath",
+          "releaseDate",
+          "runtime",
+        );
+      film && (await createMovie(film));
       const result = await getMovie({ movieId: filmID });
       if (result.length > 0) {
-        console.log(result[0]);
         setMovie(result[0]);
       }
-    };
-  }, [filmID]);
+    })();
+  }, [filmID, fetchedFilm]);
 
   return (
-    fetchedFilm && (
+    movie && (
       <>
-        <Backdrop
-          title={movie ? movie.title : fetchedFilm.title}
-          backdrop_path={movie ? movie.backdropPath : fetchedFilm.backdrop_path}
-        />
+        {movie && (
+          <Backdrop
+            title={movie ? movie.title : fetchedFilm.title}
+            backdrop_path={
+              movie ? movie.backdropPath : fetchedFilm.backdropPath
+            }
+          />
+        )}
         <div className="px-3.5 md:px-0">
           <DetailsSection
             film={fetchedFilm}

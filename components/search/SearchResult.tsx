@@ -1,4 +1,3 @@
-import { useFilmStore } from "@/store/filmStore";
 import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode, forwardRef } from "react";
@@ -8,6 +7,8 @@ import { type Film } from "@/types";
 import getSimpleTitle from "@/utils/getSimpleTitle";
 
 import Modal from "../ui/Modal";
+
+import { useFilmStore } from "@/store/filmStore";
 
 interface SearchResultProps extends Film {
   renderIndex: number;
@@ -46,7 +47,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
 
     const poster = (
       <Image
-        src={`${IMG_BASE_URL}w92${film.poster_path}`}
+        src={`${IMG_BASE_URL}w92${film.posterPath}`}
         alt={`A poster from the film ${film.title}`}
         width={92}
         height={138}
@@ -68,7 +69,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
             className="flex w-full cursor-default items-center outline-none"
           >
             <div className="pointer-events-none mr-1.5 flex md:px-2">
-              {film.poster_path ? poster : gradient}
+              {film.posterPath ? poster : gradient}
             </div>
             {/* <div className="flex items-baseline text-left text-base">
               <p className="w-full">
@@ -80,7 +81,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
             </div> */}
             <div className="flex flex-col items-baseline text-left">
               <p className="text-[15px] font-medium">
-                {children} ({film.release_date.slice(0, 4)})
+                {children} ({film.releaseDate.slice(0, 4)})
               </p>
               <p className="text-nowrap text-xs font-semibold tracking-wide text-neutral-500 md:text-sm md:font-medium md:text-neutral-700">
                 {film.director}

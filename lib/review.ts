@@ -64,7 +64,7 @@ export async function getMovies() {
       .select({
         id: movieReviewsTable.movieId,
         title: moviesTable.title,
-        poster_path: moviesTable.posterPath,
+        posterPath: moviesTable.posterPath,
         rating: movieReviewsTable.rating,
         createdAt: movieReviewsTable.createdAt,
       })

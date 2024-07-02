@@ -65,7 +65,7 @@ export const movieReviewsTable = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
-    rated_at: timestamp("rated_at", { withTimezone: true, mode: "date" })
+    ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
   },

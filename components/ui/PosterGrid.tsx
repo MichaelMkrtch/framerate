@@ -47,7 +47,7 @@ export default function PosterGrid({
               <Link href={`/film/${result.id}/${simpleTitle}`}>
                 <Poster
                   title={result.title}
-                  src={result.poster_path}
+                  src={result.posterPath}
                   fetchSize="w342"
                   width={160}
                   height={240}

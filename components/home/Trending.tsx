@@ -1,5 +1,12 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+
+import getSimpleTitle from "@/utils/getSimpleTitle";
+
+import Poster from "../ui/Poster";
+
 import {
   Carousel,
   CarouselContent,
@@ -8,12 +15,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/Carousel";
 import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-
-import getSimpleTitle from "@/utils/getSimpleTitle";
-
-import Poster from "../ui/Poster";
 
 export default function Trending() {
   let trendingData;
@@ -48,7 +49,7 @@ export default function Trending() {
                 <div className="transition-all duration-150 hover:scale-105">
                   <Poster
                     title={film.title}
-                    src={film.poster_path}
+                    src={film.posterPath}
                     fetchSize="w342"
                     width={160}
                     height={240}

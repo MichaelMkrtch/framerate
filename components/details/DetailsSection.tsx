@@ -19,7 +19,7 @@ export default function DetailsSection({
         <aside className="mr-6 shrink-0 md:h-[300px] md:w-[200px] lg:h-[345px] lg:w-[230px] xl:mr-16">
           <Poster
             title={film.title}
-            src={posterPath ? posterPath : film.poster_path}
+            src={posterPath ? posterPath : film.posterPath}
             fetchSize="w500"
             width={230}
             height={345}
@@ -31,7 +31,7 @@ export default function DetailsSection({
           <Credits
             title={film.title}
             director={film.director}
-            releaseDate={film.release_date}
+            releaseDate={film.releaseDate}
           />
           <div className="mt-3 w-full pr-6 lg:mt-5 lg:w-11/12 lg:pr-0 xl:w-4/5">
             <Details tagline={film.tagline} overview={film.overview} />
@@ -52,13 +52,13 @@ export default function DetailsSection({
             <Credits
               title={film.title}
               director={film.director}
-              releaseDate={film.release_date}
+              releaseDate={film.releaseDate}
             />
           </div>
           <aside className="-mt-5 h-48 w-32 shrink-0">
             <Poster
               title={film.title}
-              src={film.poster_path}
+              src={posterPath ? posterPath : film.posterPath}
               fetchSize="w500"
               width={230}
               height={345}

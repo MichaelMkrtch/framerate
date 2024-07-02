@@ -1,4 +1,6 @@
-import { SearchResults } from "@/types";
+import { type SearchResults } from "@/types";
+
+import { recursiveToCamel } from "@/utils/snakeCaseToCamelCase";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 
@@ -22,9 +24,12 @@ export async function fetchTrendingMovies(timeWindow: string) {
     }
 
     const data: SearchResults = await response.json();
-    const results = data.results;
+
+    const formattedData = recursiveToCamel(data) as SearchResults;
+
+    const results = formattedData.results;
     results.forEach(
-      (film) => (film.release_date = film.release_date.slice(0, 4)),
+      (film) => (film.releaseDate = film.releaseDate.slice(0, 4)),
     );
 
     return results;
