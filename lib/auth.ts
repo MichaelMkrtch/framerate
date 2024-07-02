@@ -1,3 +1,5 @@
+"use server";
+
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { Lucia, type Session, type User } from "lucia";
 import { cookies } from "next/headers";

@@ -42,11 +42,11 @@ export async function signup(
     };
   }
 
-  if (!/^[a-zA-Z_-]+$/.test(parsed.data.name)) {
+  if (!/^\w+( \w+)*$/.test(parsed.data.name)) {
     return {
       status: "fail",
       message:
-        "Special characters or numbers are not allowed in the name field",
+        "Special characters, numbers, and excess spaces are not allowed in the name field.",
     };
   }
 

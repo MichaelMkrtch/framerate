@@ -7,8 +7,8 @@ import parseData from "@/utils/parseData";
 
 import Card from "../ui/Card";
 import { StarIcon } from "../ui/Icons";
-import StarRating from "../ui/StarRating";
 import IconsSection from "./IconsSection";
+import RatingForm from "./RatingForm";
 
 type RatingCardProps = {
   film: Film;
@@ -62,7 +62,7 @@ export default function RatingCard({ film }: RatingCardProps) {
             </div>
           </div>
         </div>
-        <StarRating id={film.id} rating={rating} setRating={setRating} />
+        <RatingForm film={film} rating={rating} setRating={setRating} />
         <div className="hidden md:block">
           <IconsSection />
         </div>

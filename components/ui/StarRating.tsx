@@ -1,23 +1,27 @@
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { type Review } from "@/types";
-
-import parseData from "@/utils/parseData";
+import { type Film } from "@/types";
 
 import { StarIcon } from "./Icons";
 
+import { validateRequest } from "@/lib/auth";
+import { deleteMovieReview, getMovieRating } from "@/lib/review";
+
 type StarRatingProps = {
-  id: number;
-  rating: number | null;
+  film: Film;
+  rating?: number | null;
   setRating: Dispatch<SetStateAction<number | null>>;
+  handleRating: () => Promise<void>;
 };
 
-export default function StarRating({ id, rating, setRating }: StarRatingProps) {
+export default function StarRating({
+  film,
+  rating,
+  setRating,
+  handleRating,
+}: StarRatingProps) {
   const [hover, setHover] = useState<number | null>(null);
-  const [storedReview, setStoredReview] = useState(
-    localStorage.getItem(id.toString()),
-  );
 
   const groupedStars = [
     [0.5, 1],
@@ -27,24 +31,25 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
     [4.5, 5],
   ];
 
-  // const storedReview = localStorage.getItem(id.toString());
-
   useEffect(() => {
-    const parsedFilm: Review | null = parseData(storedReview);
-    if (parsedFilm) {
-      setRating(parsedFilm.rating);
-    }
-  }, [storedReview, setRating]);
+    (async () => {
+      const result = await getMovieRating();
+      if (result[0].rating !== null) {
+        const dbRating = parseFloat(result[0].rating);
+        setRating(dbRating);
+      }
+    })();
+  }, [setRating]);
 
-  function handleRating(ratingValue: number | null) {
-    if (rating === ratingValue) {
+  async function handleClick(ratingValue: number) {
+    const result = await validateRequest();
+    if (rating === ratingValue && result.user) {
       setRating(null);
       setHover(null);
-      localStorage.removeItem(id.toString());
+      await deleteMovieReview({ userId: result.user.id, movieId: film.id });
       toast.info("Rating removed");
     } else {
       setRating(ratingValue);
-      toast.success("Rating added");
     }
   }
 
@@ -69,7 +74,10 @@ export default function StarRating({ id, rating, setRating }: StarRatingProps) {
                       type="radio"
                       name="rating"
                       value={ratingValue}
-                      onClick={() => handleRating(ratingValue)}
+                      onClick={() => {
+                        handleClick(ratingValue);
+                        if (rating !== ratingValue) handleRating();
+                      }}
                       className="hidden"
                     />
                     <StarIcon
