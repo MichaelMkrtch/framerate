@@ -5,11 +5,13 @@ import Credits from "./Credits";
 import Details from "./Details";
 import RatingCard from "./RatingCard";
 
-type DetailsSectionProps = {
+export default function DetailsSection({
+  film,
+  posterPath,
+}: {
   film: Film;
-};
-
-export default function DetailsSection({ film }: DetailsSectionProps) {
+  posterPath: string | null;
+}) {
   return (
     <>
       {/* Tablet and Desktop layout */}
@@ -17,7 +19,7 @@ export default function DetailsSection({ film }: DetailsSectionProps) {
         <aside className="mr-6 shrink-0 md:h-[300px] md:w-[200px] lg:h-[345px] lg:w-[230px] xl:mr-16">
           <Poster
             title={film.title}
-            src={film.poster_path}
+            src={posterPath ? posterPath : film.poster_path}
             fetchSize="w500"
             width={230}
             height={345}
