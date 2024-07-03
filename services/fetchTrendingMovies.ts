@@ -1,6 +1,6 @@
 import { type SearchResults } from "@/types";
 
-import { recursiveToCamel } from "@/utils/snakeCaseToCamelCase";
+import recursiveToCamel from "@/utils/snakeCaseToCamelCase";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 

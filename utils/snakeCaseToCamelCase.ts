@@ -1,4 +1,4 @@
-export const recursiveToCamel = (item: unknown): unknown => {
+export default function recursiveToCamel(item: unknown): unknown {
   if (Array.isArray(item)) {
     return item.map((el: unknown) => recursiveToCamel(el));
   } else if (typeof item === "function" || item !== Object(item)) {
@@ -14,4 +14,4 @@ export const recursiveToCamel = (item: unknown): unknown => {
       ],
     ),
   );
-};
+}
