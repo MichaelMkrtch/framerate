@@ -10,6 +10,7 @@ import { pick } from "@/utils/pickProperties";
 import DetailsSection from "@/components/details/DetailsSection";
 import Backdrop from "@/components/ui/Backdrop";
 import { createMovie, getMovie } from "@/lib/movie";
+import { getAvgRating } from "@/lib/review";
 
 type Movie = {
   id: number;
@@ -21,8 +22,14 @@ type Movie = {
   runtime: number;
 };
 
+export type StoredRating = {
+  avgRating: number;
+  reviewCount: number;
+};
+
 export default function FilmDetailsPage() {
   const [movie, setMovie] = useState<Movie>();
+  const [storedRating, setStoredRating] = useState<StoredRating>();
 
   const params = useParams<{ filmID: string }>();
   const filmID = parseInt(params.filmID);
@@ -48,6 +55,11 @@ export default function FilmDetailsPage() {
       if (result.length > 0) {
         setMovie(result[0]);
       }
+
+      const average = await getAvgRating({ movieId: filmID });
+      if (average.length > 0) {
+        setStoredRating(average[0]);
+      }
     })();
   }, [filmID, fetchedFilm]);
 
@@ -59,6 +71,7 @@ export default function FilmDetailsPage() {
         <div className="px-3.5 md:px-0">
           <DetailsSection
             film={fetchedFilm}
+            storedRating={storedRating}
             title={movie.title}
             posterPath={movie.posterPath}
           />

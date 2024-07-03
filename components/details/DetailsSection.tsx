@@ -5,12 +5,16 @@ import Credits from "./Credits";
 import Details from "./Details";
 import RatingCard from "./RatingCard";
 
+import { type StoredRating } from "@/app/film/[filmID]/[filmSlug]/page";
+
 export default function DetailsSection({
   film,
+  storedRating,
   title,
   posterPath,
 }: {
   film: Film;
+  storedRating: StoredRating | undefined;
   title: string;
   posterPath: string | null;
 }) {
@@ -40,11 +44,11 @@ export default function DetailsSection({
           </div>
         </div>
         <div className="hidden basis-1/3 items-center justify-end lg:flex">
-          <RatingCard film={film} />
+          <RatingCard film={film} storedRating={storedRating} />
         </div>
       </div>
       <div className="mt-5 hidden items-center justify-start md:flex lg:hidden">
-        <RatingCard film={film} />
+        <RatingCard film={film} storedRating={storedRating} />
       </div>
 
       {/* Mobile Layout */}
@@ -73,7 +77,7 @@ export default function DetailsSection({
           <Details tagline={film.tagline} overview={film.overview} />
         </div>
         <div className="mt-6">
-          <RatingCard film={film} />
+          <RatingCard film={film} storedRating={storedRating} />
         </div>
       </div>
       <footer className="pb-28" />

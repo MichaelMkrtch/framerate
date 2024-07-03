@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, avg, count, eq } from "drizzle-orm";
 
 import { validateRequest } from "./auth";
 
@@ -53,6 +53,18 @@ export async function getMovieRating(data: { movieId: number }) {
       );
     return result;
   }
+}
+
+export async function getAvgRating(data: { movieId: number }) {
+  const result = db
+    .select({
+      avgRating: avg(movieReviewsTable.rating).mapWith(Number),
+      reviewCount: count(movieReviewsTable.rating),
+    })
+    .from(movieReviewsTable)
+    .where(eq(movieReviewsTable.movieId, data.movieId));
+
+  return result;
 }
 
 export async function getMovies() {
