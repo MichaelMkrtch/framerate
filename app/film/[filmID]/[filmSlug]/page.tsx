@@ -55,8 +55,7 @@ export default function FilmDetailsPage() {
     movie &&
     fetchedFilm && (
       <>
-        (
-        <Backdrop title={movie.title} backdrop_path={movie.backdropPath} />)
+        <Backdrop title={movie.title} backdrop_path={movie.backdropPath} />
         <div className="px-3.5 md:px-0">
           <DetailsSection
             film={fetchedFilm}

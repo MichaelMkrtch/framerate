@@ -48,7 +48,7 @@ export default function DetailsSection({
       </div>
 
       {/* Mobile Layout */}
-      <div className="md:hidden">
+      <div className="mt-11 md:hidden">
         <div className="flex w-full pt-[55%] md:hidden">
           <div className="flex grow basis-2/3 flex-col items-baseline pr-3">
             <Credits
@@ -76,6 +76,7 @@ export default function DetailsSection({
           <RatingCard film={film} />
         </div>
       </div>
+      <footer className="pb-28" />
     </>
   );
 }

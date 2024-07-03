@@ -2,11 +2,8 @@
 
 import { type Film } from "@/types";
 
-import { pick } from "@/utils/pickProperties";
-
 import { movieRatingSchema } from "@/components/details/reviewSchema";
 import { validateRequest } from "@/lib/auth";
-import { createMovie } from "@/lib/movie";
 import { createMovieReview } from "@/lib/review";
 
 type FormState = {
@@ -51,22 +48,11 @@ export async function review(
     };
   }
 
-  const film = pick(
-    filmData,
-    "id",
-    "title",
-    "posterPath",
-    "backdropPath",
-    "releaseDate",
-    "runtime",
-  );
-
   try {
     const { rating } = parsed.data;
     const userId = result.user.id;
     const movieId = filmData.id;
 
-    await createMovie(film);
     await createMovieReview({ userId, movieId, rating });
 
     return {

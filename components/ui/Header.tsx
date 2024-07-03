@@ -38,6 +38,7 @@ export function ListItem({ path, handleClick, children }: ListItemProps) {
 }
 
 export default function Header({ user }: { user: User | null }) {
+  const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const [isClient, setIsClient] = useState(false);
@@ -47,7 +48,9 @@ export default function Header({ user }: { user: User | null }) {
   }, []);
 
   return (
-    <header className="fixed z-50 m-auto flex w-full items-center justify-between px-3 py-3 md:max-w-2xl md:justify-between md:px-0 md:py-5 md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
+    <header
+      className={`${!pathname.includes("/film") ? "md:bg-gray-950/70 md:before:h-20 md:before:!backdrop-blur-xl" : ""} fixed top-0 z-50 m-auto flex w-full items-center justify-between bg-gray-950/80 px-3 py-1.5 before:fixed before:left-0 before:right-0 before:top-0 before:-z-10 before:h-[52px] before:w-full before:backdrop-blur-xl md:max-w-2xl md:justify-between md:bg-transparent md:px-0 md:py-5 md:before:backdrop-blur-none md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl`}
+    >
       <Link href="/">
         <h1 className="font-noto text-lg font-medium md:block md:text-3xl md:font-bold">
           Lumière
@@ -58,11 +61,11 @@ export default function Header({ user }: { user: User | null }) {
 
       <SearchModal>
         {isClient && isMobile ? (
-          <button className="fixed bottom-0 right-0 z-50 mb-8 mr-5 flex items-center rounded-full bg-zinc-800/45 p-4 shadow-lg outline-none ring-1 ring-white/10 backdrop-blur md:hidden">
+          <button className="fixed bottom-0 right-0 z-50 mb-8 mr-5 flex items-center rounded-full bg-zinc-800/45 p-4 shadow-lg outline-none ring-1 ring-white/10 backdrop-blur-lg md:hidden">
             <MagnifyingGlassIcon classes="my-auto h-5 w-5" />
           </button>
         ) : (
-          <button className="hidden rounded bg-cyan-350 px-4 py-2 font-medium tracking-wide text-gray-850 outline-none ring-1 ring-cyan-300 transition-colors duration-200 ease-out active:bg-cyan-550 md:block">
+          <button className="mr-1 hidden rounded bg-cyan-350 px-4 py-2 font-medium tracking-wide text-gray-850 outline-none ring-1 ring-cyan-300 transition-colors duration-200 ease-out active:bg-cyan-550 md:block">
             Search
           </button>
         )}

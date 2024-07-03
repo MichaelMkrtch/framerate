@@ -68,7 +68,7 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
     <nav>
       <ul
         ref={ref}
-        className="flex h-10 items-center rounded-full bg-zinc-800/45 px-1 text-sm font-medium tracking-wide shadow-lg shadow-zinc-800/5 ring-1 ring-white/10 backdrop-blur"
+        className="flex h-10 items-center rounded-full bg-zinc-800/45 px-1 text-sm font-medium tracking-wide ring-1 ring-white/10 backdrop-blur"
       >
         {isMobile && activePath === pathname ? (
           <ListItem path={pathname} handleClick={handleClick}>
