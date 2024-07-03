@@ -65,6 +65,7 @@ export default function FilmDetailsPage() {
         <div className="px-3.5 md:px-0">
           <DetailsSection
             film={fetchedFilm}
+            title={movie.title}
             posterPath={movie ? movie.posterPath : null}
           />
         </div>

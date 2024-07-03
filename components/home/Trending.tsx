@@ -35,7 +35,7 @@ export default function Trending() {
       opts={{
         align: "start",
         startIndex: 0,
-        loop: true,
+        // loop: false,
         skipSnaps: true,
       }}
     >

@@ -7,9 +7,11 @@ import RatingCard from "./RatingCard";
 
 export default function DetailsSection({
   film,
+  title,
   posterPath,
 }: {
   film: Film;
+  title: string;
   posterPath: string | null;
 }) {
   return (
@@ -18,7 +20,7 @@ export default function DetailsSection({
       <div className="hidden w-full md:flex md:pt-[330px] lg:pt-[400px] xl:pt-[470px]">
         <aside className="mr-6 shrink-0 md:h-[300px] md:w-[200px] lg:h-[345px] lg:w-[230px] xl:mr-16">
           <Poster
-            title={film.title}
+            title={title}
             src={posterPath ? posterPath : film.posterPath}
             fetchSize="w500"
             width={230}
@@ -29,7 +31,7 @@ export default function DetailsSection({
         </aside>
         <div className="flex grow basis-2/3 flex-col items-baseline">
           <Credits
-            title={film.title}
+            title={title}
             director={film.director}
             releaseDate={film.releaseDate}
           />
@@ -50,14 +52,14 @@ export default function DetailsSection({
         <div className="flex w-full pt-[55%] md:hidden">
           <div className="flex grow basis-2/3 flex-col items-baseline pr-3">
             <Credits
-              title={film.title}
+              title={title}
               director={film.director}
               releaseDate={film.releaseDate}
             />
           </div>
           <aside className="-mt-5 h-48 w-32 shrink-0">
             <Poster
-              title={film.title}
+              title={title}
               src={posterPath ? posterPath : film.posterPath}
               fetchSize="w500"
               width={230}
