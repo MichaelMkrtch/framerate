@@ -52,21 +52,16 @@ export default function FilmDetailsPage() {
   }, [filmID, fetchedFilm]);
 
   return (
-    movie && (
+    movie &&
+    fetchedFilm && (
       <>
-        {movie && (
-          <Backdrop
-            title={movie ? movie.title : fetchedFilm.title}
-            backdrop_path={
-              movie ? movie.backdropPath : fetchedFilm.backdropPath
-            }
-          />
-        )}
+        (
+        <Backdrop title={movie.title} backdrop_path={movie.backdropPath} />)
         <div className="px-3.5 md:px-0">
           <DetailsSection
             film={fetchedFilm}
             title={movie.title}
-            posterPath={movie ? movie.posterPath : null}
+            posterPath={movie.posterPath}
           />
         </div>
       </>
