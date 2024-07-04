@@ -49,7 +49,7 @@ export default function Header({ user }: { user: User | null }) {
 
   return (
     <header
-      className={`${!pathname.includes("/film") ? "md:bg-gray-950/70 md:before:h-20 md:before:!backdrop-blur-xl" : ""} fixed top-0 z-50 m-auto flex w-full items-center justify-between bg-gray-950/80 px-3 py-1.5 before:fixed before:left-0 before:right-0 before:top-0 before:-z-10 before:h-[52px] before:w-full before:backdrop-blur-xl md:max-w-2xl md:justify-between md:bg-transparent md:px-0 md:py-5 md:before:backdrop-blur-none md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl`}
+      className={`${pathname.includes("/film") && "md:bg-transparent md:before:backdrop-blur-none"} fixed top-0 z-50 m-auto flex w-full items-center justify-between bg-gray-950/80 px-3 py-1.5 before:fixed before:left-0 before:right-0 before:top-0 before:-z-10 before:h-[52px] before:w-full before:backdrop-blur-xl md:max-w-2xl md:justify-between md:px-0 md:py-5 md:before:h-20 md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl`}
     >
       <Link href="/">
         <h1 className="font-noto text-lg font-medium md:block md:text-3xl md:font-bold">

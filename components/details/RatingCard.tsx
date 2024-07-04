@@ -30,7 +30,7 @@ export default function RatingCard({ film, storedRating }: RatingCardProps) {
           </h3>
           <div className="flex items-center">
             {isStoredReview && icon}
-            <div className="flex h-[40.5px] flex-col text-nowrap pl-2">
+            <div className="flex h-[40.5px] flex-col text-nowrap pl-2.5">
               {isStoredReview && (
                 <p className="text-center text-sm">
                   <span className="font-semibold">
