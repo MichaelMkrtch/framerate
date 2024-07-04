@@ -78,7 +78,7 @@ export default function LoginForm() {
                 <FormControl>
                   <div className="flex items-center rounded bg-neutral-800 ring-1 ring-white/10">
                     <div className="pl-2">
-                      <EmailIcon fill="#a3a3a3" classes="h-4 w-4" />
+                      <EmailIcon classes="h-4 w-4" />
                     </div>
                     <Input
                       type="email"
@@ -102,7 +102,7 @@ export default function LoginForm() {
                 <FormControl>
                   <div className="flex items-center rounded bg-neutral-800 ring-1 ring-white/10">
                     <div className="pl-2">
-                      <LockIcon fill="#a3a3a3" classes="h-4 w-4" />
+                      <LockIcon classes="h-4 w-4" />
                     </div>
                     <Input
                       type={isVisible ? "text" : "password"}
