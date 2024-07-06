@@ -6,7 +6,8 @@ import { type Media } from "@/types";
 import { StarIcon } from "./Icons";
 
 import { validateRequest } from "@/lib/auth";
-import { deleteMovieReview, getMovieRating } from "@/lib/review";
+import { deleteMovieReview, getMovieRating } from "@/lib/movieReview";
+import { deleteSeriesReview, getSeriesRating } from "@/lib/seriesReview";
 
 type StarRatingProps = {
   media: Media;
@@ -33,20 +34,26 @@ export default function StarRating({
 
   useEffect(() => {
     (async () => {
-      const result = await getMovieRating({ movieId: media.id });
+      const result =
+        media.mediaType === "movie"
+          ? await getMovieRating({ movieId: media.id })
+          : await getSeriesRating({ seriesId: media.id });
       if (result && result.length > 0 && result[0].rating !== null) {
         const dbRating = parseFloat(result[0].rating);
         setRating(dbRating);
       }
     })();
-  }, [media.id, setRating]);
+  }, [media.id, media.mediaType, setRating]);
 
   async function handleClick(ratingValue: number) {
     const result = await validateRequest();
     if (rating === ratingValue && result.user) {
       setRating(null);
       setHover(null);
-      await deleteMovieReview({ movieId: media.id });
+      media.mediaType === "movie" &&
+        (await deleteMovieReview({ movieId: media.id }));
+      media.mediaType === "tv" &&
+        (await deleteSeriesReview({ seriesId: media.id }));
       toast.info("Rating removed");
     } else {
       setRating(ratingValue);

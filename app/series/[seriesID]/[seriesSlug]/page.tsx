@@ -10,9 +10,8 @@ import { pick } from "@/utils/pickProperties";
 import type { StoredRating } from "@/app/film/[filmID]/[filmSlug]/page";
 import DetailsSection from "@/components/details/DetailsSection";
 import Backdrop from "@/components/ui/Backdrop";
-
-// import { createSeries, getSeries } from "@/lib/series";
-// import { getAvgRating } from "@/lib/review";
+import { createSeries, getSeries } from "@/lib/series";
+import { getAvgSeriesRating } from "@/lib/seriesReview";
 
 type Series = {
   id: number;
@@ -20,7 +19,6 @@ type Series = {
   posterPath: string;
   backdropPath: string;
   releaseDate: string;
-  seasons: number;
 };
 
 export default function SeriesDetailsPage() {
@@ -29,9 +27,9 @@ export default function SeriesDetailsPage() {
 
   const params = useParams<{ seriesID: string }>();
 
-  const seriesID = parseInt(params.seriesID);
+  const seriesId = parseInt(params.seriesID);
 
-  const detailsList = useFetchDetails([{ mediaType: "tv", id: seriesID }]);
+  const detailsList = useFetchDetails([{ mediaType: "tv", id: seriesId }]);
   const fetchedSeries = detailsList[0];
 
   useEffect(() => {
@@ -47,9 +45,21 @@ export default function SeriesDetailsPage() {
             "backdropPath",
             "releaseDate",
           );
+
+        tvSeries && (await createSeries(tvSeries));
+
+        const result = await getSeries({ seriesId });
+        if (result.length > 0) {
+          setSeries(result[0]);
+        }
+
+        const average = await getAvgSeriesRating({ seriesId });
+        if (average.length > 0) {
+          setStoredRating(average[0]);
+        }
       }
     })();
-  }, [fetchedSeries]);
+  }, [seriesId, fetchedSeries]);
 
   return (
     series &&

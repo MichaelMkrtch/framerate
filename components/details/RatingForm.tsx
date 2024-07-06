@@ -11,7 +11,7 @@ import { type Media } from "@/types";
 
 import { Form } from "../ui/Form";
 import StarRating from "../ui/StarRating";
-import { movieRatingSchema } from "./reviewSchema";
+import { ratingSchema } from "./reviewSchema";
 
 import { review } from "@/actions/review-action";
 import { validateRequest } from "@/lib/auth";
@@ -26,8 +26,8 @@ export default function RatingForm({ media }: { media: Media }) {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const form = useForm<z.infer<typeof movieRatingSchema>>({
-    resolver: zodResolver(movieRatingSchema),
+  const form = useForm<z.infer<typeof ratingSchema>>({
+    resolver: zodResolver(ratingSchema),
     defaultValues: {
       rating: "",
     },

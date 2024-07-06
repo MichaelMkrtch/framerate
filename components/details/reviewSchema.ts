@@ -1,5 +1,5 @@
 import { z } from "zod";
 
-export const movieRatingSchema = z.object({
+export const ratingSchema = z.object({
   rating: z.string().trim(),
 });

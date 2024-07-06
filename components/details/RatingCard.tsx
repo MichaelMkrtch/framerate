@@ -3,7 +3,6 @@ import { type Media } from "@/types";
 import getIcon from "@/utils/getIcon";
 
 import Card from "../ui/Card";
-import { DeathStarIcon, StarIcon } from "../ui/Icons";
 import IconsSection from "./IconsSection";
 import RatingForm from "./RatingForm";
 

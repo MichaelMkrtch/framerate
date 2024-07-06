@@ -1,10 +1,11 @@
 "use server";
 
-import { type Film } from "@/types";
+import { type Media } from "@/types";
 
-import { movieRatingSchema } from "@/components/details/reviewSchema";
+import { ratingSchema } from "@/components/details/reviewSchema";
 import { validateRequest } from "@/lib/auth";
-import { createMovieReview } from "@/lib/review";
+import { createMovieReview } from "@/lib/movieReview";
+import { createSeriesReview } from "@/lib/seriesReview";
 
 type FormState = {
   status: string;
@@ -12,7 +13,7 @@ type FormState = {
 };
 
 export async function review(
-  filmData: Film,
+  media: Media,
   prevState: FormState,
   data: FormData,
 ): Promise<FormState> {
@@ -26,7 +27,7 @@ export async function review(
   }
 
   const formData = Object.fromEntries(data);
-  const parsed = movieRatingSchema.safeParse(formData);
+  const parsed = ratingSchema.safeParse(formData);
 
   if (!parsed.success) {
     return {
@@ -51,9 +52,14 @@ export async function review(
   try {
     const { rating } = parsed.data;
     const userId = result.user.id;
-    const movieId = filmData.id;
+    const movieId = media.mediaType === "movie" && media.id;
+    const seriesId = media.mediaType === "tv" && media.id;
 
-    await createMovieReview({ userId, movieId, rating });
+    if (movieId) {
+      await createMovieReview({ userId, movieId, rating });
+    } else if (seriesId) {
+      await createSeriesReview({ userId, seriesId, rating });
+    }
 
     return {
       status: "success",

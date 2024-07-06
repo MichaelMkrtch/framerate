@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { type Film } from "@/types";
+import { type Media } from "@/types";
 
 interface FilmStore {
-  films: Film[];
-  setFilm: (film: Film) => void;
+  films: Media<"movie">[];
+  setFilm: (film: Media<"movie">) => void;
 }
 
-function enforceUniqueFilms(newFilm: Film, films: Film[]) {
+function enforceUniqueFilms(newFilm: Media<"movie">, films: Media<"movie">[]) {
   const updatedfilms = [...films, newFilm];
   const filmsMap = new Map(updatedfilms.map((film) => [film.id, film]));
   const uniqueFilms = Array.from(filmsMap.values());
@@ -18,7 +18,7 @@ function enforceUniqueFilms(newFilm: Film, films: Film[]) {
 export const useFilmStore = create<FilmStore>()(
   persist(
     (set) => ({
-      films: [] as Film[],
+      films: [] as Media<"movie">[],
       setFilm: (film) =>
         set((state) => ({
           films: enforceUniqueFilms(film, state.films),

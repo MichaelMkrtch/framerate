@@ -75,6 +75,45 @@ export const movieReviewsTable = pgTable(
   },
 );
 
+export const tvShowsTable = pgTable("tv_shows", {
+  id: bigint("id", { mode: "number" }).primaryKey(),
+  title: text("title").notNull(),
+  posterPath: text("poster_path").notNull(),
+  backdropPath: text("backdrop_path").notNull(),
+  releaseDate: date("release_date").notNull(),
+});
+
+export const tvReviewsTable = pgTable(
+  "tv_reviews",
+  {
+    id: bigserial("id", { mode: "number" }),
+    userId: bigint("user_id", { mode: "number" })
+      .notNull()
+      .references(() => usersTable.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
+    seriesId: bigint("series_id", { mode: "number" })
+      .notNull()
+      .references(() => tvShowsTable.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
+    rating: numeric("rating", { precision: 2, scale: 1 }),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+      .notNull()
+      .defaultNow(),
+    ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.userId, table.seriesId] }),
+    };
+  },
+);
+
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
 
@@ -86,3 +125,9 @@ export type SelectMovie = typeof moviesTable.$inferSelect;
 
 export type InsertMovieReview = typeof movieReviewsTable.$inferInsert;
 export type SelectMovieReview = typeof movieReviewsTable.$inferSelect;
+
+export type InsertShow = typeof tvShowsTable.$inferInsert;
+export type SelectShow = typeof tvShowsTable.$inferSelect;
+
+export type InsertShowReview = typeof tvReviewsTable.$inferInsert;
+export type SelectShowReview = typeof tvReviewsTable.$inferSelect;

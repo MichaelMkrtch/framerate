@@ -56,6 +56,7 @@ type TV<T> = {
   backdropPath: string;
   releaseDate: string;
   popularity: number;
+  numberOfSeasons: number;
 };
 
 export interface Review {

@@ -7,6 +7,10 @@ import { validateRequest } from "./auth";
 import { db } from "@/db";
 import { InsertMovieReview, movieReviewsTable, moviesTable } from "@/db/schema";
 
+type Data = {
+  movieId: number;
+};
+
 async function validUser() {
   const result = await validateRequest();
   return result;
@@ -22,9 +26,10 @@ export async function createMovieReview(data: InsertMovieReview) {
     });
 }
 
-export async function deleteMovieReview(data: { movieId: number }) {
+export async function deleteMovieReview(data: Data) {
   const result = await validUser();
   const userId = result.user?.id;
+
   if (userId) {
     await db
       .delete(movieReviewsTable)
@@ -37,7 +42,7 @@ export async function deleteMovieReview(data: { movieId: number }) {
   }
 }
 
-export async function getMovieRating(data: { movieId: number }) {
+export async function getMovieRating(data: Data) {
   const userResult = await validUser();
   const userId = userResult.user?.id;
 
@@ -55,7 +60,7 @@ export async function getMovieRating(data: { movieId: number }) {
   }
 }
 
-export async function getAvgRating(data: { movieId: number }) {
+export async function getAvgMovieRating(data: Data) {
   const result = db
     .select({
       avgRating: avg(movieReviewsTable.rating).mapWith(Number),

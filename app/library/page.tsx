@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { type Review } from "@/types";
 
 import PosterGrid from "@/components/ui/PosterGrid";
-import { getMovies } from "@/lib/review";
+import { getMovies } from "@/lib/movieReview";
 
 export default function Library() {
   const [reviews, setReviews] = useState<Review[]>();

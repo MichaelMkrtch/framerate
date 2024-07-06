@@ -10,7 +10,7 @@ import { pick } from "@/utils/pickProperties";
 import DetailsSection from "@/components/details/DetailsSection";
 import Backdrop from "@/components/ui/Backdrop";
 import { createMovie, getMovie } from "@/lib/movie";
-import { getAvgRating } from "@/lib/review";
+import { getAvgMovieRating } from "@/lib/movieReview";
 
 type Movie = {
   id: number;
@@ -32,9 +32,9 @@ export default function FilmDetailsPage() {
 
   const params = useParams<{ filmID: string }>();
 
-  const filmID = parseInt(params.filmID);
+  const filmId = parseInt(params.filmID);
 
-  const detailsList = useFetchDetails([{ mediaType: "movie", id: filmID }]);
+  const detailsList = useFetchDetails([{ mediaType: "movie", id: filmId }]);
   const fetchedMovie = detailsList[0];
 
   useEffect(() => {
@@ -54,18 +54,18 @@ export default function FilmDetailsPage() {
 
         film && (await createMovie(film));
 
-        const result = await getMovie({ movieId: filmID });
+        const result = await getMovie({ movieId: filmId });
         if (result.length > 0) {
           setMovie(result[0]);
         }
 
-        const average = await getAvgRating({ movieId: filmID });
+        const average = await getAvgMovieRating({ movieId: filmId });
         if (average.length > 0) {
           setStoredRating(average[0]);
         }
       }
     })();
-  }, [filmID, fetchedMovie]);
+  }, [filmId, fetchedMovie]);
 
   return (
     movie &&
