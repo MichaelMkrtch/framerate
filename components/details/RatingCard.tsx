@@ -22,7 +22,9 @@ export default function RatingCard({ media, storedRating }: RatingCardProps) {
     <div className="flex items-center justify-between gap-3.5 md:block">
       <Card classes="basis-3/5 md:basis-full">
         <div className="mx-0.5 mb-6 flex items-center justify-between lg:mb-8">
-          <h3 className="inline font-medium">
+          <h3
+            className={`${!isStoredReview ? "m-auto" : ""} inline font-medium`}
+          >
             {isStoredReview
               ? "Ratings"
               : storedRating && "Leave the first review!"}

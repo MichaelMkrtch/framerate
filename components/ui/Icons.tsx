@@ -137,7 +137,7 @@ export function StarIcon({
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 576 512"
-      className={`${classes} h-6 w-6`}
+      className={`${classes}`}
       fill={fill}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
