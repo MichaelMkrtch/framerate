@@ -84,6 +84,7 @@ export async function getSeries() {
         posterPath: tvShowsTable.posterPath,
         rating: tvReviewsTable.rating,
         createdAt: tvReviewsTable.createdAt,
+        mediaType: tvReviewsTable.mediaType,
       })
       .from(tvShowsTable)
       .innerJoin(tvReviewsTable, eq(tvShowsTable.id, tvReviewsTable.seriesId))

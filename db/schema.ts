@@ -67,6 +67,7 @@ export const movieReviewsTable = pgTable(
     ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
+    mediaType: text("media_type"),
   },
   (table) => {
     return {
@@ -106,6 +107,7 @@ export const tvReviewsTable = pgTable(
     ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
+    mediaType: text("media_type"),
   },
   (table) => {
     return {

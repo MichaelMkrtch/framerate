@@ -23,6 +23,7 @@ export default function PosterGrid({
         reviews.map((result) => {
           const simpleTitle = getSimpleTitle(result.title);
           const rating = result.rating && parseFloat(result.rating);
+          const mediaType = result.mediaType === "movie" ? "film" : "series";
 
           const tooltipContent = (
             <div className="max-w-48">
@@ -44,7 +45,7 @@ export default function PosterGrid({
               side="bottom"
               content={tooltipContent}
             >
-              <Link href={`/film/${result.id}/${simpleTitle}`}>
+              <Link href={`/${mediaType}/${result.id}/${simpleTitle}`}>
                 <Poster
                   title={result.title}
                   src={result.posterPath}

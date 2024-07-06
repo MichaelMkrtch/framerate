@@ -84,6 +84,7 @@ export async function getMovies() {
         posterPath: moviesTable.posterPath,
         rating: movieReviewsTable.rating,
         createdAt: movieReviewsTable.createdAt,
+        mediaType: movieReviewsTable.mediaType,
       })
       .from(moviesTable)
       .innerJoin(

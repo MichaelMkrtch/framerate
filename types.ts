@@ -59,12 +59,13 @@ type TV<T> = {
   numberOfSeasons: number;
 };
 
-export interface Review {
+export type Review = {
+  mediaType: string | null;
   id: number;
   title: string;
   rating: string | null;
   posterPath: string;
   createdAt: Date;
-}
+};
 
 export type Media<T = "movie" | "tv"> = T extends "movie" ? Film<T> : TV<T>;

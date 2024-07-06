@@ -32,7 +32,9 @@ export default function Trending() {
     <>
       <section className="mb-14">
         <h2 className="mb-3 text-lg font-medium">
-          Everyone&apos;s Watching...
+          {/* Everyone&apos;s Watching... */}
+          {/* Box Office Buzz */}
+          Get the Popcorn
         </h2>
         <Carousel
           opts={{
@@ -73,7 +75,7 @@ export default function Trending() {
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-medium">Your Next Obsession</h2>
+        <h2 className="mb-3 text-lg font-medium">Can&apos;t Stop Watching</h2>
         <Carousel
           opts={{
             align: "start",
