@@ -1,7 +1,7 @@
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { type Film } from "@/types";
+import { type Media } from "@/types";
 
 import { StarIcon } from "./Icons";
 
@@ -9,14 +9,14 @@ import { validateRequest } from "@/lib/auth";
 import { deleteMovieReview, getMovieRating } from "@/lib/review";
 
 type StarRatingProps = {
-  film: Film;
+  media: Media;
   rating?: number | null;
   setRating: Dispatch<SetStateAction<number | null>>;
   handleRating: () => Promise<void>;
 };
 
 export default function StarRating({
-  film,
+  media,
   rating,
   setRating,
   handleRating,
@@ -33,20 +33,20 @@ export default function StarRating({
 
   useEffect(() => {
     (async () => {
-      const result = await getMovieRating({ movieId: film.id });
+      const result = await getMovieRating({ movieId: media.id });
       if (result && result.length > 0 && result[0].rating !== null) {
         const dbRating = parseFloat(result[0].rating);
         setRating(dbRating);
       }
     })();
-  }, [film.id, setRating]);
+  }, [media.id, setRating]);
 
   async function handleClick(ratingValue: number) {
     const result = await validateRequest();
     if (rating === ratingValue && result.user) {
       setRating(null);
       setHover(null);
-      await deleteMovieReview({ movieId: film.id });
+      await deleteMovieReview({ movieId: media.id });
       toast.info("Rating removed");
     } else {
       setRating(ratingValue);

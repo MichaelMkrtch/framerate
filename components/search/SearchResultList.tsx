@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { type SearchResults } from "@/types";
+import { Media } from "@/types";
 
 import SearchResult from "./SearchResult";
 
 type LinkRefs = { [key: number]: { current: HTMLAnchorElement | null } };
 
-export default function SearchResultList({ results }: SearchResults) {
+export default function SearchResultList({ results }: { results: Media[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const linkRefs = useRef<LinkRefs>({});
 
@@ -43,16 +43,16 @@ export default function SearchResultList({ results }: SearchResults) {
 
   return (
     <div className="no-scrollbar mx-3 h-[300px] cursor-default select-none overflow-auto outline-none md:mx-0 md:mt-2 md:h-[355px] md:border-t md:border-neutral-700/60 md:pt-1">
-      {results.map((film, index) => {
+      {results.map((media, index) => {
         return (
           <SearchResult
-            key={film.id}
+            key={media.id}
             renderIndex={index}
             selectedIndex={selectedIndex}
             ref={(linkRefs.current[index] ??= { current: null })}
-            {...film}
+            {...media}
           >
-            {film.title}
+            {media.title}
           </SearchResult>
         );
       })}

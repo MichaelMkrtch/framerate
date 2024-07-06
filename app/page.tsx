@@ -5,20 +5,17 @@ import {
 } from "@tanstack/react-query";
 
 import AuthModal from "@/components/home/AuthModal";
+import Home from "@/components/home/Home";
 import LoginForm from "@/components/home/LoginForm";
 import SignupForm from "@/components/home/SignupForm";
-import Trending from "@/components/home/Trending";
 import { validateRequest } from "@/lib/auth";
-import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
+import { fetchTrending } from "@/services/fetchTrending";
 
-export default async function Home() {
+export default async function HomePage() {
   const result = await validateRequest();
 
   const pageContent = result.user ? (
-    <>
-      <h2 className="mb-3 text-lg font-medium">Everyone&apos;s Watching...</h2>
-      <Trending />
-    </>
+    <Home />
   ) : (
     <div className="m-auto flex h-full items-center justify-center">
       <div className="flex w-[214px] justify-between">
@@ -52,8 +49,15 @@ export default async function Home() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["trending-week"],
-    queryFn: () => fetchTrendingMovies("week"),
+    queryKey: ["movie-trending-week"],
+    queryFn: () => fetchTrending("movie", "week"),
+    staleTime: 10 * 60 * 1000,
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ["tv-trending-week"],
+    queryFn: () => fetchTrending("tv", "week"),
+    staleTime: 10 * 60 * 1000,
   });
 
   return (

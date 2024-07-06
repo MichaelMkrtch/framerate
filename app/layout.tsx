@@ -3,8 +3,6 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import {
   League_Gothic,
   Noto_Sans_JP,
@@ -17,7 +15,7 @@ import QueryProvider from "@/components/QueryProvider";
 import Header from "@/components/ui/Header";
 import { Toaster } from "@/components/ui/Sonner";
 import { validateRequest } from "@/lib/auth";
-import { fetchTrendingMovies } from "@/services/fetchTrendingMovies";
+import { fetchTrending } from "@/services/fetchTrending";
 
 const leagueGothic = League_Gothic({
   subsets: ["latin"],
@@ -43,10 +41,16 @@ async function PrefetchHeader() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["trending-day"],
-    queryFn: () => fetchTrendingMovies("day"),
+    queryKey: ["all-trending-day"],
+    queryFn: () => fetchTrending("all", "day"),
     staleTime: 10 * 60 * 1000,
   });
+
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["tv-trending-day"],
+  //   queryFn: () => fetchTrending("tv", "day"),
+  //   staleTime: 10 * 60 * 1000,
+  // });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -83,8 +87,6 @@ export default function RootLayout({
             },
           }}
         />
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

@@ -35,7 +35,7 @@ export default function getIcon(title: string) {
     return <DeathStarIcon />;
   } else if (title.includes("Star Wars")) {
     return <LightsaberIcon />;
-  } else {
-    return <StarIcon fill="#FFD43B" classes="h-6 w-6" />;
   }
+
+  return <StarIcon fill="#FFD43B" />;
 }

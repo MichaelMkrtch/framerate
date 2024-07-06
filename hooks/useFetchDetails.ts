@@ -1,21 +1,21 @@
 import { useQueries } from "@tanstack/react-query";
 
-import { type Film } from "@/types";
+import { Media } from "@/types";
 
 import fetchRoute from "@/utils/fetchRoute";
 
-export default function useFetchDetails(results: { id: number }[]) {
-  const idList: number[] = [];
-  const detailsResults: Film[] = [];
-
-  results.forEach((result) => idList.push(result.id));
+export default function useFetchDetails(
+  fetchList: { mediaType: "movie" | "tv"; id: number }[],
+) {
+  const detailsResults: Media[] = [];
 
   const detailsQuery = useQueries({
-    queries: idList.map((id) => ({
-      queryKey: ["details", id],
-      queryFn: () => fetchRoute(`/api/details?id=${id}`),
+    queries: fetchList.map((item) => ({
+      queryKey: [`${item.mediaType}-details`, item.id],
+      queryFn: () =>
+        fetchRoute(`/api/details?type=${item.mediaType}&id=${item.id}`),
       staleTime: 1000 * 60 * 2,
-      enabled: idList.length > 0,
+      enabled: fetchList.length > 0,
     })),
   });
 

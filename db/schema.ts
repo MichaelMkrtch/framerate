@@ -40,7 +40,6 @@ export const moviesTable = pgTable("movies", {
   title: text("title").notNull(),
   posterPath: text("poster_path").notNull(),
   backdropPath: text("backdrop_path").notNull(),
-  averageRating: numeric("average_rating", { precision: 3, scale: 2 }),
   releaseDate: date("release_date").notNull(),
   runtime: smallint("runtime").notNull(),
 });

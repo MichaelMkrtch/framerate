@@ -1,4 +1,4 @@
-import { type Film } from "@/types";
+import { type Media } from "@/types";
 
 import getIcon from "@/utils/getIcon";
 
@@ -10,13 +10,13 @@ import RatingForm from "./RatingForm";
 import { StoredRating } from "@/app/film/[filmID]/[filmSlug]/page";
 
 type RatingCardProps = {
-  film: Film;
+  media: Media;
   storedRating: StoredRating | undefined;
 };
 
-export default function RatingCard({ film, storedRating }: RatingCardProps) {
+export default function RatingCard({ media, storedRating }: RatingCardProps) {
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
-  const icon = film && getIcon(film.title);
+  const icon = media && getIcon(media.title);
   const isStoredReview = storedRating && storedRating.reviewCount > 0;
 
   return (
@@ -48,7 +48,7 @@ export default function RatingCard({ film, storedRating }: RatingCardProps) {
             </div>
           </div>
         </div>
-        <RatingForm film={film} />
+        <RatingForm media={media} />
         <div className="hidden md:block">
           <IconsSection />
         </div>

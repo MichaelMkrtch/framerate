@@ -1,16 +1,18 @@
-import { fetchDetails } from "@/services/fetchDetails";
 import { redirect } from "next/navigation";
+
+import { fetchDetails } from "@/services/fetchDetails";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
+  const mediaType = searchParams.get("type");
   const idString = searchParams.get("id");
 
   try {
-    if (idString) {
+    if (mediaType && idString) {
       const id = parseInt(idString);
 
-      const data = await fetchDetails(id);
+      const data = await fetchDetails(mediaType, id);
 
       return Response.json(data);
     } else {

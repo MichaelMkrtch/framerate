@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { type Film } from "@/types";
+import { type Media } from "@/types";
 
 import { Form } from "../ui/Form";
 import StarRating from "../ui/StarRating";
@@ -16,10 +16,10 @@ import { movieRatingSchema } from "./reviewSchema";
 import { review } from "@/actions/review-action";
 import { validateRequest } from "@/lib/auth";
 
-export default function RatingForm({ film }: { film: Film }) {
+export default function RatingForm({ media }: { media: Media }) {
   const [rating, setRating] = useState<number | null>(null);
 
-  const [formState, formAction] = useFormState(review.bind(null, film), {
+  const [formState, formAction] = useFormState(review.bind(null, media), {
     status: "",
     message: "",
   });
@@ -68,7 +68,7 @@ export default function RatingForm({ film }: { film: Film }) {
         className="relative"
       >
         <StarRating
-          film={film}
+          media={media}
           rating={rating}
           setRating={setRating}
           handleRating={handleRating}

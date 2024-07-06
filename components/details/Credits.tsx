@@ -1,6 +1,6 @@
 type CreditsProps = {
   title: string;
-  director: string;
+  director: string | false;
   releaseDate: string;
 };
 
@@ -18,12 +18,14 @@ export default function Credits({
         <span className="pr-2 text-sm md:text-base">
           {releaseDate.slice(0, 4)}
         </span>
-        <span className="text-sm tracking-wide md:text-base">
-          Directed by{" "}
-          <p className="text-sm font-medium md:inline-block md:text-base">
-            {director}
-          </p>
-        </span>
+        {director && (
+          <span className="text-sm tracking-wide md:text-base">
+            Directed by{" "}
+            <p className="text-sm font-medium md:inline-block md:text-base">
+              {director}
+            </p>
+          </span>
+        )}
       </div>
     </>
   );

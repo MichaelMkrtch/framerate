@@ -1,4 +1,4 @@
-import { type SearchResults } from "@/types";
+import { type Media } from "@/types";
 
 import recursiveToCamel from "@/utils/snakeCaseToCamelCase";
 
@@ -17,7 +17,7 @@ export async function searchMovies({ signal, query }: FetchDataParams) {
     page: "1",
   });
 
-  let url = `https://api.themoviedb.org/3/search/movie?${params}`;
+  let url = `https://api.themoviedb.org/3/search/multi?${params}`;
 
   const options = {
     method: "GET",
@@ -36,15 +36,11 @@ export async function searchMovies({ signal, query }: FetchDataParams) {
       throw error;
     }
 
-    const data: SearchResults = await response.json();
+    const data: Record<"results", Media[]> = await response.json();
 
-    const formattedData = recursiveToCamel(data) as SearchResults;
+    const formattedData = recursiveToCamel(data) as Record<"results", Media[]>;
 
     const searchResults = formattedData.results.slice(0, 10);
-
-    searchResults.forEach(
-      (film) => (film.releaseDate = film.releaseDate.slice(0, 4)),
-    );
 
     return searchResults;
   } catch (error) {

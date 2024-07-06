@@ -1,3 +1,9 @@
+interface Credit {
+  id: number;
+  name: string;
+  profilePath: string;
+}
+
 export interface CastMember extends Credit {
   character: string;
 }
@@ -7,18 +13,20 @@ export interface CrewMember extends Credit {
   job: string;
 }
 
-interface Credit {
-  id: number;
-  name: string;
-  profilePath: string;
-}
-
 interface Genre {
   id: number;
   name: string;
 }
 
-export interface Film {
+interface BelongToCollection {
+  id: number;
+  name: string;
+  posterPath: string;
+  backdropPath: string;
+}
+
+type Film<T> = {
+  mediaType: T;
   id: number;
   title: string;
   releaseDate: string;
@@ -34,22 +42,28 @@ export interface Film {
   };
   runtime: number;
   genres: Genre[];
-  belongsToCollection: {
-    id: number;
-    name: string;
-    poster_path: string;
-    backdrop_path: string;
-  };
-}
+  belongsToCollection: BelongToCollection;
+  popularity: number;
+};
 
-export interface SearchResults {
-  results: Film[];
-}
+type TV<T> = {
+  mediaType: T;
+  id: number;
+  title: string;
+  tagline: string;
+  overview: string;
+  posterPath: string;
+  backdropPath: string;
+  releaseDate: string;
+  popularity: number;
+};
 
-export type Review = {
+export interface Review {
   id: number;
   title: string;
   rating: string | null;
   posterPath: string;
   createdAt: Date;
-};
+}
+
+export type Media<T = "movie" | "tv"> = T extends "movie" ? Film<T> : TV<T>;
