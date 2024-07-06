@@ -37,6 +37,7 @@ export default function DetailsSection({
           <Credits
             title={title}
             director={media.mediaType === "movie" && media.director}
+            creator={media.mediaType === "tv" && media.creator}
             releaseDate={media.releaseDate}
           />
           <div className="mt-3 w-full pr-6 lg:mt-5 lg:w-11/12 lg:pr-0 xl:w-4/5">
@@ -58,6 +59,7 @@ export default function DetailsSection({
             <Credits
               title={title}
               director={media.mediaType === "movie" && media.director}
+              creator={media.mediaType === "tv" && media.creator}
               releaseDate={media.releaseDate}
             />
           </div>

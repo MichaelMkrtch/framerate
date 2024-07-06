@@ -73,7 +73,7 @@ export default function RootLayout({
           className="inset-0 h-[calc(100dvh)] pb-4 md:px-8 md:py-0"
           vaul-drawer-wrapper=""
         >
-          <div className="relative m-auto max-w-md md:max-w-2xl md-tablet:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
+          <div className="relative m-auto max-w-md md:max-w-2xl md-tablet:max-w-3xl lg:max-w-5xl xl:max-w-6xl">
             <QueryProvider>
               <PrefetchHeader />
               {children}

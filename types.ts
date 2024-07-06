@@ -52,7 +52,7 @@ type TV<T> = {
   title: string;
   creator: string;
   createdByList: Credit[];
-  tagline?: string;
+  tagline: string;
   overview: string;
   posterPath: string;
   backdropPath: string;
