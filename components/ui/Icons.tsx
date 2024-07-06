@@ -122,7 +122,7 @@ export function MagnifyingGlassIcon({ classes }: { classes: string }) {
 
 type StarIconProps = {
   fill: string;
-  classes?: string;
+  classes: string;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 };
@@ -137,7 +137,7 @@ export function StarIcon({
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 576 512"
-      className={`${classes}`}
+      className={classes}
       fill={fill}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

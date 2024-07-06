@@ -14,7 +14,7 @@ export default function Backdrop({ title, backdropPath }: BackdropProps) {
 
   return (
     backdropPath && (
-      <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-auto w-full overflow-hidden">
+      <div className="absolute left-0 right-0 top-1 md:top-0 -z-10 m-auto h-auto w-full overflow-hidden">
         <Image
           src={`${IMG_BASE_URL}w300${backdropPath}`}
           alt={`Still image from the film ${title}`}

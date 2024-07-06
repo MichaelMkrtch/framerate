@@ -79,7 +79,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
                   {children} ({media.releaseDate.slice(0, 4)})
                 </p>
                 <p className="text-nowrap text-xs font-semibold tracking-wide text-neutral-500 md:text-sm md:font-medium">
-                  {media.mediaType === "movie" ? media.director : ""}
+                  {media.mediaType === "movie" ? media.director : media.creator}
                 </p>
               </div>
               <div className="mr-4 flex grow justify-end">

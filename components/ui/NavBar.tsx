@@ -40,7 +40,7 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
     } else if (pathname === "/articles") {
       setActivePath(pathname);
       setLinkName("Articles");
-    } else if (pathname === "/library" || pathname.includes("/film/")) {
+    } else if (pathname === "/library" || pathname.includes("/film/") || pathname.includes("/series/")) {
       setActivePath(pathname);
       setLinkName("Library");
     }

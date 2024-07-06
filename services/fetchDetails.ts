@@ -1,5 +1,6 @@
 import { type CrewMember, type Media } from "@/types";
 
+import formatNames from "@/utils/formatNames";
 import { renameKeys } from "@/utils/renameKeys";
 import recursiveToCamel from "@/utils/snakeCaseToCamelCase";
 
@@ -26,48 +27,36 @@ export async function fetchDetails(mediaType: string, id: number) {
 
     const data: Media = await response.json();
 
-    mediaType === "movie"
-      ? (data.mediaType = "movie")
-      : (data.mediaType = "tv");
+    let formattedData = recursiveToCamel(data) as Media;
 
-    if (data.mediaType === "movie") {
-      // format Director information
-      data.directorList = data.credits.crew.filter(
+    mediaType === "movie"
+      ? (formattedData.mediaType = "movie")
+      : (formattedData.mediaType = "tv");
+
+    if (formattedData.mediaType === "movie") {
+      formattedData.directorList = formattedData.credits.crew.filter(
         (crewMember: CrewMember) => crewMember.job === "Director",
       );
 
-      const { directorList } = data;
+      const { directorList } = formattedData;
 
-      if (directorList.length > 2) {
-        data.director =
-          directorList
-            .map((director) => director.name)
-            .slice(0, 2)
-            .join(", ") + "...";
-      } else if (directorList.length === 2) {
-        data.director = directorList
-          .map((director) => director.name)
-          .join(", ");
-      } else if (directorList.length === 1) {
-        data.director = directorList[0].name;
-      } else {
-        data.director = "Unknown";
-      }
-    }
+      const updatedData = formatNames(directorList, formattedData);
 
-    const formattedData = recursiveToCamel(data) as Media;
-
-    if (mediaType === "tv") {
-      data.mediaType = "tv";
-
+      return updatedData;
+    } else {
       const tvResults = renameKeys(
-        { name: "title", firstAirDate: "releaseDate" },
+        {
+          name: "title",
+          firstAirDate: "releaseDate",
+          createdBy: "createdByList",
+        },
         formattedData,
       ) as Media<"tv">;
-      return tvResults;
-    }
 
-    return formattedData;
+      const { createdByList } = tvResults;
+      const updatedData = formatNames(createdByList, tvResults);
+      return updatedData;
+    }
   } catch (error) {
     console.log(error);
   }

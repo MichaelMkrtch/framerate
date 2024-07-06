@@ -1,4 +1,4 @@
-interface Credit {
+export interface Credit {
   id: number;
   name: string;
   profilePath: string;
@@ -50,7 +50,9 @@ type TV<T> = {
   mediaType: T;
   id: number;
   title: string;
-  tagline: string;
+  creator: string;
+  createdByList: Credit[];
+  tagline?: string;
   overview: string;
   posterPath: string;
   backdropPath: string;

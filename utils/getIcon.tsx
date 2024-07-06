@@ -37,5 +37,5 @@ export default function getIcon(title: string) {
     return <LightsaberIcon />;
   }
 
-  return <StarIcon fill="#FFD43B" />;
+  return <StarIcon fill="#FFD43B" classes="h-6 w-6" />;
 }
