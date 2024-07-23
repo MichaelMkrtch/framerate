@@ -85,7 +85,7 @@ export default function Poster({
               height={height}
               className={`${classes} relative top-0 select-none rounded object-cover drop-shadow`}
               style={transitionStyles.highRes}
-              priority
+              loading="lazy"
             />
           </>
         )}

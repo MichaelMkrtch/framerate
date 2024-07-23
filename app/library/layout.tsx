@@ -13,19 +13,19 @@ export default function LibraryLayout({ children }: LibraryLayoutProps) {
         <div>
           <Link
             href="/library?filter=film"
-            className="mr-2.5 w-[61.33px] rounded bg-gray-750 bg-gradient-to-b from-zinc-200 via-zinc-200 to-zinc-200/20 bg-clip-text px-2 py-1 text-center text-transparent ring-2 ring-gray-750/70"
+            className="mr-2.5 rounded bg-gray-750 bg-gradient-to-b from-zinc-200 via-zinc-200 to-zinc-200/20 bg-clip-text px-2 py-1 text-center text-transparent ring-1 ring-gray-750/70"
           >
             Film
           </Link>
           <Link
             href="/library?filter=series"
-            className="mr-2.5 w-[61.33px] rounded bg-gray-750 bg-gradient-to-b from-zinc-200 via-zinc-200 to-zinc-200/20 bg-clip-text px-2 py-1 text-center text-transparent ring-2 ring-gray-750/70"
+            className="mr-2.5 rounded bg-gray-750 bg-gradient-to-b from-zinc-200 via-zinc-200 to-zinc-200/20 bg-clip-text px-2 py-1 text-center text-transparent ring-1 ring-gray-750/70"
           >
             Series
           </Link>
           <Link
             href="/library"
-            className="rounded bg-gray-750 bg-gradient-to-b from-zinc-200 via-zinc-200 to-zinc-200/20 bg-clip-text px-2 py-1 text-center text-transparent ring-2 ring-gray-750/70"
+            className="rounded bg-gray-750 bg-gradient-to-b from-zinc-200 via-zinc-200 to-zinc-200/20 bg-clip-text px-2 py-1 text-center text-transparent ring-1 ring-gray-750/70"
           >
             All
           </Link>
