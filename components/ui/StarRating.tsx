@@ -36,7 +36,7 @@ export default function StarRating({
     (async () => {
       const result =
         media.mediaType === "movie"
-          ? await getMovieRating({ movieId: media.id })
+          ? await getMovieRating(media.id)
           : await getSeriesRating({ seriesId: media.id });
       if (result && result.length > 0 && result[0].rating !== null) {
         const dbRating = parseFloat(result[0].rating);
@@ -50,8 +50,7 @@ export default function StarRating({
     if (rating === ratingValue && result.user) {
       setRating(null);
       setHover(null);
-      media.mediaType === "movie" &&
-        (await deleteMovieReview({ movieId: media.id }));
+      media.mediaType === "movie" && (await deleteMovieReview(media.id));
       media.mediaType === "tv" &&
         (await deleteSeriesReview({ seriesId: media.id }));
       toast.info("Rating removed");

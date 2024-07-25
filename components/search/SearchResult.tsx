@@ -8,8 +8,6 @@ import getSimpleTitle from "@/utils/getSimpleTitle";
 
 import Modal from "../ui/Modal";
 
-import { useFilmStore } from "@/store/filmStore";
-
 type SearchResultProps = {
   renderIndex: number;
   selectedIndex: number;
@@ -40,7 +38,6 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
     { renderIndex, selectedIndex, children, ...media },
     ref,
   ) {
-    // const setFilm = useFilmStore((state) => state.setFilm);
     const simpleTitle = media.title && getSimpleTitle(media.title);
     const mediaType = media.mediaType === "movie" ? "film" : "series";
 

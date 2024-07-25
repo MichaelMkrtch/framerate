@@ -1,6 +1,7 @@
 import {
   bigint,
   bigserial,
+  boolean,
   date,
   numeric,
   pgTable,
@@ -68,6 +69,9 @@ export const movieReviewsTable = pgTable(
       .notNull()
       .defaultNow(),
     mediaType: text("media_type"),
+    liked: boolean("liked"),
+    watched: boolean("watched"),
+    review: text("review"),
   },
   (table) => {
     return {
@@ -108,6 +112,9 @@ export const tvReviewsTable = pgTable(
       .notNull()
       .defaultNow(),
     mediaType: text("media_type"),
+    liked: boolean("liked"),
+    watched: boolean("watched"),
+    review: text("review"),
   },
   (table) => {
     return {

@@ -59,7 +59,7 @@ export default function FilmDetailsPage() {
           setMovie(result[0]);
         }
 
-        const average = await getAvgMovieRating({ movieId: filmId });
+        const average = await getAvgMovieRating(filmId);
         if (average.length > 0) {
           setStoredRating(average[0]);
         }

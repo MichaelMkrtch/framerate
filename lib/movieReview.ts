@@ -7,11 +7,7 @@ import { validateRequest } from "./auth";
 import { db } from "@/db";
 import { InsertMovieReview, movieReviewsTable, moviesTable } from "@/db/schema";
 
-type Data = {
-  movieId: number;
-};
-
-async function validUser() {
+export async function validUser() {
   const result = await validateRequest();
   return result;
 }
@@ -26,7 +22,7 @@ export async function createMovieReview(data: InsertMovieReview) {
     });
 }
 
-export async function deleteMovieReview(data: Data) {
+export async function deleteMovieReview(movieId: number) {
   const result = await validUser();
   const userId = result.user?.id;
 
@@ -36,38 +32,38 @@ export async function deleteMovieReview(data: Data) {
       .where(
         and(
           eq(movieReviewsTable.userId, userId),
-          eq(movieReviewsTable.movieId, data.movieId),
+          eq(movieReviewsTable.movieId, movieId),
         ),
       );
   }
 }
 
-export async function getMovieRating(data: Data) {
+export async function getMovieRating(movieId: number) {
   const userResult = await validUser();
   const userId = userResult.user?.id;
 
   if (userId) {
-    const result = db
+    const result = await db
       .select({ rating: movieReviewsTable.rating })
       .from(movieReviewsTable)
       .where(
         and(
           eq(movieReviewsTable.userId, userId),
-          eq(movieReviewsTable.movieId, data.movieId),
+          eq(movieReviewsTable.movieId, movieId),
         ),
       );
     return result;
   }
 }
 
-export async function getAvgMovieRating(data: Data) {
-  const result = db
+export async function getAvgMovieRating(movieId: number) {
+  const result = await db
     .select({
       avgRating: avg(movieReviewsTable.rating).mapWith(Number),
       reviewCount: count(movieReviewsTable.rating),
     })
     .from(movieReviewsTable)
-    .where(eq(movieReviewsTable.movieId, data.movieId));
+    .where(eq(movieReviewsTable.movieId, movieId));
 
   return result;
 }
@@ -77,7 +73,7 @@ export async function getMovies() {
   const userId = result.user?.id;
 
   if (userId) {
-    const result = db
+    const result = await db
       .select({
         id: movieReviewsTable.movieId,
         title: moviesTable.title,
