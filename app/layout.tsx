@@ -46,12 +46,6 @@ async function PrefetchHeader() {
     staleTime: 10 * 60 * 1000,
   });
 
-  // await queryClient.prefetchQuery({
-  //   queryKey: ["tv-trending-day"],
-  //   queryFn: () => fetchTrending("tv", "day"),
-  //   staleTime: 10 * 60 * 1000,
-  // });
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Header user={result.user} />

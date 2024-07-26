@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import Lists from "../profile/lists/Lists";
+import ListsModal from "../profile/lists/ListsModal";
 import { BookmarkIcon, EyeIcon, LikeIcon, PenIcon } from "../ui/Icons";
 import TooltipProvider from "../ui/TooltipProvider";
 
@@ -94,11 +96,21 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
         />
       </TooltipProvider>
       <TooltipProvider content={<p>Save to list</p>}>
-        <BookmarkIcon
-          fill="#333"
-          classes={`${iconClasses} hover:fill-[#32EC44]`}
-          onClick={() => handleClick}
-        />
+        <ListsModal>
+          <ListsModal.Trigger asChild>
+            <div>
+              <BookmarkIcon
+                fill="#333"
+                classes={`${iconClasses} hover:fill-[#32EC44]`}
+                onClick={() => handleClick}
+              />
+            </div>
+          </ListsModal.Trigger>
+
+          <ListsModal.Content title="Add to list">
+            <Lists />
+          </ListsModal.Content>
+        </ListsModal>
       </TooltipProvider>
       <TooltipProvider content={<p>Review</p>}>
         <PenIcon

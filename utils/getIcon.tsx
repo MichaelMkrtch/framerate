@@ -2,11 +2,13 @@ import {
   InfinityGauntletIcon,
   AvengersIcon,
   DeathStarIcon,
+  GameOfThronesIcon,
   HPIcon,
   LightsaberIcon,
   OneRingIcon,
   SandwormIcon,
   StarIcon,
+  TargaryenIcon,
 } from "@/components/ui/Icons";
 
 export default function getIcon(title: string) {
@@ -35,6 +37,10 @@ export default function getIcon(title: string) {
     return <DeathStarIcon />;
   } else if (title.includes("Star Wars")) {
     return <LightsaberIcon />;
+  } else if (title.includes("House of the Dragon")) {
+    return <TargaryenIcon />;
+  } else if (title.includes("Game of Thrones")) {
+    return <GameOfThronesIcon />;
   }
 
   return <StarIcon fill="#FFD43B" classes="h-6 w-6" />;

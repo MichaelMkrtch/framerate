@@ -1,4 +1,5 @@
 import { type User } from "lucia";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
@@ -105,12 +106,24 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
                           </AvatarFallback>
                         </Avatar>
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <NavigationMenuLink>
-                          <form action={logout} className="px-2.5 py-1.5">
-                            <button>Logout</button>
-                          </form>
-                        </NavigationMenuLink>
+                      <NavigationMenuContent className="m-auto px-4 py-3">
+                        <ul>
+                          <li className="mb-2">
+                            <NavigationMenuLink
+                              href="/"
+                              className="text-nowrap text-sm"
+                            >
+                              Your lists
+                            </NavigationMenuLink>
+                          </li>
+                          <li>
+                            <NavigationMenuLink>
+                              <form action={logout}>
+                                <button className="">Logout</button>
+                              </form>
+                            </NavigationMenuLink>
+                          </li>
+                        </ul>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
                   </NavigationMenuList>
