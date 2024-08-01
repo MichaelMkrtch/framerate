@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import Lists from "../profile/lists/Lists";
+import ListsForm from "../profile/lists/ListsForm";
 import ListsModal from "../profile/lists/ListsModal";
 import { BookmarkIcon, EyeIcon, LikeIcon, PenIcon } from "../ui/Icons";
 import TooltipProvider from "../ui/TooltipProvider";
@@ -44,7 +45,6 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
       if (isLiked === null) {
         await updateLikeStatus({
           status: true,
-          userId: result.user.id,
           mediaId: id,
           mediaType,
         });
@@ -52,7 +52,6 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
       } else {
         await updateLikeStatus({
           status: null,
-          userId: result.user.id,
           mediaId: id,
           mediaType,
         });
@@ -62,7 +61,6 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
       if (isWatched === null) {
         await updateWatchStatus({
           status: true,
-          userId: result.user.id,
           mediaId: id,
           mediaType,
         });
@@ -70,7 +68,6 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
       } else {
         await updateWatchStatus({
           status: null,
-          userId: result.user.id,
           mediaId: id,
           mediaType,
         });
@@ -108,7 +105,7 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
           </ListsModal.Trigger>
 
           <ListsModal.Content title="Add to list">
-            <Lists />
+            <ListsForm />
           </ListsModal.Content>
         </ListsModal>
       </TooltipProvider>

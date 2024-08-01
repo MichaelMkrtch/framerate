@@ -48,18 +48,19 @@ export async function getReview(mediaId: number, mediaType: string) {
 
 type ReviewData = {
   status: true | null;
-  userId: number;
   mediaId: number;
   mediaType: string;
 };
 
 export async function updateLikeStatus({
   status,
-  userId,
   mediaId,
   mediaType,
 }: ReviewData) {
-  if (mediaType === "movie") {
+  const userResult = await validUser();
+  const userId = userResult.user?.id;
+
+  if (userId && mediaType === "movie") {
     await db
       .update(movieReviewsTable)
       .set({ liked: status })
@@ -69,7 +70,7 @@ export async function updateLikeStatus({
           eq(movieReviewsTable.movieId, mediaId),
         ),
       );
-  } else {
+  } else if (userId && mediaType === "tv") {
     await db
       .update(tvReviewsTable)
       .set({ liked: status })
@@ -84,11 +85,13 @@ export async function updateLikeStatus({
 
 export async function updateWatchStatus({
   status,
-  userId,
   mediaId,
   mediaType,
 }: ReviewData) {
-  if (mediaType === "movie") {
+  const userResult = await validUser();
+  const userId = userResult.user?.id;
+
+  if (userId && mediaType === "movie") {
     await db
       .update(movieReviewsTable)
       .set({ watched: status })
@@ -98,7 +101,7 @@ export async function updateWatchStatus({
           eq(movieReviewsTable.movieId, mediaId),
         ),
       );
-  } else {
+  } else if (userId && mediaType === "tv") {
     await db
       .update(tvReviewsTable)
       .set({ watched: status })

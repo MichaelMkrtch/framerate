@@ -23,6 +23,8 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "ios-safari-prevent-scroll-on-focus":
           "ios-safari-prevent-scroll-on-focus 0.1s",
+        "scale-to-right":
+          "scale-to-right 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both",
       },
       backgroundImage: {
         "backdrop-shadow":

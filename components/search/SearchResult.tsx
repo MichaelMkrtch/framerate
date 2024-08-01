@@ -65,7 +65,6 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
             <Link
               ref={ref}
               href={`/${mediaType}/${media.id}/${simpleTitle}`}
-              // onClick={() => setFilm(media)}
               className="flex w-full cursor-default items-center outline-none"
             >
               <div className="pointer-events-none mr-1.5 flex md:px-2">

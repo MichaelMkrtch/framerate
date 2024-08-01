@@ -123,6 +123,38 @@ export const tvReviewsTable = pgTable(
   },
 );
 
+export const listsTable = pgTable("lists", {
+  id: bigserial("id", { mode: "number" }),
+  userId: bigint("user_id", { mode: "number" })
+    .notNull()
+    .references(() => usersTable.id, {
+      onUpdate: "no action",
+      onDelete: "no action",
+    }),
+  name: text("name").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+    .notNull()
+    .defaultNow(),
+});
+
+export const listContentTable = pgTable("list_content", {
+  id: bigserial("id", { mode: "number" }),
+  listId: bigint("list_id", { mode: "number" }),
+  movieId: bigint("movie_id", { mode: "number" })
+    .notNull()
+    .references(() => moviesTable.id, {
+      onUpdate: "no action",
+      onDelete: "no action",
+    }),
+  seriesId: bigint("series_id", { mode: "number" })
+    .notNull()
+    .references(() => tvShowsTable.id, {
+      onUpdate: "no action",
+      onDelete: "no action",
+    }),
+  mediaType: text("media_type"),
+});
+
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
 
@@ -140,3 +172,9 @@ export type SelectShow = typeof tvShowsTable.$inferSelect;
 
 export type InsertShowReview = typeof tvReviewsTable.$inferInsert;
 export type SelectShowReview = typeof tvReviewsTable.$inferSelect;
+
+export type InsertList = typeof listsTable.$inferInsert;
+export type SelectList = typeof listsTable.$inferSelect;
+
+export type InsertListContent = typeof listContentTable.$inferInsert;
+export type SelectListContent = typeof listContentTable.$inferSelect;

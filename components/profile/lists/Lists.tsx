@@ -1,34 +1,35 @@
-import { useState } from "react";
+import CreateList from "./CreateList";
 
-import { AddIcon, BoxIcon, CheckBoxIcon } from "@/components/ui/Icons";
+import { BoxIcon, CheckBoxIcon } from "@/components/ui/Icons";
 
 export default function Lists() {
-  const [isChecked, setIsChecked] = useState(false);
-
-  function toggleCheckbox() {
-    if (isChecked) {
-      setIsChecked(false);
-    } else {
-      setIsChecked(true);
-    }
-  }
+  const userLists = ["Favorites"];
 
   return (
-    <>
-      <div className="flex w-fit cursor-pointer items-center">
-        <AddIcon fillPrimary="#d4d4d8" fillSecondary="#262626" />
-        <span className="ml-1.5">Create list</span>
-      </div>
-      <div className="flex w-fit cursor-pointer items-center">
-        <button onClick={toggleCheckbox}>
-          {isChecked ? (
-            <CheckBoxIcon fillPrimary="#00e4f5" fillSecondary="#262626" />
-          ) : (
-            <BoxIcon fill="#262626" />
-          )}
-        </button>
-        <span className="ml-1.5">Watchlist</span>
-      </div>
-    </>
+    <fieldset>
+      <CreateList />
+      {userLists.map((listName, index) => {
+        return (
+          <label
+            key={`${listName}-${index}`}
+            className="flex w-fit cursor-pointer select-none items-center"
+          >
+            <input
+              type="checkbox"
+              name="lists"
+              value={listName}
+              className="peer hidden"
+            />
+            <CheckBoxIcon
+              fillPrimary="#00e4f5"
+              fillSecondary="#262626"
+              classes="hidden peer-checked:block"
+            />
+            <BoxIcon fill="#262626" classes="peer-checked:hidden" />
+            <span className="ml-1.5">{listName}</span>
+          </label>
+        );
+      })}
+    </fieldset>
   );
 }
