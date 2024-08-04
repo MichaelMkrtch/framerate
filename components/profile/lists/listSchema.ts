@@ -8,8 +8,6 @@ export const listSchema = z.object({
     .max(150, { message: "List name must be at most 150 characters." }),
 });
 
-export const selectListSchema = z.record(z.string());
-
-// export const selectListSchema = z.object({
-//   listId: z.string().trim(),
-// });
+export const selectListSchema = z.object({
+  listId: z.string().trim(),
+});

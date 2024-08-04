@@ -32,23 +32,23 @@ export default function IconsSection({ media }: { media: Media }) {
 
   useEffect(() => {
     (async () => {
-      clearMedia();
       const reviewResult = await getReview(mediaId, mediaType);
       if (reviewResult) {
         setIsLiked(reviewResult.liked);
         setIsWatched(reviewResult.watched);
       }
     })();
-  }, []);
+  }, [mediaType, mediaId]);
 
   useEffect(() => {
+    clearMedia();
     (async () => {
       const listContentResults = await checkIfSaved(mediaId, mediaType);
       if (listContentResults && listContentResults.length > 0) {
         listContentResults.forEach((listContent) => addMedia(listContent));
       }
     })();
-  }, []);
+  }, [mediaType, mediaId, addMedia, clearMedia]);
 
   async function handleClick(icon: string) {
     const result = await validateRequest();

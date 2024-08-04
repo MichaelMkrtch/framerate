@@ -1,6 +1,6 @@
 "use server";
 
-import { type FormState, type ListData, SavedMedia } from "@/types";
+import { type FormState, type ListData } from "@/types";
 
 import {
   listSchema,
@@ -62,7 +62,6 @@ export async function saveToList(
   listContent: {
     mediaId: number;
     mediaType: "movie" | "tv";
-    idList: number[];
   },
   prevState: FormState,
   data: FormData,
@@ -78,57 +77,44 @@ export async function saveToList(
   }
 
   try {
-    const { mediaId, mediaType, idList } = listContent;
+    const { mediaId, mediaType } = listContent;
     const userId = result.user.id;
     const formData = Object.fromEntries(data);
     const parsed = selectListSchema.safeParse(formData);
 
-    const listIdsString = (parsed.data && Object.values(parsed.data)) || [];
-    const listIdsNum = listIdsString.map((id) => parseFloat(id));
-    console.log(idList)
+    if (!parsed.success) {
+      return {
+        status: "fail",
+        message: "Please select a valid list",
+        data: null,
+      };
+    }
 
-    const contentToAdd = idList.map((id) => {
-      if (mediaType === "movie") {
-        return {
-          userId,
-          listId: id,
-          mediaType,
-          movieId: mediaId,
-        };
-      } else {
-        return {
-          userId,
-          listId: id,
-          mediaType,
-          seriesId: mediaId,
-        };
-      }
-    });
+    const listIdStr = parsed.data.listId;
+    const listId = parseFloat(listIdStr);
 
-    const mediaResults = await addToList(contentToAdd);
+    let mediaResult: ListData<"listContent">;
 
-    // if (listIds && mediaType === "tv") {
-    //   listIds.forEach(async (listId) => {
-    //     const listIdNum = parseFloat(listId);
-    //     const result = await addToList({
-    //       userId,
-    //       listId: listIdNum,
-    //       mediaType,
-    //       seriesId: mediaId,
-    //     });
-
-    //     return {
-    //       status: "success",
-    //       message: "Updated list",
-    //       data: result,
-    //     };
-    //   });
-    // }
+    if (mediaType === "movie") {
+      mediaResult = await addToList({
+        userId,
+        listId,
+        mediaType,
+        movieId: mediaId,
+      });
+    } else {
+      mediaResult = await addToList({
+        userId,
+        listId,
+        mediaType,
+        seriesId: mediaId,
+      });
+    }
 
     return {
       status: "success",
-      message: mediaResults.length === 1 ? "Updated list" : "Updated lists",
-      data: mediaResults,
+      message: "Updated list",
+      data: mediaResult,
     };
   } catch (error) {
     if (error instanceof Error) {

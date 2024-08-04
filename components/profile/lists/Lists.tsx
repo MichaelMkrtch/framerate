@@ -10,18 +10,17 @@ import { getLists, removeFromList } from "@/lib/lists";
 import { useListContentStore } from "@/store/listContentStore";
 import { useListsStore } from "@/store/listsStore";
 
+type FormRefs = { [key: number]: { current: HTMLFormElement | null } };
+
 export default function Lists({ media }: { media: Media }) {
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRefs = useRef<FormRefs>({});
   const checkboxRef = useRef<HTMLInputElement>(null);
   const { id: mediaId, mediaType } = media;
 
-  const { savedMedia, addMedia, removeMedia } = useListContentStore(
-    (state) => ({
-      savedMedia: state.savedMedia,
-      addMedia: state.addMedia,
-      removeMedia: state.removeMedia,
-    }),
-  );
+  const { savedMedia, removeMedia } = useListContentStore((state) => ({
+    savedMedia: state.savedMedia,
+    removeMedia: state.removeMedia,
+  }));
 
   const { userLists, setLists } = useListsStore((state) => ({
     userLists: state.userLists,
@@ -40,61 +39,47 @@ export default function Lists({ media }: { media: Media }) {
   const idList = savedMedia.map((media) => media.listId);
   console.log("idList", idList);
 
-  function checkSavedMedia(listId: number, mediaId: number) {
-    const filteredMedia = savedMedia.filter((listContent) => {
-      if (listContent.mediaType === "movie") {
-        return listId === listContent.listId;
-      } else if (listContent.mediaType === "tv") {
-        return listId === listContent.listId;
-      }
-    });
-    return filteredMedia;
-  }
-
-  async function handleSubmit(listId: number) {
-    const filteredMedia = checkSavedMedia(listId, mediaId);
-
-    if (filteredMedia.length === 0) {
-      formRef.current?.dispatchEvent(
+  async function handleSubmit(listId: number, index: number) {
+    if (!idList.includes(listId)) {
+      formRefs.current[index].current?.dispatchEvent(
         new Event("submit", { cancelable: true, bubbles: true }),
       );
-      console.log("adding");
-      addMedia({ listId, mediaType, movieId: mediaId, seriesId: mediaId });
     }
 
-    filteredMedia.forEach(async (media) => {
-      if (media.listId === listId) {
-        await removeFromList(listId, mediaId, mediaType);
-        removeMedia(listId);
-      }
-      console.log("removing");
-    });
+    if (idList.includes(listId)) {
+      idList.forEach(async (id) => {
+        if (id === listId) {
+          await removeFromList(listId, mediaId, mediaType);
+          removeMedia(listId);
+        }
+      });
+    }
   }
 
   const listContent = {
     mediaId,
     mediaType,
-    idList,
   };
 
   return (
-    <ListsForm ref={formRef} action={saveToList.bind(null, listContent)}>
-      <fieldset>
-        {userLists.length > 0 &&
-          userLists.map((userList, index) => {
-            return (
-              userList && (
-                <label
-                  key={`${userList.name}-${index}`}
-                  className="mb-2.5 flex w-fit cursor-pointer select-none items-center"
-                >
+    <>
+      {userLists.length > 0 &&
+        userLists.map((userList, index) => {
+          return (
+            userList && (
+              <ListsForm
+                key={`${userList.name}-${index}`}
+                ref={(formRefs.current[index] ??= { current: null })}
+                action={saveToList.bind(null, listContent)}
+              >
+                <label className="mb-2.5 flex w-fit cursor-pointer select-none items-center">
                   <input
                     ref={checkboxRef}
                     type="checkbox"
-                    name={`listId-${userList.id}`}
+                    name="listId"
                     value={userList.id}
                     defaultChecked={idList.includes(userList.id) ? true : false}
-                    onClick={() => handleSubmit(userList.id)}
+                    onClick={() => handleSubmit(userList.id, index)}
                     className="peer hidden"
                   />
                   <CheckBoxIcon
@@ -105,10 +90,10 @@ export default function Lists({ media }: { media: Media }) {
                   <BoxIcon fill="#262626" classes="peer-checked:hidden" />
                   <span className="ml-1.5">{userList.name}</span>
                 </label>
-              )
-            );
-          })}
-      </fieldset>
-    </ListsForm>
+              </ListsForm>
+            )
+          );
+        })}
+    </>
   );
 }

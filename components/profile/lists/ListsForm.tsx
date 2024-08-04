@@ -32,7 +32,7 @@ const ListsForm = forwardRef<HTMLFormElement, ListsFormProps>(
 
     if (formState.status === "success") {
       if (formState.data?.type === "list") addList(formState.data);
-      if (formState.data?.type === "listContent") addMedia(formState.data); 
+      if (formState.data?.type === "listContent") addMedia(formState.data);
       toast.success(formState.message);
       formState.status = "";
     } else if (formState.status === "fail") {

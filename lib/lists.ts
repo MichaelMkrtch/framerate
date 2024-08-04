@@ -41,25 +41,19 @@ export async function getLists() {
   }
 }
 
-export async function addToList(data: InsertListContent[]) {
+export async function addToList(data: InsertListContent) {
   const userResult = await validUser();
   const userId = userResult.user?.id;
 
-  if (userId && data.length > 0) {
-    data.forEach(async (dataEl) => {
-      await db.insert(listContentTable).values(dataEl);
-    });
-
-    // const results = await db.insert(listContentTable).values(data).returning();
-
-    //   const formattedResults = results.map((result) => ({
-    //     ...result,
-    //     type: "listContent" as const,
-    //   }));
-    //   return formattedResults;
-    // } else {
-    //   return null;
-    // }
+  if (userId) {
+    const results = await db.insert(listContentTable).values(data).returning();
+    const formattedResults = results.map((result) => ({
+      ...result,
+      type: "listContent" as const,
+    }));
+    return formattedResults[0];
+  } else {
+    return null;
   }
 }
 
