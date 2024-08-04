@@ -51,12 +51,12 @@ export default function RatingCard({ media, storedRating }: RatingCardProps) {
         </div>
         <RatingForm media={media} />
         <div className="hidden md:block">
-          <IconsSection id={media.id} mediaType={media.mediaType} />
+          <IconsSection media={media} />
         </div>
       </Card>
 
       <Card classes="md:hidden basis-2/5 h-[124.5px]">
-        <IconsSection id={media.id} mediaType={media.mediaType} />
+        <IconsSection media={media} />
       </Card>
     </div>
   );

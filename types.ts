@@ -71,3 +71,40 @@ export type Review = {
 };
 
 export type Media<T = "movie" | "tv"> = T extends "movie" ? Film<T> : TV<T>;
+
+export type UserList<T> = {
+  type: T;
+  id: number;
+  name: string;
+  createdAt: Date;
+  userId: number;
+} | null;
+
+export type SavedMedia = {
+  id?: number;
+  listId: number;
+  mediaType: string;
+  userId?: number;
+  movieId: number | null;
+  seriesId: number | null;
+};
+
+export type SavedMediaResult<T> = {
+  type: T;
+  id: number;
+  userId: number;
+  listId: number;
+  mediaType: string;
+  movieId: number | null;
+  seriesId: number | null;
+} | null;
+
+export type ListData<T = "list" | "listContent"> = T extends "list"
+  ? UserList<T>
+  : SavedMediaResult<T>;
+
+export type FormState = {
+  status: string;
+  message: string;
+  data: ListData | null;
+};

@@ -1,55 +1,58 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
+import { type MutableRefObject, type ReactNode, forwardRef } from "react";
 import { useFormState } from "react-dom";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
-import Lists from "./Lists";
-import { listSchema } from "./listSchema";
+import { type FormState } from "@/types";
 
-import { submitList } from "@/actions/list-action";
-import { Form } from "@/components/ui/Form";
-import { validateRequest } from "@/lib/auth";
+import { useListContentStore } from "@/store/listContentStore";
+import { useListsStore } from "@/store/listsStore";
 
-export default function ListsForm() {
-  const [formState, formAction] = useFormState(submitList, {
-    status: "",
-    message: "",
-  });
+type ListsFormProps = {
+  action: (prevState: FormState, data: FormData) => Promise<FormState>;
+  children: ReactNode;
+};
 
-  const formRef = useRef<HTMLFormElement>(null);
+const ListsForm = forwardRef<HTMLFormElement, ListsFormProps>(
+  function ListsForm({ action, children }, ref) {
+    const [formState, formAction] = useFormState(action, {
+      status: "",
+      message: "",
+      data: null,
+    });
 
-  const form = useForm<z.infer<typeof listSchema>>({
-    resolver: zodResolver(listSchema),
-    defaultValues: {
-      listName: "",
-    },
-  });
+    const { addList } = useListsStore((state) => ({
+      addList: state.addList,
+    }));
 
-  if (formState.status === "success") {
-    toast.success(formState.message);
-    formState.status = "";
-  } else if (formState.status === "fail") {
-    toast.error(formState.message, { duration: 5000 });
-    formState.status = "";
-  }
+    const { addMedia } = useListContentStore((state) => ({
+      addMedia: state.addMedia,
+    }));
 
-  return (
-    <form
-      ref={formRef}
-      action={formAction}
-      onSubmit={(event) => {
-        event.preventDefault();
-        console.log(formState);
-        formAction(new FormData(formRef.current!));
-        // form.handleSubmit(() => {
-        //   console.log("submitted");
-        //   formAction(new FormData(formRef.current!));
-        // })(event);
-      }}
-    >
-      <Lists />
-    </form>
-  );
-}
+    const formRef = ref as MutableRefObject<HTMLFormElement>;
+
+    if (formState.status === "success") {
+      if (formState.data?.type === "list") addList(formState.data);
+      if (formState.data?.type === "listContent") addMedia(formState.data); 
+      toast.success(formState.message);
+      formState.status = "";
+    } else if (formState.status === "fail") {
+      toast.error(formState.message, { duration: 5000 });
+      formState.status = "";
+    }
+
+    return (
+      <form
+        ref={formRef}
+        action={formAction}
+        onSubmit={(event) => {
+          event.preventDefault();
+          formAction(new FormData(formRef.current!));
+        }}
+      >
+        {children}
+      </form>
+    );
+  },
+);
+
+export default ListsForm;

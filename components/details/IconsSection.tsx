@@ -1,37 +1,54 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { Media } from "@/types";
+
+import CreateList from "../profile/lists/CreateList";
 import Lists from "../profile/lists/Lists";
-import ListsForm from "../profile/lists/ListsForm";
 import ListsModal from "../profile/lists/ListsModal";
 import { BookmarkIcon, EyeIcon, LikeIcon, PenIcon } from "../ui/Icons";
 import TooltipProvider from "../ui/TooltipProvider";
 
 import { validateRequest } from "@/lib/auth";
+import { checkIfSaved } from "@/lib/lists";
 import { getReview } from "@/lib/reviewCard";
 import { updateLikeStatus, updateWatchStatus } from "@/lib/reviewCard";
+import { useListContentStore } from "@/store/listContentStore";
 
-type IconsSectionProps = {
-  id: number;
-  mediaType: string;
-};
-
-export default function IconsSection({ id, mediaType }: IconsSectionProps) {
+export default function IconsSection({ media }: { media: Media }) {
   const [isLiked, setIsLiked] = useState<boolean | null>();
   const [isWatched, setIsWatched] = useState<boolean | null>();
+
+  const { savedMedia, addMedia, clearMedia } = useListContentStore((state) => ({
+    savedMedia: state.savedMedia,
+    addMedia: state.addMedia,
+    clearMedia: state.clearMedia,
+  }));
 
   const iconClasses =
     "h-9 w-9 mx-[5px] md:h-7 md:w-7 lg:h-8 lg:w-8 transition-all duration-150 ease active:scale-90";
 
+  const { id: mediaId, mediaType } = media;
+
   useEffect(() => {
     (async () => {
-      const result = await getReview(id, mediaType);
-      if (result) {
-        setIsLiked(result.liked);
-        setIsWatched(result.watched);
+      clearMedia();
+      const reviewResult = await getReview(mediaId, mediaType);
+      if (reviewResult) {
+        setIsLiked(reviewResult.liked);
+        setIsWatched(reviewResult.watched);
       }
     })();
-  }, [id, mediaType]);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const listContentResults = await checkIfSaved(mediaId, mediaType);
+      if (listContentResults && listContentResults.length > 0) {
+        listContentResults.forEach((listContent) => addMedia(listContent));
+      }
+    })();
+  }, []);
 
   async function handleClick(icon: string) {
     const result = await validateRequest();
@@ -45,14 +62,14 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
       if (isLiked === null) {
         await updateLikeStatus({
           status: true,
-          mediaId: id,
+          mediaId,
           mediaType,
         });
         setIsLiked(true);
       } else {
         await updateLikeStatus({
           status: null,
-          mediaId: id,
+          mediaId,
           mediaType,
         });
         setIsLiked(null);
@@ -61,14 +78,14 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
       if (isWatched === null) {
         await updateWatchStatus({
           status: true,
-          mediaId: id,
+          mediaId,
           mediaType,
         });
         setIsWatched(true);
       } else {
         await updateWatchStatus({
           status: null,
-          mediaId: id,
+          mediaId,
           mediaType,
         });
         setIsWatched(null);
@@ -98,14 +115,17 @@ export default function IconsSection({ id, mediaType }: IconsSectionProps) {
             <div>
               <BookmarkIcon
                 fill="#333"
-                classes={`${iconClasses} hover:fill-[#32EC44]`}
+                classes={`${iconClasses} ${savedMedia.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44]`}
                 onClick={() => handleClick}
               />
             </div>
           </ListsModal.Trigger>
 
           <ListsModal.Content title="Add to list">
-            <ListsForm />
+            <div>
+              <CreateList />
+              <Lists media={media} />
+            </div>
           </ListsModal.Content>
         </ListsModal>
       </TooltipProvider>

@@ -1,13 +1,24 @@
-import { type ChangeEvent, useRef, useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
+import ListsForm from "./ListsForm";
+
+import { submitList } from "@/actions/list-action";
 import { AddIcon } from "@/components/ui/Icons";
 
 export default function CreateList() {
   const [isChecked, setIsChecked] = useState<boolean | undefined>();
   const [userInput, setUserInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const createListRef = useRef<HTMLInputElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (createListRef) {
+      createListRef.current?.focus();
+    }
+  }, []);
 
   function handleClickOutside() {
     if (inputRef.current?.checked) {
@@ -23,40 +34,43 @@ export default function CreateList() {
   }
 
   return (
-    <label
-      ref={labelRef}
-      className="mb-2.5 flex w-fit cursor-pointer items-center has-[:checked]:w-5/6"
-    >
-      <input
-        ref={inputRef}
-        type="checkbox"
-        name="lists"
-        value="create"
-        className="peer hidden"
-        onClick={() => setIsChecked(inputRef.current?.checked)}
-      />
-      <AddIcon
-        fillPrimary={isChecked ? "#00e4f5" : "#d4d4d8"}
-        fillSecondary="#262626"
-      />
-      <span className="ml-1.5 select-none peer-checked:hidden">
-        Create list
-      </span>
-      <div className="hidden peer-checked:flex peer-checked:grow peer-checked:animate-scale-to-right peer-checked:items-center">
+    <ListsForm action={submitList} ref={formRef}>
+      <label
+        ref={labelRef}
+        className="mb-2.5 flex w-fit cursor-pointer items-center has-[:checked]:w-5/6"
+      >
         <input
-          type="text"
-          name="listName"
-          value={userInput}
-          onChange={(event) => handleChange(event)}
-          className="relative ml-1 h-[32px] w-full rounded bg-neutral-800 px-2 outline-none ring-1 ring-white/10"
+          ref={inputRef}
+          type="checkbox"
+          name="lists"
+          value="create"
+          className="peer hidden"
+          onClick={() => setIsChecked(inputRef.current?.checked)}
         />
-        <button
-          type="submit"
-          className="absolute right-0 h-full overflow-x-scroll rounded bg-neutral-800 px-1.5 pr-2.5 text-sm font-medium text-zinc-200 transition-colors duration-150 ease-in hover:text-cyan-350"
-        >
-          Create
-        </button>
-      </div>
-    </label>
+        <AddIcon
+          fillPrimary={isChecked ? "#00e4f5" : "#d4d4d8"}
+          fillSecondary="#262626"
+        />
+        <span className="ml-1.5 select-none peer-checked:hidden">
+          Create list
+        </span>
+        <div className="hidden peer-checked:flex peer-checked:grow peer-checked:animate-scale-to-right peer-checked:items-center">
+          <input
+            ref={createListRef}
+            type="text"
+            name="listName"
+            value={userInput}
+            onChange={(event) => handleChange(event)}
+            className="relative ml-1 h-[32px] w-full rounded bg-neutral-800 px-2 outline-none ring-1 ring-white/10"
+          />
+          <button
+            type="submit"
+            className="absolute right-0 h-full overflow-x-scroll rounded bg-neutral-800 px-1.5 pr-2.5 text-sm font-medium text-zinc-200 transition-colors duration-150 ease-in hover:text-cyan-350"
+          >
+            Create
+          </button>
+        </div>
+      </label>
+    </ListsForm>
   );
 }

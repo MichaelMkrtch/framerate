@@ -26,7 +26,9 @@ function ListsModalContent({
       <DialogHeader className="mb-4">
         <DialogTitle className="tracking-wide">{title}</DialogTitle>
       </DialogHeader>
-      {children}
+      <div className="no-scrollbar max-h-[300px] overflow-y-scroll">
+        {children}
+      </div>
       <DialogClose asChild>
         <div className="focus-ring-2 absolute right-4 top-4 cursor-pointer rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none">
           <Cross2Icon className="h-4 w-4" />

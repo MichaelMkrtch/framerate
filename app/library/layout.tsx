@@ -11,7 +11,6 @@ type LibraryLayoutProps = {
 export default function LibraryLayout({ children }: LibraryLayoutProps) {
   const router = useRouter();
   const filter = useSearchParams().get("filter");
-  console.log(filter);
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     if (filter) {

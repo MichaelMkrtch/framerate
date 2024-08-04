@@ -138,21 +138,24 @@ export const listsTable = pgTable("lists", {
 });
 
 export const listContentTable = pgTable("list_content", {
-  id: bigserial("id", { mode: "number" }),
-  listId: bigint("list_id", { mode: "number" }),
-  movieId: bigint("movie_id", { mode: "number" })
-    .notNull()
-    .references(() => moviesTable.id, {
+  id: bigserial("id", { mode: "number" }).notNull(),
+  userId: bigint("user_id", { mode: "number" }).notNull(),
+  listId: bigint("list_id", { mode: "number" }).notNull(),
+  movieId: bigint("movie_id", { mode: "number" }).references(
+    () => moviesTable.id,
+    {
       onUpdate: "no action",
       onDelete: "no action",
-    }),
-  seriesId: bigint("series_id", { mode: "number" })
-    .notNull()
-    .references(() => tvShowsTable.id, {
+    },
+  ),
+  seriesId: bigint("series_id", { mode: "number" }).references(
+    () => tvShowsTable.id,
+    {
       onUpdate: "no action",
       onDelete: "no action",
-    }),
-  mediaType: text("media_type"),
+    },
+  ),
+  mediaType: text("media_type").notNull(),
 });
 
 export type InsertUser = typeof usersTable.$inferInsert;
