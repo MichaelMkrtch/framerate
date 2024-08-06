@@ -1,3 +1,5 @@
+import { useMediaQuery } from "usehooks-ts";
+
 import { type Media } from "@/types";
 
 import getIcon from "@/utils/getIcon";
@@ -14,13 +16,15 @@ type RatingCardProps = {
 };
 
 export default function RatingCard({ media, storedRating }: RatingCardProps) {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
   const icon = media && getIcon(media.title);
   const isStoredReview = storedRating && storedRating.reviewCount > 0;
 
   return (
     <div className="flex items-center justify-between gap-3.5 md:block">
-      <Card classes="basis-3/5 md:basis-full">
+      <Card classes="basis-3/5 md:basis-full h-[126px] md:h-auto">
         <div className="mx-[3px] mb-6 flex items-center justify-between lg:mb-8">
           <h3
             className={`${!isStoredReview ? "m-auto" : ""} inline font-medium`}
@@ -55,9 +59,11 @@ export default function RatingCard({ media, storedRating }: RatingCardProps) {
         </div>
       </Card>
 
-      <Card classes="md:hidden basis-2/5 h-[124.5px]">
-        <IconsSection media={media} />
-      </Card>
+      {isMobile && (
+        <Card classes="md:hidden h-[126px] basis-2/5">
+          <IconsSection media={media} />
+        </Card>
+      )}
     </div>
   );
 }

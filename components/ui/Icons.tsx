@@ -152,7 +152,7 @@ export function StarIcon({
 type ReviewCardIcons = {
   fill: string;
   classes: string;
-  onClick: MouseEventHandler;
+  onClick?: MouseEventHandler;
 };
 
 export function LikeIcon({ fill, classes, onClick }: ReviewCardIcons) {
@@ -288,25 +288,25 @@ export function LightsaberIcon() {
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      width="48"
-      height="48"
+      width="42"
+      height="42"
       viewBox="0,0,256,256"
       style={{ fill: "#000000" }}
     >
       <g
         fill="none"
-        fill-rule="nonzero"
+        fillRule="nonzero"
         stroke="none"
-        stroke-width="1"
-        stroke-linecap="butt"
-        stroke-linejoin="miter"
-        stroke-miterlimit="10"
-        stroke-dasharray=""
-        stroke-dashoffset="0"
-        font-family="none"
-        font-weight="none"
-        font-size="none"
-        text-anchor="none"
+        strokeWidth="1"
+        strokeLinecap="butt"
+        strokeLinejoin="miter"
+        strokeMiterlimit="10"
+        strokeDasharray=""
+        strokeDashoffset="0"
+        fontFamily="none"
+        fontWeight="none"
+        fontSize="none"
+        textAnchor="none"
         style={{ mixBlendMode: "normal" }}
       >
         <g transform="scale(5.33333,5.33333)">

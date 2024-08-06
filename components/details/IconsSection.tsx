@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { Media } from "@/types";
+import { type Media } from "@/types";
 
 import CreateList from "../profile/lists/CreateList";
 import Lists from "../profile/lists/Lists";
@@ -41,13 +41,13 @@ export default function IconsSection({ media }: { media: Media }) {
   }, [mediaType, mediaId]);
 
   useEffect(() => {
-    clearMedia();
     (async () => {
       const listContentResults = await checkIfSaved(mediaId, mediaType);
       if (listContentResults && listContentResults.length > 0) {
         listContentResults.forEach((listContent) => addMedia(listContent));
       }
     })();
+    return () => clearMedia();
   }, [mediaType, mediaId, addMedia, clearMedia]);
 
   async function handleClick(icon: string) {
@@ -102,6 +102,7 @@ export default function IconsSection({ media }: { media: Media }) {
           onClick={() => handleClick("like")}
         />
       </TooltipProvider>
+
       <TooltipProvider content={<p>Watched</p>}>
         <EyeIcon
           fill="#333"
@@ -109,6 +110,7 @@ export default function IconsSection({ media }: { media: Media }) {
           onClick={() => handleClick("watch")}
         />
       </TooltipProvider>
+
       <TooltipProvider content={<p>Save to list</p>}>
         <ListsModal>
           <ListsModal.Trigger asChild>
@@ -116,7 +118,6 @@ export default function IconsSection({ media }: { media: Media }) {
               <BookmarkIcon
                 fill="#333"
                 classes={`${iconClasses} ${savedMedia.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44]`}
-                onClick={() => handleClick}
               />
             </div>
           </ListsModal.Trigger>
@@ -129,6 +130,7 @@ export default function IconsSection({ media }: { media: Media }) {
           </ListsModal.Content>
         </ListsModal>
       </TooltipProvider>
+
       <TooltipProvider content={<p>Review</p>}>
         <PenIcon
           fill="#333"

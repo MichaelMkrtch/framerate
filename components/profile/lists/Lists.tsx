@@ -25,8 +25,6 @@ export default function Lists({ media }: { media: Media }) {
   const { userLists, setLists } = useListsStore((state) => ({
     userLists: state.userLists,
     setLists: state.setLists,
-    addList: state.addList,
-    removeList: state.removeList,
   }));
 
   useEffect(() => {
@@ -37,7 +35,6 @@ export default function Lists({ media }: { media: Media }) {
   }, [setLists]);
 
   const idList = savedMedia.map((media) => media.listId);
-  console.log("idList", idList);
 
   async function handleSubmit(listId: number, index: number) {
     if (!idList.includes(listId)) {
