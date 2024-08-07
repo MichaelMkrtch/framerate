@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { type ListData } from "@/types";
 
@@ -17,19 +18,27 @@ type Lists = {
   clearActiveList: () => void;
 };
 
-export const useListsStore = create<Lists>()((set) => ({
-  userLists: [],
-  activeList: null,
-  setActiveList: (listId, listName) =>
-    set(() => ({ activeList: { id: listId, name: listName } })),
-  setLists: (lists) => set(() => ({ userLists: lists })),
-  addList: (list) =>
-    set((state) => ({ userLists: [...state.userLists, list] })),
-  removeList: (listId) =>
-    set((state) => ({
-      userLists: state.userLists.filter(
-        (userList) => userList && userList.id !== listId,
-      ),
-    })),
-  clearActiveList: () => set(() => ({ activeList: null })),
-}));
+export const useListsStore = create<Lists>()(
+  persist(
+    (set) => ({
+      userLists: [],
+      activeList: null,
+      setActiveList: (listId, listName) =>
+        set(() => ({ activeList: { id: listId, name: listName } })),
+      setLists: (lists) => set(() => ({ userLists: lists })),
+      addList: (list) =>
+        set((state) => ({ userLists: [...state.userLists, list] })),
+      removeList: (listId) =>
+        set((state) => ({
+          userLists: state.userLists.filter(
+            (userList) => userList && userList.id !== listId,
+          ),
+        })),
+      clearActiveList: () => set(() => ({ activeList: null })),
+    }),
+    {
+      name: "activeListStorage",
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
