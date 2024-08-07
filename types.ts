@@ -61,13 +61,13 @@ type TV<T> = {
   numberOfSeasons: number;
 };
 
-export type Review = {
-  mediaType: string | null;
+export type SavedContent = {
+  mediaType?: string | null;
   id: number;
   title: string;
-  rating: string | null;
+  rating?: string | null;
   posterPath: string;
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type Media<T = "movie" | "tv"> = T extends "movie" ? Film<T> : TV<T>;

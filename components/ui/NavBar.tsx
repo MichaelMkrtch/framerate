@@ -1,7 +1,6 @@
 import { type User } from "lucia";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
@@ -12,24 +11,35 @@ import { logout } from "@/actions/auth-actions";
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/Navigation-Menu";
+import { useUserStore } from "@/store/userStore";
 
 type NavBarProps = {
   isMobile: boolean;
   user: User | null;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function NavBar({ isMobile, user }: NavBarProps) {
+export default function NavBar({
+  isMobile,
+  user,
+  isOpen,
+  setIsOpen,
+}: NavBarProps) {
   const [activePath, setActivePath] = useState<string>();
   const [linkName, setLinkName] = useState<string>("");
   const pathname = usePathname();
   const ref = useRef(null);
+
+  const { username } = useUserStore((state) => ({
+    username: state.username,
+  }));
 
   useEffect(() => {
     if (pathname === "/") {
@@ -58,12 +68,18 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
   }, [isMobile]);
 
   function handleClick() {
+    if (isOpen) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
     setActivePath(undefined);
   }
 
   function handleClickOutside() {
     if (isMobile) {
       setActivePath(pathname);
+      setIsOpen(false);
     }
   }
 
@@ -106,11 +122,11 @@ export default function NavBar({ isMobile, user }: NavBarProps) {
                           </AvatarFallback>
                         </Avatar>
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className="m-auto px-4 py-3">
+                      <NavigationMenuContent className="m-auto px-3 py-2">
                         <ul>
                           <li className="mb-2">
                             <NavigationMenuLink
-                              href="/"
+                              href={`/${username}/lists`}
                               className="text-nowrap text-sm"
                             >
                               Your lists

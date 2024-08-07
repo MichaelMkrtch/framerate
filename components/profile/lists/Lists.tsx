@@ -29,10 +29,12 @@ export default function Lists({ media }: { media: Media }) {
 
   useEffect(() => {
     (async () => {
-      const results = await getLists();
-      results && setLists(results);
+      if (userLists.length === 0) {
+        const results = await getLists();
+        results && setLists(results);
+      }
     })();
-  }, [setLists]);
+  }, [userLists, setLists]);
 
   const idList = savedMedia.map((media) => media.listId);
 

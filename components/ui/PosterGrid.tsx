@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { type Review } from "@/types";
+import { type SavedContent } from "@/types";
 
 import getSimpleTitle from "@/utils/getSimpleTitle";
 
@@ -9,7 +9,7 @@ import Poster from "./Poster";
 import TooltipProvider from "./TooltipProvider";
 
 type PosterGridProps = {
-  reviews?: Review[];
+  reviews?: SavedContent[];
   tooltipEnabled?: boolean;
 };
 
@@ -29,7 +29,7 @@ export default function PosterGrid({
             <div className="max-w-48">
               <div className="w-full">
                 <p className="font-medium tracking-wide">{result.title}</p>
-                <div className="mt-2 flex justify-end">
+                <div className="flex justify-end">
                   <StarIcon fill="#FFD43B" classes="h-4 w-4" />
                   <span className="ml-1 font-semibold">{rating}</span>
                 </div>
