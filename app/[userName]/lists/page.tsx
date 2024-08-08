@@ -53,7 +53,7 @@ export default function ListsPage() {
 
           return (
             list && (
-              <Card key={`${list.name}-${list.id}`} classes="h-fit mb-6 ">
+              <Card key={`${list.name}-${list.id}`} classes="h-fit mb-6">
                 <Link
                   key={`${list.name}-${list.id}`}
                   href={`/${username}/lists/${formattedName}`}

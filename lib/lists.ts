@@ -89,7 +89,12 @@ export async function getSavedMovies(listId: number) {
         ),
       );
 
-    return results;
+    const formattedResults = results.map((result) => ({
+      ...result,
+      mediaType: "movie",
+    }));
+
+    return formattedResults;
   }
 }
 
@@ -116,7 +121,12 @@ export async function getSavedSeries(listId: number) {
         ),
       );
 
-    return results;
+    const formattedResults = results.map((result) => ({
+      ...result,
+      mediaType: "series",
+    }));
+
+    return formattedResults;
   }
 }
 
