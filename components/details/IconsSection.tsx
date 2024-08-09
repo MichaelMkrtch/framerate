@@ -19,11 +19,13 @@ export default function IconsSection({ media }: { media: Media }) {
   const [isLiked, setIsLiked] = useState<boolean | null>();
   const [isWatched, setIsWatched] = useState<boolean | null>();
 
-  const { savedMedia, addMedia, clearMedia } = useListContentStore((state) => ({
-    savedMedia: state.savedMedia,
-    addMedia: state.addMedia,
-    clearMedia: state.clearMedia,
-  }));
+  const { listContent, addListContent, clearListContent } = useListContentStore(
+    (state) => ({
+      listContent: state.listContent,
+      addListContent: state.addListContent,
+      clearListContent: state.clearListContent,
+    }),
+  );
 
   const iconClasses =
     "h-9 w-9 mx-[5px] md:h-7 md:w-7 lg:h-8 lg:w-8 transition-all duration-150 ease active:scale-90";
@@ -44,11 +46,11 @@ export default function IconsSection({ media }: { media: Media }) {
     (async () => {
       const listContentResults = await checkIfSaved(mediaId, mediaType);
       if (listContentResults && listContentResults.length > 0) {
-        listContentResults.forEach((listContent) => addMedia(listContent));
+        listContentResults.forEach((listContent) => addListContent(listContent));
       }
     })();
-    return () => clearMedia();
-  }, [mediaType, mediaId, addMedia, clearMedia]);
+    return () => clearListContent();
+  }, [mediaType, mediaId, addListContent, clearListContent]);
 
   async function handleClick(icon: string) {
     const result = await validateRequest();
@@ -117,12 +119,15 @@ export default function IconsSection({ media }: { media: Media }) {
             <div>
               <BookmarkIcon
                 fill="#333"
-                classes={`${iconClasses} ${savedMedia.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44] cursor-pointer`}
+                classes={`${iconClasses} ${listContent.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44] cursor-pointer`}
               />
             </div>
           </ListsModal.Trigger>
 
-          <ListsModal.Content title="Add to list" description="Save media to one of your lists">
+          <ListsModal.Content
+            title="Add to list"
+            description="Save media to one of your lists"
+          >
             <div>
               <CreateList />
               <Lists media={media} />

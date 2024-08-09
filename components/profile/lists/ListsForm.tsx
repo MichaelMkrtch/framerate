@@ -24,15 +24,18 @@ const ListsForm = forwardRef<HTMLFormElement, ListsFormProps>(
       addList: state.addList,
     }));
 
-    const { addMedia } = useListContentStore((state) => ({
-      addMedia: state.addMedia,
+    const { addListContent } = useListContentStore((state) => ({
+      addListContent: state.addListContent,
     }));
 
     const formRef = ref as MutableRefObject<HTMLFormElement>;
 
     if (formState.status === "success") {
+      console.log("success");
+      console.log(formState.message);
       if (formState.data?.type === "list") addList(formState.data);
-      if (formState.data?.type === "listContent") addMedia(formState.data);
+      if (formState.data?.type === "listContent")
+        addListContent(formState.data);
       toast.success(formState.message);
       formState.status = "";
     } else if (formState.status === "fail") {

@@ -9,6 +9,7 @@ import { BoxIcon, CheckBoxIcon } from "@/components/ui/Icons";
 import { getLists, removeFromList } from "@/lib/lists";
 import { useListContentStore } from "@/store/listContentStore";
 import { useListsStore } from "@/store/listsStore";
+import { toast } from "sonner";
 
 type FormRefs = { [key: number]: { current: HTMLFormElement | null } };
 
@@ -16,9 +17,9 @@ export default function Lists({ media }: { media: Media }) {
   const formRefs = useRef<FormRefs>({});
   const checkboxRef = useRef<HTMLInputElement>(null);
 
-  const { savedMedia, removeMedia } = useListContentStore((state) => ({
-    savedMedia: state.savedMedia,
-    removeMedia: state.removeMedia,
+  const { listContent, removeListContent } = useListContentStore((state) => ({
+    listContent: state.listContent,
+    removeListContent: state.removeListContent,
   }));
 
   const { userLists, setLists } = useListsStore((state) => ({
@@ -35,7 +36,7 @@ export default function Lists({ media }: { media: Media }) {
     })();
   }, [userLists, setLists]);
 
-  const idList = savedMedia.map((media) => media.listId);
+  const idList = listContent.map((media) => media.listId);
 
   async function handleSubmit(listId: number, index: number) {
     if (!idList.includes(listId)) {
@@ -47,10 +48,24 @@ export default function Lists({ media }: { media: Media }) {
     if (idList.includes(listId)) {
       idList.forEach(async (id) => {
         if (id === listId) {
-          await removeFromList(listId, media.id, media.mediaType);
-          removeMedia(listId);
+          const contentToRemove = listContent.filter(
+            (content) =>
+              content.listId === listId && content.mediaId === media.id,
+          );
+          await removeFromList(
+            contentToRemove[0].listContentId,
+            media.id,
+            media.mediaType,
+          );
+          removeListContent(
+            media.id,
+            contentToRemove[0].listContentId,
+            media.mediaType,
+          );
         }
       });
+
+      toast.success("Removed from list")
     }
   }
 

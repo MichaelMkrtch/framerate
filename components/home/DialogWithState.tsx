@@ -7,8 +7,7 @@ import { useListContentStore } from "@/store/listContentStore";
 import { useListsStore } from "@/store/listsStore";
 
 export default function DialogWithState({ children }: { children: ReactNode }) {
-  const { clearMedia, clearListContent } = useListContentStore((state) => ({
-    clearMedia: state.clearMedia,
+  const { clearListContent } = useListContentStore((state) => ({
     clearListContent: state.clearListContent,
   }));
 
@@ -18,7 +17,7 @@ export default function DialogWithState({ children }: { children: ReactNode }) {
   }));
 
   useEffect(() => {
-    clearMedia();
+    clearListContent();
     clearLists();
     clearListContent();
     clearActiveList();

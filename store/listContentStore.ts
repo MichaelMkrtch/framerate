@@ -1,37 +1,27 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { ListContent } from "@/types";
+import { type ListContent } from "@/types";
 
 type ListContentStore = {
-  savedMedia: ListContent[];
   listContent: ListContent[];
   setListContent: (mediaArr: ListContent[]) => void;
-  addMedia: (media: ListContent) => void;
-  // removeMedia: (listId: number) => void;
+  addListContent: (media: ListContent) => void;
   removeListContent: (
     mediaId: number,
     listContentId: number,
     mediaType: "movie" | "tv",
   ) => void;
-  clearMedia: () => void;
   clearListContent: () => void;
 };
 
 export const useListContentStore = create<ListContentStore>()(
   persist(
     (set) => ({
-      savedMedia: [],
       listContent: [],
       setListContent: (mediaArr) => set(() => ({ listContent: mediaArr })),
-      addMedia: (media) =>
-        set((state) => ({ savedMedia: [...state.savedMedia, media] })),
-      // removeMedia: (listId) =>
-      //   set((state) => ({
-      //     savedMedia: state.savedMedia.filter(
-      //       (media) => listId !== media.listId,
-      //     ),
-      //   })),
+      addListContent: (media) =>
+        set((state) => ({ listContent: [...state.listContent, media] })),
       removeListContent: (mediaId, listContentId, mediaType) =>
         set((state) => ({
           listContent: state.listContent.filter((media) => {
@@ -46,7 +36,6 @@ export const useListContentStore = create<ListContentStore>()(
             }
           }),
         })),
-      clearMedia: () => set(() => ({ savedMedia: [] })),
       clearListContent: () => set(() => ({ listContent: [] })),
     }),
     {

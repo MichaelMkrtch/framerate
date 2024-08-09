@@ -114,7 +114,7 @@ export async function saveToList(
 
     return {
       status: "success",
-      message: "Updated list",
+      message: "Added to list",
       data: mediaResult,
     };
   } catch (error) {
