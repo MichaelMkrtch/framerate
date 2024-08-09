@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { type SavedContent } from "@/types";
+import { type Review } from "@/types";
 
 import PosterGrid from "@/components/ui/PosterGrid";
 import { getMovies } from "@/lib/movieReview";
@@ -13,7 +13,7 @@ export default function Library({
 }: {
   searchParams: Record<string, "film" | "series" | "none">;
 }) {
-  const [reviews, setReviews] = useState<SavedContent[]>();
+  const [reviews, setReviews] = useState<Review[]>();
 
   const filterMode = searchParams.filter || "none";
 
@@ -46,5 +46,5 @@ export default function Library({
     })();
   }, [filterMode]);
 
-  return <PosterGrid reviews={reviews} />;
+  return reviews && <PosterGrid media={reviews} />;
 }

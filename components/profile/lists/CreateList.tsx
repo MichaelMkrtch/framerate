@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 import ListsForm from "./ListsForm";
@@ -14,20 +14,19 @@ export default function CreateList() {
   const labelRef = useRef<HTMLLabelElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    if (createListRef) {
-      createListRef.current?.focus();
-    }
-  }, []);
+  function handleClickInput() {
+    setIsChecked(inputRef.current?.checked);
+    createListRef.current?.focus();
+  }
 
-  function handleClickOutside() {
+  function handleClickCreateList() {
     if (inputRef.current?.checked) {
       inputRef.current.checked = false;
       setIsChecked(false);
     }
   }
 
-  useOnClickOutside(labelRef, handleClickOutside);
+  useOnClickOutside(labelRef, handleClickCreateList);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     setUserInput(event?.target.value);
@@ -45,7 +44,7 @@ export default function CreateList() {
           name="lists"
           value="create"
           className="peer hidden"
-          onClick={() => setIsChecked(inputRef.current?.checked)}
+          onClick={handleClickInput}
         />
         <AddIcon
           fillPrimary={isChecked ? "#00e4f5" : "#d4d4d8"}
@@ -66,6 +65,7 @@ export default function CreateList() {
           <button
             type="submit"
             className="absolute right-0 h-full overflow-x-scroll rounded bg-neutral-800 px-1.5 pr-2.5 text-sm font-medium text-zinc-200 transition-colors duration-150 ease-in hover:text-cyan-350"
+            onClick={handleClickCreateList}
           >
             Create
           </button>

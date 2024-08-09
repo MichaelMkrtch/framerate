@@ -15,7 +15,6 @@ type FormRefs = { [key: number]: { current: HTMLFormElement | null } };
 export default function Lists({ media }: { media: Media }) {
   const formRefs = useRef<FormRefs>({});
   const checkboxRef = useRef<HTMLInputElement>(null);
-  const { id: mediaId, mediaType } = media;
 
   const { savedMedia, removeMedia } = useListContentStore((state) => ({
     savedMedia: state.savedMedia,
@@ -48,17 +47,12 @@ export default function Lists({ media }: { media: Media }) {
     if (idList.includes(listId)) {
       idList.forEach(async (id) => {
         if (id === listId) {
-          await removeFromList(listId, mediaId, mediaType);
+          await removeFromList(listId, media.id, media.mediaType);
           removeMedia(listId);
         }
       });
     }
   }
-
-  const listContent = {
-    mediaId,
-    mediaType,
-  };
 
   return (
     <>
@@ -69,7 +63,7 @@ export default function Lists({ media }: { media: Media }) {
               <ListsForm
                 key={`${userList.name}-${index}`}
                 ref={(formRefs.current[index] ??= { current: null })}
-                action={saveToList.bind(null, listContent)}
+                action={saveToList.bind(null, media)}
               >
                 <label className="mb-2.5 flex w-fit cursor-pointer select-none items-center">
                   <input

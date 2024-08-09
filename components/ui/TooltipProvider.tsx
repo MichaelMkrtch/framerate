@@ -1,4 +1,4 @@
-import { ReactElement, type ReactNode } from "react";
+import { type ReactElement, type ReactNode } from "react";
 
 import {
   TooltipProvider as Provider,
@@ -26,7 +26,7 @@ export default function TooltipProvider({
     <Provider>
       <Tooltip open={isEnabled} delayDuration={delay}>
         <TooltipTrigger asChild>
-          <button>{children}</button>
+          <button className="cursor-default">{children}</button>
         </TooltipTrigger>
         <TooltipContent side={side}>{content}</TooltipContent>
       </Tooltip>

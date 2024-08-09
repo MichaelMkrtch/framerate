@@ -5,10 +5,12 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
+import { VisuallyHidden } from "@/components/ui/VisuallyHidden";
 
 export default function ListsModal({ children }: { children: ReactNode }) {
   return <Dialog>{children}</Dialog>;
@@ -16,15 +18,20 @@ export default function ListsModal({ children }: { children: ReactNode }) {
 
 function ListsModalContent({
   title,
+  description,
   children,
 }: {
   title: string;
+  description: string;
   children: ReactNode;
 }) {
   return (
     <DialogContent className="top-[30%] w-4/5 border-0 p-6 text-zinc-300 caret-zinc-300 outline-none ring-1 md:top-[50%] md:w-1/2 md:max-w-md dark:bg-neutral-900 dark:ring-neutral-800">
       <DialogHeader className="mb-4">
         <DialogTitle className="tracking-wide">{title}</DialogTitle>
+        <VisuallyHidden>
+          <DialogDescription>{description}</DialogDescription>
+        </VisuallyHidden>
       </DialogHeader>
       <div className="no-scrollbar max-h-[300px] overflow-y-scroll">
         {children}

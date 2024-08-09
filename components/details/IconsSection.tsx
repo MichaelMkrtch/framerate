@@ -98,7 +98,7 @@ export default function IconsSection({ media }: { media: Media }) {
       <TooltipProvider content={<p>Like</p>}>
         <LikeIcon
           fill="#333"
-          classes={`${iconClasses} ${isLiked && "fill-[#FF153A]"} hover:fill-[#FF153A]`}
+          classes={`${iconClasses} ${isLiked && "fill-[#FF153A]"} hover:fill-[#FF153A] cursor-pointer`}
           onClick={() => handleClick("like")}
         />
       </TooltipProvider>
@@ -106,7 +106,7 @@ export default function IconsSection({ media }: { media: Media }) {
       <TooltipProvider content={<p>Watched</p>}>
         <EyeIcon
           fill="#333"
-          classes={`${iconClasses} ${isWatched && "fill-cyan-350"} hover:fill-cyan-350`}
+          classes={`${iconClasses} ${isWatched && "fill-cyan-350"} hover:fill-cyan-350 cursor-pointer`}
           onClick={() => handleClick("watch")}
         />
       </TooltipProvider>
@@ -117,12 +117,12 @@ export default function IconsSection({ media }: { media: Media }) {
             <div>
               <BookmarkIcon
                 fill="#333"
-                classes={`${iconClasses} ${savedMedia.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44]`}
+                classes={`${iconClasses} ${savedMedia.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44] cursor-pointer`}
               />
             </div>
           </ListsModal.Trigger>
 
-          <ListsModal.Content title="Add to list">
+          <ListsModal.Content title="Add to list" description="Save media to one of your lists">
             <div>
               <CreateList />
               <Lists media={media} />
@@ -134,7 +134,7 @@ export default function IconsSection({ media }: { media: Media }) {
       <TooltipProvider content={<p>Review</p>}>
         <PenIcon
           fill="#333"
-          classes={`${iconClasses} hover:fill-[#7468F3]`}
+          classes={`${iconClasses} hover:fill-[#7468F3] cursor-pointer`}
           onClick={() => handleClick}
         />
       </TooltipProvider>

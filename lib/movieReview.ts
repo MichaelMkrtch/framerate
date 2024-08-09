@@ -2,6 +2,8 @@
 
 import { and, avg, count, eq } from "drizzle-orm";
 
+import { type Review } from "@/types";
+
 import { validateRequest } from "./auth";
 
 import { db } from "@/db";
@@ -75,7 +77,7 @@ export async function getMovies() {
   if (userId) {
     const result = await db
       .select({
-        id: movieReviewsTable.movieId,
+        mediaId: movieReviewsTable.movieId,
         title: moviesTable.title,
         posterPath: moviesTable.posterPath,
         rating: movieReviewsTable.rating,
@@ -89,6 +91,6 @@ export async function getMovies() {
       )
       .where(eq(movieReviewsTable.userId, userId));
 
-    return result;
+    return result as Review[];
   }
 }

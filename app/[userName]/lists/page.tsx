@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import getSimpleTitle from "@/utils/getSimpleTitle";
 
+import CreateList from "@/components/profile/lists/CreateList";
 import Card from "@/components/ui/Card";
 import { getLists } from "@/lib/lists";
 import { useListContentStore } from "@/store/listContentStore";
@@ -47,13 +48,17 @@ export default function ListsPage() {
 
   return (
     <div>
+      <div className="w-3/5">
+        <CreateList />
+      </div>
+
       {userLists.length > 0 &&
         userLists.map((list) => {
           const formattedName = list && getSimpleTitle(list.name);
 
           return (
             list && (
-              <Card key={`${list.name}-${list.id}`} classes="h-fit mb-6">
+              <Card key={`${list.name}-${list.id}`} classes="h-fit my-6">
                 <Link
                   key={`${list.name}-${list.id}`}
                   href={`/${username}/lists/${formattedName}`}

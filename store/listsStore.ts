@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { type ListData } from "@/types";
+import { type UserList } from "@/types";
 
 type ActiveList = {
   id: number;
@@ -9,12 +9,13 @@ type ActiveList = {
 };
 
 type Lists = {
-  userLists: ListData<"list">[];
+  userLists: UserList<"list">[];
   activeList: ActiveList | null;
   setActiveList: (listId: number, listName: string) => void;
-  setLists: (lists: ListData<"list">[]) => void;
-  addList: (list: ListData<"list">) => void;
+  setLists: (lists: UserList<"list">[]) => void;
+  addList: (list: UserList<"list">) => void;
   removeList: (listId: number) => void;
+  clearLists: () => void;
   clearActiveList: () => void;
 };
 
@@ -34,6 +35,7 @@ export const useListsStore = create<Lists>()(
             (userList) => userList && userList.id !== listId,
           ),
         })),
+      clearLists: () => set(() => ({ userLists: [] })),
       clearActiveList: () => set(() => ({ activeList: null })),
     }),
     {

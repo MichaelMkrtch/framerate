@@ -2,6 +2,8 @@
 
 import { and, avg, count, eq } from "drizzle-orm";
 
+import { type Review } from "@/types";
+
 import { validateRequest } from "./auth";
 
 import { db } from "@/db";
@@ -77,9 +79,9 @@ export async function getSeries() {
   const userId = result.user?.id;
 
   if (userId) {
-    const result = db
+    const result = await db
       .select({
-        id: tvReviewsTable.seriesId,
+        mediaId: tvReviewsTable.seriesId,
         title: tvShowsTable.title,
         posterPath: tvShowsTable.posterPath,
         rating: tvReviewsTable.rating,
@@ -90,6 +92,6 @@ export async function getSeries() {
       .innerJoin(tvReviewsTable, eq(tvShowsTable.id, tvReviewsTable.seriesId))
       .where(eq(tvReviewsTable.userId, userId));
 
-    return result;
+    return result as Review[];
   }
 }

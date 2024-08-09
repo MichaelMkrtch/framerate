@@ -2,6 +2,11 @@
 
 import { and, eq } from "drizzle-orm";
 
+import { type ListContent } from "@/types";
+
+import { pick } from "@/utils/pickProperties";
+import { renameKeys } from "@/utils/renameKeys";
+
 import { validUser } from "./movieReview";
 
 import { db } from "@/db";
@@ -10,7 +15,6 @@ import {
   InsertListContent,
   listContentTable,
   listsTable,
-  movieReviewsTable,
   moviesTable,
   tvShowsTable,
 } from "@/db/schema";
@@ -23,6 +27,17 @@ export async function createList(data: InsertList) {
     type: "list" as const,
   }));
   return formattedResults[0];
+}
+
+export async function deleteList(listId: number) {
+  const result = await validUser();
+  const userId = result.user?.id;
+
+  if (userId) {
+    await db
+      .delete(listsTable)
+      .where(and(eq(listsTable.userId, userId), eq(listsTable.id, listId)));
+  }
 }
 
 export async function getLists() {
@@ -49,8 +64,45 @@ export async function addToList(data: InsertListContent) {
   const userId = userResult.user?.id;
 
   if (userId) {
-    const results = await db.insert(listContentTable).values(data).returning();
-    const formattedResults = results.map((result) => ({
+    const results = await db.insert(listContentTable).values(data).returning({
+      listContentId: listContentTable.id,
+      listId: listContentTable.listId,
+      movieId: listContentTable.movieId,
+      seriesId: listContentTable.seriesId,
+      mediaType: listContentTable.mediaType,
+      createdAt: listContentTable.createdAt,
+    });
+
+    const renamedResults = results.map((result) => {
+      if (result.mediaType === "movie") {
+        const renamed = renameKeys(
+          { movieId: "mediaId" },
+          result,
+        ) as ListContent;
+        return pick(
+          renamed,
+          "listContentId",
+          "listId",
+          "mediaId",
+          "mediaType",
+          "createdAt",
+        );
+      } else {
+        const renamed = renameKeys(
+          { seriesId: "mediaId" },
+          result,
+        ) as ListContent;
+        return pick(
+          renamed,
+          "listContentId",
+          "listId",
+          "mediaId",
+          "mediaType",
+          "createdAt",
+        );
+      }
+    });
+    const formattedResults = renamedResults.map((result) => ({
       ...result,
       type: "listContent" as const,
     }));
@@ -76,7 +128,8 @@ export async function getSavedMovies(listId: number) {
   if (userId) {
     const results = await db
       .select({
-        id: moviesTable.id,
+        mediaId: moviesTable.id,
+        listContentId: listContentTable.id,
         title: moviesTable.title,
         posterPath: moviesTable.posterPath,
       })
@@ -91,10 +144,10 @@ export async function getSavedMovies(listId: number) {
 
     const formattedResults = results.map((result) => ({
       ...result,
-      mediaType: "movie",
+      mediaType: "movie" as const,
     }));
 
-    return formattedResults;
+    return formattedResults as ListContent[];
   }
 }
 
@@ -105,7 +158,8 @@ export async function getSavedSeries(listId: number) {
   if (userId) {
     const results = await db
       .select({
-        id: tvShowsTable.id,
+        mediaId: tvShowsTable.id,
+        listContentId: listContentTable.id,
         title: tvShowsTable.title,
         posterPath: tvShowsTable.posterPath,
       })
@@ -123,15 +177,15 @@ export async function getSavedSeries(listId: number) {
 
     const formattedResults = results.map((result) => ({
       ...result,
-      mediaType: "series",
+      mediaType: "tv" as const,
     }));
 
-    return formattedResults;
+    return formattedResults as ListContent[];
   }
 }
 
 export async function removeFromList(
-  listId: number,
+  listContentId: number,
   mediaId: number,
   mediaType: "movie" | "tv",
 ) {
@@ -144,7 +198,7 @@ export async function removeFromList(
       .where(
         and(
           eq(listContentTable.userId, userId),
-          eq(listContentTable.listId, listId),
+          eq(listContentTable.id, listContentId),
           eq(listContentTable.movieId, mediaId),
         ),
       );
@@ -154,8 +208,24 @@ export async function removeFromList(
       .where(
         and(
           eq(listContentTable.userId, userId),
-          eq(listContentTable.listId, listId),
+          eq(listContentTable.id, listContentId),
           eq(listContentTable.seriesId, mediaId),
+        ),
+      );
+  }
+}
+
+export async function deleteAllListContent(listId: number) {
+  const userResult = await validUser();
+  const userId = userResult.user?.id;
+
+  if (userId) {
+    await db
+      .delete(listContentTable)
+      .where(
+        and(
+          eq(listContentTable.userId, userId),
+          eq(listContentTable.listId, listId),
         ),
       );
   }
@@ -166,7 +236,7 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
   const userId = userResult.user?.id;
 
   if (userId && mediaType === "movie") {
-    const result = await db
+    const results = await db
       .select()
       .from(listContentTable)
       .where(
@@ -176,9 +246,17 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
         ),
       );
 
-    return result;
+    const formattedResults = results.map((result) => {
+      const renamed = renameKeys(
+        { id: "listContentId", movieId: "mediaId" },
+        result,
+      ) as ListContent;
+      return { ...renamed, mediaType: "movie" as const };
+    });
+
+    return formattedResults;
   } else if (userId && mediaType === "tv") {
-    const result = await db
+    const results = await db
       .select()
       .from(listContentTable)
       .where(
@@ -188,6 +266,14 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
         ),
       );
 
-    return result;
+    const formattedResults = results.map((result) => {
+      const renamed = renameKeys(
+        { id: "listContentId" },
+        result,
+      ) as ListContent;
+      return { ...renamed, seriesId: "mediaId", mediaType: "tv" as const };
+    });
+
+    return formattedResults;
   }
 }

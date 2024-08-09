@@ -1,25 +1,24 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { SavedMedia } from "@/types";
+import { ListContent } from "@/types";
 
-type SavedToList = {
-  id: number;
-  title: string;
-  posterPath: string;
-};
-
-type ListContent = {
-  savedMedia: SavedMedia[];
-  listContent: SavedToList[];
-  setListContent: (mediaArr: SavedToList[]) => void;
-  addMedia: (media: SavedMedia) => void;
-  removeMedia: (listId: number) => void;
+type ListContentStore = {
+  savedMedia: ListContent[];
+  listContent: ListContent[];
+  setListContent: (mediaArr: ListContent[]) => void;
+  addMedia: (media: ListContent) => void;
+  // removeMedia: (listId: number) => void;
+  removeListContent: (
+    mediaId: number,
+    listContentId: number,
+    mediaType: "movie" | "tv",
+  ) => void;
   clearMedia: () => void;
   clearListContent: () => void;
 };
 
-export const useListContentStore = create<ListContent>()(
+export const useListContentStore = create<ListContentStore>()(
   persist(
     (set) => ({
       savedMedia: [],
@@ -27,11 +26,25 @@ export const useListContentStore = create<ListContent>()(
       setListContent: (mediaArr) => set(() => ({ listContent: mediaArr })),
       addMedia: (media) =>
         set((state) => ({ savedMedia: [...state.savedMedia, media] })),
-      removeMedia: (listId) =>
+      // removeMedia: (listId) =>
+      //   set((state) => ({
+      //     savedMedia: state.savedMedia.filter(
+      //       (media) => listId !== media.listId,
+      //     ),
+      //   })),
+      removeListContent: (mediaId, listContentId, mediaType) =>
         set((state) => ({
-          savedMedia: state.savedMedia.filter(
-            (media) => listId !== media.listId,
-          ),
+          listContent: state.listContent.filter((media) => {
+            if (
+              mediaId === media.mediaId &&
+              listContentId === media.listContentId &&
+              mediaType === media.mediaType
+            ) {
+              return false;
+            } else {
+              return true;
+            }
+          }),
         })),
       clearMedia: () => set(() => ({ savedMedia: [] })),
       clearListContent: () => set(() => ({ listContent: [] })),

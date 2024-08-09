@@ -2,7 +2,7 @@
 
 import { eq } from "drizzle-orm";
 
-import { type InsertUser, usersTable } from "../db/schema";
+import { type InsertUser, listsTable, usersTable } from "../db/schema";
 
 import { db } from "@/db";
 
@@ -25,4 +25,8 @@ export async function getUserById(id: number) {
     .where(eq(usersTable.id, id));
 
   return results[0];
+}
+
+export async function createWatchlist(userId: number) {
+  await db.insert(listsTable).values({ name: "Watchlist", userId: userId });
 }

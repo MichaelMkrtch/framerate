@@ -1,6 +1,6 @@
 "use server";
 
-import { type FormState, type ListData } from "@/types";
+import { type FormState, type ListData, Media } from "@/types";
 
 import {
   listSchema,
@@ -59,10 +59,7 @@ export async function submitList(
 }
 
 export async function saveToList(
-  listContent: {
-    mediaId: number;
-    mediaType: "movie" | "tv";
-  },
+  media: Media,
   prevState: FormState,
   data: FormData,
 ): Promise<FormState> {
@@ -77,7 +74,7 @@ export async function saveToList(
   }
 
   try {
-    const { mediaId, mediaType } = listContent;
+    const { id: mediaId, mediaType, title, posterPath } = media;
     const userId = result.user.id;
     const formData = Object.fromEntries(data);
     const parsed = selectListSchema.safeParse(formData);
@@ -93,22 +90,26 @@ export async function saveToList(
     const listIdStr = parsed.data.listId;
     const listId = parseFloat(listIdStr);
 
-    let mediaResult: ListData<"listContent">;
+    let mediaResult: ListData<"listContent"> | null;
 
     if (mediaType === "movie") {
-      mediaResult = await addToList({
+      const result = await addToList({
         userId,
-        listId,
         mediaType,
+        listId,
         movieId: mediaId,
       });
+
+      mediaResult = result && { ...result, title, rating: null, posterPath };
     } else {
-      mediaResult = await addToList({
+      const result = await addToList({
         userId,
         listId,
         mediaType,
         seriesId: mediaId,
       });
+
+      mediaResult = result && { ...result, title, rating: null, posterPath };
     }
 
     return {

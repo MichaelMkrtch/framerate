@@ -61,16 +61,28 @@ type TV<T> = {
   numberOfSeasons: number;
 };
 
-export type SavedContent = {
-  mediaType?: string | null;
-  id: number;
+export type Media<T = "movie" | "tv"> = T extends "movie" ? Film<T> : TV<T>;
+
+export type Review = {
+  mediaType: "movie" | "tv";
+  mediaId: number;
   title: string;
-  rating?: string | null;
+  rating: string | null;
   posterPath: string;
-  createdAt?: Date;
+  createdAt: Date;
 };
 
-export type Media<T = "movie" | "tv"> = T extends "movie" ? Film<T> : TV<T>;
+// export type SavedContent = {
+//   userId: number;
+//   mediaType: "movie" | "tv";
+//   listId: number;
+//   mediaId: number;
+//   listContentId: number;
+//   title: string;
+//   rating?: string | null;
+//   posterPath: string;
+//   createdAt?: Date;
+// };
 
 export type UserList<T> = {
   type: T;
@@ -78,30 +90,33 @@ export type UserList<T> = {
   name: string;
   createdAt: Date;
   userId: number;
-} | null;
-
-export type SavedMedia = {
-  id?: number;
-  listId: number;
-  mediaType: string;
-  userId?: number;
-  movieId: number | null;
-  seriesId: number | null;
 };
 
-export type SavedMediaResult<T> = {
-  type: T;
-  id: number;
-  userId: number;
+export interface ListContent extends Review {
+  listContentId: number;
   listId: number;
-  mediaType: string;
-  movieId: number | null;
-  seriesId: number | null;
-} | null;
+  // mediaId: number;
+  // title: string;
+  // rating: string | null;
+  // mediaType: "movie" | "tv";
+}
+
+// export type SavedMedia = {
+//   id?: number;
+//   listId: number;
+//   mediaType: "movie" | "tv";
+//   userId?: number;
+//   movieId: number | null;
+//   seriesId: number | null;
+// };
+
+export interface ListContentResults<T> extends ListContent {
+  type: T;
+}
 
 export type ListData<T = "list" | "listContent"> = T extends "list"
   ? UserList<T>
-  : SavedMediaResult<T>;
+  : ListContentResults<T>;
 
 export type FormState = {
   status: string;

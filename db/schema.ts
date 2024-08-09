@@ -68,7 +68,7 @@ export const movieReviewsTable = pgTable(
     ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
-    mediaType: text("media_type"),
+    mediaType: text("media_type").notNull(),
     liked: boolean("liked"),
     watched: boolean("watched"),
     review: text("review"),
@@ -111,7 +111,7 @@ export const tvReviewsTable = pgTable(
     ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
-    mediaType: text("media_type"),
+    mediaType: text("media_type").notNull(),
     liked: boolean("liked"),
     watched: boolean("watched"),
     review: text("review"),
@@ -156,6 +156,9 @@ export const listContentTable = pgTable("list_content", {
     },
   ),
   mediaType: text("media_type").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+    .notNull()
+    .defaultNow(),
 });
 
 export type InsertUser = typeof usersTable.$inferInsert;

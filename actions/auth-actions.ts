@@ -8,7 +8,7 @@ import {
 } from "@/components/home/formSchema";
 import { createAuthSession, destroySession } from "@/lib/auth";
 import { hashUserPassword, verifyPassword } from "@/lib/hash";
-import { createUser, getUserByEmail } from "@/lib/user";
+import { createUser, createWatchlist, getUserByEmail } from "@/lib/user";
 
 type FormState = {
   status: string;
@@ -71,6 +71,7 @@ export async function signup(
     });
 
     await createAuthSession(id);
+    await createWatchlist(id);
   } catch (error) {
     if (error instanceof Error) {
       if (error.message.includes("email")) {
