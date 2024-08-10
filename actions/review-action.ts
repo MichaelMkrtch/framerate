@@ -56,9 +56,9 @@ export async function review(
     const seriesId = media.mediaType === "tv" && media.id;
 
     if (movieId) {
-      await createMovieReview({ userId, movieId, rating });
+      await createMovieReview({ userId, movieId, rating, mediaType: "movie" });
     } else if (seriesId) {
-      await createSeriesReview({ userId, seriesId, rating });
+      await createSeriesReview({ userId, seriesId, rating, mediaType: "tv" });
     }
 
     return {

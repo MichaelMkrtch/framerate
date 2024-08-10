@@ -21,7 +21,7 @@ export default function DialogWithState({ children }: { children: ReactNode }) {
     clearLists();
     clearListContent();
     clearActiveList();
-  }, []);
+  }, [clearActiveList, clearListContent, clearLists]);
 
   return <Dialog>{children}</Dialog>;
 }

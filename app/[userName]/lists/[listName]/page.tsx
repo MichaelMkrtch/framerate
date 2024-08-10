@@ -54,13 +54,13 @@ export default function ListPage() {
         }
       }
     })();
-  }, [setListContent]);
+  }, [activeList, setListContent]);
 
   useEffect(() => {
     if (isEditing && listContent.length === 0) {
       setIsEditing(false);
     }
-  }, [listContent]);
+  }, [isEditing, listContent]);
 
   function handleEditClick() {
     if (isEditing) {

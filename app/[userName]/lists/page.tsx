@@ -40,7 +40,7 @@ export default function ListsPage() {
         results && setLists(results);
       }
     })();
-  }, [userLists, setLists]);
+  }, [userLists, setLists, clearActiveList, clearListContent]);
 
   function handleClick(listId: number, listName: string) {
     setActiveList(listId, listName);
