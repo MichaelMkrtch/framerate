@@ -78,7 +78,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
                   {media.mediaType === "movie" ? media.director : media.creator}
                 </p>
               </div>
-              <div className="mr-4 flex grow justify-end">
+              <div className="mr-0.5 flex grow justify-end md:mr-4">
                 <div className="rounded bg-gray-850 ring-2 ring-gray-750/70">
                   <p className="inline-block w-[61.33px] rounded bg-gradient-to-b from-zinc-200 via-zinc-200/80 to-zinc-200/20 bg-clip-text px-2 py-1 text-center text-sm text-transparent">
                     {media.mediaType === "movie" ? "Film" : "Series"}

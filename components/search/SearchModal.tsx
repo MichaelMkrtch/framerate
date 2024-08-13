@@ -26,10 +26,11 @@ export default function SearchModal({ children }: { children: ReactNode }) {
   const [results, setResults] = useState<Media[]>([]);
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isiPad =
+    navigator.userAgent.includes("Mac") && "ontouchend" in document;
   const searchElement = useRef<HTMLInputElement>(null);
 
   const trendingData = useFetchTrending("all", "day");
-
   const detailsData = useFetchDetails(results);
   const { searchData, isFetching } = useSearch(query);
 
@@ -49,7 +50,8 @@ export default function SearchModal({ children }: { children: ReactNode }) {
     }
   }
 
-  if (isDesktop) {
+  // Desktop Search
+  if (isDesktop && !isiPad) {
     return (
       <Modal>
         <Modal.Trigger asChild>{children}</Modal.Trigger>
@@ -60,6 +62,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
             searchQuery={query}
             setSearchQuery={setQuery}
             onChange={handleChange}
+            isiPad={isiPad}
           />
           <SearchResultList results={detailsData} />
         </Modal.Content>
@@ -67,6 +70,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
     );
   }
 
+  // Mobile Search
   return (
     <Drawer
       open={open}
@@ -76,7 +80,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
       direction="top"
     >
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="flex items-center">
         <VisuallyHidden>
           <DrawerHeader>
             <DrawerTitle>Search</DrawerTitle>
@@ -86,13 +90,14 @@ export default function SearchModal({ children }: { children: ReactNode }) {
 
         <div
           data-vaul-no-drag
-          className="no-scrollbar w-full max-w-md overflow-auto"
+          className="no-scrollbar w-full max-w-md overflow-auto md:max-w-2xl"
         >
           <SearchBar
             ref={searchElement}
             searchQuery={query}
             setSearchQuery={setQuery}
             onChange={handleChange}
+            isiPad={isiPad}
           />
           <SearchResultList results={detailsData} />
         </div>
