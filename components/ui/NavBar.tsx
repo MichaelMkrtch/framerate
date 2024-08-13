@@ -58,6 +58,9 @@ export default function NavBar({
     ) {
       setActivePath(pathname);
       setLinkName("Library");
+    } else {
+      setActivePath(pathname);
+      setLinkName("Menu");
     }
   }, [pathname]);
 

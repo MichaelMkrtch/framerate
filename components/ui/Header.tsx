@@ -27,13 +27,14 @@ type ListItemProps = {
 
 export function ListItem({ path, handleClick, children }: ListItemProps) {
   const pathname = usePathname();
+  const pathsToHighlight = ["/lists", "/articles", "/library"];
 
   return (
     <li className="duration-75 ease-in-out md:active:scale-95">
       <Link
         href={path}
         onClick={handleClick}
-        className={`px-2 py-1.5 transition-colors duration-75 ease-in md:px-3 md:py-2 ${pathname === path && path !== "/" && !path.includes("/film/") ? "text-cyan-350" : ""}`}
+        className={`px-2 py-1.5 transition-colors duration-75 ease-in md:px-3 md:py-2 ${pathname === path && path !== "/" && pathsToHighlight.includes(path) ? "text-cyan-350" : ""}`}
       >
         {children}
       </Link>
