@@ -9,6 +9,8 @@ type LinkRefs = { [key: number]: { current: HTMLAnchorElement | null } };
 export default function SearchResultList({ results }: { results: Media[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const linkRefs = useRef<LinkRefs>({});
+  const isiPad =
+    navigator.userAgent.includes("Mac") && "ontouchend" in document;
 
   // This ensures handleKeyPress is only updated when necessary,
   // rather than on every re-render
@@ -42,7 +44,9 @@ export default function SearchResultList({ results }: { results: Media[] }) {
   }, [handleKeyPress]);
 
   return (
-    <div className="no-scrollbar mx-3 h-[300px] cursor-default select-none overflow-auto outline-none md:mx-0 md:mt-2 md:h-[355px] md:border-t md:border-neutral-700/60 md:pt-1">
+    <div
+      className={`no-scrollbar mx-3 h-[300px] cursor-default select-none overflow-auto outline-none md:mx-0 md:mt-2 md:border-t md:border-neutral-700/60 md:pt-1 ${isiPad ? "h-full" : "md:h-[355px]"}`}
+    >
       {results.map((media, index) => {
         return (
           <SearchResult

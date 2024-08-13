@@ -62,7 +62,7 @@ export default function SearchModal({ children }: { children: ReactNode }) {
             searchQuery={query}
             setSearchQuery={setQuery}
             onChange={handleChange}
-            isiPad={isiPad}
+            isiPad={false}
           />
           <SearchResultList results={detailsData} />
         </Modal.Content>
