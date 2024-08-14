@@ -46,7 +46,9 @@ export default function IconsSection({ media }: { media: Media }) {
     (async () => {
       const listContentResults = await checkIfSaved(mediaId, mediaType);
       if (listContentResults && listContentResults.length > 0) {
-        listContentResults.forEach((listContent) => addListContent(listContent));
+        listContentResults.forEach((listContent) =>
+          addListContent(listContent),
+        );
       }
     })();
     return () => clearListContent();
@@ -136,13 +138,13 @@ export default function IconsSection({ media }: { media: Media }) {
         </ListsModal>
       </TooltipProvider>
 
-      <TooltipProvider content={<p>Review</p>}>
+      {/* <TooltipProvider content={<p>Review</p>}>
         <PenIcon
           fill="#333"
           classes={`${iconClasses} hover:fill-[#7468F3] cursor-pointer`}
           onClick={() => handleClick}
         />
-      </TooltipProvider>
+      </TooltipProvider> */}
     </div>
   );
 }

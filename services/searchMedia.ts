@@ -9,7 +9,7 @@ type FetchDataParams = {
   query: string;
 };
 
-export async function searchMovies({ signal, query }: FetchDataParams) {
+export async function searchMedia({ signal, query }: FetchDataParams) {
   const params = new URLSearchParams({
     query,
     include_adult: "false",

@@ -1,5 +1,6 @@
-import { searchMovies } from "@/services/searchMovies";
 import { redirect } from "next/navigation";
+
+import { searchMedia } from "@/services/searchMedia";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -8,7 +9,7 @@ export async function GET(request: Request) {
   const signal = request.signal;
 
   if (query) {
-    const data = await searchMovies({ signal, query });
+    const data = await searchMedia({ signal, query });
 
     return Response.json(data);
   } else {

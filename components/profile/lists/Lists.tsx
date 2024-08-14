@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 import { type Media } from "@/types";
 
@@ -9,7 +10,6 @@ import { BoxIcon, CheckBoxIcon } from "@/components/ui/Icons";
 import { getLists, removeFromList } from "@/lib/lists";
 import { useListContentStore } from "@/store/listContentStore";
 import { useListsStore } from "@/store/listsStore";
-import { toast } from "sonner";
 
 type FormRefs = { [key: number]: { current: HTMLFormElement | null } };
 
@@ -48,10 +48,12 @@ export default function Lists({ media }: { media: Media }) {
     if (idList.includes(listId)) {
       idList.forEach(async (id) => {
         if (id === listId) {
+          console.log("listContent", listContent);
           const contentToRemove = listContent.filter(
             (content) =>
               content.listId === listId && content.mediaId === media.id,
           );
+          console.log("contentToRemove", contentToRemove);
           await removeFromList(
             contentToRemove[0].listContentId,
             media.id,
@@ -65,7 +67,7 @@ export default function Lists({ media }: { media: Media }) {
         }
       });
 
-      toast.success("Removed from list")
+      toast.success("Removed from list");
     }
   }
 

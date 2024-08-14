@@ -72,18 +72,6 @@ export type Review = {
   createdAt: Date;
 };
 
-// export type SavedContent = {
-//   userId: number;
-//   mediaType: "movie" | "tv";
-//   listId: number;
-//   mediaId: number;
-//   listContentId: number;
-//   title: string;
-//   rating?: string | null;
-//   posterPath: string;
-//   createdAt?: Date;
-// };
-
 export type UserList<T> = {
   type: T;
   id: number;
@@ -95,20 +83,7 @@ export type UserList<T> = {
 export interface ListContent extends Review {
   listContentId: number;
   listId: number;
-  // mediaId: number;
-  // title: string;
-  // rating: string | null;
-  // mediaType: "movie" | "tv";
 }
-
-// export type SavedMedia = {
-//   id?: number;
-//   listId: number;
-//   mediaType: "movie" | "tv";
-//   userId?: number;
-//   movieId: number | null;
-//   seriesId: number | null;
-// };
 
 export interface ListContentResults<T> extends ListContent {
   type: T;

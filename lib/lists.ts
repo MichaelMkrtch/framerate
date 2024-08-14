@@ -268,10 +268,10 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
 
     const formattedResults = results.map((result) => {
       const renamed = renameKeys(
-        { id: "listContentId" },
+        { id: "listContentId", seriesId: "mediaId" },
         result,
       ) as ListContent;
-      return { ...renamed, seriesId: "mediaId", mediaType: "tv" as const };
+      return { ...renamed, mediaType: "tv" as const };
     });
 
     return formattedResults;
