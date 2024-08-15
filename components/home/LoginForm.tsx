@@ -39,10 +39,10 @@ export default function LoginForm() {
     },
   });
 
-  if (formState.status === "success") {
+  if (formState && formState.status === "success") {
     toast.success(formState.message);
     formState.status = "";
-  } else if (formState.status === "fail") {
+  } else if (formState && formState.status === "fail") {
     toast.error(formState.message, { duration: 5000 });
     formState.status = "";
   }
@@ -132,7 +132,7 @@ export default function LoginForm() {
         <div className="mt-7 flex w-full items-center justify-end">
           <button
             type="submit"
-            className="w-full rounded bg-cyan-350 px-3 py-1.5 font-semibold text-gray-850 outline-none ring-1 ring-cyan-300 transition-all duration-150 ease-in hover:shadow-[0_2px_20px_rgba(0,209,224,_0.7)]"
+            className="w-full rounded bg-cyan-350 px-3 py-1.5 font-semibold text-gray-850 outline-none ring-1 ring-cyan-300 transition-all duration-150 ease-out hover:shadow-[0_2px_20px_rgba(0,209,224,_0.7)]"
           >
             Login
           </button>

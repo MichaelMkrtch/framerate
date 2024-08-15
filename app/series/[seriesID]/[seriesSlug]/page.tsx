@@ -65,7 +65,11 @@ export default function SeriesDetailsPage() {
     series &&
     fetchedSeries && (
       <>
-        <Backdrop title={series.title} backdropPath={series.backdropPath} />
+        <Backdrop
+          title={series.title}
+          backdropPath={series.backdropPath}
+          topPosition="top-1"
+        />
         <div className="px-3.5 md:px-0">
           <DetailsSection
             media={fetchedSeries}

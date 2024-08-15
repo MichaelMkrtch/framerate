@@ -7,17 +7,24 @@ const IMG_BASE_URL = process.env.NEXT_PUBLIC_IMG_BASE_URL;
 type BackdropProps = {
   title: string;
   backdropPath: string;
+  topPosition: string;
 };
 
-export default function Backdrop({ title, backdropPath }: BackdropProps) {
+export default function Backdrop({
+  title,
+  backdropPath,
+  topPosition,
+}: BackdropProps) {
   const { handleImageOnLoad, transitionStyles } = useImageOnLoad();
 
   return (
     backdropPath && (
-      <div className="absolute left-0 right-0 top-1 -z-10 m-auto h-auto w-full overflow-hidden md:top-0">
+      <div
+        className={`${topPosition} absolute left-0 right-0 -z-10 m-auto h-auto w-full overflow-hidden md:top-0`}
+      >
         <Image
           src={`${IMG_BASE_URL}w300${backdropPath}`}
-          alt={`Still image from the film ${title}`}
+          alt={`Still image from ${title}`}
           width={15}
           height={10}
           className="h-auto w-full object-cover [image-rendering:_pixelated] md:h-auto"
@@ -26,7 +33,7 @@ export default function Backdrop({ title, backdropPath }: BackdropProps) {
         <Image
           onLoad={handleImageOnLoad}
           src={`${IMG_BASE_URL}original${backdropPath}`}
-          alt={`Still image from the film ${title}`}
+          alt={`Still image from ${title}`}
           className="absolute top-0 h-auto w-full object-cover"
           style={transitionStyles.highRes}
           width={3840}

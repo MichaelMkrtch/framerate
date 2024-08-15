@@ -1,4 +1,5 @@
 import { type User } from "lucia";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
@@ -37,8 +38,10 @@ export default function NavBar({
   const pathname = usePathname();
   const ref = useRef(null);
 
-  const { username } = useUserStore((state) => ({
+  const { username, isLoggedIn, setIsLoggedIn } = useUserStore((state) => ({
     username: state.username,
+    isLoggedIn: state.isLoggedIn,
+    setIsLoggedIn: state.setIsLoggedIn,
   }));
 
   useEffect(() => {
@@ -92,64 +95,68 @@ export default function NavBar({
     <nav>
       <ul
         ref={ref}
-        className="flex h-10 items-center rounded-full bg-zinc-800/45 px-1 text-sm font-medium tracking-wide ring-1 ring-white/10 backdrop-blur"
+        className={`${!isLoggedIn && "!bg-transparent !ring-0"} flex h-10 items-center rounded-full bg-zinc-800/45 px-1 text-sm font-medium tracking-wide ring-1 ring-white/10 backdrop-blur`}
       >
-        {isMobile && activePath === pathname ? (
+        {isMobile && isLoggedIn && activePath === pathname ? (
           <ListItem path={pathname} handleClick={handleClick}>
             {linkName}
           </ListItem>
         ) : (
-          <>
-            <ListItem path="/lists" handleClick={handleClick}>
-              Lists
-            </ListItem>
-            <ListItem path="/articles" handleClick={handleClick}>
-              Articles
-            </ListItem>
-            <ListItem path="/library" handleClick={handleClick}>
-              Library
-            </ListItem>
-            {user ? (
-              <div className="px-3">
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className="!bg-transparent !p-0">
-                        <Avatar>
-                          <AvatarImage src="" />
-                          <AvatarFallback>
-                            <AvatarIcon
-                              fill="#52525b"
-                              classes="h-7 w-5 opacity-[55%]"
-                            />
-                          </AvatarFallback>
-                        </Avatar>
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="m-auto px-3 py-2">
-                        <ul>
-                          <li className="mb-2">
-                            <NavigationMenuLink
-                              href={`/${username}/lists`}
-                              className="text-nowrap text-sm"
-                            >
-                              Your lists
-                            </NavigationMenuLink>
-                          </li>
-                          <li>
-                            <NavigationMenuLink>
-                              <form action={logout}>
-                                <button className="">Logout</button>
-                              </form>
-                            </NavigationMenuLink>
-                          </li>
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-              </div>
-            ) : null}
-          </>
+          isLoggedIn && (
+            <>
+              <ListItem path="/lists" handleClick={handleClick}>
+                Lists
+              </ListItem>
+              <ListItem path="/articles" handleClick={handleClick}>
+                Articles
+              </ListItem>
+              <ListItem path="/library" handleClick={handleClick}>
+                Library
+              </ListItem>
+              {user ? (
+                <div className="px-3">
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger className="!bg-transparent !p-0">
+                          <Avatar>
+                            <AvatarImage src="" />
+                            <AvatarFallback>
+                              <AvatarIcon
+                                fill="#52525b"
+                                classes="h-7 w-5 opacity-[55%]"
+                              />
+                            </AvatarFallback>
+                          </Avatar>
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent className="m-auto px-3 py-2">
+                          <ul>
+                            <li className="mb-3">
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  href={`/${username}/lists`}
+                                  className="text-nowrap text-sm"
+                                >
+                                  Your lists
+                                </Link>
+                              </NavigationMenuLink>
+                            </li>
+                            <li className="mb-0.5">
+                              <NavigationMenuLink>
+                                <form action={logout}>
+                                  <button>Logout</button>
+                                </form>
+                              </NavigationMenuLink>
+                            </li>
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </div>
+              ) : null}
+            </>
+          )
         )}
       </ul>
     </nav>

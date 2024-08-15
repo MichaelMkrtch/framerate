@@ -17,7 +17,6 @@ export default function DialogWithState({ children }: { children: ReactNode }) {
   }));
 
   useEffect(() => {
-    clearListContent();
     clearLists();
     clearListContent();
     clearActiveList();

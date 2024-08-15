@@ -68,40 +68,40 @@ export default function SearchModal({ children }: { children: ReactNode }) {
         </Modal.Content>
       </Modal>
     );
+  } else {
+    // Mobile Search
+    return (
+      <Drawer
+        open={open}
+        onOpenChange={setOpen}
+        shouldScaleBackground
+        setBackgroundColorOnScale={false}
+        direction="top"
+      >
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
+        <DrawerContent className="flex items-center">
+          <VisuallyHidden>
+            <DrawerHeader>
+              <DrawerTitle>Search</DrawerTitle>
+              <DrawerDescription>Search by title.</DrawerDescription>
+            </DrawerHeader>
+          </VisuallyHidden>
+
+          <div
+            data-vaul-no-drag
+            className="no-scrollbar w-full max-w-md overflow-auto md:max-w-2xl"
+          >
+            <SearchBar
+              ref={searchElement}
+              searchQuery={query}
+              setSearchQuery={setQuery}
+              onChange={handleChange}
+              isiPad={isiPad}
+            />
+            <SearchResultList results={detailsData} />
+          </div>
+        </DrawerContent>
+      </Drawer>
+    );
   }
-
-  // Mobile Search
-  return (
-    <Drawer
-      open={open}
-      onOpenChange={setOpen}
-      shouldScaleBackground
-      setBackgroundColorOnScale={false}
-      direction="top"
-    >
-      <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="flex items-center">
-        <VisuallyHidden>
-          <DrawerHeader>
-            <DrawerTitle>Search</DrawerTitle>
-            <DrawerDescription>Search by title.</DrawerDescription>
-          </DrawerHeader>
-        </VisuallyHidden>
-
-        <div
-          data-vaul-no-drag
-          className="no-scrollbar w-full max-w-md overflow-auto md:max-w-2xl"
-        >
-          <SearchBar
-            ref={searchElement}
-            searchQuery={query}
-            setSearchQuery={setQuery}
-            onChange={handleChange}
-            isiPad={isiPad}
-          />
-          <SearchResultList results={detailsData} />
-        </div>
-      </DrawerContent>
-    </Drawer>
-  );
 }

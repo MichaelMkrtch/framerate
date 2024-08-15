@@ -193,7 +193,7 @@ export default function SignupForm() {
           {page === 2 && (
             <button
               type="submit"
-              className="rounded bg-emerald-400 px-3 py-1.5 font-medium text-gray-850 outline-none ring-1 ring-emerald-300 transition-all duration-150 ease-in hover:shadow-[0_2px_20px_rgba(52,_211,_153,_0.7)]"
+              className="rounded bg-emerald-400 px-3 py-1.5 font-medium text-gray-850 outline-none ring-1 ring-emerald-300 transition-all duration-150 ease-out hover:shadow-[0_2px_20px_rgba(52,_211,_153,_0.7)]"
             >
               Let&apos;s go
             </button>

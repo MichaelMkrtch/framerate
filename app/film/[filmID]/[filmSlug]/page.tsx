@@ -71,7 +71,11 @@ export default function FilmDetailsPage() {
     movie &&
     fetchedMovie && (
       <>
-        <Backdrop title={movie.title} backdropPath={movie.backdropPath} />
+        <Backdrop
+          title={movie.title}
+          backdropPath={movie.backdropPath}
+          topPosition="top-1"
+        />
         <div className="px-3.5 md:px-0">
           <DetailsSection
             media={fetchedMovie}
