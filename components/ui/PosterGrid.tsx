@@ -43,7 +43,7 @@ export default function PosterGrid({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md-tablet:grid-cols-5 md-tablet:gap-3 lg:grid-cols-6 lg:gap-4 xl:gap-[18px]">
+    <div className="animate-fade-in-fast grid grid-cols-3 gap-2 md:grid-cols-4 md-tablet:grid-cols-5 md-tablet:gap-3 lg:grid-cols-6 lg:gap-4 xl:gap-[18px]">
       {media &&
         media.map((result, index) => {
           const simpleTitle = getSimpleTitle(result.title);

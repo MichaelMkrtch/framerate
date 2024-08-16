@@ -6,12 +6,12 @@ export default function useImageOnLoad() {
 
   const transitionStyles = {
     lowRes: {
-      opacity: isLoaded ? 0 : 0.85,
-      transition: "opacity 150ms ease-out 200ms",
+      opacity: isLoaded ? 0 : 1,
+      transition: "opacity 100ms ease-in 150ms",
     },
     highRes: {
       opacity: isLoaded ? 1 : 0,
-      transition: "opacity 150ms ease-out 200ms",
+      transition: "opacity 100ms ease-in 150ms",
     },
   };
 

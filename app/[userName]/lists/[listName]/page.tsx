@@ -80,8 +80,8 @@ export default function ListPage() {
   }
 
   return (
-    <>
-      <div className="rounded bg-[#1d1f24] px-3 py-4 ring-2 ring-neutral-800">
+    <div className="mb-36">
+      <div className="rounded bg-gray-850/35 px-3 py-4 ring-2 ring-neutral-800">
         <div className="mb-5 flex items-center justify-between">
           <h3>List by {username}</h3>
           <button className="px-3 py-2" onClick={handleEditClick}>
@@ -126,6 +126,6 @@ export default function ListPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+    </div>
   );
 }

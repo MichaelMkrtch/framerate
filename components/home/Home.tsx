@@ -15,8 +15,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/Carousel";
+import { useUserStore } from "@/store/userStore";
 
-export default function Trending() {
+export default function Home() {
+  const { username } = useUserStore((state) => ({ username: state.username }));
+
   let movieTrendingData = useFetchTrending("movie", "week");
   let tvTrendingData = useFetchTrending("tv", "week");
 
@@ -29,7 +32,11 @@ export default function Trending() {
   }
 
   return (
-    <>
+    <div className="animate-fade-in-fast">
+      <span className="mb-10 inline-block text-xl font-medium">
+        Welcome, {username && username !== "demo_user" ? username : "User"}
+      </span>
+
       <section className="mb-14">
         <h2 className="mb-3 text-lg font-medium">Get the Popcorn</h2>
         <Carousel
@@ -109,6 +116,6 @@ export default function Trending() {
           <CarouselNext className="hidden md:flex" />
         </Carousel>
       </section>
-    </>
+    </div>
   );
 }
