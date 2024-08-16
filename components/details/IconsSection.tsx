@@ -14,10 +14,10 @@ import { checkIfSaved } from "@/lib/lists";
 import { getReview } from "@/lib/reviewCard";
 import { updateLikeStatus, updateWatchStatus } from "@/lib/reviewCard";
 import { useListContentStore } from "@/store/listContentStore";
+import { useReviewStore } from "@/store/reviewStore";
 
 export default function IconsSection({ media }: { media: Media }) {
-  const [isLiked, setIsLiked] = useState<boolean | null>();
-  const [isWatched, setIsWatched] = useState<boolean | null>();
+  const [isLiked, setIsLiked] = useState<boolean | null>(null);
 
   const { listContent, addListContent, clearListContent } = useListContentStore(
     (state) => ({
@@ -26,6 +26,11 @@ export default function IconsSection({ media }: { media: Media }) {
       clearListContent: state.clearListContent,
     }),
   );
+
+  const { isWatched, setIsWatched } = useReviewStore((state) => ({
+    isWatched: state.isWatched,
+    setIsWatched: state.setIsWatched,
+  }));
 
   const iconClasses =
     "h-9 w-9 mx-[5px] md:h-7 md:w-7 lg:h-8 lg:w-8 transition-all duration-150 ease active:scale-90";
@@ -40,7 +45,7 @@ export default function IconsSection({ media }: { media: Media }) {
         setIsWatched(reviewResult.watched);
       }
     })();
-  }, [mediaType, mediaId]);
+  }, [mediaType, mediaId, setIsWatched]);
 
   useEffect(() => {
     (async () => {

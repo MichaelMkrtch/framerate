@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -15,9 +15,14 @@ import { ratingSchema } from "./reviewSchema";
 
 import { review } from "@/actions/review-action";
 import { validateRequest } from "@/lib/auth";
+import { getAvgRating } from "@/lib/reviewCard";
+import { useReviewStore } from "@/store/reviewStore";
 
 export default function RatingForm({ media }: { media: Media }) {
   const [rating, setRating] = useState<number | null>(null);
+  const { setStoredRating } = useReviewStore((state) => ({
+    setStoredRating: state.setStoredRating,
+  }));
 
   const [formState, formAction] = useFormState(review.bind(null, media), {
     status: "",
@@ -46,13 +51,29 @@ export default function RatingForm({ media }: { media: Media }) {
     }
   }
 
-  if (formState.status === "success") {
-    toast.success(formState.message);
-    formState.status = "";
-  } else if (formState.status === "fail") {
-    toast.error(formState.message);
-    formState.status = "";
-  }
+  useEffect(() => {
+    (async () => {
+      if (media.mediaType === "movie") {
+        const average = await getAvgRating(media.mediaType, media.id);
+        if (average.length > 0) {
+          setStoredRating(average[0]);
+        }
+      } else if (media.mediaType === "tv") {
+        const average = await getAvgRating(media.mediaType, media.id);
+        if (average.length > 0) {
+          setStoredRating(average[0]);
+        }
+      }
+    })();
+
+    if (formState.status === "success") {
+      toast.success(formState.message);
+      formState.status = "";
+    } else if (formState.status === "fail") {
+      toast.error(formState.message);
+      formState.status = "";
+    }
+  }, [rating, formState, media.id, media.mediaType, setStoredRating]);
 
   return (
     <Form {...form}>

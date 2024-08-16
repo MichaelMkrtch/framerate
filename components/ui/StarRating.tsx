@@ -8,6 +8,7 @@ import { StarIcon } from "./Icons";
 import { validateRequest } from "@/lib/auth";
 import { deleteMovieReview, getMovieRating } from "@/lib/movieReview";
 import { deleteSeriesReview, getSeriesRating } from "@/lib/seriesReview";
+import { useReviewStore } from "@/store/reviewStore";
 
 type StarRatingProps = {
   media: Media;
@@ -23,6 +24,9 @@ export default function StarRating({
   handleRating,
 }: StarRatingProps) {
   const [hover, setHover] = useState<number | null>(null);
+  const { setIsWatched } = useReviewStore((state) => ({
+    setIsWatched: state.setIsWatched,
+  }));
 
   const groupedStars = [
     [0.5, 1],
@@ -50,12 +54,14 @@ export default function StarRating({
     if (rating === ratingValue && result.user) {
       setRating(null);
       setHover(null);
+      setIsWatched(false);
       media.mediaType === "movie" && (await deleteMovieReview(media.id));
       media.mediaType === "tv" &&
         (await deleteSeriesReview({ seriesId: media.id }));
       toast.info("Rating removed");
     } else {
       setRating(ratingValue);
+      setIsWatched(true);
     }
   }
 

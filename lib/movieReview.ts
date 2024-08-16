@@ -58,18 +58,6 @@ export async function getMovieRating(movieId: number) {
   }
 }
 
-export async function getAvgMovieRating(movieId: number) {
-  const result = await db
-    .select({
-      avgRating: avg(movieReviewsTable.rating).mapWith(Number),
-      reviewCount: count(movieReviewsTable.rating),
-    })
-    .from(movieReviewsTable)
-    .where(eq(movieReviewsTable.movieId, movieId));
-
-  return result;
-}
-
 export async function getMovies() {
   const result = await validUser();
   const userId = result.user?.id;

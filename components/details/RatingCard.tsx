@@ -8,15 +8,13 @@ import Card from "../ui/Card";
 import IconsSection from "./IconsSection";
 import RatingForm from "./RatingForm";
 
-import { StoredRating } from "@/app/film/[filmID]/[filmSlug]/page";
+import { useReviewStore } from "@/store/reviewStore";
 
-type RatingCardProps = {
-  media: Media;
-  storedRating: StoredRating | undefined;
-};
-
-export default function RatingCard({ media, storedRating }: RatingCardProps) {
+export default function RatingCard({ media }: { media: Media }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const { storedRating } = useReviewStore((state) => ({
+    storedRating: state.storedRating,
+  }));
 
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
   const icon = media && getIcon(media.title);

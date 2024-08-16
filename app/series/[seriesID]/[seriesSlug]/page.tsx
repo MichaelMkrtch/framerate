@@ -7,11 +7,11 @@ import useFetchDetails from "@/hooks/useFetchDetails";
 
 import { pick } from "@/utils/pickProperties";
 
-import type { StoredRating } from "@/app/film/[filmID]/[filmSlug]/page";
 import DetailsSection from "@/components/details/DetailsSection";
 import Backdrop from "@/components/ui/Backdrop";
+import { getAvgRating } from "@/lib/reviewCard";
 import { createSeries, getSeries } from "@/lib/series";
-import { getAvgSeriesRating } from "@/lib/seriesReview";
+import { useReviewStore } from "@/store/reviewStore";
 
 type Series = {
   id: number;
@@ -23,10 +23,11 @@ type Series = {
 
 export default function SeriesDetailsPage() {
   const [series, setSeries] = useState<Series>();
-  const [storedRating, setStoredRating] = useState<StoredRating>();
+  const { setStoredRating } = useReviewStore((state) => ({
+    setStoredRating: state.setStoredRating,
+  }));
 
   const params = useParams<{ seriesID: string }>();
-
   const seriesId = parseInt(params.seriesID);
 
   const detailsList = useFetchDetails([{ mediaType: "tv", id: seriesId }]);
@@ -53,13 +54,13 @@ export default function SeriesDetailsPage() {
           setSeries(result[0]);
         }
 
-        const average = await getAvgSeriesRating({ seriesId });
+        const average = await getAvgRating(fetchedSeries.mediaType, seriesId);
         if (average.length > 0) {
           setStoredRating(average[0]);
         }
       }
     })();
-  }, [seriesId, fetchedSeries]);
+  }, [seriesId, fetchedSeries, setStoredRating]);
 
   return (
     series &&
@@ -73,7 +74,6 @@ export default function SeriesDetailsPage() {
         <div className="px-3.5 md:px-0">
           <DetailsSection
             media={fetchedSeries}
-            storedRating={storedRating}
             title={series.title}
             posterPath={series.posterPath}
           />

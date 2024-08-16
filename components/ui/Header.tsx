@@ -73,7 +73,7 @@ export default function Header({ user }: { user: User | null }) {
       clearUsername();
       setIsLoggedIn(false);
     };
-  }, [user, setUsername, clearUsername]);
+  }, [user, setUsername, setIsLoggedIn, clearUsername]);
 
   return (
     <>

@@ -1,20 +1,16 @@
-import { type Media } from "@/types";
+import { type Media, type StoredRating } from "@/types";
 
 import Poster from "../ui/Poster";
 import Credits from "./Credits";
 import Details from "./Details";
 import RatingCard from "./RatingCard";
 
-import { type StoredRating } from "@/app/film/[filmID]/[filmSlug]/page";
-
 export default function DetailsSection({
   media,
-  storedRating,
   title,
   posterPath,
 }: {
   media: Media;
-  storedRating: StoredRating | undefined;
   title: string;
   posterPath: string | null;
 }) {
@@ -50,7 +46,7 @@ export default function DetailsSection({
         </div>
 
         <div className="order-4 col-start-1 col-end-4 mt-6 self-start md:col-end-2 md:row-start-2 md:mt-5 md:flex md:items-center md:justify-start md-tablet:col-end-auto lg:col-start-4 lg:row-start-1 lg:mt-0 lg:flex lg:basis-1/3 lg:justify-end lg:self-center">
-          <RatingCard media={media} storedRating={storedRating} />
+          <RatingCard media={media} />
         </div>
       </div>
 

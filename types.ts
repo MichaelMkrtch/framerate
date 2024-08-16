@@ -72,6 +72,11 @@ export type Review = {
   createdAt: Date;
 };
 
+export type StoredRating = {
+  avgRating: number;
+  reviewCount: number;
+};
+
 export type UserList<T> = {
   type: T;
   id: number;

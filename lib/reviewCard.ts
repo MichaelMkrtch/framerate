@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, avg, count, eq } from "drizzle-orm";
 
 import { validUser } from "./movieReview";
 
@@ -43,6 +43,30 @@ export async function getReview(mediaId: number, mediaType: string) {
       );
 
     return result[0];
+  }
+}
+
+export async function getAvgRating(mediaType: "movie" | "tv", mediaId: number) {
+  if (mediaType === "movie") {
+    const result = await db
+      .select({
+        avgRating: avg(movieReviewsTable.rating).mapWith(Number),
+        reviewCount: count(movieReviewsTable.rating),
+      })
+      .from(movieReviewsTable)
+      .where(eq(movieReviewsTable.movieId, mediaId));
+
+    return result;
+  } else {
+    const result = db
+      .select({
+        avgRating: avg(tvReviewsTable.rating).mapWith(Number),
+        reviewCount: count(tvReviewsTable.rating),
+      })
+      .from(tvReviewsTable)
+      .where(eq(tvReviewsTable.seriesId, mediaId));
+
+    return result;
   }
 }
 

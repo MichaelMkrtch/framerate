@@ -62,18 +62,6 @@ export async function getSeriesRating(data: Data) {
   }
 }
 
-export async function getAvgSeriesRating(data: Data) {
-  const result = db
-    .select({
-      avgRating: avg(tvReviewsTable.rating).mapWith(Number),
-      reviewCount: count(tvReviewsTable.rating),
-    })
-    .from(tvReviewsTable)
-    .where(eq(tvReviewsTable.seriesId, data.seriesId));
-
-  return result;
-}
-
 export async function getSeries() {
   const result = await validUser();
   const userId = result.user?.id;
