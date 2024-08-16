@@ -133,3 +133,12 @@ export async function logout() {
   await destroySession();
   redirect("/");
 }
+
+export async function demo() {
+  const email = "demo@demo.com";
+
+  const existingUser = await getUserByEmail(email);
+
+  await createAuthSession(existingUser[0].id);
+  redirect("/");
+}

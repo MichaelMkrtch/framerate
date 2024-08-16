@@ -2,11 +2,16 @@
 
 import Backdrop from "../ui/Backdrop";
 import Card from "../ui/Card";
+import { ArrowRight } from "../ui/Icons";
 import AuthModal from "./AuthModal";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
+import { demo } from "@/actions/auth-actions";
+
 export default function LandingPage() {
+  function handleDemoClick() {}
+
   return (
     <>
       <Backdrop
@@ -42,6 +47,16 @@ export default function LandingPage() {
             </AuthModal.Content>
           </AuthModal>
 
+          <form action={demo}>
+            <button className="group mx-auto mt-6 flex items-center justify-center tracking-wide transition-colors duration-200 ease-in hover:text-cyan-350">
+              Try the Demo
+              <ArrowRight
+                fill="#e4e4e7"
+                classes="w-4 h-4 ml-2 group-hover:translate-x-1 transition-all duration-200 ease-linear"
+              />
+            </button>
+          </form>
+
           <div className="absolute right-2 top-1.5 h-1 w-14 md:right-0 md:top-0">
             <div className="fixed z-50 md:top-5">
               <AuthModal>
@@ -60,7 +75,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="mt-16 pb-5">
+      <section className="mt-14 pb-5">
         <div className="mx-auto grid w-fit gap-4 md:grid-cols-2 md:grid-rows-2">
           <Card classes="w-[330px] px-4">
             <h3 className="mb-1.5 font-medium tracking-wide text-zinc-300">

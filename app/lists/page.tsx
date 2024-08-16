@@ -1,3 +1,7 @@
 export default function Lists() {
-  return <h2 className="pt-40">Coming soon...</h2>;
+  return (
+    <div className="flex h-dvh items-center justify-center">
+      <h2 className="text-2xl tracking-wide">Coming soon...</h2>
+    </div>
+  );
 }
