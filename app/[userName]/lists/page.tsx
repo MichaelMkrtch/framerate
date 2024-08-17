@@ -63,7 +63,7 @@ export default function ListsPage() {
 
   return (
     <>
-      <div className="mb-6 w-3/5">
+      <div className="mb-6 w-full md:w-3/5">
         <CreateList />
       </div>
 
@@ -80,16 +80,16 @@ export default function ListsPage() {
               list && (
                 <div
                   key={`${list.name}-${list.id}`}
-                  className={`${gradients[gradientIndex]} animate-fade-in-fast w-full rounded`}
+                  className={`${gradients[gradientIndex]} animate-fade-in-fast h-full w-full rounded`}
                 >
                   <Link
                     key={`${list.name}-${list.id}`}
                     href={`/${username}/lists/${formattedName}`}
                     onClick={() => handleClick(list.id, list.name)}
-                    className="h-full w-full"
+                    className="h-full w-full flex items-end"
                   >
-                    <Card classes="relative top-3 h-full w-full !py-12 !bg-gray-850/60 !rounded-t-none">
-                      {list.name}
+                    <Card classes="h-[90%] w-full !py-10 !bg-gray-850/60 !rounded-t-none">
+                      <span className="relative bottom-1">{list.name}</span>
                     </Card>
                   </Link>
                 </div>

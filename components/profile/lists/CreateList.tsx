@@ -16,6 +16,7 @@ export default function CreateList() {
 
   function handleClickInput() {
     setIsChecked(inputRef.current?.checked);
+    setUserInput("");
     createListRef.current?.focus();
   }
 
@@ -36,7 +37,7 @@ export default function CreateList() {
     <ListsForm action={submitList} ref={formRef}>
       <label
         ref={labelRef}
-        className="mb-2.5 flex w-fit cursor-pointer items-center has-[:checked]:w-5/6 hover:text-zinc-50 transition-colors duration-150 ease-in-out"
+        className="mb-2.5 flex w-fit cursor-pointer items-center has-[:checked]:w-[95%] md:has-[:checked]:w-[95%] hover:text-zinc-50 transition-colors duration-150 ease-in-out"
       >
         <input
           ref={inputRef}
@@ -60,11 +61,11 @@ export default function CreateList() {
             name="listName"
             value={userInput}
             onChange={(event) => handleChange(event)}
-            className="relative ml-1 h-[32px] w-full rounded bg-neutral-800 px-2 outline-none ring-1 ring-white/10"
+            className="relative ml-1 h-[32px] w-5/6 rounded bg-neutral-800 pl-2 pr-1 md:pr-2 rounded-r-none outline-none border border-r-0 border-white/10"
           />
           <button
             type="submit"
-            className="absolute right-0 h-full overflow-x-scroll rounded bg-neutral-800 px-1.5 pr-2.5 text-sm font-medium text-zinc-200 transition-colors duration-150 ease-in hover:text-cyan-350"
+            className="h-[32px] outline-none border border-white/10 border-l-0 rounded-tl-none rounded-bl-none overflow-x-scroll rounded bg-neutral-800 pl-1 md:pl-2 pr-2 text-sm font-medium text-zinc-200 transition-colors duration-150 ease-in hover:text-cyan-350"
             onClick={handleClickCreateList}
           >
             Create
