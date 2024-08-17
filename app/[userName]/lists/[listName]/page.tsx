@@ -80,13 +80,16 @@ export default function ListPage() {
   }
 
   return (
-    <div className="mb-36">
-      <button onClick={() => router.back()} className="mb-8 flex items-center hover:text-zinc-50 transition-colors duration-150 ease-in-out">
+    <div className="mb-36 md:mb-20">
+      <button
+        onClick={() => router.back()}
+        className="mb-8 flex items-center transition-colors duration-150 ease-in-out hover:text-zinc-50"
+      >
         <ArrowLeft fill="#e4e4e7" classes="w-[18px] h-[18px] mr-2" /> Back to
         lists
       </button>
 
-      <div className="rounded bg-gray-850/35 px-3 py-4 ring-2 ring-neutral-800">
+      <div className="rounded bg-gray-850/35 px-3 py-4 ring-2 ring-neutral-800 animate-fade-in">
         <div className="mb-5 flex items-center justify-between">
           <h3>List by {username}</h3>
           <button className="px-3 py-2" onClick={handleEditClick}>
@@ -94,11 +97,13 @@ export default function ListPage() {
           </button>
         </div>
         {listContent && (
-          <PosterGrid
-            media={listContent}
-            tooltipEnabled={false}
-            mode={isEditing ? "edit" : undefined}
-          />
+          <div className="animate-fade-in">
+            <PosterGrid
+              media={listContent}
+              tooltipEnabled={false}
+              mode={isEditing ? "edit" : undefined}
+            />
+          </div>
         )}
       </div>
 

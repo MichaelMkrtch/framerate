@@ -60,7 +60,7 @@ const SearchResult = forwardRef<HTMLAnchorElement, SearchResultProps>(
     return (
       media.title &&
       media.releaseDate && (
-        <div className={parentClasses}>
+        <div className={`${parentClasses} animate-fade-in-fast`}>
           <Modal.Close asChild>
             <Link
               ref={ref}

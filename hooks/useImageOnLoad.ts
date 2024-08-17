@@ -7,11 +7,9 @@ export default function useImageOnLoad() {
   const transitionStyles = {
     lowRes: {
       opacity: isLoaded ? 0 : 1,
-      transition: "opacity 100ms ease-in 150ms",
     },
     highRes: {
       opacity: isLoaded ? 1 : 0,
-      transition: "opacity 100ms ease-in 150ms",
     },
   };
 

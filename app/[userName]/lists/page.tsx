@@ -88,7 +88,7 @@ export default function ListsPage() {
                     onClick={() => handleClick(list.id, list.name)}
                     className="h-full w-full"
                   >
-                    <Card classes="relative top-3 h-full w-full !py-12 !bg-gray-850/60 !backdrop-blur-lg !rounded-b !rounded-t-none">
+                    <Card classes="relative top-3 h-full w-full !py-12 !bg-gray-850/60 !rounded-t-none">
                       {list.name}
                     </Card>
                   </Link>

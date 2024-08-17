@@ -31,6 +31,15 @@ img {
   }
 }
 
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes scale-to-right {
   0% {
     -webkit-transform: scaleX(0.4);
