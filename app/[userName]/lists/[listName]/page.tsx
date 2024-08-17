@@ -39,7 +39,6 @@ export default function ListPage() {
   const { listContent, setListContent } = useListContentStore((state) => ({
     listContent: state.listContent,
     setListContent: state.setListContent,
-    clearListContent: state.clearListContent,
   }));
 
   useEffect(() => {

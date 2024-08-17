@@ -237,8 +237,14 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
 
   if (userId && mediaType === "movie") {
     const results = await db
-      .select()
-      .from(listContentTable)
+      .select({
+        mediaId: moviesTable.id,
+        listContentId: listContentTable.id,
+        title: moviesTable.title,
+        posterPath: moviesTable.posterPath,
+      })
+      .from(moviesTable)
+      .innerJoin(listContentTable, eq(listContentTable.movieId, moviesTable.id))
       .where(
         and(
           eq(listContentTable.userId, userId),
@@ -257,8 +263,17 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
     return formattedResults;
   } else if (userId && mediaType === "tv") {
     const results = await db
-      .select()
-      .from(listContentTable)
+      .select({
+        mediaId: tvShowsTable.id,
+        listContentId: listContentTable.id,
+        title: tvShowsTable.title,
+        posterPath: tvShowsTable.posterPath,
+      })
+      .from(tvShowsTable)
+      .innerJoin(
+        listContentTable,
+        eq(listContentTable.seriesId, tvShowsTable.id),
+      )
       .where(
         and(
           eq(listContentTable.userId, userId),

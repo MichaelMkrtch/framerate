@@ -80,7 +80,7 @@ export default function ListsPage() {
               list && (
                 <div
                   key={`${list.name}-${list.id}`}
-                  className={`${gradients[index]} animate-fade-in-fast w-full rounded`}
+                  className={`${gradients[gradientIndex]} animate-fade-in-fast w-full rounded`}
                 >
                   <Link
                     key={`${list.name}-${list.id}`}

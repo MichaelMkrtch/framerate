@@ -19,13 +19,12 @@ import { useReviewStore } from "@/store/reviewStore";
 export default function IconsSection({ media }: { media: Media }) {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
 
-  const { listContent, addListContent, clearListContent } = useListContentStore(
-    (state) => ({
+  const { listContent, addListContent, clearListContent } =
+    useListContentStore((state) => ({
       listContent: state.listContent,
       addListContent: state.addListContent,
       clearListContent: state.clearListContent,
-    }),
-  );
+    }));
 
   const { isWatched, setIsWatched } = useReviewStore((state) => ({
     isWatched: state.isWatched,
@@ -47,13 +46,15 @@ export default function IconsSection({ media }: { media: Media }) {
     })();
   }, [mediaType, mediaId, setIsWatched]);
 
+  // Clears list content and checks if media is saved to any list.
+  // If it is, the bookmark icon should be filled.
   useEffect(() => {
     (async () => {
       const listContentResults = await checkIfSaved(mediaId, mediaType);
       if (listContentResults && listContentResults.length > 0) {
-        listContentResults.forEach((listContent) =>
-          addListContent(listContent),
-        );
+        listContentResults.forEach((result) => {
+          addListContent(result);
+        });
       }
     })();
     return () => clearListContent();
