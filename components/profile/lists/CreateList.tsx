@@ -36,7 +36,7 @@ export default function CreateList() {
     <ListsForm action={submitList} ref={formRef}>
       <label
         ref={labelRef}
-        className="mb-2.5 flex w-fit cursor-pointer items-center has-[:checked]:w-5/6"
+        className="mb-2.5 flex w-fit cursor-pointer items-center has-[:checked]:w-5/6 hover:text-zinc-50 transition-colors duration-150 ease-in-out"
       >
         <input
           ref={inputRef}
