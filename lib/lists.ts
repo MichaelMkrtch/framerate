@@ -113,12 +113,16 @@ export async function addToList(data: InsertListContent) {
 }
 
 export async function getListContent(listId: number) {
-  const results = await db
-    .select()
-    .from(listContentTable)
-    .where(eq(listContentTable.listId, listId));
+  const movieResults = await getSavedMovies(listId) as ListContent[];
+  const tvResults = await getSavedSeries(listId) as ListContent[];
 
-  return results;
+  if (tvResults && movieResults) {
+    const results = movieResults.concat(tvResults);
+
+    return results;
+  } else {
+    return [];
+  }
 }
 
 export async function getSavedMovies(listId: number) {
@@ -128,10 +132,12 @@ export async function getSavedMovies(listId: number) {
   if (userId) {
     const results = await db
       .select({
+        listId: listContentTable.listId,
         mediaId: moviesTable.id,
         listContentId: listContentTable.id,
         title: moviesTable.title,
         posterPath: moviesTable.posterPath,
+        createdAt: listContentTable.createdAt,
       })
       .from(moviesTable)
       .innerJoin(listContentTable, eq(listContentTable.movieId, moviesTable.id))
@@ -147,7 +153,7 @@ export async function getSavedMovies(listId: number) {
       mediaType: "movie" as const,
     }));
 
-    return formattedResults as ListContent[];
+    return formattedResults;
   }
 }
 
@@ -158,10 +164,12 @@ export async function getSavedSeries(listId: number) {
   if (userId) {
     const results = await db
       .select({
+        listId: listContentTable.listId,
         mediaId: tvShowsTable.id,
         listContentId: listContentTable.id,
         title: tvShowsTable.title,
         posterPath: tvShowsTable.posterPath,
+        createdAt: listContentTable.createdAt,
       })
       .from(tvShowsTable)
       .innerJoin(
@@ -180,7 +188,7 @@ export async function getSavedSeries(listId: number) {
       mediaType: "tv" as const,
     }));
 
-    return formattedResults as ListContent[];
+    return formattedResults;
   }
 }
 
@@ -238,10 +246,12 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
   if (userId && mediaType === "movie") {
     const results = await db
       .select({
+        listId: listContentTable.listId,
         mediaId: moviesTable.id,
         listContentId: listContentTable.id,
         title: moviesTable.title,
         posterPath: moviesTable.posterPath,
+        createdAt: listContentTable.createdAt,
       })
       .from(moviesTable)
       .innerJoin(listContentTable, eq(listContentTable.movieId, moviesTable.id))
@@ -252,22 +262,21 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
         ),
       );
 
-    const formattedResults = results.map((result) => {
-      const renamed = renameKeys(
-        { id: "listContentId", movieId: "mediaId" },
-        result,
-      ) as ListContent;
-      return { ...renamed, mediaType: "movie" as const };
-    });
+    const formattedResults = results.map((result) => ({
+      ...result,
+      mediaType: "movie" as const,
+    }));
 
     return formattedResults;
   } else if (userId && mediaType === "tv") {
     const results = await db
       .select({
+        listId: listContentTable.listId,
         mediaId: tvShowsTable.id,
         listContentId: listContentTable.id,
         title: tvShowsTable.title,
         posterPath: tvShowsTable.posterPath,
+        createdAt: listContentTable.createdAt,
       })
       .from(tvShowsTable)
       .innerJoin(
@@ -281,13 +290,10 @@ export async function checkIfSaved(mediaId: number, mediaType: "movie" | "tv") {
         ),
       );
 
-    const formattedResults = results.map((result) => {
-      const renamed = renameKeys(
-        { id: "listContentId", seriesId: "mediaId" },
-        result,
-      ) as ListContent;
-      return { ...renamed, mediaType: "tv" as const };
-    });
+      const formattedResults = results.map((result) => ({
+        ...result,
+        mediaType: "tv" as const,
+      }));
 
     return formattedResults;
   }

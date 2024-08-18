@@ -47,7 +47,7 @@ export default function PosterGrid({
       {media &&
         media.map((result, index) => {
           const simpleTitle = getSimpleTitle(result.title);
-          const rating = result.rating && parseFloat(result.rating);
+          const rating = "rating" in result && parseFloat(result.rating);
           const mediaType = result.mediaType === "movie" ? "film" : "series";
 
           const tooltipContent = (

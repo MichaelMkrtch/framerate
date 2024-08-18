@@ -15,20 +15,35 @@ type ListContentStore = {
   clearListContent: () => void;
 };
 
+function removeDuplicates(
+  listContentState: ListContent[],
+  newListContent: ListContent,
+) {
+  const updated = [...listContentState, newListContent];
+  const unique = [
+    ...new Map(
+      updated.map((v) => [JSON.stringify([v.listId, v.mediaId]), v]),
+    ).values(),
+  ];
+  return unique;
+}
+
 export const useListContentStore = create<ListContentStore>()(
   persist(
     (set) => ({
       listContent: [],
       setListContent: (mediaArr) => set(() => ({ listContent: mediaArr })),
       addListContent: (media) =>
-        set((state) => ({ listContent: [...state.listContent, media] })),
+        set((state) => ({
+          listContent: removeDuplicates(state.listContent, media),
+        })),
       removeListContent: (mediaId, listContentId, mediaType) =>
         set((state) => ({
           listContent: state.listContent.filter((media) => {
             if (
+              mediaType === media.mediaType &&
               mediaId === media.mediaId &&
-              listContentId === media.listContentId &&
-              mediaType === media.mediaType
+              listContentId === media.listContentId
             ) {
               return false;
             } else {

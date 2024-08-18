@@ -61,7 +61,7 @@ export const movieReviewsTable = pgTable(
         onUpdate: "no action",
         onDelete: "no action",
       }),
-    rating: numeric("rating", { precision: 2, scale: 1 }),
+    rating: numeric("rating", { precision: 2, scale: 1 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
@@ -104,7 +104,7 @@ export const tvReviewsTable = pgTable(
         onUpdate: "no action",
         onDelete: "no action",
       }),
-    rating: numeric("rating", { precision: 2, scale: 1 }),
+    rating: numeric("rating", { precision: 2, scale: 1 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),

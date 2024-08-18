@@ -16,12 +16,7 @@ import {
 } from "@/components/ui/Alert-Dialog";
 import { ArrowLeft } from "@/components/ui/Icons";
 import PosterGrid from "@/components/ui/PosterGrid";
-import {
-  deleteAllListContent,
-  deleteList,
-  getSavedMovies,
-  getSavedSeries,
-} from "@/lib/lists";
+import { deleteAllListContent, deleteList, getListContent } from "@/lib/lists";
 import { useListContentStore } from "@/store/listContentStore";
 import { useListsStore } from "@/store/listsStore";
 import { useUserStore } from "@/store/userStore";
@@ -45,13 +40,8 @@ export default function ListPage() {
   useEffect(() => {
     (async () => {
       if (activeList) {
-        const tvResults = await getSavedSeries(activeList.id);
-        const movieResults = await getSavedMovies(activeList.id);
-
-        if (tvResults && movieResults) {
-          const results = movieResults.concat(tvResults);
-          results.length > 0 && setListContent(results);
-        }
+        const results = await getListContent(activeList.id);
+        setListContent(results);
       }
     })();
   }, [activeList, setListContent]);
@@ -89,7 +79,7 @@ export default function ListPage() {
         lists
       </button>
 
-      <div className="rounded bg-gray-850/35 px-3 py-4 ring-2 ring-neutral-800 animate-fade-in">
+      <div className="animate-fade-in rounded bg-gray-850/35 px-3 py-4 ring-2 ring-neutral-800">
         <div className="mb-5 flex items-center justify-between">
           <h3>List by {username}</h3>
           <button className="px-3 py-2" onClick={handleEditClick}>

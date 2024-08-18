@@ -48,12 +48,10 @@ export default function Lists({ media }: { media: Media }) {
     if (idList.includes(listId)) {
       idList.forEach(async (id) => {
         if (id === listId) {
-          console.log("listContent", listContent);
           const contentToRemove = listContent.filter(
             (content) =>
               content.listId === listId && content.mediaId === media.id,
           );
-          console.log("contentToRemove", contentToRemove);
           await removeFromList(
             contentToRemove[0].listContentId,
             media.id,

@@ -67,7 +67,7 @@ export type Review = {
   mediaType: "movie" | "tv";
   mediaId: number;
   title: string;
-  rating: string | null;
+  rating: string;
   posterPath: string;
   createdAt: Date;
 };
@@ -85,9 +85,14 @@ export type UserList<T> = {
   userId: number;
 };
 
-export interface ListContent extends Review {
-  listContentId: number;
+export interface ListContent {
+  mediaType: "movie" | "tv";
   listId: number;
+  listContentId: number;
+  mediaId: number;
+  title: string;
+  posterPath: string;
+  createdAt: Date;
 }
 
 export interface ListContentResults<T> extends ListContent {

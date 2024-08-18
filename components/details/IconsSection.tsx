@@ -47,7 +47,7 @@ export default function IconsSection({ media }: { media: Media }) {
   }, [mediaType, mediaId, setIsWatched]);
 
   // Clears list content and checks if media is saved to any list.
-  // If it is, the bookmark icon should be filled.
+  // If it is, the bookmark icon will be filled.
   useEffect(() => {
     (async () => {
       const listContentResults = await checkIfSaved(mediaId, mediaType);
