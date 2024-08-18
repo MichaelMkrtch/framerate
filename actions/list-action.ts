@@ -100,7 +100,7 @@ export async function saveToList(
         movieId: mediaId,
       });
 
-      mediaResult = result && { ...result, title, rating: null, posterPath };
+      mediaResult = result && { ...result, title, posterPath };
     } else {
       const result = await addToList({
         userId,
@@ -109,7 +109,7 @@ export async function saveToList(
         seriesId: mediaId,
       });
 
-      mediaResult = result && { ...result, title, rating: null, posterPath };
+      mediaResult = result && { ...result, title, posterPath };
     }
 
     return {
