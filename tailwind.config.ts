@@ -24,6 +24,8 @@ const config = {
         "fade-in": "fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
         "fade-in-fast": "fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
         "fade-out": "fade-out 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
+        "fade-out-fast":
+          "fade-out 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
         "ios-safari-prevent-scroll-on-focus":
           "ios-safari-prevent-scroll-on-focus 0.1s",
         "scale-to-right":

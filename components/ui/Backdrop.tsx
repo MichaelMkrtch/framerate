@@ -15,7 +15,7 @@ export default function Backdrop({
   backdropPath,
   topPosition,
 }: BackdropProps) {
-  const { handleImageOnLoad, transitionStyles } = useImageOnLoad();
+  const { handleImageOnLoad, isLoaded, transitionStyles } = useImageOnLoad();
 
   return (
     backdropPath && (
@@ -27,17 +27,17 @@ export default function Backdrop({
           alt={`Still image from ${title}`}
           width={15}
           height={10}
-          className="h-auto w-full object-cover [image-rendering:_pixelated] md:h-auto"
+          className={`${isLoaded && "animate-fade-out-fast"} h-auto w-full object-cover [image-rendering:_pixelated] md:h-auto`}
           style={transitionStyles.lowRes}
         />
         <Image
           onLoad={handleImageOnLoad}
           src={`${IMG_BASE_URL}original${backdropPath}`}
           alt={`Still image from ${title}`}
-          className="absolute top-0 h-auto w-full object-cover"
-          style={transitionStyles.highRes}
           width={3840}
           height={2160}
+          className={`${isLoaded && "animate-fade-in-fast"} absolute top-0 h-auto w-full object-cover`}
+          style={transitionStyles.highRes}
           priority
         />
         {/* Tablet and Desktop shadow gradient */}

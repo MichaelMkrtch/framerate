@@ -41,6 +41,7 @@ export default function ListPage() {
     (async () => {
       if (activeList) {
         const results = await getListContent(activeList.id);
+        results.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
         setListContent(results);
       }
     })();
