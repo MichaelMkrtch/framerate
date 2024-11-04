@@ -85,7 +85,7 @@ export default function Header({ user }: { user: User | null }) {
       >
         <Link href="/">
           <h1 className="font-noto text-lg font-medium md:block md:text-3xl md:font-bold">
-            Lumière
+            FrameRate
           </h1>
         </Link>
 

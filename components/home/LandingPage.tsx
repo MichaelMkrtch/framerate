@@ -42,7 +42,7 @@ export default function LandingPage() {
               </button>
             </AuthModal.Trigger>
 
-            <AuthModal.Content title="Join Lumière">
+            <AuthModal.Content title="Join FrameRate">
               <SignupForm />
             </AuthModal.Content>
           </AuthModal>
@@ -82,7 +82,7 @@ export default function LandingPage() {
               Build your ultimate collection
             </h3>
             <p className="text-balance text-sm tracking-wide text-zinc-400">
-              Lumière lets you save every film, series, and anime you&apos;ve
+              FrameRate lets you save every film, series, and anime you&apos;ve
               seen.
             </p>
           </Card>

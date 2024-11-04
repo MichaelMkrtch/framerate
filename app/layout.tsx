@@ -31,9 +31,9 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata = {
-  title: "Lumière",
+  title: "FrameRate",
   description:
-    "Lumière is a social platform for sharing your interests in film. Use it to record your opinions about films you watch, or just to keep track of what you've seen!",
+    "FrameRate is a social platform for sharing your interests in movies and shows: upload your reviews, create and share lists, or just to keep track of what you've seen!",
 };
 
 async function PrefetchHeader() {
