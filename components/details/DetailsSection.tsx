@@ -1,4 +1,4 @@
-import { type Media, type StoredRating } from "@/types";
+import { type Media } from "@/types";
 
 import Poster from "../ui/Poster";
 import Credits from "./Credits";

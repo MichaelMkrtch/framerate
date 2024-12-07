@@ -44,6 +44,11 @@ export default function IconsSection({ media }: { media: Media }) {
         setIsWatched(reviewResult.watched);
       }
     })();
+
+    return () => {
+      setIsLiked(false)
+      setIsWatched(false)
+    }
   }, [mediaType, mediaId, setIsWatched]);
 
   // Clears list content and checks if media is saved to any list.
