@@ -103,7 +103,7 @@ export default function NavBar({
         ) : (
           isLoggedIn && (
             <>
-              <ListItem path="/lists" handleClick={handleClick}>
+              <ListItem path={`/${username}/lists`} handleClick={handleClick}>
                 Lists
               </ListItem>
               <ListItem path="/articles" handleClick={handleClick}>
@@ -130,16 +130,6 @@ export default function NavBar({
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="m-auto px-3 py-2">
                           <ul>
-                            <li className="mb-3">
-                              <NavigationMenuLink asChild>
-                                <Link
-                                  href={`/${username}/lists`}
-                                  className="text-nowrap text-sm"
-                                >
-                                  Your lists
-                                </Link>
-                              </NavigationMenuLink>
-                            </li>
                             <li className="mb-0.5">
                               <NavigationMenuLink>
                                 <form action={logout}>
