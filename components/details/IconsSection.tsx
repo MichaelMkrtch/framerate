@@ -19,12 +19,13 @@ import { useReviewStore } from "@/store/reviewStore";
 export default function IconsSection({ media }: { media: Media }) {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
 
-  const { listContent, addListContent, clearListContent } =
-    useListContentStore((state) => ({
+  const { listContent, addListContent, clearListContent } = useListContentStore(
+    (state) => ({
       listContent: state.listContent,
       addListContent: state.addListContent,
       clearListContent: state.clearListContent,
-    }));
+    }),
+  );
 
   const { isWatched, setIsWatched } = useReviewStore((state) => ({
     isWatched: state.isWatched,
@@ -46,9 +47,9 @@ export default function IconsSection({ media }: { media: Media }) {
     })();
 
     return () => {
-      setIsLiked(false)
-      setIsWatched(false)
-    }
+      setIsLiked(false);
+      setIsWatched(false);
+    };
   }, [mediaType, mediaId, setIsWatched]);
 
   // Clears list content and checks if media is saved to any list.
@@ -62,7 +63,10 @@ export default function IconsSection({ media }: { media: Media }) {
         });
       }
     })();
-    return () => clearListContent();
+
+    return () => {
+      clearListContent();
+    };
   }, [mediaType, mediaId, addListContent, clearListContent]);
 
   async function handleClick(icon: string) {
