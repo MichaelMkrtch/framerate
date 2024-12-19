@@ -77,8 +77,8 @@ body {
   }
 
   .textured-dark {
-    background: linear-gradient(rgb(37, 38, 43), rgb(37, 38, 43)) padding-box
-        padding-box,
+    background:
+      linear-gradient(rgb(37, 38, 43), rgb(37, 38, 43)) padding-box padding-box,
       conic-gradient(
           from 180deg at 50% 50%,
           rgba(255, 255, 255, 0.04) -30.67deg,
@@ -89,6 +89,23 @@ body {
           rgba(255, 255, 255, 0.02) 304.51deg,
           rgba(255, 255, 255, 0.04) 329.33deg,
           rgba(255, 255, 255, 0) 372.67deg
+        )
+        border-box border-box;
+  }
+
+  .highlight-border {
+    background:
+      linear-gradient(rgb(23, 24, 28), rgb(23, 24, 28)) padding-box padding-box,
+      linear-gradient(
+          300deg,
+          rgba(198, 198, 198, 0.5) 0%,
+          rgba(27, 27, 27, 0.5) 100%
+        )
+        padding-box padding-box,
+      linear-gradient(
+          35deg,
+          rgba(198, 198, 198, 0.3) 0%,
+          rgba(27, 27, 27, 0.35) 100%
         )
         border-box border-box;
   }
