@@ -21,6 +21,14 @@ body {
 }
 
 @layer utilities {
+  .gradient-highlight {
+    background: radial-gradient(
+      350px at 50% 50%,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
   .backdrop-fade {
     background: linear-gradient(
         90deg,

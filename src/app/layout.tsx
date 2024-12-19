@@ -28,12 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full w-full">
       <head>
         <meta name="apple-mobile-web-app-title" content="FrameRate" />
       </head>
       <body
-        className={`${manrope.variable} ${bespokeSerif.variable} m-auto max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
+        className={`${manrope.variable} ${bespokeSerif.variable} overflow-hidden h-full w-full m-auto max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
       >
         {children}
       </body>

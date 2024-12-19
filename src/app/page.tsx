@@ -10,15 +10,17 @@ export default function Home() {
           <Link href="/">
             <h1 className="text-3xl font-extrabold">FrameRate</h1>
           </Link>
+
           <div className="flex items-center gap-10 font-semibold">
-            <Link href="/" className="group/login flex items-center gap-2">
+            <Link href="/login" className="group/login flex items-center gap-2">
               <span className="text-gray transition-colors duration-200 group-hover/login:text-white">
                 <Fingerprint size={18} />
               </span>
               Login
             </Link>
+
             <Link
-              href="/"
+              href="/signup"
               className="highlight-border group/trial peer flex items-center gap-2 rounded-full border border-transparent px-3.5 py-0.5"
             >
               <span className="text-gray transition-colors duration-200 group-hover/trial:text-white">
@@ -56,9 +58,12 @@ export default function Home() {
             </p>
           </div>
 
-          <button className="relative rounded-full border border-white/70 px-12 py-1.5 font-bold tracking-wide text-white shadow-sm transition-all duration-200 ease-in hover:bg-foreground hover:text-neutral-800">
+          <Link
+            href="/signup"
+            className="relative rounded-full border border-white/70 px-12 py-1.5 font-bold tracking-wide text-white shadow-sm transition-all duration-200 ease-in hover:bg-foreground hover:text-neutral-800"
+          >
             Get started
-          </button>
+          </Link>
         </section>
 
         <p className="text-center font-semibold text-gray">
