@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Manrope } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const manrope = Manrope({
+  variable: '--font-manrope',
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const bespokeSerif = localFont({
+  src: '../fonts/bespokeserif-variable.woff2',
+  variable: '--font-bespoke-serif',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -25,8 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="apple-mobile-web-app-title" content="FrameRate" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${manrope.variable} ${bespokeSerif.variable} antialiased m-auto max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
       >
         {children}
       </body>
