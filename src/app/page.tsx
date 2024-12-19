@@ -9,7 +9,7 @@ export default function Home() {
           <h1 className="text-3xl font-extrabold">FrameRate</h1>
         </Link>
         <div className="flex items-center gap-10 font-semibold">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 group/login">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -20,6 +20,7 @@ export default function Home() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              className="text-gray transition-colors duration-200 group-hover/login:text-white"
             >
               <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4" />
               <path d="M14 13.12c0 2.38 0 6.38-1 8.88" />
@@ -35,7 +36,7 @@ export default function Home() {
           </Link>
           <Link
             href="/"
-            className="px-3.5 py-0.5 border border-white/35 rounded-full"
+            className="px-3.5 py-0.5 border border-white/35 rounded-full peer"
           >
             Start your trial
           </Link>
@@ -67,7 +68,7 @@ export default function Home() {
             </p>
           </div>
 
-          <button className="relative rounded-full border border-white tracking-wide text-white hover:bg-foreground hover:text-neutral-800 font-bold px-12 py-1.5 transition-all duration-200 ease-in">
+          <button className="shadow-sm relative rounded-full border border-white tracking-wide text-white hover:bg-foreground hover:text-neutral-800 font-bold px-12 py-1.5 transition-all duration-200 ease-in">
             Get started
           </button>
         </section>
