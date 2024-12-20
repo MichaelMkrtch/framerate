@@ -1,6 +1,5 @@
 import {
   bigint,
-  bigserial,
   boolean,
   date,
   numeric,
@@ -11,30 +10,81 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-export const usersTable = pgTable("users", {
-  id: bigserial("id", { mode: "number" }).primaryKey(),
-  email: text("email").notNull().unique(),
-  name: text("name").notNull(),
+export const user = pgTable("user", {
+  id: bigint("id", { mode: "number" }).primaryKey(),
   username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .notNull()
-    .defaultNow(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  emailVerified: boolean("emailVerified").notNull(),
+  image: text("image"),
+  createdAt: timestamp("createdAt").notNull(),
+  updatedAt: timestamp("updatedAt").notNull(),
 });
 
-export const sessionsTable = pgTable("sessions", {
-  id: text("id").primaryKey(),
-  userId: bigint("user_id", { mode: "number" })
+export const session = pgTable("session", {
+  id: bigint("id", { mode: "number" }).primaryKey(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  token: text("token").notNull().unique(),
+  createdAt: timestamp("createdAt").notNull(),
+  updatedAt: timestamp("updatedAt").notNull(),
+  ipAddress: text("ipAddress"),
+  userAgent: text("userAgent"),
+  userId: bigint("userId", { mode: "number" })
     .notNull()
-    .references(() => usersTable.id, {
-      onUpdate: "no action",
-      onDelete: "no action",
-    }),
-  expiresAt: timestamp("expires_at", {
-    withTimezone: true,
-    mode: "date",
-  }).notNull(),
+    .references(() => user.id),
 });
+
+export const account = pgTable("account", {
+  id: bigint("id", { mode: "number" }).primaryKey(),
+  accountId: text("accountId").notNull(),
+  providerId: text("providerId").notNull(),
+  userId: bigint("userId", { mode: "number" })
+    .notNull()
+    .references(() => user.id),
+  accessToken: text("accessToken"),
+  refreshToken: text("refreshToken"),
+  idToken: text("idToken"),
+  accessTokenExpiresAt: timestamp("accessTokenExpiresAt"),
+  refreshTokenExpiresAt: timestamp("refreshTokenExpiresAt"),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: timestamp("createdAt").notNull(),
+  updatedAt: timestamp("updatedAt").notNull(),
+});
+
+export const verification = pgTable("verification", {
+  id: bigint("id", { mode: "number" }).primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  createdAt: timestamp("createdAt"),
+  updatedAt: timestamp("updatedAt"),
+});
+
+// export const usersTable = pgTable("users", {
+//   id: bigint("id", { mode: "number" }).primaryKey(),
+//   email: text("email").notNull().unique(),
+//   name: text("name").notNull(),
+//   username: text("username").notNull().unique(),
+//   password: text("password").notNull(),
+//   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+//     .notNull()
+//     .defaultNow(),
+// });
+
+// export const sessionsTable = pgTable("sessions", {
+//   id: bigint("id", { mode: "number" }).primaryKey(),
+//   userId: bigint("user_id", { mode: "number" })
+//     .notNull()
+//     .references(() => usersTable.id, {
+//       onUpdate: "no action",
+//       onDelete: "no action",
+//     }),
+//   expiresAt: timestamp("expires_at", {
+//     withTimezone: true,
+//     mode: "date",
+//   }).notNull(),
+// });
 
 export const moviesTable = pgTable("movies", {
   id: bigint("id", { mode: "number" }).primaryKey(),
@@ -48,10 +98,10 @@ export const moviesTable = pgTable("movies", {
 export const movieReviewsTable = pgTable(
   "movie_reviews",
   {
-    id: bigserial("id", { mode: "number" }),
+    id: bigint("id", { mode: "number" }),
     userId: bigint("user_id", { mode: "number" })
       .notNull()
-      .references(() => usersTable.id, {
+      .references(() => user.id, {
         onUpdate: "no action",
         onDelete: "no action",
       }),
@@ -91,10 +141,10 @@ export const tvShowsTable = pgTable("tv_shows", {
 export const tvReviewsTable = pgTable(
   "tv_reviews",
   {
-    id: bigserial("id", { mode: "number" }),
+    id: bigint("id", { mode: "number" }),
     userId: bigint("user_id", { mode: "number" })
       .notNull()
-      .references(() => usersTable.id, {
+      .references(() => user.id, {
         onUpdate: "no action",
         onDelete: "no action",
       }),
@@ -124,10 +174,10 @@ export const tvReviewsTable = pgTable(
 );
 
 export const listsTable = pgTable("lists", {
-  id: bigserial("id", { mode: "number" }),
+  id: bigint("id", { mode: "number" }),
   userId: bigint("user_id", { mode: "number" })
     .notNull()
-    .references(() => usersTable.id, {
+    .references(() => user.id, {
       onUpdate: "no action",
       onDelete: "no action",
     }),
@@ -138,7 +188,7 @@ export const listsTable = pgTable("lists", {
 });
 
 export const listContentTable = pgTable("list_content", {
-  id: bigserial("id", { mode: "number" }).notNull(),
+  id: bigint("id", { mode: "number" }).notNull(),
   userId: bigint("user_id", { mode: "number" }).notNull(),
   listId: bigint("list_id", { mode: "number" }).notNull(),
   movieId: bigint("movie_id", { mode: "number" }).references(
@@ -161,11 +211,17 @@ export const listContentTable = pgTable("list_content", {
     .defaultNow(),
 });
 
-export type InsertUser = typeof usersTable.$inferInsert;
-export type SelectUser = typeof usersTable.$inferSelect;
+export type InsertUser = typeof user.$inferInsert;
+export type SelectUser = typeof user.$inferSelect;
 
-export type InsertSession = typeof sessionsTable.$inferInsert;
-export type SelectSession = typeof sessionsTable.$inferSelect;
+export type InsertSession = typeof session.$inferInsert;
+export type SelectSession = typeof session.$inferSelect;
+
+export type InsertAccount = typeof account.$inferInsert;
+export type SelectAccount = typeof account.$inferSelect;
+
+export type InsertVerification = typeof verification.$inferInsert;
+export type SelectVerification = typeof verification.$inferSelect;
 
 export type InsertMovie = typeof moviesTable.$inferInsert;
 export type SelectMovie = typeof moviesTable.$inferSelect;
