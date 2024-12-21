@@ -122,3 +122,9 @@ body {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px;
   }
 }
+
+@layer components {
+  .auth-input {
+    @apply w-80 rounded-full bg-white/[0.01] py-3 pl-6 pr-3 text-sm font-medium outline-none ring-1 ring-white/10 placeholder:font-medium placeholder:text-white/25;
+  }
+}

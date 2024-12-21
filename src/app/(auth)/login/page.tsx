@@ -1,8 +1,8 @@
 import { X } from "lucide-react";
 import Link from "next/link";
 
-import AuthFooter from "@/components/AuthFooter";
-import AuthForm from "@/components/AuthForm";
+import AuthForm from "@/features/auth/components/AuthContent";
+import AuthFooter from "@/features/auth/components/AuthFooter";
 
 export default function LoginPage() {
   return (
