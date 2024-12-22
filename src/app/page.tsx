@@ -21,7 +21,7 @@ export default function Home() {
 
             <Link
               href="/signup"
-              className="highlight-border group/trial peer flex items-center gap-2 rounded-full border border-transparent px-3.5 py-0.5"
+              className="highlight-bg group/trial peer flex items-center gap-2 rounded-full border border-transparent px-3.5 py-0.5"
             >
               <span className="text-gray transition-colors duration-200 group-hover/trial:text-white">
                 <Ticket size={18} />

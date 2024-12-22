@@ -101,7 +101,7 @@ body {
         border-box border-box;
   }
 
-  .highlight-border {
+  .highlight-bg {
     background:
       linear-gradient(rgb(23, 24, 28), rgb(23, 24, 28)) padding-box padding-box,
       linear-gradient(

@@ -142,7 +142,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                       onClick={handleClick}
                       className="pr-2.5 text-gray cursor-pointer hover:text-white transition-colors duration-200 flex flex-col items-center"
                     >
-                      <CircleArrowRight size={32} strokeWidth={1.1} />
+                      <CircleArrowRight size={28} strokeWidth={1.1} />
                     </button>
                   </div>
                 </FormControl>
