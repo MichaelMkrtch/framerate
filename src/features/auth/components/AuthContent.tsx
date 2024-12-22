@@ -1,4 +1,4 @@
-export default function AuthForm({
+export default function AuthContent({
   title,
   description,
 }: {
@@ -7,10 +7,10 @@ export default function AuthForm({
 }) {
   return (
     <section>
-      <h1 className="text-[28px] font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#9370db] to-[#f4b541]">
+      <h1 className="text-[28px] text-center font-extrabold mb-1.5 text-transparent bg-clip-text bg-gradient-to-r from-[#9370db] to-[#f4b541]">
         {title}
       </h1>
-      <p className="mb-4 w-72 text-center text-sm tracking-wide text-gray font-medium">
+      <p className="mb-7 text-center mx-auto w-72 text-sm tracking-wide text-gray font-medium">
         {description}
       </p>
     </section>

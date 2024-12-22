@@ -9,9 +9,10 @@ import Link from "next/link";
 
 import AuthContent from "@/features/auth/components/AuthContent";
 import AuthFooter from "@/features/auth/components/AuthFooter";
+import RotatingQuotes from "@/features/auth/components/RotatingQuotes";
 import SignupForm from "@/features/auth/components/SignupForm";
 
-export default function Signup() {
+export default function SignupPage() {
   const [page, setPage] = useState(1);
 
   function handleClick() {
@@ -22,9 +23,12 @@ export default function Signup() {
     <>
       <div
         aria-hidden={true}
-        className="absolute animated-mesh left-0 h-[400px] top-0 bottom-0 w-[500px] m-auto right-0"
+        className="absolute signup-animated-mesh left-0 h-[400px] top-0 bottom-0 w-[500px] m-auto right-0"
       />
-      <div className="absolute w-full h-full bg-black/75 z-0 left-0 top-0 backdrop-blur-3xl" />
+      <div
+        aria-hidden={true}
+        className="absolute w-full h-full bg-black/75 z-0 left-0 top-0 backdrop-blur-3xl"
+      />
       <main className="relative mt-8 h-full flex flex-col justify-center items-center">
         <Link
           href="/"
@@ -32,6 +36,8 @@ export default function Signup() {
         >
           <X size={18} />
         </Link>
+
+        <div className="mb-20 h-12">{page === 2 && <RotatingQuotes />}</div>
 
         <div className="relative bottom-[70px]">
           {page === 1 && (

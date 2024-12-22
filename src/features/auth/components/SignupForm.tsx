@@ -2,7 +2,7 @@
 
 import type { Dispatch, SetStateAction } from "react";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
@@ -41,8 +41,6 @@ type FormState = {
 
 export default function SignupForm({ page, setPage }: SignupFormProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
-  const nameWrapperRef = useRef<HTMLDivElement>(null);
 
   const initialState: FormState = {
     status: "",
@@ -81,6 +79,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     return true;
   }
 
+  // Checks if email is valid before changing page
   function handleClick() {
     if (page === 1) {
       const emailIsValid = validateEmail();
@@ -93,10 +92,20 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     setPage(1);
   }
 
+  // Focuses first input field on second form page
   useEffect(() => {
-    const nameInput = nameWrapperRef.current?.children[0] as HTMLInputElement;
-    if (nameInput) nameInput.focus();
-  }, [page]);
+    if (page === 2) {
+      form.setFocus("name");
+    }
+  }, [page, form]);
+
+  function togglePasswordVisibility() {
+    if (isVisible) {
+      setIsVisible(false);
+      return;
+    }
+    setIsVisible(true);
+  }
 
   // Handle form success and failure with Sonner
   // if (!isPending) {
@@ -109,17 +118,9 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
   //   }
   // }
 
-  function togglePasswordVisibility() {
-    if (isVisible) {
-      setIsVisible(false);
-      return;
-    }
-    setIsVisible(true);
-  }
-
   return (
     <Form {...form}>
-      <form ref={formRef} action={formAction}>
+      <form action={formAction}>
         <div className={page === 1 ? "block" : "hidden"}>
           <FormField
             control={form.control}
@@ -149,7 +150,9 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormDescription className="sr-only">
                   This is your email.
                 </FormDescription>
-                <FormMessage>{formState.errors?.email}</FormMessage>
+                <FormMessage className="absolute">
+                  {formState.errors?.email}
+                </FormMessage>
               </FormItem>
             )}
           />
@@ -163,17 +166,15 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Name</FormLabel>
                 <FormControl>
-                  <div ref={nameWrapperRef}>
-                    <Input
-                      id="name"
-                      type="name"
-                      placeholder="your name"
-                      autoComplete="name"
-                      autoFocus
-                      className="auth-input"
-                      {...field}
-                    />
-                  </div>
+                  <Input
+                    id="name"
+                    type="name"
+                    placeholder="your name"
+                    autoComplete="name"
+                    autoFocus
+                    className="auth-input"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription className="sr-only">
                   This is your name.
@@ -244,6 +245,15 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
             )}
           />
         </div>
+
+        {page === 2 && (
+          <button
+            type="submit"
+            className="mt-8 rounded-full bg-transparent ring-1 ring-white/10 py-1.5 w-full"
+          >
+            Create account
+          </button>
+        )}
       </form>
     </Form>
   );
