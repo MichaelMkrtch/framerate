@@ -7,7 +7,7 @@ import { useActionState, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
-// import { toast } from "sonner"
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -48,7 +48,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     errors: {},
   };
 
-  const [formState, formAction] = useActionState(signup, initialState);
+  const [formState, formAction, pending] = useActionState(signup, initialState);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -58,7 +58,21 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
       username: "",
       password: "",
     },
+    mode: "onSubmit",
   });
+
+  // Checks if email is valid before changing page
+  function handlePageChange() {
+    if (page === 1) {
+      const emailIsValid = validateEmail();
+      if (emailIsValid) {
+        form.clearErrors("email");
+        setPage(2);
+        return;
+      }
+    }
+    setPage(1);
+  }
 
   function validateEmail() {
     const emailSchema = z.object({ email: signupSchema.shape["email"] });
@@ -79,24 +93,15 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     return true;
   }
 
-  // Checks if email is valid before changing page
-  function handleClick() {
-    if (page === 1) {
-      const emailIsValid = validateEmail();
-      if (emailIsValid) {
-        form.clearErrors("email");
-        setPage(2);
-        return;
-      }
-    }
-    setPage(1);
-  }
-
-  // Focuses first input field on second form page
+  // Focuses first input field on form pages after navigation
   useEffect(() => {
     if (page === 2) {
       form.setFocus("name");
     }
+
+    return () => {
+      form.setFocus("email");
+    };
   }, [page, form]);
 
   function togglePasswordVisibility() {
@@ -107,16 +112,35 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     setIsVisible(true);
   }
 
-  // Handle form success and failure with Sonner
-  // if (!isPending) {
-  //   if (formState.status === "success") {
-  //     console.log(formState.message);
-  //     formState.status = "";
-  //   } else if (formState.status === "fail") {
-  //     console.log(formState.message);
-  //     formState.status = "";
-  //   }
-  // }
+  // Resolves/Rejects a promise after signup action returns to trigger dynamic toast
+  useEffect(() => {
+    if (formState.status !== "") {
+      const submitPromise = () =>
+        new Promise((resolve, reject) => {
+          if (formState.status === "success") {
+            resolve(formState.message);
+          }
+          if (formState.status === "error") {
+            reject(formState.message);
+          }
+        });
+
+      toast.promise(submitPromise, {
+        loading: "Loading...",
+        success: (message) => {
+          return `${message}`;
+        },
+        error: (message) => {
+          return message;
+        },
+      });
+    }
+
+    // Prevents extra toast with previous message when resubmitting form
+    return () => {
+      formState.status = "";
+    };
+  }, [formState, pending]);
 
   return (
     <Form {...form}>
@@ -140,7 +164,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                     />
                     <button
                       type="button"
-                      onClick={handleClick}
+                      onClick={handlePageChange}
                       className="pr-2.5 text-gray cursor-pointer hover:text-white transition-colors duration-200 flex flex-col items-center"
                     >
                       <CircleArrowRight size={28} strokeWidth={1.1} />

@@ -24,7 +24,7 @@ export default function RotatingQuotes() {
 
     const interval = setInterval(() => {
       setCurrentIndex(currentIndex + 1);
-    }, 4000);
+    }, 4500);
 
     return () => {
       clearTimeout(interval);

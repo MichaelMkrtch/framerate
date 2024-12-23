@@ -25,38 +25,27 @@ export async function signup(
 
   console.log(data);
 
-  const { name, email, username, password } = data;
+  // const { name, email, username, password } = data;
 
-  if (
-    name.toLowerCase().includes("support") ||
-    name.toLowerCase().includes("admin") ||
-    username.toLowerCase().includes("support") ||
-    username.toLowerCase().includes("admin") ||
-    name.toLowerCase().includes("framerate") ||
-    username.toLowerCase().includes("framerate") ||
-    name.toLowerCase().includes("frame rate") ||
-    username.toLowerCase().includes("frame rate")
-  ) {
-    return {
-      status: "error",
-      message:
-        "Please remove instances of 'support' or 'admin' from username or name fields",
-    };
-  }
+  // if (
+  //   name.toLowerCase().includes("support") ||
+  //   name.toLowerCase().includes("admin") ||
+  //   username.toLowerCase().includes("support") ||
+  //   username.toLowerCase().includes("admin") ||
+  //   name.toLowerCase().includes("framerate") ||
+  //   username.toLowerCase().includes("framerate") ||
+  //   name.toLowerCase().includes("frame rate") ||
+  //   username.toLowerCase().includes("frame rate")
+  // ) {
+  //   return {
+  //     status: "error",
+  //     message:
+  //       "Please remove instances of 'support' or 'admin' from username or name fields",
+  //   };
+  // }
 
-  if (!/^\w+( \w+)*$/.test(name)) {
-    return {
-      status: "error",
-      message:
-        "Special characters, numbers, and excess spaces are not allowed in the name field.",
-    };
-  }
-
-  if (!/^[a-z0-9_-]+$/.test(username)) {
-    return {
-      status: "error",
-      message:
-        "Special or uppercase characters are not allowed in the username field",
-    };
-  }
+  return {
+    status: "success",
+    message: "Account created successfully!",
+  };
 }

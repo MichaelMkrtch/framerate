@@ -32,7 +32,7 @@ export default function SignupPage() {
       <main className="relative mt-8 h-full flex flex-col justify-center items-center">
         <Link
           href="/"
-          className="absolute top-0 left-0 bg-white/[0.03] p-1 rounded-full text-white"
+          className="absolute top-0 left-2 bg-white/[0.03] p-1 rounded-full text-white"
         >
           <X size={18} />
         </Link>

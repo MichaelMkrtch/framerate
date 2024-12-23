@@ -5,6 +5,8 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 
+import { Toaster } from "sonner";
+
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
@@ -36,6 +38,7 @@ export default function RootLayout({
         className={`${manrope.variable} ${bespokeSerif.variable} overflow-hidden h-full w-full m-auto max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
