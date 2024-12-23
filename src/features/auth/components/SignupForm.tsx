@@ -151,7 +151,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                   This is your email.
                 </FormDescription>
                 <FormMessage className="absolute">
-                  {formState.errors?.email}
+                  {formState && formState.errors?.email}
                 </FormMessage>
               </FormItem>
             )}
@@ -179,7 +179,12 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormDescription className="sr-only">
                   This is your name.
                 </FormDescription>
-                <FormMessage>{formState.errors?.name}</FormMessage>
+                <FormMessage className="text-wrap">
+                  {formState &&
+                    (Array.isArray(formState.errors?.name)
+                      ? formState.errors?.name[0]
+                      : formState.errors?.name)}
+                </FormMessage>
               </FormItem>
             )}
           />
@@ -202,7 +207,12 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormDescription className="sr-only">
                   This is your public username.
                 </FormDescription>
-                <FormMessage>{formState.errors?.username}</FormMessage>
+                <FormMessage>
+                  {formState &&
+                    (Array.isArray(formState.errors?.username)
+                      ? formState.errors?.username[0]
+                      : formState.errors?.username)}
+                </FormMessage>
               </FormItem>
             )}
           />
@@ -219,14 +229,12 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                       type={isVisible ? "text" : "password"}
                       placeholder="your password"
                       autoComplete="new-password"
-                      minLength={10}
-                      maxLength={30}
                       className="auth-input ring-0 ring-transparent bg-transparent rounded-l-full rounded-r-none"
                       {...field}
                     />
                     <button
                       type="button"
-                      className="pr-2.5 text-gray cursor-pointer hover:text-white transition-colors duration-200 flex flex-col items-center"
+                      className="pr-3 text-gray cursor-pointer hover:text-white transition-colors duration-200 flex flex-col items-center"
                       onClick={togglePasswordVisibility}
                     >
                       {isVisible ? <Eye size={20} /> : <EyeOff size={20} />}
@@ -237,9 +245,10 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                   This is your password.
                 </FormDescription>
                 <FormMessage>
-                  {Array.isArray(formState.errors?.password)
-                    ? formState.errors?.password[0]
-                    : formState.errors?.password}
+                  {formState &&
+                    (Array.isArray(formState.errors?.password)
+                      ? formState.errors?.password[0]
+                      : formState.errors?.password)}
                 </FormMessage>
               </FormItem>
             )}
