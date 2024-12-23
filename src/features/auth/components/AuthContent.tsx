@@ -7,10 +7,10 @@ export default function AuthContent({
 }) {
   return (
     <section>
-      <h1 className="text-[28px] text-center font-extrabold mb-1.5 text-transparent bg-clip-text bg-gradient-to-r from-[#9370db] to-[#f4b541]">
+      <h1 className="mb-1.5 bg-gradient-to-r from-[#9370db] to-[#f4b541] bg-clip-text text-center text-[28px] font-extrabold text-transparent">
         {title}
       </h1>
-      <p className="mb-7 text-center mx-auto w-72 text-sm tracking-wide text-gray font-medium">
+      <p className="mx-auto mb-7 w-72 text-center text-sm font-medium tracking-wide text-gray">
         {description}
       </p>
     </section>

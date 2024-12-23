@@ -34,7 +34,7 @@ export default function RotatingQuotes() {
   }, [currentIndex, quotes.length]);
 
   return (
-    <span className="block text-[26px] text-center font-medium">
+    <span className="block text-center text-[26px] font-medium">
       {quotes[currentIndex]}
     </span>
   );

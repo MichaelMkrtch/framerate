@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-
-import "../gradients.css";
+import Link from "next/link";
 
 import { CircleArrowLeft, X } from "lucide-react";
-import Link from "next/link";
 
 import AuthContent from "@/features/auth/components/AuthContent";
 import AuthFooter from "@/features/auth/components/AuthFooter";
 import RotatingQuotes from "@/features/auth/components/RotatingQuotes";
 import SignupForm from "@/features/auth/components/SignupForm";
+
+import "../gradients.css";
 
 export default function SignupPage() {
   const [page, setPage] = useState(1);
@@ -23,16 +23,16 @@ export default function SignupPage() {
     <>
       <div
         aria-hidden={true}
-        className="absolute signup-animated-mesh left-0 h-[400px] top-0 bottom-0 w-[500px] m-auto right-0"
+        className="signup-animated-mesh absolute bottom-0 left-0 right-0 top-0 m-auto h-[400px] w-[500px]"
       />
       <div
         aria-hidden={true}
-        className="absolute w-full h-full bg-black/75 z-0 left-0 top-0 backdrop-blur-3xl"
+        className="absolute left-0 top-0 z-0 h-full w-full bg-black/75 backdrop-blur-3xl"
       />
-      <main className="relative mt-8 h-full flex flex-col justify-center items-center">
+      <main className="relative mt-8 flex h-full flex-col items-center justify-center">
         <Link
           href="/"
-          className="absolute top-0 left-2 bg-white/[0.03] p-1 rounded-full text-white"
+          className="absolute left-2 top-0 rounded-full bg-white/[0.03] p-1 text-white transition-colors duration-200 hover:bg-white/5"
         >
           <X size={18} />
         </Link>
@@ -52,7 +52,7 @@ export default function SignupPage() {
               <button
                 type="button"
                 onClick={handleClick}
-                className="w-fit text-gray hover:text-white transition-colors duration-200 mb-2"
+                className="mb-2 w-fit text-gray transition-colors duration-200 hover:text-white"
               >
                 <CircleArrowLeft size={32} strokeWidth={1.1} />
               </button>

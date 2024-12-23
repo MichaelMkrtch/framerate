@@ -10,8 +10,8 @@ export default function AuthFooter({
   linkTo: string;
 }) {
   return (
-    <footer className="absolute bottom-6 text-gray font-medium text-sm text-center left-0 right-0">
-      <div className="gradient-highlight w-full h-[1px]"></div>
+    <footer className="absolute bottom-6 left-0 right-0 text-center text-sm font-medium text-gray">
+      <div className="gradient-highlight h-[1px] w-full"></div>
       <p className="mt-6">
         {text}
         <Link href={linkTo} className="text-white">

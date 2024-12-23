@@ -153,19 +153,19 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Email</FormLabel>
                 <FormControl>
-                  <div className="relative bg-white/[0.01] flex items-center ring-1 ring-white/10 rounded-full">
+                  <div className="relative flex items-center rounded-full bg-white/[0.01] ring-1 ring-white/10">
                     <Input
                       type="email"
                       placeholder="account email"
                       autoComplete="email"
                       autoFocus
-                      className="auth-input ring-0 ring-transparent bg-transparent rounded-l-full rounded-r-none"
+                      className="auth-input rounded-l-full rounded-r-none bg-transparent ring-0 ring-transparent"
                       {...field}
                     />
                     <button
                       type="button"
                       onClick={handlePageChange}
-                      className="pr-2.5 text-gray cursor-pointer hover:text-white transition-colors duration-200 flex flex-col items-center"
+                      className="flex cursor-pointer flex-col items-center pr-2.5 text-gray transition-colors duration-200 hover:text-white"
                     >
                       <CircleArrowRight size={28} strokeWidth={1.1} />
                     </button>
@@ -248,17 +248,17 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Password</FormLabel>
                 <FormControl>
-                  <div className="relative bg-white/[0.01] flex items-center ring-1 ring-white/10 rounded-full w-80">
+                  <div className="relative flex w-80 items-center rounded-full bg-white/[0.01] ring-1 ring-white/10">
                     <Input
                       type={isVisible ? "text" : "password"}
                       placeholder="your password"
                       autoComplete="new-password"
-                      className="auth-input ring-0 ring-transparent bg-transparent rounded-l-full rounded-r-none"
+                      className="auth-input rounded-l-full rounded-r-none bg-transparent ring-0 ring-transparent"
                       {...field}
                     />
                     <button
                       type="button"
-                      className="pr-3 text-gray cursor-pointer hover:text-white transition-colors duration-200 flex flex-col items-center"
+                      className="flex cursor-pointer flex-col items-center pr-3 text-gray transition-colors duration-200 hover:text-white"
                       onClick={togglePasswordVisibility}
                     >
                       {isVisible ? <Eye size={20} /> : <EyeOff size={20} />}
@@ -282,7 +282,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
         {page === 2 && (
           <button
             type="submit"
-            className="mt-8 rounded-full bg-transparent ring-1 ring-white/10 py-1.5 w-full"
+            className="mt-8 w-full rounded-full bg-transparent py-1.5 ring-1 ring-white/10"
           >
             Create account
           </button>

@@ -1,7 +1,8 @@
 "use client";
 
-import { X } from "lucide-react";
 import Link from "next/link";
+
+import { X } from "lucide-react";
 
 import AuthContent from "@/features/auth/components/AuthContent";
 import AuthFooter from "@/features/auth/components/AuthFooter";
@@ -17,17 +18,17 @@ export default function LoginPage() {
     <>
       <div
         aria-hidden={true}
-        className="absolute login-animated-mesh left-0 h-[400px] top-24 bottom-0 w-[500px] m-auto right-0"
+        className="login-animated-mesh absolute bottom-0 left-0 right-0 top-24 m-auto h-[400px] w-[500px]"
       />
       <div
         aria-hidden={true}
-        className="absolute w-full h-full bg-black/70 z-0 left-0 top-0 backdrop-blur-3xl"
+        className="absolute left-0 top-0 z-0 h-full w-full bg-black/70 backdrop-blur-3xl"
       />
 
-      <main className="relative mt-8 h-full flex justify-center items-center">
+      <main className="relative mt-8 flex h-full items-center justify-center">
         <Link
           href="/"
-          className="absolute top-0 left-2 bg-white/[0.03] p-1 rounded-full text-white"
+          className="absolute left-2 top-0 rounded-full bg-white/[0.03] p-1 text-white transition-colors duration-200 hover:bg-white/5"
         >
           <X size={18} />
         </Link>
