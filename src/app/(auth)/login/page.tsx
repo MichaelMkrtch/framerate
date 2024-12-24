@@ -9,10 +9,12 @@ import AuthFooter from "@/features/auth/components/AuthFooter";
 
 import "../gradients.css";
 
-// import { useState } from "react";
+import { useState } from "react";
+
+import LoginForm from "@/features/auth/components/LoginForm";
 
 export default function LoginPage() {
-  // const [emailEntered, setEmailEntered] = useState(false);
+  const [isEmailValidated, setIsEmailValidated] = useState(false);
 
   return (
     <>
@@ -39,7 +41,12 @@ export default function LoginPage() {
             description="If you have access to FrameRate, you can enter your email below."
           />
 
-          <section>{/* Login Form */}</section>
+          <section>
+            <LoginForm
+              isEmailValidated={isEmailValidated}
+              setIsEmailValidated={setIsEmailValidated}
+            /> 
+          </section>
         </div>
       </main>
 

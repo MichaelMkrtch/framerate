@@ -40,7 +40,6 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
       username: "",
       password: "",
     },
-    mode: "onSubmit",
   });
 
   // Email validation before page change necessary for UX
@@ -59,7 +58,8 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     setPage(1);
   }
 
-  // Focuses first input field on each form page after navigation
+  // Improves keyboard navigation by focusing relevant input
+  // on page changes
   useEffect(() => {
     if (page === 2) {
       form.setFocus("name");
@@ -211,7 +211,11 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                         isVisible ? setIsVisible(false) : setIsVisible(true)
                       }
                     >
-                      {isVisible ? <Eye size={20} /> : <EyeOff size={20} />}
+                      {isVisible ? (
+                        <Eye size={28} strokeWidth={1.1} />
+                      ) : (
+                        <EyeOff size={28} strokeWidth={1.1} />
+                      )}
                     </button>
                   </div>
                 </FormControl>
@@ -227,7 +231,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
         {page === 2 && (
           <button
             type="submit"
-            className="mt-8 w-full rounded-full bg-transparent py-1.5 ring-1 ring-white/10"
+            className="relative mt-8 w-full rounded-full bg-transparent py-1.5 font-semibold ring-1 ring-white/10 before:absolute before:left-0 before:top-0 before:size-full before:rounded-full before:bg-white/35 before:opacity-0 before:hover:opacity-25"
           >
             Create account
           </button>

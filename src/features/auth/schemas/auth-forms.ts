@@ -40,3 +40,15 @@ export const signupSchema = z.object({
     .regex(/[0-9]/, { message: "Password must contain at least 1 number" })
     .refine((s) => !s.includes(" "), "Spaces are not allowed in passwords"),
 });
+
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Invalid email address." })
+    .toLowerCase(),
+  password: z
+    .string()
+    .trim()
+    .max(80, { message: "Password cannot exceed 80 characters." }),
+});

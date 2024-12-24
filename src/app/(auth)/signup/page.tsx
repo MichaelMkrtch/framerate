@@ -37,7 +37,9 @@ export default function SignupPage() {
           <X size={18} />
         </Link>
 
-        <div className="mb-24 h-12">{page === 2 && <RotatingQuotes />}</div>
+        <div className={`mb-24 h-12 ${page === 2 ? "block" : "hidden"}`}>
+          <RotatingQuotes />
+        </div>
 
         <div className="relative bottom-[70px]">
           {page === 1 && (
