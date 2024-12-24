@@ -11,34 +11,34 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
-  username: text("username").notNull().unique(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("emailVerified").notNull(),
   image: text("image"),
   createdAt: timestamp("createdAt").notNull(),
   updatedAt: timestamp("updatedAt").notNull(),
+  username: text("username").unique(),
 });
 
 export const session = pgTable("session", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
+  id: text("id").primaryKey(),
   expiresAt: timestamp("expiresAt").notNull(),
   token: text("token").notNull().unique(),
   createdAt: timestamp("createdAt").notNull(),
   updatedAt: timestamp("updatedAt").notNull(),
   ipAddress: text("ipAddress"),
   userAgent: text("userAgent"),
-  userId: bigint("userId", { mode: "number" })
+  userId: text("userId")
     .notNull()
     .references(() => user.id),
 });
 
 export const account = pgTable("account", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
+  id: text("id").primaryKey(),
   accountId: text("accountId").notNull(),
   providerId: text("providerId").notNull(),
-  userId: bigint("userId", { mode: "number" })
+  userId: text("userId")
     .notNull()
     .references(() => user.id),
   accessToken: text("accessToken"),
@@ -53,38 +53,13 @@ export const account = pgTable("account", {
 });
 
 export const verification = pgTable("verification", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
+  id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
   expiresAt: timestamp("expiresAt").notNull(),
   createdAt: timestamp("createdAt"),
   updatedAt: timestamp("updatedAt"),
 });
-
-// export const usersTable = pgTable("users", {
-//   id: bigint("id", { mode: "number" }).primaryKey(),
-//   email: text("email").notNull().unique(),
-//   name: text("name").notNull(),
-//   username: text("username").notNull().unique(),
-//   password: text("password").notNull(),
-//   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-//     .notNull()
-//     .defaultNow(),
-// });
-
-// export const sessionsTable = pgTable("sessions", {
-//   id: bigint("id", { mode: "number" }).primaryKey(),
-//   userId: bigint("user_id", { mode: "number" })
-//     .notNull()
-//     .references(() => usersTable.id, {
-//       onUpdate: "no action",
-//       onDelete: "no action",
-//     }),
-//   expiresAt: timestamp("expires_at", {
-//     withTimezone: true,
-//     mode: "date",
-//   }).notNull(),
-// });
 
 export const moviesTable = pgTable("movies", {
   id: bigint("id", { mode: "number" }).primaryKey(),
@@ -99,7 +74,7 @@ export const movieReviewsTable = pgTable(
   "movie_reviews",
   {
     id: bigint("id", { mode: "number" }),
-    userId: bigint("user_id", { mode: "number" })
+    userId: text("userId")
       .notNull()
       .references(() => user.id, {
         onUpdate: "no action",
@@ -142,7 +117,7 @@ export const tvReviewsTable = pgTable(
   "tv_reviews",
   {
     id: bigint("id", { mode: "number" }),
-    userId: bigint("user_id", { mode: "number" })
+    userId: text("userId")
       .notNull()
       .references(() => user.id, {
         onUpdate: "no action",
@@ -175,7 +150,7 @@ export const tvReviewsTable = pgTable(
 
 export const listsTable = pgTable("lists", {
   id: bigint("id", { mode: "number" }),
-  userId: bigint("user_id", { mode: "number" })
+  userId: text("userId")
     .notNull()
     .references(() => user.id, {
       onUpdate: "no action",
@@ -189,7 +164,7 @@ export const listsTable = pgTable("lists", {
 
 export const listContentTable = pgTable("list_content", {
   id: bigint("id", { mode: "number" }).notNull(),
-  userId: bigint("user_id", { mode: "number" }).notNull(),
+  userId: text("user_id").notNull(),
   listId: bigint("list_id", { mode: "number" }).notNull(),
   movieId: bigint("movie_id", { mode: "number" }).references(
     () => moviesTable.id,

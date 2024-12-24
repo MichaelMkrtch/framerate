@@ -2,7 +2,7 @@
 
 import type { Dispatch, SetStateAction } from "react";
 
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
@@ -21,34 +21,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signupSchema } from "@/features/auth/schemas/auth-forms";
-import { signup } from "@/features/auth/server/actions/auth-actions";
+import { blacklistChecks } from "@/features/auth/server/actions/auth-actions";
+import { authClient } from "@/lib/auth-client";
 
 type SignupFormProps = {
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
 };
 
-type FormState = {
-  status: "success" | "error" | "";
-  message: string;
-  errors: {
-    email?: string[];
-    name?: string[];
-    username?: string[];
-    password?: string[];
-  };
-};
-
 export default function SignupForm({ page, setPage }: SignupFormProps) {
   const [isVisible, setIsVisible] = useState(false);
-
-  const initialState: FormState = {
-    status: "",
-    message: "",
-    errors: {},
-  };
-
-  const [formState, formAction, pending] = useActionState(signup, initialState);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -61,39 +43,23 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     mode: "onSubmit",
   });
 
-  // Checks if email is valid before changing page
-  function handlePageChange() {
+  // Email validation before page change necessary for UX
+  // Otherwise, email input errors won't be visible to user
+  async function handlePageChange() {
     if (page === 1) {
-      const emailIsValid = validateEmail();
+      const emailIsValid = await form.trigger("email");
       if (emailIsValid) {
         form.clearErrors("email");
         setPage(2);
         return;
+      } else {
+        form.setFocus("email");
       }
     }
     setPage(1);
   }
 
-  function validateEmail() {
-    const emailSchema = z.object({ email: signupSchema.shape["email"] });
-    const result = emailSchema.safeParse({ email: form.watch("email") });
-
-    if (!result.success) {
-      form.setError(
-        "email",
-        {
-          type: "onBlur",
-          message: result.error.errors[0].message,
-        },
-        { shouldFocus: true },
-      );
-      return false;
-    }
-
-    return true;
-  }
-
-  // Focuses first input field on form pages after navigation
+  // Focuses first input field on each form page after navigation
   useEffect(() => {
     if (page === 2) {
       form.setFocus("name");
@@ -104,47 +70,43 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     };
   }, [page, form]);
 
-  function togglePasswordVisibility() {
-    if (isVisible) {
-      setIsVisible(false);
-      return;
+  async function onSubmit(values: z.infer<typeof signupSchema>) {
+    const result = await blacklistChecks(values);
+
+    if (result.status === "error") {
+      toast.error(result.message);
     }
-    setIsVisible(true);
+
+    if (result.status === "success") {
+      (async function signup() {
+        const { data, error } = authClient.signUp.email(
+          {
+            email: values.email,
+            name: values.name,
+            username: values.username,
+            password: values.password,
+          },
+          {
+            onRequest: () => {
+              toast.loading("Loading...", { id: "loading" });
+            },
+            onSuccess: () => {
+              toast.dismiss("loading");
+              toast.success("Account created!");
+            },
+            onError: () => {
+              toast.dismiss("loading");
+              toast.error("Something went wrong! Please try again later.");
+            },
+          },
+        );
+      })();
+    }
   }
-
-  // Resolves/Rejects a promise after signup action returns to trigger dynamic toast
-  useEffect(() => {
-    if (formState.status !== "") {
-      const submitPromise = () =>
-        new Promise((resolve, reject) => {
-          if (formState.status === "success") {
-            resolve(formState.message);
-          }
-          if (formState.status === "error") {
-            reject(formState.message);
-          }
-        });
-
-      toast.promise(submitPromise, {
-        loading: "Loading...",
-        success: (message) => {
-          return `${message}`;
-        },
-        error: (message) => {
-          return message;
-        },
-      });
-    }
-
-    // Prevents extra toast with previous message when resubmitting form
-    return () => {
-      formState.status = "";
-    };
-  }, [formState, pending]);
 
   return (
     <Form {...form}>
-      <form action={formAction}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className={page === 1 ? "block" : "hidden"}>
           <FormField
             control={form.control}
@@ -174,72 +136,49 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormDescription className="sr-only">
                   This is your email.
                 </FormDescription>
-                <FormMessage className="absolute">
-                  {formState && formState.errors?.email}
-                </FormMessage>
+                <FormMessage className="absolute" />
               </FormItem>
             )}
           />
         </div>
 
         <div className={page === 2 ? "block" : "hidden"}>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="sr-only">Name</FormLabel>
-                <FormControl>
-                  <Input
-                    id="name"
-                    type="name"
-                    placeholder="your name"
-                    autoComplete="name"
-                    autoFocus
-                    className="auth-input"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription className="sr-only">
-                  This is your name.
-                </FormDescription>
-                <FormMessage className="text-wrap">
-                  {formState &&
-                    (Array.isArray(formState.errors?.name)
-                      ? formState.errors?.name[0]
-                      : formState.errors?.name)}
-                </FormMessage>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="sr-only">Username</FormLabel>
-                <FormControl>
-                  <Input
-                    type="username"
-                    placeholder="your username"
-                    autoComplete="username"
-                    className="auth-input"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription className="sr-only">
-                  This is your public username.
-                </FormDescription>
-                <FormMessage>
-                  {formState &&
-                    (Array.isArray(formState.errors?.username)
-                      ? formState.errors?.username[0]
-                      : formState.errors?.username)}
-                </FormMessage>
-              </FormItem>
-            )}
-          />
+          {/* Name and Username are similar enough to map together */}
+          {["name", "username"].map((fieldName) => {
+            return (
+              <FormField
+                key={fieldName}
+                control={form.control}
+                name={fieldName as keyof z.infer<typeof signupSchema>}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only">{fieldName}</FormLabel>
+                    <FormControl>
+                      <Input
+                        id={fieldName}
+                        type="text"
+                        placeholder={
+                          fieldName === "name" ? "your name" : "your username"
+                        }
+                        autoComplete={
+                          fieldName === "name" ? "name" : "username"
+                        }
+                        autoFocus={fieldName === "name" ? true : false}
+                        className="auth-input"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription className="sr-only">
+                      {fieldName === "name"
+                        ? "This is your name."
+                        : "This is your username."}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            );
+          })}
 
           <FormField
             control={form.control}
@@ -259,7 +198,9 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                     <button
                       type="button"
                       className="flex cursor-pointer flex-col items-center pr-3 text-gray transition-colors duration-200 hover:text-white"
-                      onClick={togglePasswordVisibility}
+                      onClick={() =>
+                        isVisible ? setIsVisible(false) : setIsVisible(true)
+                      }
                     >
                       {isVisible ? <Eye size={20} /> : <EyeOff size={20} />}
                     </button>
@@ -268,12 +209,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormDescription className="sr-only">
                   This is your password.
                 </FormDescription>
-                <FormMessage>
-                  {formState &&
-                    (Array.isArray(formState.errors?.password)
-                      ? formState.errors?.password[0]
-                      : formState.errors?.password)}
-                </FormMessage>
+                <FormMessage />
               </FormItem>
             )}
           />
