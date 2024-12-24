@@ -70,6 +70,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     };
   }, [page, form]);
 
+  // Checks input against filters before creating user in DB
   async function onSubmit(values: z.infer<typeof signupSchema>) {
     const result = await blacklistChecks(values);
 
@@ -79,7 +80,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
 
     if (result.status === "success") {
       (async function signup() {
-        const { data, error } = authClient.signUp.email(
+        await authClient.signUp.email(
           {
             email: values.email,
             name: values.name,
@@ -94,9 +95,13 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               toast.dismiss("loading");
               toast.success("Account created!");
             },
-            onError: () => {
+            onError: (ctx) => {
               toast.dismiss("loading");
-              toast.error("Something went wrong! Please try again later.");
+              if (ctx.error.code.includes("USERNAME_IS_ALREADY_TAKEN")) {
+                toast.error("Username is taken. Please try another");
+              } else {
+                toast.error(ctx.error.message);
+              }
             },
           },
         );
@@ -115,7 +120,9 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Email</FormLabel>
                 <FormControl>
-                  <div className="relative flex items-center rounded-full bg-white/[0.01] ring-1 ring-white/10">
+                  <div
+                    className={`relative flex items-center rounded-full bg-white/[0.01] ring-1 ring-white/10 ${form.formState.errors.email && "ring-red-500"}`}
+                  >
                     <Input
                       type="email"
                       placeholder="account email"
@@ -164,7 +171,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                           fieldName === "name" ? "name" : "username"
                         }
                         autoFocus={fieldName === "name" ? true : false}
-                        className="auth-input"
+                        className={`auth-input ${fieldName === "name" && form.formState.errors.name && "ring-1 ring-red-500"} ${fieldName === "username" && form.formState.errors.username && "ring-1 ring-red-500"}`}
                         {...field}
                       />
                     </FormControl>
@@ -173,7 +180,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                         ? "This is your name."
                         : "This is your username."}
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage className="tracking-wide" />
                   </FormItem>
                 )}
               />
@@ -187,7 +194,9 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Password</FormLabel>
                 <FormControl>
-                  <div className="relative flex w-80 items-center rounded-full bg-white/[0.01] ring-1 ring-white/10">
+                  <div
+                    className={`relative flex w-80 items-center rounded-full bg-white/[0.01] ring-1 ring-white/10 ${form.formState.errors.password && "ring-1 ring-red-500"}`}
+                  >
                     <Input
                       type={isVisible ? "text" : "password"}
                       placeholder="your password"
