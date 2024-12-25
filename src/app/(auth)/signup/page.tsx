@@ -27,7 +27,7 @@ export default function SignupPage() {
       />
       <div
         aria-hidden={true}
-        className="absolute left-0 top-0 z-0 h-full w-full bg-black/75 backdrop-blur-3xl"
+        className="absolute left-0 top-0 z-0 size-full bg-black/75 backdrop-blur-3xl"
       />
       <main className="relative mt-8 flex h-full flex-col items-center justify-center">
         <Link

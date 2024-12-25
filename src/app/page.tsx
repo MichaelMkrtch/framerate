@@ -1,6 +1,7 @@
-import { Fingerprint, Ticket } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Fingerprint, Ticket } from "lucide-react";
 
 export default function Home() {
   return (
@@ -53,7 +54,7 @@ export default function Home() {
             <h2 className="text-[32px] font-bold tracking-tight">
               Movie madness, managed.
             </h2>
-            <p className="mt-4 text-[18px] font-medium tracking-wide">
+            <p className="mt-3 text-[18px] font-medium tracking-wide">
               Track your cinematic journey.
             </p>
           </div>

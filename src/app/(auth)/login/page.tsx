@@ -9,13 +9,9 @@ import AuthFooter from "@/features/auth/components/AuthFooter";
 
 import "../gradients.css";
 
-import { useState } from "react";
-
 import LoginForm from "@/features/auth/components/LoginForm";
 
 export default function LoginPage() {
-  const [isEmailValidated, setIsEmailValidated] = useState(false);
-
   return (
     <>
       <div
@@ -24,7 +20,7 @@ export default function LoginPage() {
       />
       <div
         aria-hidden={true}
-        className="absolute left-0 top-0 z-0 h-full w-full bg-black/70 backdrop-blur-3xl"
+        className="absolute left-0 top-0 z-0 size-full bg-black/70 backdrop-blur-3xl"
       />
 
       <main className="relative mt-8 flex h-full items-center justify-center">
@@ -42,10 +38,7 @@ export default function LoginPage() {
           />
 
           <section>
-            <LoginForm
-              isEmailValidated={isEmailValidated}
-              setIsEmailValidated={setIsEmailValidated}
-            /> 
+            <LoginForm />
           </section>
         </div>
       </main>

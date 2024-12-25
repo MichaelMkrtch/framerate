@@ -1,7 +1,5 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
-
 import { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,15 +20,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "../schemas/auth-forms";
 
-type LoginFormProps = {
-  isEmailValidated: boolean;
-  setIsEmailValidated: Dispatch<SetStateAction<boolean>>;
-};
-
-export default function LoginForm({
-  isEmailValidated,
-  setIsEmailValidated,
-}: LoginFormProps) {
+export default function LoginForm() {
+  const [isEmailValidated, setIsEmailValidated] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
