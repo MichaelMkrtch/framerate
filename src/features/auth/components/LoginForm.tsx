@@ -77,7 +77,7 @@ export default function LoginForm() {
         },
         onError: (ctx) => {
           toast.dismiss("loading");
-          console.log(ctx.error);
+          toast.error(ctx.error.message);
         },
       },
     );
