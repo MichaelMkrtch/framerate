@@ -3,6 +3,7 @@
 import type { Dispatch, SetStateAction } from "react";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
@@ -31,6 +32,7 @@ type SignupFormProps = {
 
 export default function SignupForm({ page, setPage }: SignupFormProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -94,6 +96,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
             onSuccess: () => {
               toast.dismiss("loading");
               toast.success("Account created!");
+              router.push("/");
             },
             onError: (ctx) => {
               toast.dismiss("loading");

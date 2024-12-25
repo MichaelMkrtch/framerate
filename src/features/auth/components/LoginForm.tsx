@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
@@ -18,11 +19,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
 import { loginSchema } from "../schemas/auth-forms";
 
 export default function LoginForm() {
   const [isEmailValidated, setIsEmailValidated] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -57,9 +60,32 @@ export default function LoginForm() {
     };
   }, [isEmailValidated, form]);
 
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    await authClient.signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onRequest: () => {
+          toast.loading("Loading...", { id: "loading" });
+        },
+        onSuccess: () => {
+          toast.dismiss("loading");
+          toast.success("Logged in");
+          router.push("/");
+        },
+        onError: (ctx) => {
+          toast.dismiss("loading");
+          console.log(ctx.error);
+        },
+      },
+    );
+  }
+
   return (
     <Form {...form}>
-      <form>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
