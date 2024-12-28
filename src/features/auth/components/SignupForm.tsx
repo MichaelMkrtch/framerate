@@ -146,7 +146,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormLabel className="sr-only">Email</FormLabel>
                 <FormControl>
                   <div
-                    className={`relative flex items-center rounded-full bg-white/[0.01] ring-1 ring-white/10 ${form.formState.errors.email && "ring-red-500"}`}
+                    className={`relative flex items-center rounded-full bg-white/[0.01] ring-1 ring-white/10 ${form.formState.errors.email && "!ring-red-500"}`}
                   >
                     <Input
                       type="email"
@@ -220,7 +220,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormLabel className="sr-only">Password</FormLabel>
                 <FormControl>
                   <div
-                    className={`relative flex w-80 items-center rounded-full bg-white/[0.01] ring-1 ring-white/10 ${form.formState.errors.password && "ring-1 ring-red-500"}`}
+                    className={`relative flex w-80 items-center rounded-full bg-white/[0.01] ring-1 ring-white/10 ${form.formState.errors.password && "!ring-red-500"}`}
                   >
                     <Input
                       type={isVisible ? "text" : "password"}

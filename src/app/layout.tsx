@@ -38,7 +38,13 @@ export default function RootLayout({
         className={`${manrope.variable} ${bespokeSerif.variable} m-auto size-full max-w-md overflow-hidden antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
       >
         {children}
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            classNames: {
+              toast: "bg-[#1c1e22] border-white/10 text-white drop-shadow-md",
+            },
+          }}
+        />
       </body>
     </html>
   );
