@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/actions/auth-actions.ts"
-  ],
+, "src/store/auth/auth-store.tsx"  ],
   "exclude": ["node_modules"]
 }

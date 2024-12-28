@@ -15,6 +15,7 @@
     "",
     "^(@api|@assets|@ui)(/.*)$",
     "",
+    "@/store",
     "@/components",
     "@/features",
     "@/lib",

@@ -1,5 +1,7 @@
 "use client";
 
+import type { FormEvent } from "react";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -9,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { useEmailStore } from "@/store/auth/auth-store";
 import {
   Form,
   FormControl,
@@ -23,6 +26,9 @@ import { authClient } from "@/lib/auth-client";
 import { loginSchema } from "../schemas/auth-forms";
 
 export default function LoginForm() {
+  const email = useEmailStore((state) => state.email);
+  const setEmail = useEmailStore((state) => state.setEmail);
+
   const [isEmailValidated, setIsEmailValidated] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
@@ -33,6 +39,21 @@ export default function LoginForm() {
       email: "",
       password: "",
     },
+  });
+
+  // Sets entered email state to share between login and signup pages
+  // Cannot use value nor onChange prop since they are already in use
+  function handleEmailInputChange(event: FormEvent<HTMLFormElement>) {
+    if (
+      event.target instanceof HTMLInputElement &&
+      event.target.name === "email"
+    ) {
+      setEmail(event.target.value);
+    }
+  }
+
+  useEffect(() => {
+    form.setValue("email", email);
   });
 
   async function handleEmailValidation() {
@@ -85,7 +106,10 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        onChange={handleEmailInputChange}
+      >
         <FormField
           control={form.control}
           name="email"

@@ -1,6 +1,6 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, FormEvent, SetStateAction } from "react";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { useEmailStore } from "@/store/auth/auth-store";
 import {
   Form,
   FormControl,
@@ -31,6 +32,9 @@ type SignupFormProps = {
 };
 
 export default function SignupForm({ page, setPage }: SignupFormProps) {
+  const email = useEmailStore((state) => state.email);
+  const setEmail = useEmailStore((state) => state.setEmail);
+
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
 
@@ -42,6 +46,21 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
       username: "",
       password: "",
     },
+  });
+
+  // Sets entered email state to share between login and signup pages
+  // Cannot use value nor onChange prop since they are already in use
+  function handleEmailInputChange(event: FormEvent<HTMLFormElement>) {
+    if (
+      event.target instanceof HTMLInputElement &&
+      event.target.name === "email"
+    ) {
+      setEmail(event.target.value);
+    }
+  }
+
+  useEffect(() => {
+    form.setValue("email", email);
   });
 
   // Email validation before page change necessary for UX
@@ -114,7 +133,10 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        onChange={(e) => handleEmailInputChange(e)}
+      >
         <div className={page === 1 ? "block" : "hidden"}>
           <FormField
             control={form.control}
