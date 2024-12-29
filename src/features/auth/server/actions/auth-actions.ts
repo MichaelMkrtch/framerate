@@ -28,8 +28,6 @@ export async function blacklistChecks(
     };
   }
 
-  console.log(parsedData);
-
   const { name, username } = parsedData;
 
   const [nameFilterResult, usernameFilterResult] = blacklistFilter(

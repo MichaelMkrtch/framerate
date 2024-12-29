@@ -36,6 +36,7 @@ export default [
             "src/lib/**/*",
             "src/server/**/*",
             "src/store/**/*",
+            "src/middleware/**/*",
           ],
         },
         {

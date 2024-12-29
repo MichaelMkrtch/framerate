@@ -7,8 +7,6 @@ import "./globals.css";
 
 import { Toaster } from "sonner";
 
-import Header from "@/components/Header";
-
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
@@ -37,9 +35,8 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="FrameRate" />
       </head>
       <body
-        className={`${manrope.variable} ${bespokeSerif.variable} relative mx-auto size-full max-w-md overflow-hidden antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
+        className={`${manrope.variable} ${bespokeSerif.variable} mx-auto size-full max-w-md overflow-hidden antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
       >
-        <Header />
         {children}
         <Toaster
           toastOptions={{

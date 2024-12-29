@@ -13,5 +13,16 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
   },
+  session: {
+    expiresIn: 60 * 60 * 24 * 14, // 14 days
+    updateAge: 60 * 60 * 24,
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60,
+    },
+  },
+  advanced: {
+    cookiePrefix: "framerate",
+  },
   plugins: [username()],
 });
