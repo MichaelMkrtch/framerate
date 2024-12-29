@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { useEmailStore } from "@/store/auth/auth-store";
+import { useEmailStore } from "@/store/auth/email-store";
 import {
   Form,
   FormControl,

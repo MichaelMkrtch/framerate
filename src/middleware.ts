@@ -44,6 +44,11 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// export const config = {
+//   matcher: ["/", "/home"],
+// };
+
+// Routes Middleware should not run on
 export const config = {
-  matcher: ["/", "/home"],
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };

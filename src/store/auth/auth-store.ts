@@ -1,19 +1,38 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-type EmailStore = {
+type UserState = {
   email: string;
-  setEmail: (email: string) => void;
+  name: string;
+  username: string;
 };
 
-export const useEmailStore = create<EmailStore>()(
+type UserActions = {
+  setEmail: (email: string) => void;
+  setName: (name: string) => void;
+  setUsername: (username: string) => void;
+  reset: () => void;
+};
+
+const initialState: UserState = {
+  email: "",
+  name: "",
+  username: "",
+};
+
+export const useAuthStore = create<UserState & UserActions>()(
   persist(
     (set) => ({
+      username: "",
+      name: "",
       email: "",
       setEmail: (email) => set(() => ({ email: email })),
+      setName: (name) => set(() => ({ name: name })),
+      setUsername: (username: string) => set(() => ({ username: username })),
+      reset: () => set(() => initialState),
     }),
     {
-      name: "emailStorage",
+      name: "authStore",
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

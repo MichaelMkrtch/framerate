@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Fingerprint, Ticket } from "lucide-react";
 
-export default function RootPage() {
+export default function LandingPage() {
   return (
     <div className="relative">
       <header>

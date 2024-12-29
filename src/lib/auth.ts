@@ -21,6 +21,14 @@ export const auth = betterAuth({
       maxAge: 5 * 60,
     },
   },
+  user: {
+    additionalFields: {
+      username: {
+        type: "string",
+        required: true,
+      }
+    }
+  },
   advanced: {
     cookiePrefix: "framerate",
   },
