@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { toast } from "sonner";
@@ -9,7 +10,7 @@ import { useAuthStore } from "@/store/auth/auth-store";
 import { authClient } from "@/lib/auth-client";
 
 type HeaderProps = {
-  title: string;
+  title?: string;
 };
 
 export default function Header({ title }: HeaderProps) {
@@ -44,23 +45,21 @@ export default function Header({ title }: HeaderProps) {
   const fullDate = new Intl.DateTimeFormat("en-US", options).format();
 
   return (
-    <header className="flex h-[120px] items-center justify-between">
-      <div className="flex items-center">
+    <header className="flex h-[120px] items-center justify-start">
+      <Link href="/">
         <Image
           src="/framerate.svg"
           alt="FrameRate logo"
           width="70"
           height="70"
         />
-        <div>
-          <h1 className="text-[22px] font-semibold">{title}</h1>
-          <p className="text-gray">
-            {pathname === "/preferences" ? email : fullDate}
-          </p>
-        </div>
+      </Link>
+      <div>
+        <h1 className="text-[22px] font-semibold">{title}</h1>
+        <p className="-mt-1 text-gray">
+          {pathname === "/preferences" ? email : fullDate}
+        </p>
       </div>
-
-      <div></div>
     </header>
   );
 }

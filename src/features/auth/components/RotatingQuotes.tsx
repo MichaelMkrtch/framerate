@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function RotatingQuotes() {
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    const lastIndex = sessionStorage.getItem("currentIndex");
-    return lastIndex ? JSON.parse(lastIndex) : 0;
-  });
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const quotes = [
     "There's no place like home",
@@ -27,9 +24,7 @@ export default function RotatingQuotes() {
     }, 4500);
 
     return () => {
-      clearTimeout(interval);
-      // Ensures last shown quote is saved
-      sessionStorage.setItem("currentIndex", JSON.stringify(currentIndex));
+      clearInterval(interval);
     };
   }, [currentIndex, quotes.length]);
 

@@ -7,6 +7,8 @@ import "./globals.css";
 
 import { Toaster } from "sonner";
 
+import Navbar from "@/components/Navbar";
+
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
@@ -38,6 +40,7 @@ export default function RootLayout({
         className={`${manrope.variable} ${bespokeSerif.variable} mx-auto size-full max-w-md overflow-hidden antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
       >
         {children}
+        <Navbar />
         <Toaster
           toastOptions={{
             classNames: {
