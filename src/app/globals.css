@@ -118,6 +118,23 @@ body {
         border-box border-box;
   }
 
+  .navbar-gradient {
+    background:
+      linear-gradient(rgb(37, 38, 43), rgb(37, 38, 43)) padding-box padding-box,
+      conic-gradient(
+          from 90deg at 50% 50%,
+          rgba(255, 255, 255, 0.04) -30.67deg,
+          rgba(255, 255, 255, 0) 12.67deg,
+          rgba(255, 255, 255, 0.01) 53.65deg,
+          rgba(255, 255, 255, 0.05) 158.48deg,
+          rgba(255, 255, 255, 0.11) 225.01deg,
+          rgba(255, 255, 255, 0.02) 304.51deg,
+          rgba(255, 255, 255, 0.04) 329.33deg,
+          rgba(255, 255, 255, 0) 372.67deg
+        )
+        border-box border-box;
+  }
+
   .shadow-small {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px;
   }

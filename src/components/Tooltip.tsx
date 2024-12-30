@@ -2,7 +2,6 @@ import { type ReactNode } from "react";
 
 import {
   TooltipContent,
-  TooltipProvider,
   Tooltip as TooltipRoot,
   TooltipTrigger,
 } from "@/components/ui/tooltip-ui";
@@ -25,37 +24,35 @@ export default function Tooltip({
   children,
 }: TooltipProps) {
   return (
-    <TooltipProvider>
-      <TooltipRoot>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent
-          side={side}
-          sideOffset={sideOffset}
-          className="slide-in-from-bottom-2"
-        >
-          <p className="text-[13px] tracking-wide">
-            {content}
-            {key1 && (
-              <>
-                <span
-                  className={`${key1 && key2 ? "pl-3.5" : ""} ${key1 && !key2 ? "pl-1" : ""}`}
-                ></span>
-                <span className="rounded bg-white/10 px-1 py-[1px] text-xs">
-                  {key1}
-                </span>
-              </>
-            )}
-            {key2 && (
-              <>
-                <span> then </span>
-                <span className="rounded bg-white/10 px-1 py-[1px] text-xs">
-                  {key2}
-                </span>
-              </>
-            )}
-          </p>
-        </TooltipContent>
-      </TooltipRoot>
-    </TooltipProvider>
+    <TooltipRoot>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent
+        side={side}
+        sideOffset={sideOffset}
+        className="slide-in-from-bottom-2"
+      >
+        <p className="text-[13px] tracking-wide">
+          {content}
+          {key1 && (
+            <>
+              <span
+                className={`${key1 && key2 ? "pl-3.5" : ""} ${key1 && !key2 ? "pl-2" : ""}`}
+              ></span>
+              <span className="rounded bg-white/10 px-1 py-[1px] text-xs">
+                {key1}
+              </span>
+            </>
+          )}
+          {key2 && (
+            <>
+              <span> then </span>
+              <span className="rounded bg-white/10 px-1 py-[1px] text-xs">
+                {key2}
+              </span>
+            </>
+          )}
+        </p>
+      </TooltipContent>
+    </TooltipRoot>
   );
 }

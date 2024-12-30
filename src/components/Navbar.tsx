@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Bolt, LibraryBig, Scroll } from "lucide-react";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Bolt, LibraryBig, Scroll, Search } from "lucide-react";
 
 import HomeIcon from "@/components/icons/HomeIcon";
 import Tooltip from "@/components/Tooltip";
@@ -41,27 +42,38 @@ export default function Navbar() {
 
   return (
     pathname !== "/" && (
-      <div className="textured-dark fixed bottom-8 left-0 right-0 mx-auto w-fit rounded-full border border-transparent px-[18px] py-0.5">
-        <nav className="flex items-center justify-center gap-x-7">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <Tooltip
-                key={tab.id}
-                side="top"
-                sideOffset={18}
-                content={tab.name}
-                key1={tab.key1}
-                key2={tab.key2}
-              >
-                <Link href={tab.href}>
-                  <Icon width={22} height={40} strokeWidth={1.5} />
-                </Link>
-              </Tooltip>
-            );
-          })}
-        </nav>
-      </div>
+      <TooltipProvider>
+        <div className="fixed bottom-8 left-0 right-0 mx-auto flex w-fit items-center justify-center gap-x-4">
+          <nav className="navbar-gradient flex gap-x-7 rounded-full border border-transparent px-[18px] py-0.5">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <Tooltip
+                  key={tab.id}
+                  side="top"
+                  sideOffset={18}
+                  content={tab.name}
+                  key1={tab.key1}
+                  key2={tab.key2}
+                >
+                  <Link
+                    href={tab.href}
+                    className="relative flex items-center justify-center transition-all duration-200 before:absolute before:-z-10 before:size-9 before:rounded-full before:opacity-0 before:transition-all before:duration-200 before:ease-out hover:text-indigo-400 before:hover:bg-white/15 before:hover:opacity-35"
+                  >
+                    <Icon width={22} height={40} strokeWidth={1.5} />
+                  </Link>
+                </Tooltip>
+              );
+            })}
+          </nav>
+
+          <div className="navbar-gradient rounded-full border border-transparent px-3 py-0.5">
+            <Tooltip side="top" sideOffset={18} content="Search" key1="/">
+              <Search width={22} height={40} strokeWidth={1.5} />
+            </Tooltip>
+          </div>
+        </div>
+      </TooltipProvider>
     )
   );
 }
