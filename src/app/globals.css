@@ -11,6 +11,8 @@
   :root {
     --background: #16181c;
     --foreground: #fffafb;
+
+    --radius: 0.5rem;
   }
 }
 
@@ -118,11 +120,11 @@ body {
         border-box border-box;
   }
 
-  .navbar-gradient {
+  .highlight-gradient {
     background:
       linear-gradient(rgb(37, 38, 43), rgb(37, 38, 43)) padding-box padding-box,
       conic-gradient(
-          from 90deg at 50% 50%,
+          from 60deg at 70% 70%,
           rgba(255, 255, 255, 0.04) -30.67deg,
           rgba(255, 255, 255, 0) 12.67deg,
           rgba(255, 255, 255, 0.01) 53.65deg,

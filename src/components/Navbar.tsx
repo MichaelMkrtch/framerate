@@ -1,28 +1,64 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Bolt, LibraryBig, Scroll, Search } from "lucide-react";
+import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
 
 import HomeIcon from "@/components/icons/HomeIcon";
 import Tooltip from "@/components/Tooltip";
-import { handleKeyDown, handleKeyUp } from "@/lib/hotkeys";
 
 export default function Navbar() {
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+  const [navbarEnabled, setNavbarEnabled] = useState(false);
+  const [lastKey, setLastKey] = useState("");
+  const pathname = usePathname();
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
+  useHotkeys("/", () => console.log("search"), { enabled: navbarEnabled });
+
+  useHotkeys(
+    "g",
+    () => {
+      setLastKey("g");
+      setTimeout(() => setLastKey(""), 2000);
+    },
+    { enabled: navbarEnabled },
+  );
+
+  useHotkeys("h, l, c, p", () => {
+    if (lastKey === "g") {
+      if (isHotkeyPressed("h")) {
+        setLastKey("");
+        redirect("/");
+      }
+      if (isHotkeyPressed("l")) {
+        setLastKey("");
+        redirect("/lists");
+      }
+      if (isHotkeyPressed("c")) {
+        setLastKey("");
+        redirect("/collection");
+      }
+      if (isHotkeyPressed("p")) {
+        setLastKey("");
+        redirect("/preferences");
+      }
+    }
   });
 
-  const pathname = usePathname();
+  useEffect(() => {
+    switch (pathname) {
+      case "/":
+      case "/login":
+      case "/signup":
+        setNavbarEnabled(false);
+        break;
+      default:
+        setNavbarEnabled(true);
+    }
+  }, [pathname]);
 
   const tabs = [
     {
@@ -60,10 +96,10 @@ export default function Navbar() {
   ];
 
   return (
-    pathname !== "/" && (
+    navbarEnabled && (
       <TooltipProvider>
         <div className="fixed bottom-8 left-0 right-0 mx-auto flex w-fit items-center justify-center gap-x-4">
-          <nav className="navbar-gradient flex gap-x-7 rounded-full border border-transparent px-[18px] py-0.5">
+          <nav className="shadow-small highlight-gradient flex gap-x-7 rounded-full border border-transparent px-[18px] py-0.5">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
@@ -86,7 +122,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          <button className="navbar-gradient rounded-full border border-transparent px-3 py-0.5 transition-colors duration-200 ease-in-out hover:text-indigo-400">
+          <button className="shadow-small highlight-gradient rounded-full border border-transparent px-3 py-0.5 transition-colors duration-200 ease-in-out hover:text-indigo-400">
             <Tooltip side="top" sideOffset={18} content="Search" key1="/">
               <Search width={22} height={40} strokeWidth={1.5} />
             </Tooltip>
