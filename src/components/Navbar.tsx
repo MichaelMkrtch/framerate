@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -8,12 +9,30 @@ import { Bolt, LibraryBig, Scroll, Search } from "lucide-react";
 
 import HomeIcon from "@/components/icons/HomeIcon";
 import Tooltip from "@/components/Tooltip";
+import { handleKeyDown, handleKeyUp } from "@/lib/hotkeys";
 
 export default function Navbar() {
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  });
+
   const pathname = usePathname();
 
   const tabs = [
-    { id: 1, name: "Home", href: "/", key1: "G", key2: "H", icon: HomeIcon },
+    {
+      id: 1,
+      name: "Home",
+      href: "/home",
+      key1: "G",
+      key2: "H",
+      icon: HomeIcon,
+    },
     {
       id: 2,
       name: "Lists",
@@ -58,7 +77,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={tab.href}
-                    className="relative flex items-center justify-center transition-all duration-200 before:absolute before:-z-10 before:size-9 before:rounded-full before:opacity-0 before:transition-all before:duration-200 before:ease-out hover:text-indigo-400 before:hover:bg-white/15 before:hover:opacity-35"
+                    className={`relative flex items-center justify-center transition-all duration-200 ease-in-out hover:text-indigo-400 ${pathname === tab.href ? "text-indigo-400" : "text-white"}`}
                   >
                     <Icon width={22} height={40} strokeWidth={1.5} />
                   </Link>
@@ -67,11 +86,11 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="navbar-gradient rounded-full border border-transparent px-3 py-0.5">
+          <button className="navbar-gradient rounded-full border border-transparent px-3 py-0.5 transition-colors duration-200 ease-in-out hover:text-indigo-400">
             <Tooltip side="top" sideOffset={18} content="Search" key1="/">
               <Search width={22} height={40} strokeWidth={1.5} />
             </Tooltip>
-          </div>
+          </button>
         </div>
       </TooltipProvider>
     )
