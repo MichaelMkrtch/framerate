@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import localFont from "next/font/local";
 
-import "./globals.css";
-
 import { Toaster } from "sonner";
 
 import Navbar from "@/components/Navbar";
+import Providers from "./providers";
+
+import "./globals.css";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -39,8 +40,10 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} ${bespokeSerif.variable} mx-auto size-full max-w-md overflow-hidden antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1350px]`}
       >
-        {children}
-        <Navbar />
+        <Providers>
+          {children}
+          <Navbar />
+        </Providers>
         <Toaster
           toastOptions={{
             classNames: {

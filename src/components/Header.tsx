@@ -19,13 +19,13 @@ type HeaderProps = {
 
 export default function Header({ title, children }: HeaderProps) {
   const { data: session, error } = authClient.useSession();
+  const pathname = usePathname();
 
   const email = useAuthStore((state) => state.email);
+  const name = useAuthStore((state) => state.name);
   const setEmail = useAuthStore((state) => state.setEmail);
   const setName = useAuthStore((state) => state.setName);
   const setUsername = useAuthStore((state) => state.setUsername);
-
-  const pathname = usePathname();
 
   useEffect(() => {
     if (session) {
@@ -62,7 +62,9 @@ export default function Header({ title, children }: HeaderProps) {
           />
         </Link>
         <div>
-          <h1 className="text-[22px] font-semibold">{title}</h1>
+          <h1 className="text-[22px] font-semibold">
+            {pathname === "/home" ? `Hello, ${name}` : title}
+          </h1>
           <p className="-mt-1 text-gray">
             {pathname === "/preferences" ? email : fullDate}
           </p>

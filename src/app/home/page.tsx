@@ -1,15 +1,27 @@
-"use client";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
-import { useAuthStore } from "@/store/auth/auth-store";
 import Header from "@/components/Header";
+import Test from "@/features/home/components/Test";
 
-export default function HomePage() {
-  const name = useAuthStore((state) => state.name);
-  const formattedName = name.charAt(0).toUpperCase() + name.substring(1);
+export default async function HomePage() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["trending"],
+    queryFn: () => fetch(`/api/trending?filter=all&timeWindow=week`),
+  });
 
   return (
     <>
-      <Header title={`Hello, ${formattedName}`} />
+      {/* HydrationBoundary is a Client Component, so hydration will happen there */}
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Header />
+        <Test />
+      </HydrationBoundary>
     </>
   );
 }

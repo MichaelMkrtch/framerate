@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 import boundaries from "eslint-plugin-boundaries";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +19,7 @@ export default [
   {
     plugins: {
       boundaries,
+      ...pluginQuery.configs["flat/recommended"],
     },
 
     settings: {
@@ -36,6 +38,7 @@ export default [
             "src/lib/**/*",
             "src/server/**/*",
             "src/store/**/*",
+            "src/types/**/*",
             "src/middleware/**/*",
           ],
         },
@@ -97,7 +100,7 @@ export default [
                 [
                   "app",
                   {
-                    fileName: "*.css",
+                    fileName: ["*.css", "providers.tsx"],
                   },
                 ],
               ],
