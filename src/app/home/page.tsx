@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 
 import Header from "@/components/Header";
-import Test from "@/features/home/components/Test";
+import HomeCarousel from "@/features/home/components/HomeCarousel";
 
 export default async function HomePage() {
   const queryClient = new QueryClient();
@@ -20,7 +20,7 @@ export default async function HomePage() {
       {/* HydrationBoundary is a Client Component, so hydration will happen there */}
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Header />
-        <Test />
+        <HomeCarousel />
       </HydrationBoundary>
     </>
   );

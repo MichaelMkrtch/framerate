@@ -1,4 +1,4 @@
-interface TrendingMovie<T> {
+interface TrendingMovie {
   [key: string]: unknown;
   backdropPath: string;
   id: number;
@@ -6,7 +6,7 @@ interface TrendingMovie<T> {
   originalTitle: string;
   overview: string;
   posterPath: string;
-  mediaType: T;
+  mediaType: "movie";
   adult: boolean;
   originalLanguage: string;
   genreIds: number[];
@@ -17,7 +17,7 @@ interface TrendingMovie<T> {
   voteCount: number;
 }
 
-interface TrendingTV<T> {
+interface TrendingTV {
   [key: string]: unknown;
   backdropPath: string;
   id: number;
@@ -25,7 +25,7 @@ interface TrendingTV<T> {
   originalTitle: string;
   overview: string;
   posterPath: string;
-  mediaType: T;
+  mediaType: "tv";
   adult: boolean;
   originalLanguage: string;
   genreIds: number[];
@@ -36,12 +36,12 @@ interface TrendingTV<T> {
   originCountry: string[];
 }
 
-export interface TrendingPerson<T> {
+export interface TrendingPerson {
   [key: string]: unknown;
   id: number;
   name: string;
   originalName: string;
-  mediaType: T;
+  mediaType: "person";
   adult: boolean;
   popularity: number;
   gender: number;
@@ -50,7 +50,7 @@ export interface TrendingPerson<T> {
 }
 
 export type Trending<T = "movie" | "tv" | "person"> = T extends "movie"
-  ? TrendingMovie<T>
+  ? TrendingMovie
   : T extends "tv"
-    ? TrendingTV<T>
-    : TrendingPerson<T>;
+    ? TrendingTV
+    : TrendingPerson;

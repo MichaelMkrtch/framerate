@@ -1,5 +1,6 @@
 import type { ClassValue } from "clsx";
 
+import { Trending } from "@/types/tmdb.types";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -7,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export default async function fetchRoute<T>(
+export default async function fetchRoute<T extends "movie" | "tv" | "person">(
   endpoint: string,
-): Promise<T | undefined> {
+): Promise<Trending<T>[] | undefined> {
   try {
     const response = await fetch(endpoint);
 
@@ -17,7 +18,7 @@ export default async function fetchRoute<T>(
       throw new Error(`An error occurred while fetching data!`);
     }
 
-    const data: T = await response.json();
+    const data: Trending<T>[] = await response.json();
 
     return data;
   } catch (error) {
@@ -58,3 +59,13 @@ export const renameKeys = (
     }),
     {},
   );
+
+export function getSimpleTitle(title: string) {
+  const simpleTitle = title
+    .replaceAll(/[^a-zA-Z0-9 ]/g, "")
+    .replaceAll(/\s{2,}/g, "-")
+    .replaceAll(" ", "-")
+    .toLowerCase();
+
+  return simpleTitle;
+}
