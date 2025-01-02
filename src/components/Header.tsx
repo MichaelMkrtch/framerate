@@ -54,7 +54,7 @@ export default function Header({ title, children }: HeaderProps) {
     <header className="mb-2 flex h-[120px] items-center justify-between">
       <div className="flex items-center justify-center gap-3">
         <Link href="/">
-          <Image src="/logo.svg" alt="FrameRate logo" width="35" height="35" />
+          <Image src="/logo.svg" alt="FrameRate logo" width="30" height="30" />
         </Link>
         <div>
           <h1 className="text-[22px] font-semibold">

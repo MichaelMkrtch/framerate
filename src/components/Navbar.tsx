@@ -5,7 +5,7 @@ import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { Bolt, LibraryBig, Scroll, Search } from "lucide-react";
+import { Bolt, Bookmark, Search, SquareLibrary } from "lucide-react";
 import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
 
 import HomeIcon from "@/components/icons/HomeIcon";
@@ -33,13 +33,13 @@ export default function Navbar() {
         setLastKey("");
         redirect("/");
       }
-      if (isHotkeyPressed("l")) {
-        setLastKey("");
-        redirect("/lists");
-      }
       if (isHotkeyPressed("c")) {
         setLastKey("");
-        redirect("/collection");
+        redirect("/collections");
+      }
+      if (isHotkeyPressed("l")) {
+        setLastKey("");
+        redirect("/library");
       }
       if (isHotkeyPressed("p")) {
         setLastKey("");
@@ -71,19 +71,19 @@ export default function Navbar() {
     },
     {
       id: 2,
-      name: "Lists",
-      href: "/lists",
+      name: "Collections",
+      href: "/collections",
       key1: "G",
-      key2: "L",
-      icon: Scroll,
+      key2: "C",
+      icon: Bookmark,
     },
     {
       id: 3,
-      name: "Collection",
-      href: "/collection",
+      name: "Library",
+      href: "/library",
       key1: "G",
-      key2: "C",
-      icon: LibraryBig,
+      key2: "L",
+      icon: SquareLibrary,
     },
     {
       id: 4,
