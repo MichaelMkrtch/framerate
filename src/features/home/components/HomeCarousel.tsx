@@ -39,8 +39,8 @@ export default function HomeCarousel() {
 
   return (
     <div className="animate-fade-in-fast">
-      <section className="mb-14">
-        <h2 className="mb-3 text-lg font-medium">Get the Popcorn</h2>
+      <section className="carousel-container group/trending">
+        <h2 className="mb-3 ml-4 text-lg font-medium">Get the Popcorn</h2>
         <Carousel
           opts={{
             align: "start",
@@ -74,13 +74,15 @@ export default function HomeCarousel() {
               );
             })}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
+          <CarouselPrevious className="group/trending animate-fade-in-fast hidden md:group-hover/trending:flex" />
+          <CarouselNext className="group/trending animate-fade-in-fast hidden md:group-hover/trending:flex" />
         </Carousel>
       </section>
 
-      <section>
-        <h2 className="mb-3 text-lg font-medium">Can&apos;t Stop Watching</h2>
+      <section className="carousel-container group/trending">
+        <h2 className="mb-3 ml-4 text-lg font-medium">
+          Can&apos;t Stop Watching
+        </h2>
         <Carousel
           opts={{
             align: "start",
@@ -114,8 +116,8 @@ export default function HomeCarousel() {
               );
             })}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
+          <CarouselPrevious className="group/trending animate-fade-in-fast hidden md:group-hover/trending:flex" />
+          <CarouselNext className="group/trending animate-fade-in-fast hidden md:group-hover/trending:flex" />
         </Carousel>
       </section>
     </div>

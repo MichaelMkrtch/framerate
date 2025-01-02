@@ -7,6 +7,10 @@
   --foreground: #fffafb;
 }
 
+::selection {
+  background: #00becc;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #16181c;
@@ -22,7 +26,21 @@ body {
   font-family: var(--font-manrope), sans-serif;
 }
 
+img {
+  -webkit-user-drag: none;
+}
+
 @layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
   .gradient-highlight {
     background: radial-gradient(
       350px at 50% 50%,
@@ -145,5 +163,80 @@ body {
 @layer components {
   .auth-input {
     @apply w-80 rounded-full bg-white/[0.01] py-3 pl-6 pr-3 text-sm font-medium outline-none ring-1 ring-white/10 placeholder:font-medium placeholder:text-white/25;
+  }
+
+  .carousel-container {
+    @apply relative mb-14 before:absolute before:-left-20 before:-right-20 before:bottom-0 before:top-0;
+  }
+}
+
+/* Keyframes */
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scale-to-right {
+  0% {
+    -webkit-transform: scaleX(0.4);
+    transform: scaleX(0.4);
+    -webkit-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+    -webkit-transform-origin: 0% 0%;
+    transform-origin: 0% 0%;
   }
 }

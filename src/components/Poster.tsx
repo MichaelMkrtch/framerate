@@ -73,7 +73,7 @@ export default function Poster({
               alt={`A poster from the film ${title}`}
               width={width}
               height={height}
-              className={`${classes} ${isLoaded && "animate-fade-out"} opacity-1 absolute rounded object-cover blur-[4px] drop-shadow [image-rendering:_pixelated]`}
+              className={`${classes} ${isLoaded && "animate-fade-out"} absolute rounded object-cover blur-[4px] drop-shadow [image-rendering:_pixelated]`}
               style={transitionStyles.lowRes}
               priority
             />

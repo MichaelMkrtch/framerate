@@ -12,6 +12,17 @@ export default {
   ],
   theme: {
     extend: {
+      animation: {
+        "fade-in": "fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
+        "fade-in-fast": "fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
+        "fade-out": "fade-out 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
+        "fade-out-fast":
+          "fade-out 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
+        "ios-safari-prevent-scroll-on-focus":
+          "ios-safari-prevent-scroll-on-focus 0.1s",
+        "scale-to-right":
+          "scale-to-right 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -25,6 +36,12 @@ export default {
       fontFamily: {
         manrope: "var(--font-manrope)",
         "bespoke-serif": "var(--font-bespoke-serif)",
+      },
+      keyframes: {
+        "ios-safari-prevent-scroll-on-focus": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
     },
   },
