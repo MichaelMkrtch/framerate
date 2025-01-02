@@ -40,7 +40,7 @@ export default function HomeCarousel() {
   return (
     <div className="animate-fade-in-fast">
       <section className="carousel-container group/trending">
-        <h2 className="mb-3 ml-4 text-lg font-medium">Get the Popcorn</h2>
+        <h2 className="mb-3 ml-2 text-lg font-medium">Get the Popcorn</h2>
         <Carousel
           opts={{
             align: "start",
@@ -66,7 +66,7 @@ export default function HomeCarousel() {
                         width={160}
                         height={240}
                         perspectiveEnabled={false}
-                        classes="w-24 h-36 md:w-[120px] md:h-[180px] md-tablet:w-[140px] md-tablet:h-[210px] lg:w-[166px] lg:h-[249px] xl:w-44 xl:h-[264px]"
+                        classes="carousel-item md-tablet:w-[140px] md-tablet:h-[210px]"
                       />
                     </div>
                   </Link>
@@ -80,7 +80,7 @@ export default function HomeCarousel() {
       </section>
 
       <section className="carousel-container group/trending">
-        <h2 className="mb-3 ml-4 text-lg font-medium">
+        <h2 className="mb-3 ml-2 text-lg font-medium">
           Can&apos;t Stop Watching
         </h2>
         <Carousel
@@ -108,7 +108,7 @@ export default function HomeCarousel() {
                         width={160}
                         height={240}
                         perspectiveEnabled={false}
-                        classes="w-24 h-36 md:w-[120px] md:h-[180px] md-tablet:w-[140px] md-tablet:h-[210px] lg:w-[166px] lg:h-[249px] xl:w-44 xl:h-[264px]"
+                        classes="carousel-item md-tablet:w-[140px] md-tablet:h-[210px]"
                       />
                     </div>
                   </Link>

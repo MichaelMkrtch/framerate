@@ -51,15 +51,10 @@ export default function Header({ title, children }: HeaderProps) {
   const fullDate = new Intl.DateTimeFormat("en-US", options).format();
 
   return (
-    <header className="flex h-[120px] items-center justify-between">
-      <div className="flex items-center justify-center">
+    <header className="mb-2 flex h-[120px] items-center justify-between">
+      <div className="flex items-center justify-center gap-3">
         <Link href="/">
-          <Image
-            src="/framerate.svg"
-            alt="FrameRate logo"
-            width="70"
-            height="70"
-          />
+          <Image src="/logo.svg" alt="FrameRate logo" width="35" height="35" />
         </Link>
         <div>
           <h1 className="text-[22px] font-semibold">

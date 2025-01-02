@@ -30,6 +30,7 @@ export default {
       },
       colors: {
         background: "var(--background)",
+        "extra-dark": "var(--extra-dark)",
         foreground: "var(--foreground)",
         gray: "rgb(134, 143, 151)",
       },
