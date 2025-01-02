@@ -38,7 +38,9 @@ export default async function HomePage() {
       {/* HydrationBoundary is a Client Component, so hydration will happen there */}
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Header />
-        <HomeCarousel />
+        <main>
+          <HomeCarousel />
+        </main>
       </HydrationBoundary>
     </>
   );

@@ -23,10 +23,10 @@ export default function LoginPage() {
         className="absolute left-0 top-0 z-0 size-full bg-black/70 backdrop-blur-3xl"
       />
 
-      <main className="relative mt-8 flex h-full items-center justify-center">
+      <main className="relative flex h-full items-center justify-center">
         <Link
           href="/"
-          className="absolute left-2 top-0 rounded-full bg-white/[0.03] p-1 text-white transition-colors duration-200 hover:bg-white/5"
+          className="absolute left-2 top-8 rounded-full bg-white/[0.03] p-1 text-white transition-colors duration-200 hover:bg-white/5"
         >
           <X size={18} />
         </Link>

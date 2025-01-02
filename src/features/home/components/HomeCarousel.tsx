@@ -40,7 +40,7 @@ export default function HomeCarousel() {
   return (
     <div className="animate-fade-in-fast">
       <section className="carousel-container group/trending">
-        <h2 className="mb-3 ml-2 text-lg font-medium">Get the Popcorn</h2>
+        <h2 className="mb-3 ml-2 text-lg font-medium">Movies Making Waves</h2>
         <Carousel
           opts={{
             align: "start",
@@ -80,9 +80,7 @@ export default function HomeCarousel() {
       </section>
 
       <section className="carousel-container group/trending">
-        <h2 className="mb-3 ml-2 text-lg font-medium">
-          Can&apos;t Stop Watching
-        </h2>
+        <h2 className="mb-3 ml-2 text-lg font-medium">Series Sensations</h2>
         <Carousel
           opts={{
             align: "start",

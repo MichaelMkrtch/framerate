@@ -122,7 +122,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          <button className="shadow-small highlight-gradient relative rounded-full border border-transparent px-3 py-0.5 transition-colors duration-200 ease-in-out before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:size-8 before:rounded-full before:transition-all before:duration-200 before:ease-in-out hover:text-indigo-400 before:hover:bg-white/[0.08]">
+          <button className="shadow-small highlight-gradient relative rounded-full border border-transparent px-3 py-0.5 transition-colors duration-200 ease-in-out hover:text-indigo-400">
             <Tooltip side="top" sideOffset={18} content="Search" key1="/">
               <Search width={20} height={40} strokeWidth={1.5} />
             </Tooltip>
