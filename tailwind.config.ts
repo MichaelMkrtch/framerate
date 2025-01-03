@@ -23,11 +23,6 @@ export default {
         "scale-to-right":
           "scale-to-right 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both",
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
       colors: {
         background: "var(--background)",
         "extra-dark": "var(--extra-dark)",

@@ -5,11 +5,18 @@ import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { Bolt, Bookmark, Search, SquareLibrary } from "lucide-react";
+import {
+  Bolt,
+  CircleUserIcon,
+  Compass,
+  Search,
+  SquareLibrary,
+} from "lucide-react";
 import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
 
 import HomeIcon from "@/components/icons/HomeIcon";
 import Tooltip from "@/components/Tooltip";
+import CollectionsIcon from "./icons/CollectionsIcon";
 
 export default function Navbar() {
   const [navbarEnabled, setNavbarEnabled] = useState(false);
@@ -33,6 +40,10 @@ export default function Navbar() {
         setLastKey("");
         redirect("/");
       }
+      if (isHotkeyPressed("e")) {
+        setLastKey("");
+        redirect("/explore");
+      }
       if (isHotkeyPressed("c")) {
         setLastKey("");
         redirect("/collections");
@@ -40,6 +51,10 @@ export default function Navbar() {
       if (isHotkeyPressed("l")) {
         setLastKey("");
         redirect("/library");
+      }
+      if (isHotkeyPressed("m")) {
+        setLastKey("");
+        redirect("/profile");
       }
       if (isHotkeyPressed("p")) {
         setLastKey("");
@@ -71,14 +86,23 @@ export default function Navbar() {
     },
     {
       id: 2,
+      name: "Explore",
+      href: "/explore",
+      key1: "G",
+      key2: "E",
+      icon: Compass,
+    },
+    {
+      id: 3,
       name: "Collections",
       href: "/collections",
       key1: "G",
       key2: "C",
-      icon: Bookmark,
+      // icon: Bookmark,
+      icon: CollectionsIcon,
     },
     {
-      id: 3,
+      id: 4,
       name: "Library",
       href: "/library",
       key1: "G",
@@ -86,7 +110,15 @@ export default function Navbar() {
       icon: SquareLibrary,
     },
     {
-      id: 4,
+      id: 5,
+      name: "Profile",
+      href: `/profile`,
+      key1: "G",
+      key2: "M",
+      icon: CircleUserIcon,
+    },
+    {
+      id: 6,
       name: "Preferences",
       href: "/preferences",
       key1: "G",
@@ -99,7 +131,7 @@ export default function Navbar() {
     navbarEnabled && (
       <TooltipProvider>
         <div className="fixed bottom-6 left-0 right-0 mx-auto flex w-fit items-center justify-center gap-x-4">
-          <nav className="shadow-small highlight-gradient flex gap-x-7 rounded-full border border-transparent px-4 py-0.5">
+          <nav className="shadow-small highlight-gradient flex gap-x-[26px] rounded-full border border-transparent px-4 py-0.5">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (

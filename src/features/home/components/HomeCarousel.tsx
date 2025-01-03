@@ -29,11 +29,11 @@ export default function HomeCarousel() {
     toast.error(tvTrendingError.message, { duration: 5000 });
   }
 
-  if (movieTrendingData) {
+  if (movieTrendingData && movieTrendingData.length > 18) {
     movieTrendingData.splice(18);
   }
 
-  if (tvTrendingData) {
+  if (tvTrendingData && tvTrendingData.length > 18) {
     tvTrendingData.splice(18);
   }
 
