@@ -1,6 +1,12 @@
 import type { ClassValue } from "clsx";
 
-import { Trending } from "@/types/tmdb.types";
+import {
+  CreatedBy,
+  Credits,
+  Crew,
+  Details,
+  Trending,
+} from "@/types/tmdb.types";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -8,9 +14,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export default async function fetchRoute<T extends "movie" | "tv" | "person">(
+type Category = "trending" | "details";
+type MediaType = "movie" | "tv" | "person";
+type ReturnType<C extends Category, M extends MediaType> = C extends "trending"
+  ? Trending<M>[]
+  : Details<M>;
+
+// mediaType parameter aids type inference when calling data fetching hooks
+export async function fetchRoute<C extends Category, M extends MediaType>(
   endpoint: string,
-): Promise<Trending<T>[] | undefined> {
+  mediaType: M,
+  category: C,
+): Promise<ReturnType<C, M> | undefined> {
   try {
     const response = await fetch(endpoint);
 
@@ -18,9 +33,15 @@ export default async function fetchRoute<T extends "movie" | "tv" | "person">(
       throw new Error(`An error occurred while fetching data!`);
     }
 
-    const data: Trending<T>[] = await response.json();
+    if (category === "trending") {
+      const trendingData = await response.json();
+      return trendingData as ReturnType<C, M>;
+    }
 
-    return data;
+    if (category === "details") {
+      const detailsData = await response.json();
+      return detailsData as ReturnType<C, M>;
+    }
   } catch (error) {
     if (error instanceof Error) {
       // Error will be caught by TanStack Query
@@ -68,4 +89,46 @@ export function getSimpleTitle(title: string) {
     .toLowerCase();
 
   return simpleTitle;
+}
+
+export default function formatNames(
+  nameList: Credits[] | Crew[] | CreatedBy[],
+  dataObj: Details,
+) {
+  // format movie director names
+  if (dataObj.mediaType === "movie") {
+    const data = { ...dataObj };
+    if (nameList.length > 2) {
+      data.director =
+        nameList
+          .map((director) => director.name)
+          .slice(0, 2)
+          .join(", ") + "...";
+    } else if (nameList.length === 2) {
+      data.director = nameList.map((director) => director.name).join(", ");
+    } else if (nameList.length === 1) {
+      data.director = nameList[0].name;
+    } else {
+      data.director = "Unknown";
+    }
+    return data;
+  }
+
+  // dataObj is a series
+  // format series creator names
+  const data = { ...dataObj };
+  if (nameList.length > 2) {
+    data.creator =
+      nameList
+        .map((creator) => creator.name)
+        .slice(0, 2)
+        .join(", ") + "...";
+  } else if (nameList.length === 2) {
+    data.creator = nameList.map((creator) => creator.name).join(", ");
+  } else if (nameList.length === 1) {
+    data.creator = nameList[0].name;
+  } else {
+    data.creator = "Unknown";
+  }
+  return data;
 }

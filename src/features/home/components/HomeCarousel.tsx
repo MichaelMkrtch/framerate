@@ -5,6 +5,7 @@ import Link from "next/link";
 import useFetchTrending from "@/hooks/useFetchTrending";
 import { toast } from "sonner";
 
+import { useIdStore } from "@/store/details/idStore";
 import Poster from "@/components/Poster";
 import {
   Carousel,
@@ -37,6 +38,8 @@ export default function HomeCarousel() {
     tvTrendingData.splice(18);
   }
 
+  const setId = useIdStore((state) => state.setId);
+
   return (
     <div className="animate-fade-in-fast">
       <section className="carousel-container group/trending">
@@ -57,7 +60,10 @@ export default function HomeCarousel() {
                   key={movie.id}
                   className="md:basis-1/5 xl:basis-1/6"
                 >
-                  <Link href={`/movie/${movie.id}/${simpleTitle}`}>
+                  <Link
+                    href={`/film/${simpleTitle}`}
+                    onClick={() => setId(movie.id)}
+                  >
                     <div className="transition-all duration-150 hover:scale-105">
                       <Poster
                         title={movie.title}
@@ -97,7 +103,10 @@ export default function HomeCarousel() {
                   key={series.id}
                   className="md:basis-1/5 xl:basis-1/6"
                 >
-                  <Link href={`/series/${series.id}/${simpleTitle}`}>
+                  <Link
+                    href={`/series/${simpleTitle}`}
+                    onClick={() => setId(series.id)}
+                  >
                     <div className="transition-all duration-150 hover:scale-105">
                       <Poster
                         title={series.title}

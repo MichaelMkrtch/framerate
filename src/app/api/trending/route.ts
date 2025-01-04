@@ -6,15 +6,12 @@ import { convertToCamelCase, renameKeys } from "@/lib/utils";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 
+type FilterParams = "all" | "movie" | "tv" | "person" | null;
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  const filter = searchParams.get("filter") as
-    | "all"
-    | "movie"
-    | "tv"
-    | "person"
-    | null;
+  const filter = searchParams.get("filter") as FilterParams;
   const timeWindow = searchParams.get("timeWindow");
 
   if (filter && timeWindow) {
@@ -24,13 +21,12 @@ export async function GET(request: Request) {
   redirect("/home");
 }
 
-// TEST THIS WITH ERROR IN URL
-// DESRIED: TOAST WITH ERROR
-
 async function fetchTrending(
   filter: "all" | "movie" | "tv" | "person",
   timeWindow: string,
 ): Promise<Trending[] | Error> {
+  const url = `https://api.themoviedb.org/3/trending/${filter}/${timeWindow}?language=en-US`;
+
   const options = {
     method: "GET",
     headers: {
@@ -38,8 +34,6 @@ async function fetchTrending(
       Authorization: `Bearer ${API_TOKEN}`,
     },
   };
-
-  const url = `https://api.themoviedb.org/3/trending/${filter}/${timeWindow}?language=en-US`;
 
   try {
     const response = await fetch(url, options);

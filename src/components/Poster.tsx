@@ -7,7 +7,7 @@ const IMG_BASE_URL = process.env.NEXT_PUBLIC_IMG_BASE_URL;
 
 type PosterProps = {
   title: string;
-  src: string;
+  src?: string;
   fetchSize: string;
   width: number;
   height: number;
