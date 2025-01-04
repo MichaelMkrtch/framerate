@@ -1,12 +1,12 @@
-import type { ClassValue } from "clsx";
-
-import {
+import type {
   CreatedBy,
   Credits,
   Crew,
   Details,
   Trending,
 } from "@/types/tmdb.types";
+import type { ClassValue } from "clsx";
+
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -91,7 +91,7 @@ export function getSimpleTitle(title: string) {
   return simpleTitle;
 }
 
-export default function formatNames(
+export function formatNames(
   nameList: Credits[] | Crew[] | CreatedBy[],
   dataObj: Details,
 ) {

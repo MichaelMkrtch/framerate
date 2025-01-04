@@ -1,8 +1,8 @@
+import type { Details } from "@/types/tmdb.types";
+
 import { redirect } from "next/navigation";
 
-import { type Details } from "@/types/tmdb.types";
-
-import formatNames, { convertToCamelCase, renameKeys } from "@/lib/utils";
+import { convertToCamelCase, formatNames, renameKeys } from "@/lib/utils";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 

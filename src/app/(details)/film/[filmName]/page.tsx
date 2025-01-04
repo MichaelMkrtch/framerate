@@ -8,16 +8,16 @@ import { type Details } from "@/types/tmdb.types";
 import { useIdStore } from "@/store/details/idStore";
 
 export default function FilmPage() {
-  const [film, setFilm] = useState<Details<"movie">>();
+  const [movie, setMovie] = useState<Details<"movie">>();
 
-  const filmId = useIdStore((state) => state.id);
-  const detailsList = useFetchDetails([{ mediaType: "movie", id: filmId }]);
+  const movieId = useIdStore((state) => state.id);
+  const detailsList = useFetchDetails([{ mediaType: "movie", id: movieId }]);
 
   useEffect(() => {
     if (detailsList[0].data) {
-      setFilm(detailsList[0].data);
+      setMovie(detailsList[0].data);
     }
   }, [detailsList]);
 
-  return film && <p>{film.title}</p>;
+  return movie && <p>{movie.title}</p>;
 }

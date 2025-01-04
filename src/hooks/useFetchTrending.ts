@@ -1,4 +1,7 @@
+import { useEffect } from "react";
+
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { fetchRoute } from "@/lib/utils";
 
@@ -20,5 +23,12 @@ export default function useFetchTrending<T extends "movie" | "tv" | "person">(
     enabled: !debouncedQuery,
   });
 
-  return { data, error };
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message, { duration: 5000 });
+      return;
+    }
+  }, [error]);
+
+  return data;
 }

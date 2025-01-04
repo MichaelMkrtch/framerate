@@ -1,4 +1,7 @@
+import { useEffect } from "react";
+
 import { useQueries } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { fetchRoute } from "@/lib/utils";
 
@@ -18,6 +21,14 @@ export default function useFetchDetails<T extends "movie" | "tv">(
       enabled: fetchList.length > 0,
     })),
   });
+
+  useEffect(() => {
+    if (detailsQuery.some((queryResult) => queryResult.isError)) {
+      toast.error("An error occurred while fetching details!", {
+        duration: 5000,
+      });
+    }
+  }, [detailsQuery]);
 
   return detailsQuery;
 }

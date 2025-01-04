@@ -1,9 +1,11 @@
 "use client";
 
+import type { Trending } from "@/types/tmdb.types";
+
+import { useState } from "react";
 import Link from "next/link";
 
 import useFetchTrending from "@/hooks/useFetchTrending";
-import { toast } from "sonner";
 
 import { useIdStore } from "@/store/details/idStore";
 import Poster from "@/components/Poster";
@@ -17,25 +19,18 @@ import {
 import { getSimpleTitle } from "@/lib/utils";
 
 export default function HomeCarousel() {
-  const { data: movieTrendingData, error: movieTrendingError } =
-    useFetchTrending("movie", "week");
-  const { data: tvTrendingData, error: tvTrendingError } = useFetchTrending(
-    "tv",
-    "week",
-  );
+  const [movieData, setMovieData] = useState<Trending<"movie">[]>();
+  const [tvData, setTvData] = useState<Trending<"tv">[]>();
 
-  if (movieTrendingError) {
-    toast.error(movieTrendingError.message, { duration: 5000 });
-  } else if (tvTrendingError) {
-    toast.error(tvTrendingError.message, { duration: 5000 });
-  }
+  const movieTrendingData = useFetchTrending("movie", "week");
+  const tvTrendingData = useFetchTrending("tv", "week");
 
   if (movieTrendingData && movieTrendingData.length > 18) {
-    movieTrendingData.splice(18);
+    setMovieData(movieTrendingData.slice(0, 18));
   }
 
   if (tvTrendingData && tvTrendingData.length > 18) {
-    tvTrendingData.splice(18);
+    setTvData(tvTrendingData.slice(0, 18));
   }
 
   const setId = useIdStore((state) => state.setId);
@@ -52,7 +47,7 @@ export default function HomeCarousel() {
           }}
         >
           <CarouselContent>
-            {movieTrendingData?.map((movie) => {
+            {movieData?.map((movie) => {
               const simpleTitle = getSimpleTitle(movie.title);
 
               return (
@@ -95,7 +90,7 @@ export default function HomeCarousel() {
           }}
         >
           <CarouselContent>
-            {tvTrendingData?.map((series) => {
+            {tvData?.map((series) => {
               const simpleTitle = getSimpleTitle(series.title);
 
               return (
