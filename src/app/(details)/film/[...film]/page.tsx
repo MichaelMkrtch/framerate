@@ -7,6 +7,7 @@ import useFetchDetails from "@/hooks/useFetchDetails";
 import { Details } from "@/types/tmdb.types";
 
 import Backdrop from "@/features/details/components/Backdrop";
+import MediaDetails from "@/features/details/components/MediaDetails";
 import { createMovie, getMovie } from "@/features/details/server/db/movie";
 import { pick } from "@/lib/utils";
 
@@ -50,6 +51,11 @@ export default function FilmPage() {
     movie && (
       <main className="relative">
         <Backdrop title={movie.title} backdropPath={movie.backdropPath ?? ""} />
+        <MediaDetails
+          media={fetchedMovie}
+          title={fetchedMovie.title}
+          posterPath={movie.posterPath}
+        />
       </main>
     )
   );

@@ -67,27 +67,16 @@ export default function Poster({
         className={perspectiveClasses}
       >
         {src && (
-          <>
-            <Image
-              src={`${IMG_BASE_URL}w92${src}`}
-              alt={`A poster from the film ${title}`}
-              width={width}
-              height={height}
-              className={`${classes} ${isLoaded && "animate-fade-out"} absolute rounded object-cover blur-[4px] drop-shadow [image-rendering:_pixelated]`}
-              style={transitionStyles.lowRes}
-              priority
-            />
-            <Image
-              onLoad={handleImageOnLoad}
-              src={`${IMG_BASE_URL}${fetchSize}${src}`}
-              alt={`A poster from the film ${title}`}
-              width={width}
-              height={height}
-              className={`${classes} ${isLoaded && "animate-fade-in"} peer relative top-0 select-none rounded object-cover drop-shadow`}
-              style={transitionStyles.highRes}
-              loading="lazy"
-            />
-          </>
+          <Image
+            onLoad={handleImageOnLoad}
+            src={`${IMG_BASE_URL}${fetchSize}${src}`}
+            alt={`A poster from the film ${title}`}
+            width={width}
+            height={height}
+            className={`${classes} ${isLoaded && "animate-fade-in"} peer relative top-0 select-none rounded object-cover drop-shadow`}
+            style={transitionStyles.highRes}
+            loading="lazy"
+          />
         )}
         {/* the radial gradient is positioned according to mouse position */}
         <div className="pointer-events-none absolute inset-0 rounded drop-shadow group-hover:bg-[radial-gradient(at_var(--x)_var(--y),rgba(255,255,255,0.1)_15%,transparent_70%)]" />

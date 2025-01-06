@@ -7,6 +7,7 @@ import useFetchDetails from "@/hooks/useFetchDetails";
 import { Details } from "@/types/tmdb.types";
 
 import Backdrop from "@/features/details/components/Backdrop";
+import MediaDetails from "@/features/details/components/MediaDetails";
 import { createSeries, getSeries } from "@/features/details/server/db/series";
 import { pick } from "@/lib/utils";
 
@@ -55,6 +56,11 @@ export default function SeriesPage() {
         <Backdrop
           title={series.title}
           backdropPath={series.backdropPath ?? ""}
+        />
+        <MediaDetails
+          media={fetchedSeries}
+          title={fetchedSeries.title}
+          posterPath={series.posterPath}
         />
       </main>
     )
