@@ -10,14 +10,14 @@ export type Details<T = "movie" | "tv"> = T extends "movie"
 
 type MediaBase = {
   adult: boolean;
-  backdropPath?: string;
+  backdropPath: string | null;
   genreIds: number[];
   id: number;
   originalLanguage: string;
   originalTitle: string;
   overview: string;
   popularity: number;
-  posterPath?: string;
+  posterPath: string | null;
   releaseDate: string;
   title: string;
   voteAverage: number;
@@ -95,8 +95,8 @@ type TVDetails = Omit<MediaBase, "genreIds"> &
 type BelongsToCollection = {
   id: number;
   name: string;
-  posterPath?: string;
-  backdropPath?: string;
+  posterPath: string | null;
+  backdropPath: string | null;
 };
 
 export type CreatedBy = {
@@ -117,7 +117,7 @@ export type Credits = {
   name: string;
   originalName: string;
   popularity: number;
-  profilePath?: string;
+  profilePath: string | null;
 };
 
 type Cast = Credits & {
@@ -154,7 +154,7 @@ type LastEpisodeToAir = {
 
 type Network = {
   id: number;
-  logoPath?: string;
+  logoPath: string | null;
   name: string;
   originCountry: string;
 };
@@ -177,7 +177,7 @@ type NextEpisodeToAir = {
 
 type ProductionCompany = {
   id: number;
-  logoPath?: string;
+  logoPath: string | null;
   name: string;
   originCountry: string;
 };

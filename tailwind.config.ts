@@ -13,7 +13,7 @@ export default {
   theme: {
     extend: {
       animation: {
-        "fade-in": "fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
+        "fade-in": "fade-in 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
         "fade-in-fast": "fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
         "fade-out": "fade-out 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000)",
         "fade-out-fast":

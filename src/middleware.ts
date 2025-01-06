@@ -23,9 +23,9 @@ async function verifySession(request: NextRequest) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const session = await verifySession(request);
 
   if (pathname === "/") {
+    const session = await verifySession(request);
     if (session) {
       return NextResponse.redirect(new URL("/home", request.url));
     }
@@ -34,6 +34,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/home") {
+    const session = await verifySession(request);
     if (session) {
       return NextResponse.next();
     }

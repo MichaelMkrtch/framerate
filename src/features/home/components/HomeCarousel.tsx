@@ -2,12 +2,11 @@
 
 import type { Trending } from "@/types/tmdb.types";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import useFetchTrending from "@/hooks/useFetchTrending";
 
-import { useIdStore } from "@/store/details/idStore";
 import Poster from "@/components/Poster";
 import {
   Carousel,
@@ -25,15 +24,15 @@ export default function HomeCarousel() {
   const movieTrendingData = useFetchTrending("movie", "week");
   const tvTrendingData = useFetchTrending("tv", "week");
 
-  if (movieTrendingData && movieTrendingData.length > 18) {
-    setMovieData(movieTrendingData.slice(0, 18));
-  }
+  useEffect(() => {
+    if (movieTrendingData && movieTrendingData.length > 18) {
+      setMovieData(movieTrendingData.slice(0, 18));
+    }
 
-  if (tvTrendingData && tvTrendingData.length > 18) {
-    setTvData(tvTrendingData.slice(0, 18));
-  }
-
-  const setId = useIdStore((state) => state.setId);
+    if (tvTrendingData && tvTrendingData.length > 18) {
+      setTvData(tvTrendingData.slice(0, 18));
+    }
+  }, [movieTrendingData, tvTrendingData]);
 
   return (
     <div className="animate-fade-in-fast">
@@ -55,10 +54,7 @@ export default function HomeCarousel() {
                   key={movie.id}
                   className="md:basis-1/5 xl:basis-1/6"
                 >
-                  <Link
-                    href={`/film/${simpleTitle}`}
-                    onClick={() => setId(movie.id)}
-                  >
+                  <Link href={`/film/${movie.id}/${simpleTitle}`}>
                     <div className="transition-all duration-150 hover:scale-105">
                       <Poster
                         title={movie.title}
@@ -67,7 +63,7 @@ export default function HomeCarousel() {
                         width={160}
                         height={240}
                         perspectiveEnabled={false}
-                        classes="carousel-item md-tablet:w-[140px] md-tablet:h-[210px]"
+                        classes="animate-fade-in carousel-item md-tablet:w-[140px] md-tablet:h-[210px]"
                       />
                     </div>
                   </Link>
@@ -98,10 +94,7 @@ export default function HomeCarousel() {
                   key={series.id}
                   className="md:basis-1/5 xl:basis-1/6"
                 >
-                  <Link
-                    href={`/series/${simpleTitle}`}
-                    onClick={() => setId(series.id)}
-                  >
+                  <Link href={`/series/${series.id}/${simpleTitle}`}>
                     <div className="transition-all duration-150 hover:scale-105">
                       <Poster
                         title={series.title}

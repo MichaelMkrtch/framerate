@@ -5,7 +5,6 @@ import {
   numeric,
   pgTable,
   primaryKey,
-  smallint,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
@@ -61,17 +60,16 @@ export const verification = pgTable("verification", {
   updatedAt: timestamp("updatedAt"),
 });
 
-export const moviesTable = pgTable("movies", {
+export const movieTable = pgTable("movie", {
   id: bigint("id", { mode: "number" }).primaryKey(),
   title: text("title").notNull(),
-  posterPath: text("poster_path").notNull(),
-  backdropPath: text("backdrop_path").notNull(),
+  posterPath: text("poster_path").default(""),
+  backdropPath: text("backdrop_path").default(""),
   releaseDate: date("release_date").notNull(),
-  runtime: smallint("runtime").notNull(),
 });
 
-export const movieReviewsTable = pgTable(
-  "movie_reviews",
+export const movieReviewTable = pgTable(
+  "movie_review",
   {
     id: bigint("id", { mode: "number" }),
     userId: text("userId")
@@ -82,7 +80,7 @@ export const movieReviewsTable = pgTable(
       }),
     movieId: bigint("movie_id", { mode: "number" })
       .notNull()
-      .references(() => moviesTable.id, {
+      .references(() => movieTable.id, {
         onUpdate: "no action",
         onDelete: "no action",
       }),
@@ -98,23 +96,19 @@ export const movieReviewsTable = pgTable(
     watched: boolean("watched"),
     review: text("review"),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.userId, table.movieId] }),
-    };
-  },
+  (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
 );
 
-export const tvShowsTable = pgTable("tv_shows", {
+export const tvShowTable = pgTable("tv_show", {
   id: bigint("id", { mode: "number" }).primaryKey(),
   title: text("title").notNull(),
-  posterPath: text("poster_path").notNull(),
-  backdropPath: text("backdrop_path").notNull(),
+  posterPath: text("poster_path").default(""),
+  backdropPath: text("backdrop_path").default(""),
   releaseDate: date("release_date").notNull(),
 });
 
-export const tvReviewsTable = pgTable(
-  "tv_reviews",
+export const tvReviewTable = pgTable(
+  "tv_review",
   {
     id: bigint("id", { mode: "number" }),
     userId: text("userId")
@@ -125,7 +119,7 @@ export const tvReviewsTable = pgTable(
       }),
     seriesId: bigint("series_id", { mode: "number" })
       .notNull()
-      .references(() => tvShowsTable.id, {
+      .references(() => tvShowTable.id, {
         onUpdate: "no action",
         onDelete: "no action",
       }),
@@ -141,14 +135,10 @@ export const tvReviewsTable = pgTable(
     watched: boolean("watched"),
     review: text("review"),
   },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.userId, table.seriesId] }),
-    };
-  },
+  (table) => [primaryKey({ columns: [table.userId, table.seriesId] })],
 );
 
-export const listsTable = pgTable("lists", {
+export const listTable = pgTable("list", {
   id: bigint("id", { mode: "number" }),
   userId: text("userId")
     .notNull()
@@ -167,14 +157,14 @@ export const listContentTable = pgTable("list_content", {
   userId: text("user_id").notNull(),
   listId: bigint("list_id", { mode: "number" }).notNull(),
   movieId: bigint("movie_id", { mode: "number" }).references(
-    () => moviesTable.id,
+    () => movieTable.id,
     {
       onUpdate: "no action",
       onDelete: "no action",
     },
   ),
   seriesId: bigint("series_id", { mode: "number" }).references(
-    () => tvShowsTable.id,
+    () => tvShowTable.id,
     {
       onUpdate: "no action",
       onDelete: "no action",
@@ -198,20 +188,20 @@ export type SelectAccount = typeof account.$inferSelect;
 export type InsertVerification = typeof verification.$inferInsert;
 export type SelectVerification = typeof verification.$inferSelect;
 
-export type InsertMovie = typeof moviesTable.$inferInsert;
-export type SelectMovie = typeof moviesTable.$inferSelect;
+export type InsertMovie = typeof movieTable.$inferInsert;
+export type SelectMovie = typeof movieTable.$inferSelect;
 
-export type InsertMovieReview = typeof movieReviewsTable.$inferInsert;
-export type SelectMovieReview = typeof movieReviewsTable.$inferSelect;
+export type InsertMovieReview = typeof movieReviewTable.$inferInsert;
+export type SelectMovieReview = typeof movieReviewTable.$inferSelect;
 
-export type InsertShow = typeof tvShowsTable.$inferInsert;
-export type SelectShow = typeof tvShowsTable.$inferSelect;
+export type InsertShow = typeof tvShowTable.$inferInsert;
+export type SelectShow = typeof tvShowTable.$inferSelect;
 
-export type InsertShowReview = typeof tvReviewsTable.$inferInsert;
-export type SelectShowReview = typeof tvReviewsTable.$inferSelect;
+export type InsertShowReview = typeof tvReviewTable.$inferInsert;
+export type SelectShowReview = typeof tvReviewTable.$inferSelect;
 
-export type InsertList = typeof listsTable.$inferInsert;
-export type SelectList = typeof listsTable.$inferSelect;
+export type InsertList = typeof listTable.$inferInsert;
+export type SelectList = typeof listTable.$inferSelect;
 
 export type InsertListContent = typeof listContentTable.$inferInsert;
 export type SelectListContent = typeof listContentTable.$inferSelect;

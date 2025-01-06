@@ -74,6 +74,7 @@ async function fetchDetails(
       {
         name: "title",
         createdBy: "createdByList",
+        firstAirDate: "releaseDate",
       },
       camelCaseData,
     ) as Details<"tv">;
