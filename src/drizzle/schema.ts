@@ -71,7 +71,6 @@ export const movieTable = pgTable("movie", {
 export const movieReviewTable = pgTable(
   "movie_review",
   {
-    id: bigint("id", { mode: "number" }),
     userId: text("userId")
       .notNull()
       .references(() => user.id, {
@@ -88,12 +87,12 @@ export const movieReviewTable = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
-    ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
     mediaType: text("media_type").notNull(),
-    liked: boolean("liked"),
-    watched: boolean("watched"),
+    liked: boolean("liked").notNull().default(false),
+    watched: boolean("watched").notNull().default(false),
     review: text("review"),
   },
   (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
@@ -110,7 +109,6 @@ export const tvShowTable = pgTable("tv_show", {
 export const tvReviewTable = pgTable(
   "tv_review",
   {
-    id: bigint("id", { mode: "number" }),
     userId: text("userId")
       .notNull()
       .references(() => user.id, {
@@ -127,12 +125,12 @@ export const tvReviewTable = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
-    ratedAt: timestamp("rated_at", { withTimezone: true, mode: "date" })
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
       .notNull()
       .defaultNow(),
     mediaType: text("media_type").notNull(),
-    liked: boolean("liked"),
-    watched: boolean("watched"),
+    liked: boolean("liked").notNull().default(false),
+    watched: boolean("watched").notNull().default(false),
     review: text("review"),
   },
   (table) => [primaryKey({ columns: [table.userId, table.seriesId] })],

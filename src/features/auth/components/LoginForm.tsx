@@ -22,8 +22,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { loginSchema } from "@/features/auth/schema/auth-forms";
 import { authClient } from "@/lib/auth-client";
-import { loginSchema } from "../schemas/auth-forms";
 
 export default function LoginForm() {
   const email = useEmailStore((state) => state.email);
@@ -94,7 +94,7 @@ export default function LoginForm() {
         onSuccess: () => {
           toast.dismiss("loading");
           toast.success("Logged in");
-          router.push("/");
+          router.push("/home");
         },
         onError: (ctx) => {
           toast.dismiss("loading");

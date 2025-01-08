@@ -1,7 +1,8 @@
 import type { Details } from "@/types/tmdb.types";
 
 import Poster from "@/components/Poster";
-import Credits from "./Credits";
+import Credits from "@/features/details/components/Credits";
+import ReviewCard from "@/features/details/components/ReviewCard";
 
 type MediaDetailsProps = {
   media: Details;
@@ -47,8 +48,8 @@ export default function MediaDetails({
           </div>
         </div>
 
-        <div className="order-4 col-start-1 col-end-4 mt-6 self-start md:col-end-2 md:row-start-2 md:mt-5 md:flex md:items-center md:justify-start lg:col-start-4 lg:row-start-1 lg:mt-0 lg:flex lg:basis-1/3 lg:justify-end lg:self-center">
-          {/* <RatingCard media={media} /> */}
+        <div className="order-4 mx-auto mt-[52px] w-[80%] self-start lg:col-start-4">
+          <ReviewCard media={media} />
         </div>
       </div>
     </>

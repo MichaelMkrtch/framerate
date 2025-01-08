@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { signupSchema } from "@/features/auth/schemas/auth-forms";
+import { signupSchema } from "@/features/auth/schema/auth-forms";
 import { blacklistFilter } from "@/features/auth/server/blacklistFilter";
 
 type FilterResult = {

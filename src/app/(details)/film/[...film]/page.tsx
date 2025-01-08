@@ -49,14 +49,19 @@ export default function FilmPage() {
   return (
     fetchedMovie &&
     movie && (
-      <main className="relative">
-        <Backdrop title={movie.title} backdropPath={movie.backdropPath ?? ""} />
-        <MediaDetails
-          media={fetchedMovie}
-          title={fetchedMovie.title}
-          posterPath={movie.posterPath}
-        />
-      </main>
+      <>
+        <main className="relative pb-32">
+          <Backdrop
+            title={movie.title}
+            backdropPath={movie.backdropPath ?? ""}
+          />
+          <MediaDetails
+            media={fetchedMovie}
+            title={fetchedMovie.title}
+            posterPath={movie.posterPath}
+          />
+        </main>
+      </>
     )
   );
 }

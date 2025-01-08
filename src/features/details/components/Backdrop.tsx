@@ -26,7 +26,7 @@ export default function Backdrop({ title, backdropPath }: BackdropProps) {
           priority
         />
         {/* Tablet and Desktop shadow gradient */}
-        <div className="before:backdrop-fade hidden before:pointer-events-none before:absolute before:top-0 before:block before:w-full before:bg-no-repeat md:block md:before:h-[455px] lg:before:h-[675px] xl:before:h-[750px]" />
+        <div className="before:backdrop-fade hidden before:pointer-events-none before:absolute before:top-0 before:block before:w-full before:bg-no-repeat md:block md:before:h-[455px] lg:before:h-[675px] xl:before:h-[700px]" />
         {/* Mobile shadow gradient */}
         <div className="pointer-events-none absolute top-0 block size-full bg-gradient-to-t from-neutral-900 via-transparent to-transparent bg-no-repeat md:hidden" />
       </div>

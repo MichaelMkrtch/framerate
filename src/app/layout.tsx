@@ -38,7 +38,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="FrameRate" />
       </head>
       <body
-        className={`${manrope.variable} ${bespokeSerif.variable} mx-auto h-full max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-7xl`}
+        className={`${manrope.variable} ${bespokeSerif.variable} mx-auto h-full max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]`}
       >
         <Providers>
           {children}

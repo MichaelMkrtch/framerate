@@ -98,7 +98,6 @@ export default function Navbar() {
       href: "/collections",
       key1: "G",
       key2: "C",
-      // icon: Bookmark,
       icon: CollectionsIcon,
     },
     {

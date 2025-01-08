@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signupSchema } from "@/features/auth/schemas/auth-forms";
+import { signupSchema } from "@/features/auth/schema/auth-forms";
 import { blacklistChecks } from "@/features/auth/server/actions/auth-actions";
 import { authClient } from "@/lib/auth-client";
 

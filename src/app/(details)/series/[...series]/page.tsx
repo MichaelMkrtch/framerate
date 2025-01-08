@@ -25,8 +25,6 @@ export default function SeriesPage() {
   const details = useFetchDetails([{ mediaType: "tv", id: seriesId }])[0];
   const fetchedSeries = details.data;
 
-  console.log(fetchedSeries);
-
   useEffect(() => {
     (async () => {
       const storedSeries = await getSeries(seriesId);
@@ -52,17 +50,19 @@ export default function SeriesPage() {
   return (
     fetchedSeries &&
     series && (
-      <main className="relative">
-        <Backdrop
-          title={series.title}
-          backdropPath={series.backdropPath ?? ""}
-        />
-        <MediaDetails
-          media={fetchedSeries}
-          title={fetchedSeries.title}
-          posterPath={series.posterPath}
-        />
-      </main>
+      <>
+        <main className="relative pb-32">
+          <Backdrop
+            title={series.title}
+            backdropPath={series.backdropPath ?? ""}
+          />
+          <MediaDetails
+            media={fetchedSeries}
+            title={fetchedSeries.title}
+            posterPath={series.posterPath}
+          />
+        </main>
+      </>
     )
   );
 }

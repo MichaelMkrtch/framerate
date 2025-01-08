@@ -4,8 +4,8 @@
 
 :root {
   --background: #16181c;
-  /* --extra-dark: #0b0d0e; */
-  --extra-dark: #0e1011;
+  --background-lighter: #1c1e22;
+  --background-darker: #0e1011;
   --foreground: #fffafb;
 }
 
@@ -168,7 +168,7 @@ img {
   }
 
   .carousel-container {
-    @apply bg-extra-dark relative mb-6 rounded-md p-6 before:absolute before:-left-20 before:-right-20 before:bottom-0 before:top-0;
+    @apply relative mb-6 rounded-md bg-background-darker p-6 before:absolute before:-left-20 before:-right-20 before:bottom-0 before:top-0;
   }
 
   .carousel-item {

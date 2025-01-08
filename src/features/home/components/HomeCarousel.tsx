@@ -63,7 +63,7 @@ export default function HomeCarousel() {
                         width={160}
                         height={240}
                         perspectiveEnabled={false}
-                        classes="animate-fade-in carousel-item md-tablet:w-[140px] md-tablet:h-[210px]"
+                        classes="animate-fade-in carousel-item w-[170px] h-[255px]"
                       />
                     </div>
                   </Link>
@@ -103,7 +103,7 @@ export default function HomeCarousel() {
                         width={160}
                         height={240}
                         perspectiveEnabled={false}
-                        classes="carousel-item md-tablet:w-[140px] md-tablet:h-[210px]"
+                        classes="carousel-item w-[170px] h-[255px]"
                       />
                     </div>
                   </Link>
