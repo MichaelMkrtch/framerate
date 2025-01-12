@@ -1,18 +1,15 @@
+import type { StoredRating } from "@/types/data.types";
+
 import { create } from "zustand";
 
-type StoredRating = {
-  avgRating: number;
-  reviewCount: number;
-};
-
 type ReviewState = {
-  storedRating: StoredRating | null;
+  storedRating: StoredRating;
   isLiked: boolean;
   isWatched: boolean;
 };
 
 type ReviewActions = {
-  setStoredRating: (storedRating: StoredRating | null) => void;
+  setStoredRating: (storedRating: StoredRating) => void;
   setIsLiked: (bool: boolean) => void;
   setIsWatched: (bool: boolean) => void;
   clearMediaActions: () => void;

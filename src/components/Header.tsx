@@ -14,10 +14,11 @@ import { authClient } from "@/lib/auth-client";
 
 type HeaderProps = {
   title?: string;
+  classes?: string;
   children?: ReactNode;
 };
 
-export default function Header({ title, children }: HeaderProps) {
+export default function Header({ title, classes, children }: HeaderProps) {
   const { data: session, error } = authClient.useSession();
   const pathname = usePathname();
 
@@ -51,7 +52,9 @@ export default function Header({ title, children }: HeaderProps) {
   const fullDate = new Intl.DateTimeFormat("en-US", options).format();
 
   return (
-    <header className="mb-2 flex h-[120px] items-center justify-between">
+    <header
+      className={`${classes} mb-2 flex h-[120px] items-center justify-between`}
+    >
       <div className="flex items-center justify-center gap-3">
         <Link href="/">
           <Image src="/logo.svg" alt="FrameRate logo" width="30" height="30" />

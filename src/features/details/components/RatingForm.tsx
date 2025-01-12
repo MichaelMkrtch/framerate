@@ -71,7 +71,7 @@ export default function RatingForm({ media }: Record<"media", Details>) {
       state.status = "";
     }
 
-    return () => setStoredRating(null);
+    return () => setStoredRating({ avgRating: 0, reviewCount: 0 });
   }, [state, media.id, media.mediaType, setStoredRating]);
 
   return (

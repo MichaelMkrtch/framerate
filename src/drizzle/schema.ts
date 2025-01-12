@@ -137,7 +137,7 @@ export const tvReviewTable = pgTable(
 );
 
 export const listTable = pgTable("list", {
-  id: bigint("id", { mode: "number" }),
+  id: bigint("id", { mode: "number" }).primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => user.id, {
@@ -148,11 +148,14 @@ export const listTable = pgTable("list", {
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
     .notNull()
     .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
+    .notNull()
+    .defaultNow(),
 });
 
-export const listContentTable = pgTable("list_content", {
-  id: bigint("id", { mode: "number" }).notNull(),
-  userId: text("user_id").notNull(),
+export const listItemTable = pgTable("list_item", {
+  id: bigint("id", { mode: "number" }).primaryKey(),
+  userId: text("userId").notNull(),
   listId: bigint("list_id", { mode: "number" }).notNull(),
   movieId: bigint("movie_id", { mode: "number" }).references(
     () => movieTable.id,
@@ -170,6 +173,9 @@ export const listContentTable = pgTable("list_content", {
   ),
   mediaType: text("media_type").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("created_at", { withTimezone: true, mode: "date" })
     .notNull()
     .defaultNow(),
 });
@@ -201,5 +207,5 @@ export type SelectShowReview = typeof tvReviewTable.$inferSelect;
 export type InsertList = typeof listTable.$inferInsert;
 export type SelectList = typeof listTable.$inferSelect;
 
-export type InsertListContent = typeof listContentTable.$inferInsert;
-export type SelectListContent = typeof listContentTable.$inferSelect;
+export type InsertListItem = typeof listItemTable.$inferInsert;
+export type SelectListItem = typeof listItemTable.$inferSelect;

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 
-import { TooltipProvider } from "@radix-ui/react-tooltip";
 import {
   Bolt,
   CircleUserIcon,
@@ -16,6 +15,7 @@ import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
 
 import HomeIcon from "@/components/icons/HomeIcon";
 import Tooltip from "@/components/Tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip-ui";
 import CollectionsIcon from "./icons/CollectionsIcon";
 
 export default function Navbar() {

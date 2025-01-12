@@ -16,7 +16,7 @@ export const useEmailStore = create<EmailState & EmailActions>()(
       setEmail: (email) => set(() => ({ email: email })),
     }),
     {
-      name: "emailStore",
+      name: "email-storage",
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

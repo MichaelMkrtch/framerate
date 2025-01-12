@@ -1,4 +1,6 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
+
+import { ReactElement } from "react";
 
 import {
   TooltipContent,
@@ -9,9 +11,10 @@ import {
 type TooltipProps = {
   side: "top" | "right" | "bottom" | "left" | undefined;
   sideOffset: number;
-  content: string;
+  content: string | ReactElement;
   key1?: string;
   key2?: string;
+  isEnabled?: boolean;
   children: ReactNode;
 };
 
@@ -22,16 +25,17 @@ export default function Tooltip({
   key1,
   key2,
   children,
+  isEnabled,
 }: TooltipProps) {
   return (
-    <TooltipRoot>
+    <TooltipRoot open={isEnabled}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent
         side={side}
         sideOffset={sideOffset}
         className="slide-in-from-bottom-2"
       >
-        <p className="text-[13px] tracking-wide">
+        <div className="text-[13px] tracking-wide">
           {content}
           {key1 && (
             <>
@@ -51,7 +55,7 @@ export default function Tooltip({
               </span>
             </>
           )}
-        </p>
+        </div>
       </TooltipContent>
     </TooltipRoot>
   );

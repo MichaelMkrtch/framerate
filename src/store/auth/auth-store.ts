@@ -32,7 +32,7 @@ export const useAuthStore = create<UserState & UserActions>()(
       reset: () => set(() => initialState),
     }),
     {
-      name: "authStore",
+      name: "auth-storage",
       storage: createJSONStorage(() => sessionStorage),
     },
   ),
