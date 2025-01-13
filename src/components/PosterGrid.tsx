@@ -1,5 +1,4 @@
-import type { ListItem } from "@/types/data.types";
-import type { Details } from "@/types/tmdb.types";
+import type { ListItem, Review } from "@/types/data.types";
 
 import Link from "next/link";
 
@@ -10,7 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip-ui";
 import { getSimpleTitle } from "@/lib/utils";
 
 type PosterGridProps = {
-  media: ListItem[] | Details[];
+  media: ListItem[] | Review[];
   isTooltipEnabled: boolean;
 };
 

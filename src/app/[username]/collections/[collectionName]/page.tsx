@@ -25,6 +25,10 @@ export default function CollectionPage() {
         if (listItems) setListItems(listItems);
       }
     })();
+
+    return () => {
+      setListItems([]);
+    };
   }, [activeList, username, setListItems]);
 
   return (

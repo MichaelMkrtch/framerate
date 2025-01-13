@@ -27,3 +27,12 @@ export type ActiveList = {
   id: number;
   name: string;
 };
+
+export type Review = {
+  mediaType: "movie" | "tv";
+  mediaId: number;
+  title: string;
+  rating: string;
+  posterPath: string;
+  createdAt: Date;
+};
