@@ -18,7 +18,7 @@ export default function PosterGrid({
   isTooltipEnabled,
 }: PosterGridProps) {
   return (
-    <div className="grid animate-fade-in-fast grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 lg:gap-4 xl:gap-[18px]">
+    <div className="grid animate-fade-in-fast grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 lg:gap-4">
       {media &&
         media.map((result, index) => {
           const simpleTitle = getSimpleTitle(result.title);

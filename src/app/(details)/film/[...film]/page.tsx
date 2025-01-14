@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import useFetchDetails from "@/hooks/useFetchDetails";
 import { Details } from "@/types/tmdb.types";
 
-import Backdrop from "@/features/details/components/Backdrop";
+import Backdrop from "@/components/Backdrop";
 import MediaDetails from "@/features/details/components/MediaDetails";
 import { createMovie, getMovie } from "@/features/details/server/db/movie";
 import { pick } from "@/lib/utils";
@@ -52,7 +52,7 @@ export default function FilmPage() {
       <>
         <main className="relative pb-32">
           <Backdrop
-            title={movie.title}
+            alt={`Still image from ${movie.title}`}
             backdropPath={movie.backdropPath ?? ""}
           />
           <MediaDetails

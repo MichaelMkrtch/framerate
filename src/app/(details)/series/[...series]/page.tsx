@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import useFetchDetails from "@/hooks/useFetchDetails";
 import { Details } from "@/types/tmdb.types";
 
-import Backdrop from "@/features/details/components/Backdrop";
+import Backdrop from "@/components/Backdrop";
 import MediaDetails from "@/features/details/components/MediaDetails";
 import { createSeries, getSeries } from "@/features/details/server/db/series";
 import { pick } from "@/lib/utils";
@@ -53,7 +53,7 @@ export default function SeriesPage() {
       <>
         <main className="relative pb-32">
           <Backdrop
-            title={series.title}
+            alt={`Still image from ${series.title}`}
             backdropPath={series.backdropPath ?? ""}
           />
           <MediaDetails
