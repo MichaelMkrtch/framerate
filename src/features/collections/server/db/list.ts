@@ -1,7 +1,5 @@
 "use server";
 
-import { headers } from "next/headers";
-
 import { db } from "@/drizzle";
 import {
   InsertList,
@@ -14,12 +12,7 @@ import {
 } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
-import { auth } from "@/lib/auth";
-
-async function verifyUser() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  return session?.user;
-}
+import { verifyUser } from "@/features/collections/server/db/verifyUser";
 
 // List
 export async function createList(list: InsertList) {
@@ -147,4 +140,57 @@ async function getSeriesFromList(userId: string, listId: number) {
   }));
 
   return formattedResults;
+}
+
+export async function removeItemFromList(
+  mediaType: "movie" | "tv",
+  listItemId: number,
+  mediaId: number,
+) {
+  const user = await verifyUser();
+
+  if (user?.id && mediaType === "movie") {
+    const [result] = await db
+      .delete(listItemTable)
+      .where(
+        and(
+          eq(listItemTable.userId, user.id),
+          eq(listItemTable.id, listItemId),
+          eq(listItemTable.movieId, mediaId),
+        ),
+      )
+      .returning();
+
+    return result ? "success" : "fail";
+  } else if (user?.id && mediaType === "tv") {
+    const [result] = await db
+      .delete(listItemTable)
+      .where(
+        and(
+          eq(listItemTable.userId, user.id),
+          eq(listItemTable.id, listItemId),
+          eq(listItemTable.seriesId, mediaId),
+        ),
+      )
+      .returning();
+
+    return result ? "success" : "fail";
+  }
+}
+
+export async function deleteAllListItems(listId: number) {
+  const user = await verifyUser();
+
+  if (user?.id) {
+    const [result] = await db
+      .delete(listItemTable)
+      .where(
+        and(
+          eq(listItemTable.userId, user.id),
+          eq(listItemTable.listId, listId),
+        ),
+      );
+
+    return result ? "success" : "fail";
+  }
 }

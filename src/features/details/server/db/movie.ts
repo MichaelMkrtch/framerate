@@ -1,7 +1,5 @@
 "use server";
 
-import { headers } from "next/headers";
-
 import { db } from "@/drizzle";
 import {
   InsertMovie,
@@ -11,12 +9,7 @@ import {
 } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
-import { auth } from "@/lib/auth";
-
-async function verifyUser() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  return session?.user;
-}
+import { verifyUser } from "@/features/details/server/db/verifyUser";
 
 // Movie Data
 export async function createMovie(movie: InsertMovie) {

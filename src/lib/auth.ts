@@ -26,8 +26,8 @@ export const auth = betterAuth({
       username: {
         type: "string",
         required: true,
-      }
-    }
+      },
+    },
   },
   advanced: {
     cookiePrefix: "framerate",

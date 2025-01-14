@@ -1,17 +1,10 @@
 "use server";
 
-import { headers } from "next/headers";
-
 import { db } from "@/drizzle";
 import { movieReviewTable, tvReviewTable } from "@/drizzle/schema";
 import { and, avg, count, eq } from "drizzle-orm";
 
-import { auth } from "@/lib/auth";
-
-async function verifyUser() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  return session?.user;
-}
+import { verifyUser } from "@/features/details/server/db/verifyUser";
 
 // Written reviews
 export async function getReview(mediaType: "movie" | "tv", mediaId: number) {

@@ -1,6 +1,6 @@
 import type { Details } from "@/types/tmdb.types";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { toast } from "sonner";
 
@@ -13,6 +13,7 @@ import {
 } from "@/components/icons/MediaActionIcons";
 import Tooltip from "@/components/Tooltip";
 import { TooltipProvider } from "@/components/ui/tooltip-ui";
+import { checkIfListItem } from "@/features/details/server/db/list";
 import { authClient } from "@/lib/auth-client";
 import {
   getReview,
@@ -20,8 +21,15 @@ import {
   updateWatchStatus,
 } from "../server/db/review";
 
+type SavedListItem = {
+  listId: number;
+  mediaType: string;
+  mediaId: number | null;
+};
+
 export default function MediaActions({ media }: Record<"media", Details>) {
   const { isLiked, setIsLiked, isWatched, setIsWatched } = useReviewStore();
+  const [savedListItems, setSavedListItems] = useState<SavedListItem[]>();
 
   const { id: mediaId, mediaType } = media;
 
@@ -39,6 +47,17 @@ export default function MediaActions({ media }: Record<"media", Details>) {
       setIsWatched(false);
     };
   }, [mediaType, mediaId, setIsLiked, setIsWatched]);
+
+  useEffect(() => {
+    (async () => {
+      const savedItems = await checkIfListItem(mediaId, mediaType);
+      if (savedItems && savedItems.length > 0) {
+        setSavedListItems(savedItems);
+      }
+    })();
+
+    return () => setSavedListItems([]);
+  }, [mediaId, mediaType]);
 
   async function handleClick(icon: string) {
     const session = await authClient.getSession();
@@ -66,6 +85,7 @@ export default function MediaActions({ media }: Record<"media", Details>) {
         setIsWatched(!isWatched);
         break;
       default:
+        toast.error("Something went wrong! Please try again later.");
         break;
     }
   }
@@ -90,7 +110,7 @@ export default function MediaActions({ media }: Record<"media", Details>) {
       name: "list",
       content: "Save to list",
       icon: BookmarkIcon,
-      classes: `${[].length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44]`,
+      classes: `${savedListItems && savedListItems.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44]`,
     },
     {
       id: 4,
