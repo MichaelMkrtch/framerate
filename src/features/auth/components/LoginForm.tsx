@@ -26,8 +26,7 @@ import { loginSchema } from "@/features/auth/schema/auth-forms";
 import { authClient } from "@/lib/auth-client";
 
 export default function LoginForm() {
-  const email = useEmailStore((state) => state.email);
-  const setEmail = useEmailStore((state) => state.setEmail);
+  const { email, setEmail } = useEmailStore();
 
   const [isEmailValidated, setIsEmailValidated] = useState(false);
   const [isVisible, setIsVisible] = useState(false);

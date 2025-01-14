@@ -24,9 +24,8 @@ export default function StarRating({
   setRating,
   handleRating,
 }: StarRatingProps) {
+  const { setIsWatched, clearMediaActions } = useReviewStore();
   const [hover, setHover] = useState<number | null>(null);
-  const setIsWatched = useReviewStore((state) => state.setIsWatched);
-  const clearMediaActions = useReviewStore((state) => state.clearMediaActions);
 
   const groupedStars = [
     [0.5, 1],

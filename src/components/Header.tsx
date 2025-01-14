@@ -22,11 +22,7 @@ export default function Header({ title, classes, children }: HeaderProps) {
   const { data: session, error } = authClient.useSession();
   const pathname = usePathname();
 
-  const email = useAuthStore((state) => state.email);
-  const name = useAuthStore((state) => state.name);
-  const setEmail = useAuthStore((state) => state.setEmail);
-  const setName = useAuthStore((state) => state.setName);
-  const setUsername = useAuthStore((state) => state.setUsername);
+  const { email, name, setEmail, setName, setUsername } = useAuthStore();
 
   useEffect(() => {
     if (session) {
@@ -41,7 +37,7 @@ export default function Header({ title, classes, children }: HeaderProps) {
         duration: 5000,
       });
     }
-  });
+  }, [error, session, setEmail, setName, setUsername]);
 
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",

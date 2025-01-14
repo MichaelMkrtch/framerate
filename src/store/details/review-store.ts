@@ -19,9 +19,8 @@ export const useReviewStore = create<ReviewState & ReviewActions>()((set) => ({
   storedRating: { avgRating: 0, reviewCount: 0 },
   isLiked: false,
   isWatched: false,
-  setStoredRating: (storedRating) =>
-    set(() => ({ storedRating: storedRating })),
-  setIsLiked: (bool) => set(() => ({ isLiked: bool })),
-  setIsWatched: (bool) => set(() => ({ isWatched: bool })),
-  clearMediaActions: () => set(() => ({ isLiked: false, isWatched: false })),
+  setStoredRating: (storedRating) => set({ storedRating: storedRating }),
+  setIsLiked: (bool) => set({ isLiked: bool }),
+  setIsWatched: (bool) => set({ isWatched: bool }),
+  clearMediaActions: () => set({ isLiked: false, isWatched: false }),
 }));

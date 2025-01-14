@@ -21,8 +21,8 @@ type FormState = {
 };
 
 export default function RatingForm({ media }: Record<"media", Details>) {
+  const { setStoredRating } = useReviewStore();
   const [rating, setRating] = useState<number | null>(null);
-  const setStoredRating = useReviewStore((state) => state.setStoredRating);
 
   const formRef = useRef<HTMLFormElement>(null);
 

@@ -21,10 +21,7 @@ import {
 } from "../server/db/review";
 
 export default function MediaActions({ media }: Record<"media", Details>) {
-  const isLiked = useReviewStore((state) => state.isLiked);
-  const setIsLiked = useReviewStore((state) => state.setIsLiked);
-  const isWatched = useReviewStore((state) => state.isWatched);
-  const setIsWatched = useReviewStore((state) => state.setIsWatched);
+  const { isLiked, setIsLiked, isWatched, setIsWatched } = useReviewStore();
 
   const { id: mediaId, mediaType } = media;
 

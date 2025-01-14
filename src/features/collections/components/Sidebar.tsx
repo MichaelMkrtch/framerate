@@ -11,11 +11,8 @@ import { getLists } from "@/features/collections/server/db/list";
 import { getSimpleTitle } from "@/lib/utils";
 
 export default function Sidebar() {
-  const username = useAuthStore((state) => state.username);
-
-  const lists = useListStore((state) => state.lists);
-  const setLists = useListStore((state) => state.setLists);
-  const setActiveList = useListStore((state) => state.setActiveList);
+  const { username } = useAuthStore();
+  const { lists, setLists, setActiveList } = useListStore();
 
   useEffect(() => {
     (async () => {

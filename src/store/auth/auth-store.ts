@@ -26,9 +26,9 @@ export const useAuthStore = create<UserState & UserActions>()(
       username: "",
       name: "",
       email: "",
-      setEmail: (email) => set(() => ({ email: email })),
-      setName: (name) => set(() => ({ name: name })),
-      setUsername: (username: string) => set(() => ({ username: username })),
+      setEmail: (email) => set({ email }),
+      setName: (name) => set({ name: name }),
+      setUsername: (username: string) => set({ username: username }),
       reset: () => set(() => initialState),
     }),
     {

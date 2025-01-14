@@ -35,7 +35,7 @@ export const useListItemStore = create<ListState & ListActions>()(
   persist(
     (set) => ({
       listItems: [],
-      setListItems: (listItems) => set(() => ({ listItems: listItems })),
+      setListItems: (listItems) => set({ listItems: listItems }),
       addListItem: (listItem) =>
         set((state) => ({
           listItems: removeDuplicates(state.listItems, listItem),
@@ -53,7 +53,7 @@ export const useListItemStore = create<ListState & ListActions>()(
             }
           }),
         })),
-      clearListItems: () => set(() => ({ listItems: [] })),
+      clearListItems: () => set({ listItems: [] }),
     }),
     {
       name: "list-item-storage",

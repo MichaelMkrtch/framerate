@@ -20,10 +20,8 @@ export default function CollectionPage() {
 
   const [isVisible, setIsVisible] = useState(false);
 
-  const activeList = useListStore((state) => state.activeList);
-
-  const listItems = useListItemStore((state) => state.listItems);
-  const setListItems = useListItemStore((state) => state.setListItems);
+  const { activeList } = useListStore();
+  const { listItems, setListItems } = useListItemStore();
 
   useEffect(() => {
     (async () => {

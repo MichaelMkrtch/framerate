@@ -13,7 +13,7 @@ export const useEmailStore = create<EmailState & EmailActions>()(
   persist(
     (set) => ({
       email: "",
-      setEmail: (email) => set(() => ({ email: email })),
+      setEmail: (email) => set({ email: email }),
     }),
     {
       name: "email-storage",

@@ -23,16 +23,16 @@ export const useListStore = create<ListState & ListActions>()(
       lists: [],
       activeList: null,
       setActiveList: (listId, listName) =>
-        set(() => ({ activeList: { id: listId, name: listName } })),
-      setLists: (lists) => set(() => ({ lists: lists })),
+        set({ activeList: { id: listId, name: listName } }),
+      setLists: (lists) => set({ lists: lists }),
       addList: (list) =>
         set((state) => ({ lists: [list, ...(state.lists ?? [])] })),
       removeList: (listId) =>
         set((state) => ({
           lists: state.lists?.filter((list) => list.id !== listId),
         })),
-      clearLists: () => set(() => ({ lists: [] })),
-      clearActiveList: () => set(() => ({ activeList: null })),
+      clearLists: () => set({ lists: [] }),
+      clearActiveList: () => set({ activeList: null }),
     }),
     {
       name: "list-storage",

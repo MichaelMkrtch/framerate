@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { db } from "@/drizzle";
 import {
   InsertList,
+  InsertListItem,
   listItemTable,
   listTable,
   movieTable,
@@ -63,6 +64,20 @@ export async function deleteList(listId: number) {
 }
 
 // List items
+export async function addListItem(listItem: InsertListItem) {
+  const user = await verifyUser();
+
+  if (user?.id) {
+    const [result] = await db
+      .insert(listItemTable)
+      .values(listItem)
+      .returning();
+
+    return result;
+  }
+  return null;
+}
+
 export async function getListItems(username: string, listId: number) {
   // Resolves username to userId to allow public list viewing
   const [{ id: userId }] = await db
@@ -82,7 +97,7 @@ export async function getListItems(username: string, listId: number) {
   return null;
 }
 
-export async function getMoviesFromList(userId: string, listId: number) {
+async function getMoviesFromList(userId: string, listId: number) {
   // No userId check since it comes from DB
   const results = await db
     .select({
@@ -108,7 +123,7 @@ export async function getMoviesFromList(userId: string, listId: number) {
   return formattedResults;
 }
 
-export async function getSeriesFromList(userId: string, listId: number) {
+async function getSeriesFromList(userId: string, listId: number) {
   // No userId check since it comes from DB
   const results = await db
     .select({

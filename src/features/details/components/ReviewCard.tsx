@@ -8,8 +8,8 @@ import MediaActions from "./MediaActions";
 
 export default function ReviewCard({ media }: Record<"media", Details>) {
   const [isStoredReview, setIsStoredReview] = useState<boolean | null>(false);
+  const { storedRating } = useReviewStore();
   const [avgRating, setAvgRating] = useState<number>();
-  const storedRating = useReviewStore((state) => state.storedRating);
 
   useEffect(() => {
     if (storedRating && storedRating?.reviewCount > 0) {

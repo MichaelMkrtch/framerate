@@ -32,8 +32,7 @@ type SignupFormProps = {
 };
 
 export default function SignupForm({ page, setPage }: SignupFormProps) {
-  const email = useEmailStore((state) => state.email);
-  const setEmail = useEmailStore((state) => state.setEmail);
+  const { email, setEmail } = useEmailStore();
 
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
