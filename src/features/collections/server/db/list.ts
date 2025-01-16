@@ -16,32 +16,22 @@ import { verifyUser } from "@/features/collections/server/db/verifyUser";
 
 // List
 export async function createList(list: InsertList) {
-  const user = await verifyUser();
-
-  if (user?.id) {
-    const [result] = await db.insert(listTable).values(list).returning();
-    const formattedResults = { type: "list", ...result };
-    return formattedResults;
-  }
-  return null;
+  const [result] = await db.insert(listTable).values(list).returning();
+  const formattedResults = { type: "list" as const, ...result };
+  return formattedResults;
 }
 
-export async function getLists() {
-  const user = await verifyUser();
+export async function getLists(userId: string) {
+  const results = await db
+    .select()
+    .from(listTable)
+    .where(eq(listTable.userId, userId));
 
-  if (user?.id) {
-    const results = await db
-      .select()
-      .from(listTable)
-      .where(eq(listTable.userId, user.id));
-
-    const formattedResults = results.map((result) => ({
-      type: "list" as const,
-      ...result,
-    }));
-    return formattedResults;
-  }
-  return null;
+  const formattedResults = results.map((result) => ({
+    type: "list" as const,
+    ...result,
+  }));
+  return formattedResults;
 }
 
 export async function deleteList(listId: number) {
@@ -58,17 +48,9 @@ export async function deleteList(listId: number) {
 
 // List items
 export async function addListItem(listItem: InsertListItem) {
-  const user = await verifyUser();
+  const [result] = await db.insert(listItemTable).values(listItem).returning();
 
-  if (user?.id) {
-    const [result] = await db
-      .insert(listItemTable)
-      .values(listItem)
-      .returning();
-
-    return result;
-  }
-  return null;
+  return result;
 }
 
 export async function getListItems(username: string, listId: number) {
@@ -100,7 +82,6 @@ async function getMoviesFromList(userId: string, listId: number) {
       title: movieTable.title,
       posterPath: movieTable.posterPath,
       createdAt: listItemTable.createdAt,
-      updatedAt: listItemTable.updatedAt,
     })
     .from(movieTable)
     .innerJoin(listItemTable, eq(listItemTable.movieId, movieTable.id))
@@ -126,7 +107,6 @@ async function getSeriesFromList(userId: string, listId: number) {
       title: tvShowTable.title,
       posterPath: tvShowTable.posterPath,
       createdAt: listItemTable.createdAt,
-      updatedAt: listItemTable.updatedAt,
     })
     .from(tvShowTable)
     .innerJoin(listItemTable, eq(listItemTable.seriesId, tvShowTable.id))
@@ -142,19 +122,18 @@ async function getSeriesFromList(userId: string, listId: number) {
   return formattedResults;
 }
 
-export async function removeItemFromList(
+export async function deleteListItem(
+  userId: string,
   mediaType: "movie" | "tv",
   listItemId: number,
   mediaId: number,
-) {
-  const user = await verifyUser();
-
-  if (user?.id && mediaType === "movie") {
+): Promise<"success" | "fail"> {
+  if (mediaType === "movie") {
     const [result] = await db
       .delete(listItemTable)
       .where(
         and(
-          eq(listItemTable.userId, user.id),
+          eq(listItemTable.userId, userId),
           eq(listItemTable.id, listItemId),
           eq(listItemTable.movieId, mediaId),
         ),
@@ -162,12 +141,12 @@ export async function removeItemFromList(
       .returning();
 
     return result ? "success" : "fail";
-  } else if (user?.id && mediaType === "tv") {
+  } else {
     const [result] = await db
       .delete(listItemTable)
       .where(
         and(
-          eq(listItemTable.userId, user.id),
+          eq(listItemTable.userId, userId),
           eq(listItemTable.id, listItemId),
           eq(listItemTable.seriesId, mediaId),
         ),

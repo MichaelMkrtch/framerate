@@ -17,6 +17,7 @@ export async function checkIfListItem(
     const result = await db
       .select({
         listId: listItemTable.listId,
+        listItemId: listItemTable.id,
         mediaType: listItemTable.mediaType,
         mediaId: listItemTable.movieId,
       })
@@ -33,6 +34,7 @@ export async function checkIfListItem(
     const result = await db
       .select({
         listId: listItemTable.listId,
+        listItemId: listItemTable.id,
         mediaType: listItemTable.mediaType,
         mediaId: listItemTable.seriesId,
       })

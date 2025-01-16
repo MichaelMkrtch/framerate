@@ -164,7 +164,7 @@ img {
 
 @layer components {
   .auth-input {
-    @apply w-80 rounded-full bg-white/[0.01] py-3 pl-6 pr-3 text-sm font-medium outline-none ring-1 ring-white/10 placeholder:font-medium placeholder:text-white/25;
+    @apply h-10 w-80 rounded-full bg-white/[0.01] pl-6 pr-3 text-sm font-medium leading-10 outline-none ring-1 ring-white/10 placeholder:font-medium placeholder:text-white/25;
   }
 
   .carousel-container {

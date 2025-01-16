@@ -33,16 +33,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="size-full">
+    <html lang="en" className="inset-0 size-full">
       <head>
         <meta name="apple-mobile-web-app-title" content="FrameRate" />
       </head>
       <body
-        className={`${manrope.variable} ${bespokeSerif.variable} mx-auto h-full max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]`}
+        className={`${manrope.variable} ${bespokeSerif.variable} size-full`}
       >
         <Providers>
-          {children}
-          <Navbar />
+          <div className="mx-auto h-full max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
+            {children}
+            <Navbar />
+          </div>
         </Providers>
         <Toaster
           toastOptions={{

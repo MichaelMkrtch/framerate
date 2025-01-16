@@ -21,7 +21,7 @@ export default function CollectionPage() {
   const [isVisible, setIsVisible] = useState(false);
 
   const { activeList } = useListStore();
-  const { listItems, setListItems } = useListItemStore();
+  const { listItems, setListItems, clearListItems } = useListItemStore();
 
   useEffect(() => {
     (async () => {
@@ -32,9 +32,9 @@ export default function CollectionPage() {
     })();
 
     return () => {
-      setListItems([]);
+      clearListItems();
     };
-  }, [activeList, username, setListItems]);
+  }, [activeList, username, setListItems, clearListItems]);
 
   useEffect(() => {
     const toggleVisibility = () => {

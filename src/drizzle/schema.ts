@@ -1,5 +1,6 @@
 import {
   bigint,
+  bigserial,
   boolean,
   date,
   numeric,
@@ -137,7 +138,7 @@ export const tvReviewTable = pgTable(
 );
 
 export const listTable = pgTable("list", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
+  id: bigserial("id", { mode: "number" }).primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => user.id, {
@@ -154,7 +155,7 @@ export const listTable = pgTable("list", {
 });
 
 export const listItemTable = pgTable("list_item", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
+  id: bigserial("id", { mode: "number" }).primaryKey(),
   userId: text("userId").notNull(),
   listId: bigint("list_id", { mode: "number" }).notNull(),
   movieId: bigint("movie_id", { mode: "number" }).references(
@@ -172,12 +173,10 @@ export const listItemTable = pgTable("list_item", {
     },
   ),
   mediaType: text("media_type").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .notNull()
-    .defaultNow(),
-  updatedAt: timestamp("created_at", { withTimezone: true, mode: "date" })
-    .notNull()
-    .defaultNow(),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  }).defaultNow(),
 });
 
 export type InsertUser = typeof user.$inferInsert;

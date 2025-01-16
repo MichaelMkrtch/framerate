@@ -13,23 +13,27 @@ import {
 } from "@/components/icons/MediaActionIcons";
 import Tooltip from "@/components/Tooltip";
 import { TooltipProvider } from "@/components/ui/tooltip-ui";
+import CreateList from "@/features/details/components/CreateList";
+import Lists from "@/features/details/components/Lists";
+import ListsModal from "@/features/details/components/ListsDialog";
 import { checkIfListItem } from "@/features/details/server/db/list";
-import { authClient } from "@/lib/auth-client";
 import {
   getReview,
   updateLikeStatus,
   updateWatchStatus,
-} from "../server/db/review";
+} from "@/features/details/server/db/review";
+import { authClient } from "@/lib/auth-client";
 
-type SavedListItem = {
+type SavedToList = {
   listId: number;
+  listItemId: number;
   mediaType: string;
   mediaId: number | null;
 };
 
 export default function MediaActions({ media }: Record<"media", Details>) {
   const { isLiked, setIsLiked, isWatched, setIsWatched } = useReviewStore();
-  const [savedListItems, setSavedListItems] = useState<SavedListItem[]>();
+  const [savedToLists, setSavedToLists] = useState<SavedToList[]>([]);
 
   const { id: mediaId, mediaType } = media;
 
@@ -52,11 +56,11 @@ export default function MediaActions({ media }: Record<"media", Details>) {
     (async () => {
       const savedItems = await checkIfListItem(mediaId, mediaType);
       if (savedItems && savedItems.length > 0) {
-        setSavedListItems(savedItems);
+        setSavedToLists(savedItems);
       }
     })();
 
-    return () => setSavedListItems([]);
+    return () => setSavedToLists([]);
   }, [mediaId, mediaType]);
 
   async function handleClick(icon: string) {
@@ -106,13 +110,6 @@ export default function MediaActions({ media }: Record<"media", Details>) {
       classes: `${isWatched && "fill-[#00e4f5]"} hover:fill-[#00e4f5]`,
     },
     {
-      id: 3,
-      name: "list",
-      content: "Save to list",
-      icon: BookmarkIcon,
-      classes: `${savedListItems && savedListItems.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44]`,
-    },
-    {
       id: 4,
       name: "review",
       content: "Review",
@@ -122,7 +119,7 @@ export default function MediaActions({ media }: Record<"media", Details>) {
   ];
 
   return (
-    <div className="mt-3 flex w-full items-center justify-evenly">
+    <div className="mt-3 flex w-full items-center justify-between gap-0 px-1.5">
       <TooltipProvider>
         {actions.map((action) => {
           const Icon = action.icon;
@@ -134,16 +131,45 @@ export default function MediaActions({ media }: Record<"media", Details>) {
               sideOffset={12}
               content={action.content}
             >
+              {/* Div is necessary for tooltip to work */}
               <div>
                 <Icon
                   fill="#333"
-                  classes={`${action.classes} cursor-pointer ease mx-[5px] h-9 w-9 transition-all duration-150 active:scale-90 md:h-7 md:w-7 lg:h-8 lg:w-8`}
+                  classes={`${action.classes} cursor-pointer ease transition-all duration-150 active:scale-90 md:h-7 lg:h-8`}
                   onClick={() => handleClick(action.name)}
                 />
               </div>
             </Tooltip>
           );
         })}
+
+        <ListsModal>
+          <Tooltip side="top" sideOffset={12} content={"Save to list"}>
+            <ListsModal.Trigger asChild>
+              {/* Div is necessary for tooltip to work */}
+              <div>
+                <BookmarkIcon
+                  fill="#333"
+                  classes={`${savedToLists && savedToLists.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44] h-8 cursor-pointer`}
+                />
+              </div>
+            </ListsModal.Trigger>
+          </Tooltip>
+
+          <ListsModal.Content
+            title="Update Collections"
+            description="Save or remove content from your collections"
+          >
+            <div className="animate-fade-in">
+              <CreateList />
+              <Lists
+                media={media}
+                savedToLists={savedToLists}
+                setSavedToLists={setSavedToLists}
+              />
+            </div>
+          </ListsModal.Content>
+        </ListsModal>
       </TooltipProvider>
     </div>
   );

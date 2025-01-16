@@ -4,8 +4,8 @@ import { ReactElement } from "react";
 
 import {
   TooltipContent,
-  Tooltip as TooltipRoot,
   TooltipTrigger,
+  Tooltip as TooltipUI,
 } from "@/components/ui/tooltip-ui";
 
 type TooltipProps = {
@@ -28,7 +28,7 @@ export default function Tooltip({
   isEnabled,
 }: TooltipProps) {
   return (
-    <TooltipRoot open={isEnabled}>
+    <TooltipUI open={isEnabled}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent
         side={side}
@@ -57,6 +57,6 @@ export default function Tooltip({
           )}
         </div>
       </TooltipContent>
-    </TooltipRoot>
+    </TooltipUI>
   );
 }
