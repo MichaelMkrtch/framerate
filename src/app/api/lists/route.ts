@@ -2,6 +2,7 @@ import type { List } from "@/types/data.types";
 
 import { NextResponse } from "next/server";
 
+import { listSchema } from "@/features/collections/schema/list";
 import { createList, getLists } from "@/features/collections/server/db/list";
 import { verifyUser } from "@/lib/verifyUser";
 
@@ -11,6 +12,7 @@ type GetApiResponse = {
   error?: string;
 };
 
+// Get all lists
 export async function GET(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   request: Request,
@@ -50,6 +52,7 @@ type PostApiResponse = {
   error?: string;
 };
 
+// Create list
 export async function POST(
   request: Request,
 ): Promise<NextResponse<PostApiResponse>> {
@@ -57,8 +60,19 @@ export async function POST(
     const body = await request.json();
     const user = await verifyUser();
 
+    const parsed = listSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { message: "Please use a valid list name." },
+        { status: 400 },
+      );
+    }
+
+    const { listName } = parsed.data;
+
     if (user?.id) {
-      const results = await createList({ userId: user.id, name: body });
+      const results = await createList({ userId: user.id, name: listName });
 
       return NextResponse.json(
         { message: "List created successfully", results },

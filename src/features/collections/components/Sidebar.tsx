@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import Link from "next/link";
 
+import { List } from "@/types/data.types";
 import { toast } from "sonner";
 
 import { useAuthStore } from "@/store/auth/auth-store";
 import { useListStore } from "@/store/collections/list-store";
-import { getLists } from "@/features/collections/server/db/list";
 import { getSimpleTitle } from "@/lib/utils";
 
 export default function Sidebar() {
@@ -17,11 +17,18 @@ export default function Sidebar() {
   useEffect(() => {
     (async () => {
       if (lists.length === 0) {
-        const results = await getLists();
+        const response = await fetch("/api/lists");
 
-        if (results) return setLists(results);
+        const data: { message: string; results: List[] } =
+          await response.json();
 
-        toast("Please create an account or log in to see your collections!");
+        if (response.ok) {
+          return setLists(data.results);
+        }
+
+        toast.info(
+          "Please create an account or log in to see your collections!",
+        );
       }
     })();
   }, [lists, setLists]);

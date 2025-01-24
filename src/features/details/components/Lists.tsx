@@ -31,6 +31,7 @@ export default function Lists({
 }: ListsProps) {
   const { lists, setLists, clearLists } = useListStore();
   const checkboxRef = useRef<HTMLInputElement>(null);
+  const { mediaType, id: mediaId } = media;
 
   useEffect(() => {
     (async () => {
@@ -52,12 +53,15 @@ export default function Lists({
 
     // Clicked list does not match a list that the item is saved in (if any)
     if (matchedLists.length === 0) {
-      const response = await fetch(
-        `/api/list-item/${listId}/${media.mediaType}/${media.id}`,
-        {
-          method: "POST",
+      const requestData = { listId, mediaType, mediaId };
+
+      const response = await fetch(`/api/list-items`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(requestData),
+      });
       const data: { message: string; results: SelectListItem } =
         await response.json();
 
@@ -85,7 +89,7 @@ export default function Lists({
         const { listItemId, mediaType, mediaId } = list;
 
         const response = await fetch(
-          `/api/list-item/${listId}/${listItemId}/${mediaType}/${mediaId}`,
+          `/api/list-items/${listId}/${listItemId}/${mediaType}/${mediaId}`,
           {
             method: "DELETE",
           },

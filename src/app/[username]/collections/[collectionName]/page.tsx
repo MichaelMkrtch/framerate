@@ -27,6 +27,8 @@ export default function CollectionPage() {
     (async () => {
       if (activeList) {
         const listItems = await getListItems(username, activeList.id);
+        await fetch(`/api/lists/${activeList.id}`);
+
         if (listItems) setListItems(listItems);
       }
     })();

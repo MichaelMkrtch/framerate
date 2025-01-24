@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { SelectListItem } from "@/drizzle/schema";
-import { cx } from "class-variance-authority";
 
+import { listItemSchema } from "@/features/collections/schema/list";
 import {
   addListItem,
   deleteListItem,
@@ -15,30 +15,22 @@ type PostApiResponse = {
   error?: string;
 };
 
-type PostPathParams = {
-  params: Promise<{
-    listId: string;
-    pathParams: [mediaType: "movie" | "tv", mediaId: string];
-  }>;
-};
-
 // Add listItem to list
-// Route structure: /api/list-item/list-id/media-type/media-id
 export async function POST(
   request: Request,
-  { params }: PostPathParams,
 ): Promise<NextResponse<PostApiResponse>> {
   try {
-    const { listId: listIdString, pathParams } = await params;
-    const listId = Number(listIdString);
-    const mediaType = pathParams[0];
-    const mediaId = Number(pathParams[1]);
+    const body = await request.json();
+    const user = await verifyUser();
 
-    if (!listId || (mediaType !== "movie" && mediaType !== "tv") || !mediaId) {
-      return NextResponse.json({ message: "Invalid input" }, { status: 400 });
+    const parsed = listItemSchema.safeParse(body);
+
+    if (!parsed.success) {
+      console.log("errors", parsed.error.errors);
+      return NextResponse.json({ message: `Invalid input` }, { status: 400 });
     }
 
-    const user = await verifyUser();
+    const { listId, mediaType, mediaId } = body;
 
     if (user?.id) {
       let result: SelectListItem;
@@ -103,7 +95,6 @@ type DeletePathParams = {
 };
 
 // Delete listItem from list
-// Route structure: /api/list-item/list-id/list-item-id/media-type/media-id
 export async function DELETE(
   request: Request,
   { params }: DeletePathParams,

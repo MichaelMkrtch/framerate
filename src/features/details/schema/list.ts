@@ -7,7 +7,3 @@ export const listSchema = z.object({
     .min(1, { message: "Collection name must be at least 1 character." })
     .max(100, { message: "Collection name must be at most 100 characters." }),
 });
-
-export const selectListSchema = z.object({
-  listId: z.string().trim(),
-});

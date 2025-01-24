@@ -59,7 +59,7 @@ export default function CreateList() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(parsed.data.listName),
+      body: JSON.stringify(parsed.data),
     });
 
     const data: { message: string; results: List } = await response.json();
