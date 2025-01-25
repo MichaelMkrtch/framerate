@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 import { listSchema } from "@/features/collections/schema/list";
 import { createList, getLists } from "@/features/collections/server/db/list";
+import { generateSlug } from "@/lib/slug";
 import { verifyUser } from "@/lib/verifyUser";
 
 type GetApiResponse = {
@@ -72,11 +73,17 @@ export async function POST(
     const { listName } = parsed.data;
 
     if (user?.id) {
-      const results = await createList({ userId: user.id, name: listName });
+      const slug = await generateSlug(listName, "list");
+
+      const results = await createList({
+        userId: user.id,
+        name: listName,
+        slug,
+      });
 
       return NextResponse.json(
         { message: "List created successfully", results },
-        { status: 200 },
+        { status: 201 },
       );
     } else {
       return NextResponse.json(

@@ -24,7 +24,6 @@ export type ListItem = {
 };
 
 export type ActiveList = {
-  id: number;
   name: string;
 };
 

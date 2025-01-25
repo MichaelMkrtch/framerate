@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useOnClickOutside } from "usehooks-ts";
 import { z } from "zod";
 
+import { useAuthStore } from "@/store/auth/auth-store";
 import { useListStore } from "@/store/collections/list-store";
 import { PlusIcon } from "@/components/icons/PlusIcon";
 import {
@@ -21,6 +22,7 @@ import {
 import { listSchema } from "@/features/details/schema/list";
 
 export default function CreateList() {
+  const { username } = useAuthStore();
   const { addList } = useListStore();
   const [isChecked, setIsChecked] = useState<boolean | undefined>();
 
@@ -54,7 +56,7 @@ export default function CreateList() {
 
     if (!parsed.success) return toast.error("Please enter a valid name");
 
-    const response = await fetch("/api/lists", {
+    const response = await fetch(`/api/${username}/collections`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

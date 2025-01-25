@@ -9,7 +9,7 @@ type ListState = {
 };
 
 type ListActions = {
-  setActiveList: (listId: number, listName: string) => void;
+  setActiveList: (listName: string) => void;
   setLists: (lists: List[]) => void;
   addList: (list: List) => void;
   removeList: (listId: number) => void;
@@ -22,8 +22,7 @@ export const useListStore = create<ListState & ListActions>()(
     (set) => ({
       lists: [],
       activeList: null,
-      setActiveList: (listId, listName) =>
-        set({ activeList: { id: listId, name: listName } }),
+      setActiveList: (listName) => set({ activeList: { name: listName } }),
       setLists: (lists) => set({ lists: lists }),
       addList: (list) =>
         set((state) => ({ lists: [list, ...(state.lists ?? [])] })),

@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { SelectListItem } from "@/drizzle/schema";
 import { toast } from "sonner";
 
+import { useAuthStore } from "@/store/auth/auth-store";
 import { useListStore } from "@/store/collections/list-store";
 import { BoxIcon } from "@/components/icons/BoxIcon";
 import { CheckBoxIcon } from "@/components/icons/CheckBoxIcon";
@@ -29,13 +30,14 @@ export default function Lists({
   savedToLists,
   setSavedToLists,
 }: ListsProps) {
+  const { username } = useAuthStore();
   const { lists, setLists, clearLists } = useListStore();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const { mediaType, id: mediaId } = media;
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("/api/lists");
+      const response = await fetch(`/api/${username}/collections`);
       const data: { message: string; results: List[] } = await response.json();
 
       if (response.ok) {
@@ -44,7 +46,7 @@ export default function Lists({
 
       return toast.error(data.message);
     })();
-  }, [lists.length, setLists, clearLists]);
+  }, [username, lists.length, setLists, clearLists]);
 
   async function handleClick(listId: number) {
     const matchedLists = savedToLists.filter(
@@ -86,14 +88,11 @@ export default function Lists({
     // Clicked list matches a list that the item is saved in
     if (matchedLists.length > 0) {
       matchedLists.forEach(async (list) => {
-        const { listItemId, mediaType, mediaId } = list;
+        const { listItemId } = list;
 
-        const response = await fetch(
-          `/api/list-items/${listId}/${listItemId}/${mediaType}/${mediaId}`,
-          {
-            method: "DELETE",
-          },
-        );
+        const response = await fetch(`/api/list-items/${listItemId}`, {
+          method: "DELETE",
+        });
         const data: { message: string } = await response.json();
 
         if (response.ok) {

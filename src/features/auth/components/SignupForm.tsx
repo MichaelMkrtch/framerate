@@ -24,7 +24,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { signupSchema } from "@/features/auth/schema/auth-forms";
 import { blacklistChecks } from "@/features/auth/server/actions/auth-actions";
+import { createList } from "@/features/collections/server/db/list";
 import { authClient } from "@/lib/auth-client";
+import { generateSlug } from "@/lib/slug";
 
 type SignupFormProps = {
   page: number;
@@ -111,10 +113,21 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
             onRequest: () => {
               toast.loading("Loading...", { id: "loading" });
             },
-            onSuccess: () => {
+            onSuccess: async () => {
               toast.dismiss("loading");
               toast.success("Account created!");
               router.push("/");
+
+              const slug = await generateSlug("Watchlist", "list");
+              const { data: sessionData } = await authClient.getSession();
+
+              if (sessionData) {
+                await createList({
+                  userId: sessionData.user.id,
+                  name: "Watchlist",
+                  slug,
+                });
+              }
             },
             onError: (ctx) => {
               toast.dismiss("loading");

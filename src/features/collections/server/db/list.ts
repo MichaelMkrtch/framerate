@@ -10,7 +10,7 @@ import {
   tvShowTable,
   user,
 } from "@/drizzle/schema";
-import { and, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 
 import { verifyUser } from "@/features/collections/server/db/verifyUser";
 
@@ -25,7 +25,8 @@ export async function getLists(userId: string) {
   const results = await db
     .select()
     .from(listTable)
-    .where(eq(listTable.userId, userId));
+    .where(eq(listTable.userId, userId))
+    .orderBy(asc(listTable.createdAt));
 
   const formattedResults = results.map((result) => ({
     type: "list" as const,
@@ -53,109 +54,85 @@ export async function addListItem(listItem: InsertListItem) {
   return result;
 }
 
-export async function getListItems(username: string, listId: number) {
-  // Resolves username to userId to allow public list viewing
-  const [{ id: userId }] = await db
-    .select({ id: user.id })
-    .from(user)
-    .where(eq(user.username, username));
+export async function getListData(username: string, slug: string) {
+  const [{ listId, listName }] = await db
+    .select({ listId: listTable.id, listName: listTable.name })
+    .from(listTable)
+    .innerJoin(user, eq(user.id, listTable.userId))
+    .where(and(eq(user.username, username), eq(listTable.slug, slug)));
 
-  if (userId) {
-    const movieResults = await getMoviesFromList(userId, listId);
-    const tvResults = await getSeriesFromList(userId, listId);
+  if (listId) {
+    const results = await db
+      .select({
+        listId: listItemTable.listId,
+        mediaId: sql<number>`COALESCE(${movieTable.id}, ${tvShowTable.id})`,
+        listItemId: listItemTable.id,
+        title: sql<string>`COALESCE(${movieTable.title}, ${tvShowTable.title})`,
+        posterPath: sql<string>`COALESCE(${movieTable.posterPath}, ${tvShowTable.posterPath})`,
+        createdAt: listItemTable.createdAt,
+        mediaType: sql<"movie" | "tv">`CASE
+              WHEN ${movieTable.id} IS NOT NULL THEN 'movie'
+              ELSE 'tv'
+            END`,
+      })
+      .from(listItemTable)
+      .leftJoin(movieTable, eq(listItemTable.movieId, movieTable.id))
+      .leftJoin(tvShowTable, eq(listItemTable.seriesId, tvShowTable.id))
+      .where(eq(listItemTable.listId, listId))
+      .orderBy(desc(listItemTable.createdAt));
 
-    if (tvResults && movieResults) {
-      const results = [...movieResults, ...tvResults];
-      return results;
-    }
+    return { listName, listItems: results };
   }
-  return null;
+  throw new Error("Something went wrong while fetching list data!");
 }
 
-async function getMoviesFromList(userId: string, listId: number) {
-  // No userId check since it comes from DB
-  const results = await db
-    .select({
-      listId: listItemTable.listId,
-      mediaId: movieTable.id,
-      listItemId: listItemTable.id,
-      title: movieTable.title,
-      posterPath: movieTable.posterPath,
-      createdAt: listItemTable.createdAt,
-    })
-    .from(movieTable)
-    .innerJoin(listItemTable, eq(listItemTable.movieId, movieTable.id))
-    .where(
-      and(eq(listItemTable.listId, listId), eq(listItemTable.userId, userId)),
-    );
+export async function deleteListItem(listItemId: number) {
+  const [result] = await db
+    .delete(listItemTable)
+    .where(eq(listItemTable.id, listItemId))
+    .returning();
 
-  const formattedResults = results.map((result) => ({
-    ...result,
-    mediaType: "movie" as const,
-  }));
-
-  return formattedResults;
-}
-
-async function getSeriesFromList(userId: string, listId: number) {
-  // No userId check since it comes from DB
-  const results = await db
-    .select({
-      listId: listItemTable.listId,
-      mediaId: tvShowTable.id,
-      listItemId: listItemTable.id,
-      title: tvShowTable.title,
-      posterPath: tvShowTable.posterPath,
-      createdAt: listItemTable.createdAt,
-    })
-    .from(tvShowTable)
-    .innerJoin(listItemTable, eq(listItemTable.seriesId, tvShowTable.id))
-    .where(
-      and(eq(listItemTable.listId, listId), eq(listItemTable.userId, userId)),
-    );
-
-  const formattedResults = results.map((result) => ({
-    ...result,
-    mediaType: "tv" as const,
-  }));
-
-  return formattedResults;
-}
-
-export async function deleteListItem(
-  userId: string,
-  mediaType: "movie" | "tv",
-  listItemId: number,
-  mediaId: number,
-): Promise<"success" | "fail"> {
-  if (mediaType === "movie") {
-    const [result] = await db
-      .delete(listItemTable)
-      .where(
-        and(
-          eq(listItemTable.userId, userId),
-          eq(listItemTable.id, listItemId),
-          eq(listItemTable.movieId, mediaId),
-        ),
-      )
-      .returning();
-
-    return result ? "success" : "fail";
-  } else {
-    const [result] = await db
-      .delete(listItemTable)
-      .where(
-        and(
-          eq(listItemTable.userId, userId),
-          eq(listItemTable.id, listItemId),
-          eq(listItemTable.seriesId, mediaId),
-        ),
-      )
-      .returning();
-
-    return result ? "success" : "fail";
+  if (!result) {
+    throw new Error("Something went wrong while deleting from list!");
   }
+
+  return result;
 }
+
+// export async function deleteListItem(
+//   userId: string,
+//   mediaType: "movie" | "tv",
+//   listItemId: number,
+//   mediaId: number,
+// ): Promise<"success" | "fail"> {
+//   if (mediaType === "movie") {
+//     const [result] = await db
+//       .delete(listItemTable)
+//       .where(
+//         and(
+//           eq(listItemTable.userId, userId),
+//           eq(listItemTable.id, listItemId),
+//           eq(listItemTable.movieId, mediaId),
+//         ),
+//       )
+//       .returning();
+
+//     return result ? "success" : "fail";
+//   } else {
+//     const [result] = await db
+//       .delete(listItemTable)
+//       .where(
+//         and(
+//           eq(listItemTable.userId, userId),
+//           eq(listItemTable.id, listItemId),
+//           eq(listItemTable.seriesId, mediaId),
+//         ),
+//       )
+//       .returning();
+
+//     return result ? "success" : "fail";
+//   }
+// }
 
 export async function deleteAllListItems(listId: number) {
   const user = await verifyUser();

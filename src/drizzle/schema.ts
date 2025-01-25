@@ -67,6 +67,7 @@ export const movieTable = pgTable("movie", {
   posterPath: text("poster_path").default(""),
   backdropPath: text("backdrop_path").default(""),
   releaseDate: date("release_date").notNull(),
+  slug: text("slug").unique(),
 });
 
 export const movieReviewTable = pgTable(
@@ -105,6 +106,7 @@ export const tvShowTable = pgTable("tv_show", {
   posterPath: text("poster_path").default(""),
   backdropPath: text("backdrop_path").default(""),
   releaseDate: date("release_date").notNull(),
+  slug: text("slug").unique(),
 });
 
 export const tvReviewTable = pgTable(
@@ -152,6 +154,7 @@ export const listTable = pgTable("list", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
     .notNull()
     .defaultNow(),
+  slug: text("slug").notNull().unique(),
 });
 
 export const listItemTable = pgTable("list_item", {

@@ -16,8 +16,8 @@ export default function Sidebar() {
 
   useEffect(() => {
     (async () => {
-      if (lists.length === 0) {
-        const response = await fetch("/api/lists");
+      if (lists.length === 0 && username) {
+        const response = await fetch(`/api/${username}/collections`);
 
         const data: { message: string; results: List[] } =
           await response.json();
@@ -31,7 +31,7 @@ export default function Sidebar() {
         );
       }
     })();
-  }, [lists, setLists]);
+  }, [username, lists, setLists]);
 
   const gradients = [
     "bg-gradient-to-r from-cyan-700 via-blue-500 to-indigo-600",
@@ -65,7 +65,7 @@ export default function Sidebar() {
               <Link
                 key={list.id}
                 href={`/${username}/collections/${simpleListName}`}
-                onClick={() => setActiveList(list.id, list.name)}
+                onClick={() => setActiveList(list.name)}
                 className="my-1 flex items-center gap-3.5 rounded-md p-2 transition-colors duration-75 ease-in hover:bg-white/5"
               >
                 <div

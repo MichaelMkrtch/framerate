@@ -2,41 +2,47 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
+import { ListItem } from "@/types/data.types";
 import { ArrowLeftCircle, ArrowUp } from "lucide-react";
+import { toast } from "sonner";
 
 import { useListItemStore } from "@/store/collections/list-item-store";
 import { useListStore } from "@/store/collections/list-store";
 import Backdrop from "@/components/Backdrop";
 import PosterGrid from "@/components/PosterGrid";
-import { getListItems } from "@/features/collections/server/db/list";
 
 export default function CollectionPage() {
-  const router = useRouter();
-  const { username } = useParams<{
+  const { username, collectionName: listName } = useParams<{
     username: string;
+    collectionName: string;
   }>();
 
-  const [isVisible, setIsVisible] = useState(false);
-
-  const { activeList } = useListStore();
+  const { activeList, setActiveList } = useListStore();
   const { listItems, setListItems, clearListItems } = useListItemStore();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
-      if (activeList) {
-        const listItems = await getListItems(username, activeList.id);
-        await fetch(`/api/lists/${activeList.id}`);
+      const response = await fetch(`/api/michael/collections/${listName}`);
+      const data: {
+        message: string;
+        results: { listName: string; listItems: ListItem[] };
+      } = await response.json();
 
-        if (listItems) setListItems(listItems);
+      if (response.ok) {
+        setActiveList(data.results.listName);
+        setListItems(data.results.listItems);
+        return;
       }
+      return toast.error(data.message);
     })();
 
     return () => {
       clearListItems();
     };
-  }, [activeList, username, setListItems, clearListItems]);
+  }, [username, listName, setListItems, setActiveList, clearListItems]);
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -76,25 +82,29 @@ export default function CollectionPage() {
       <Backdrop
         collection
         alt="Decorative image describing this collection."
-        backdropPath="..."
+        backdropPath="/lvOLivVeX3DVVcwfVkxKf0R22D8.jpg"
       />
       <div className="relative -top-28 mt-10">
-        <ArrowLeftCircle
-          size={26}
-          strokeWidth={1.5}
-          className="mb-6 cursor-pointer text-gray transition-colors duration-200 hover:text-white"
-          onClick={() => router.back()}
-        />
-        <h2 className="mb-1 text-xl font-bold">{activeList?.name}</h2>
-        <h3 className="mb-8 font-medium text-gray">
-          Collection by{" "}
-          <Link
-            href={`/${username}`}
-            className="font-bold opacity-100 transition-colors duration-200 hover:text-foreground"
-          >
-            {username}
-          </Link>
-        </h3>
+        <Link href="/collections">
+          <ArrowLeftCircle
+            size={26}
+            strokeWidth={1.5}
+            className="mb-6 cursor-pointer text-gray transition-colors duration-200 hover:text-white"
+            // onClick={() => router.back()}
+          />
+        </Link>
+        <>
+          <h2 className="mb-1 h-7 text-xl font-bold">{activeList?.name}</h2>
+          <h3 className="mb-8 font-medium text-gray">
+            Collection by{" "}
+            <Link
+              href={`/${username}`}
+              className="font-bold opacity-100 transition-colors duration-200 hover:text-foreground"
+            >
+              {username}
+            </Link>
+          </h3>
+        </>
         {listItems.length > 0 && (
           <div className="rounded-md border border-white/10 bg-background-darker px-7 py-8">
             <PosterGrid media={listItems} isTooltipEnabled={false} />
