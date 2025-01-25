@@ -95,8 +95,6 @@ export async function deleteListItem(listItemId: number) {
   if (!result) {
     throw new Error("Something went wrong while deleting from list!");
   }
-
-  return result;
 }
 
 // export async function deleteListItem(

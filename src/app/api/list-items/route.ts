@@ -51,7 +51,7 @@ export async function POST(
 
       return NextResponse.json(
         {
-          message: `${mediaType === "movie" ? "Film" : "TV series"} added to list`,
+          message: `Added to list`,
           results: result,
         },
         { status: 201 },

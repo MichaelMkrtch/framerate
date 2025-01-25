@@ -1,10 +1,12 @@
+import type { ListItem } from "@/types/data.types";
+
 import { NextResponse } from "next/server";
 
 import { getListData } from "@/features/collections/server/db/list";
 
 type GetApiResponse = {
   message: string;
-  // results?: ;
+  results?: { listName: string; listItems: ListItem[] };
   error?: string;
 };
 

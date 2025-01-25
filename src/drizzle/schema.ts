@@ -179,7 +179,9 @@ export const listItemTable = pgTable("list_item", {
   createdAt: timestamp("created_at", {
     withTimezone: true,
     mode: "date",
-  }).defaultNow(),
+  })
+    .notNull()
+    .defaultNow(),
 });
 
 export type InsertUser = typeof user.$inferInsert;

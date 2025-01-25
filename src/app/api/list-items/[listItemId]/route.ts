@@ -32,11 +32,11 @@ export async function DELETE(
     const user = await verifyUser();
 
     if (user?.id) {
-      const result = await deleteListItem(listItemId);
+      await deleteListItem(listItemId);
 
       return NextResponse.json(
         {
-          message: `${result.mediaType === "movie" ? "Film" : "TV series"} removed from list`,
+          message: `Removed from list`,
         },
 
         { status: 200 },

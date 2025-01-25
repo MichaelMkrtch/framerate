@@ -10,6 +10,7 @@ export type List = {
   name: string;
   createdAt: Date;
   updatedAt: Date;
+  slug: string;
 };
 
 export type ListItem = {
@@ -20,7 +21,6 @@ export type ListItem = {
   title: string;
   posterPath: string | null;
   createdAt: Date;
-  updatedAt: Date;
 };
 
 export type ActiveList = {
