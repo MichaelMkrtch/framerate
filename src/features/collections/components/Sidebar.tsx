@@ -8,7 +8,6 @@ import { toast } from "sonner";
 
 import { useAuthStore } from "@/store/auth/auth-store";
 import { useListStore } from "@/store/collections/list-store";
-import { getSimpleTitle } from "@/lib/utils";
 
 export default function Sidebar() {
   const { username } = useAuthStore();
@@ -55,7 +54,8 @@ export default function Sidebar() {
       <div>
         {lists.length > 0 &&
           lists.map((list, index) => {
-            const simpleListName = list && getSimpleTitle(list.name);
+            console.log(list.name, list.updatedAt);
+
             const gradientIndex =
               index < gradients.length
                 ? index
@@ -64,8 +64,14 @@ export default function Sidebar() {
             return (
               <Link
                 key={list.id}
-                href={`/${username}/collections/${simpleListName}`}
-                onClick={() => setActiveList(list.name)}
+                href={`/${username}/collections/${list.slug}`}
+                onClick={() =>
+                  setActiveList({
+                    listName: list.name,
+                    createdAt: list.createdAt,
+                    updatedAt: list.updatedAt,
+                  })
+                }
                 className="my-1 flex items-center gap-3.5 rounded-md p-2 transition-colors duration-75 ease-in hover:bg-white/5"
               >
                 <div

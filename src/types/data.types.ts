@@ -24,7 +24,9 @@ export type ListItem = {
 };
 
 export type ActiveList = {
-  name: string;
+  listName: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Review = {

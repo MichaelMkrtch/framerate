@@ -6,7 +6,10 @@ import { getListData } from "@/features/collections/server/db/list";
 
 type GetApiResponse = {
   message: string;
-  results?: { listName: string; listItems: ListItem[] };
+  results?: {
+    list: { listName: string; createdAt: Date; updatedAt: Date | null };
+    listItems: ListItem[];
+  };
   error?: string;
 };
 

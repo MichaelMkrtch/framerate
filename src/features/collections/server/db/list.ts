@@ -49,14 +49,31 @@ export async function deleteList(listId: number) {
 
 // List items
 export async function addListItem(listItem: InsertListItem) {
-  const [result] = await db.insert(listItemTable).values(listItem).returning();
+  const [result] = await db.transaction(async (trx) => {
+    const insertedItem = await trx
+      .insert(listItemTable)
+      .values(listItem)
+      .returning();
+
+    await trx
+      .update(listTable)
+      .set({ updatedAt: new Date() })
+      .where(eq(listTable.id, listItem.listId));
+
+    return insertedItem;
+  });
 
   return result;
 }
 
 export async function getListData(username: string, slug: string) {
-  const [{ listId, listName }] = await db
-    .select({ listId: listTable.id, listName: listTable.name })
+  const [{ listId, listName, createdAt, updatedAt }] = await db
+    .select({
+      listId: listTable.id,
+      listName: listTable.name,
+      createdAt: listTable.createdAt,
+      updatedAt: listTable.updatedAt,
+    })
     .from(listTable)
     .innerJoin(user, eq(user.id, listTable.userId))
     .where(and(eq(user.username, username), eq(listTable.slug, slug)));
@@ -81,7 +98,10 @@ export async function getListData(username: string, slug: string) {
       .where(eq(listItemTable.listId, listId))
       .orderBy(desc(listItemTable.createdAt));
 
-    return { listName, listItems: results };
+    return {
+      list: { listName, createdAt, updatedAt },
+      listItems: results,
+    };
   }
   throw new Error("Something went wrong while fetching list data!");
 }

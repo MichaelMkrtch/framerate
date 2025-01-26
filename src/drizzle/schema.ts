@@ -151,9 +151,7 @@ export const listTable = pgTable("list", {
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
     .notNull()
     .defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" })
-    .notNull()
-    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
   slug: text("slug").notNull().unique(),
 });
 

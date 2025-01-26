@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export default function CollectionLayout({
+export default async function CollectionLayout({
   children,
 }: {
   children: ReactNode;

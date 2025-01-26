@@ -140,3 +140,68 @@ export function formatNames(
   }
   return data;
 }
+
+export function scrollToTop() {
+  const duration = 500;
+  const start = window.scrollY;
+  const startTime = performance.now();
+
+  const animateScroll = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Easing function for smoother animation
+    const easeProgress = 1 - Math.pow(1 - progress, 4);
+
+    window.scrollTo(0, start * (1 - easeProgress));
+
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  };
+
+  requestAnimationFrame(animateScroll);
+}
+
+export function formatElapsedTime(date: string | Date): string {
+  const parsedDate = date instanceof Date ? date : new Date(date);
+
+  if (isNaN(parsedDate.getTime())) {
+    throw new Error("Invalid date provided.");
+  }
+
+  const currentDate = new Date();
+  const differenceInMillis = currentDate.getTime() - parsedDate.getTime();
+
+  if (differenceInMillis < 1000 * 60) {
+    // If less than a minute, display "seconds"
+    return "seconds";
+  } else if (differenceInMillis < 1000 * 60 * 60) {
+    // If less than an hour, show minutes
+    const minutesElapsed = Math.floor(differenceInMillis / (1000 * 60));
+    return minutesElapsed === 1 ? "1 minute" : `${minutesElapsed} minutes`;
+  } else if (differenceInMillis < 1000 * 60 * 60 * 24) {
+    // If less than a day, show hours
+    const hoursElapsed = Math.floor(differenceInMillis / (1000 * 60 * 60));
+    return hoursElapsed === 1 ? "1 hour" : `${hoursElapsed} hours`;
+  }
+
+  const yearDiff = currentDate.getFullYear() - parsedDate.getFullYear();
+  const monthDiff = currentDate.getMonth() - parsedDate.getMonth();
+  const dayDiff = currentDate.getDate() - parsedDate.getDate();
+
+  let totalMonths = yearDiff * 12 + monthDiff;
+  if (dayDiff < 0) {
+    totalMonths--; // Adjusts for incomplete months
+  }
+
+  if (totalMonths >= 12) {
+    const years = Math.floor(totalMonths / 12);
+    return years === 1 ? "1 year" : `${years} years`;
+  } else if (totalMonths >= 1) {
+    return totalMonths === 1 ? "1 month" : `${totalMonths} months`;
+  } else {
+    const daysElapsed = Math.floor(differenceInMillis / (1000 * 60 * 60 * 24));
+    return daysElapsed === 1 ? "1 day" : `${daysElapsed} days`;
+  }
+}

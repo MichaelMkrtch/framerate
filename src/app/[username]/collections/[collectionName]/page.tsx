@@ -1,10 +1,12 @@
 "use client";
 
+import type { Dispatch, SetStateAction } from "react";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import { ListItem } from "@/types/data.types";
+import { ActiveList, ListItem } from "@/types/data.types";
 import { ArrowLeftCircle, ArrowUp } from "lucide-react";
 import { toast } from "sonner";
 
@@ -12,6 +14,7 @@ import { useListItemStore } from "@/store/collections/list-item-store";
 import { useListStore } from "@/store/collections/list-store";
 import Backdrop from "@/components/Backdrop";
 import PosterGrid from "@/components/PosterGrid";
+import { formatElapsedTime, scrollToTop } from "@/lib/utils";
 
 export default function CollectionPage() {
   const { username, collectionName: listName } = useParams<{
@@ -21,6 +24,8 @@ export default function CollectionPage() {
 
   const { activeList, setActiveList } = useListStore();
   const { listItems, setListItems, clearListItems } = useListItemStore();
+
+  const [hovering, setHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -28,11 +33,14 @@ export default function CollectionPage() {
       const response = await fetch(`/api/michael/collections/${listName}`);
       const data: {
         message: string;
-        results: { listName: string; listItems: ListItem[] };
+        results: {
+          list: { listName: string; createdAt: Date; updatedAt: Date };
+          listItems: ListItem[];
+        };
       } = await response.json();
 
       if (response.ok) {
-        setActiveList(data.results.listName);
+        setActiveList(data.results.list);
         setListItems(data.results.listItems);
         return;
       }
@@ -55,28 +63,6 @@ export default function CollectionPage() {
     };
   }, []);
 
-  const scrollToTop = () => {
-    const duration = 500;
-    const start = window.scrollY;
-    const startTime = performance.now();
-
-    const animateScroll = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // Easing function for smoother animation
-      const easeProgress = 1 - Math.pow(1 - progress, 4);
-
-      window.scrollTo(0, start * (1 - easeProgress));
-
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      }
-    };
-
-    requestAnimationFrame(animateScroll);
-  };
-
   return (
     <>
       <Backdrop
@@ -90,12 +76,12 @@ export default function CollectionPage() {
             size={26}
             strokeWidth={1.5}
             className="mb-6 cursor-pointer text-gray transition-colors duration-200 hover:text-white"
-            // onClick={() => router.back()}
           />
         </Link>
-        <>
-          <h2 className="mb-1 h-7 text-xl font-bold">{activeList?.name}</h2>
-          <h3 className="mb-8 font-medium text-gray">
+
+        <div className="mb-8">
+          <h2 className="mb-2 h-7 text-xl font-bold">{activeList?.listName}</h2>
+          <h3 className="mb-0.5 font-medium text-gray">
             Collection by{" "}
             <Link
               href={`/${username}`}
@@ -104,7 +90,16 @@ export default function CollectionPage() {
               {username}
             </Link>
           </h3>
-        </>
+
+          <p
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+            className="text-medium relative h-5 w-fit cursor-default text-sm text-gray"
+          >
+            {displayText(hovering, setHovering, activeList)}
+          </p>
+        </div>
+
         {listItems.length > 0 && (
           <div className="rounded-md border border-white/10 bg-background-darker px-7 py-8">
             <PosterGrid media={listItems} isTooltipEnabled={false} />
@@ -123,4 +118,41 @@ export default function CollectionPage() {
       </button>
     </>
   );
+}
+
+function displayText(
+  hovering: boolean,
+  setHovering: Dispatch<SetStateAction<boolean>>,
+  activeList: ActiveList | null,
+) {
+  let elapsedCreateTime = "";
+  let elapsedUpdateTime = "";
+
+  try {
+    if (activeList?.updatedAt && !elapsedUpdateTime) {
+      const updatedAt = formatElapsedTime(activeList.updatedAt);
+      elapsedUpdateTime = updatedAt;
+    }
+
+    if (activeList?.createdAt && !elapsedCreateTime) {
+      const createdAt = formatElapsedTime(activeList.createdAt);
+      elapsedCreateTime = createdAt;
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      toast.error("Something went wrong while calculating elapsed time!");
+    }
+  }
+
+  if (hovering && elapsedUpdateTime) {
+    return `Published ${elapsedCreateTime} ago`;
+  }
+
+  if (elapsedUpdateTime) {
+    return `Updated ${elapsedUpdateTime} ago`;
+  }
+
+  if (!elapsedUpdateTime) {
+    return `Published ${elapsedCreateTime} ago`;
+  }
 }
