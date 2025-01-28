@@ -65,7 +65,15 @@ export default [
     rules: {
       "boundaries/no-unknown": ["error"],
       "boundaries/no-unknown-files": ["error"],
-
+      "no-unused-vars": "off", // Disable base rule
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          varsIgnorePattern: "^_",
+          argsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+        },
+      ],
       "boundaries/element-types": [
         "error",
         {

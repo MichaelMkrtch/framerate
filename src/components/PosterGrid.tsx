@@ -11,14 +11,16 @@ import { getSimpleTitle } from "@/lib/utils";
 type PosterGridProps = {
   media: ListItem[] | Review[];
   isTooltipEnabled: boolean;
+  classes: string;
 };
 
 export default function PosterGrid({
   media,
   isTooltipEnabled,
+  classes,
 }: PosterGridProps) {
   return (
-    <div className="grid animate-fade-in-fast grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 lg:gap-4">
+    <div className={`${classes} grid animate-fade-in-fast`}>
       {media &&
         media.map((result, index) => {
           const simpleTitle = getSimpleTitle(result.title);

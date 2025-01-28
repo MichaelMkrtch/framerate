@@ -8,8 +8,10 @@ export type List = {
   id: number;
   userId: string;
   name: string;
+  likeCount: number;
+  saveCount: number;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt: Date | null;
   slug: string;
 };
 
@@ -23,11 +25,7 @@ export type ListItem = {
   createdAt: Date;
 };
 
-export type ActiveList = {
-  listName: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export type ActiveList = List;
 
 export type Review = {
   mediaType: "movie" | "tv";

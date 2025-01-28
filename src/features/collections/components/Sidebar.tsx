@@ -4,14 +4,17 @@ import { useEffect } from "react";
 import Link from "next/link";
 
 import { List } from "@/types/data.types";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAuthStore } from "@/store/auth/auth-store";
+import { useActiveListStore } from "@/store/collections/active-list-store";
 import { useListStore } from "@/store/collections/list-store";
 
 export default function Sidebar() {
   const { username } = useAuthStore();
-  const { lists, setLists, setActiveList } = useListStore();
+  const { lists, setLists } = useListStore();
+  const { setActiveList } = useActiveListStore();
 
   useEffect(() => {
     (async () => {
@@ -22,6 +25,7 @@ export default function Sidebar() {
           await response.json();
 
         if (response.ok) {
+          console.log(data.results);
           return setLists(data.results);
         }
 
@@ -48,14 +52,20 @@ export default function Sidebar() {
   ];
 
   return (
-    <nav className="sticky top-10 flex flex-col gap-4 overflow-scroll rounded-lg bg-background-darker p-5">
-      <h2 className="pl-2 text-left text-lg font-semibold">Your Collections</h2>
+    <nav className="sticky top-10 flex flex-col gap-4 overflow-scroll rounded-lg bg-background-darker px-3 py-5">
+      <div className="flex items-center justify-between pl-2 pr-1">
+        <h2 className="text-left text-lg font-semibold">Your Collections</h2>
+        <button className="rounded-full p-1 transition-colors duration-150 ease-in hover:bg-white/5">
+          <Plus
+            strokeWidth={1.5}
+            className="relative rounded-full text-gray transition-colors duration-150 ease-in hover:text-foreground"
+          />
+        </button>
+      </div>
 
       <div>
         {lists.length > 0 &&
           lists.map((list, index) => {
-            console.log(list.name, list.updatedAt);
-
             const gradientIndex =
               index < gradients.length
                 ? index
@@ -65,13 +75,7 @@ export default function Sidebar() {
               <Link
                 key={list.id}
                 href={`/${username}/collections/${list.slug}`}
-                onClick={() =>
-                  setActiveList({
-                    listName: list.name,
-                    createdAt: list.createdAt,
-                    updatedAt: list.updatedAt,
-                  })
-                }
+                onClick={() => setActiveList(list)}
                 className="my-1 flex items-center gap-3.5 rounded-md p-2 transition-colors duration-75 ease-in hover:bg-white/5"
               >
                 <div

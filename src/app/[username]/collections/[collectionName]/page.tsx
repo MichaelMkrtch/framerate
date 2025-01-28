@@ -1,18 +1,18 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
+import type { ActiveList, List, ListItem } from "@/types/data.types";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import { ActiveList, ListItem } from "@/types/data.types";
 import { ArrowLeftCircle, ArrowUp } from "lucide-react";
 import { toast } from "sonner";
 
+import { useActiveListStore } from "@/store/collections/active-list-store";
 import { useListItemStore } from "@/store/collections/list-item-store";
-import { useListStore } from "@/store/collections/list-store";
 import Backdrop from "@/components/Backdrop";
+import { BookmarkIcon, HeartIcon } from "@/components/icons/MediaActionIcons";
 import PosterGrid from "@/components/PosterGrid";
 import { formatElapsedTime, scrollToTop } from "@/lib/utils";
 
@@ -22,7 +22,18 @@ export default function CollectionPage() {
     collectionName: string;
   }>();
 
-  const { activeList, setActiveList } = useListStore();
+  const {
+    activeList,
+    likeCount,
+    saveCount,
+    isLiked,
+    // isSaved,
+    setActiveList,
+    setLikeCount,
+    setSaveCount,
+    setIsLiked,
+    // setIsSaved,
+  } = useActiveListStore();
   const { listItems, setListItems, clearListItems } = useListItemStore();
 
   const [hovering, setHovering] = useState(false);
@@ -34,13 +45,17 @@ export default function CollectionPage() {
       const data: {
         message: string;
         results: {
-          list: { listName: string; createdAt: Date; updatedAt: Date };
+          list: List;
+          isLiked: boolean;
           listItems: ListItem[];
         };
       } = await response.json();
 
       if (response.ok) {
         setActiveList(data.results.list);
+        setLikeCount(data.results.list.likeCount);
+        setSaveCount(data.results.list.saveCount);
+        setIsLiked(data.results.isLiked);
         setListItems(data.results.listItems);
         return;
       }
@@ -50,7 +65,16 @@ export default function CollectionPage() {
     return () => {
       clearListItems();
     };
-  }, [username, listName, setListItems, setActiveList, clearListItems]);
+  }, [
+    username,
+    listName,
+    setListItems,
+    setActiveList,
+    setLikeCount,
+    setSaveCount,
+    setIsLiked,
+    clearListItems,
+  ]);
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -63,8 +87,46 @@ export default function CollectionPage() {
     };
   }, []);
 
+  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+
+  // Pass updated like count to zustand store so UI updates correctly
+  // Get initial like count with list data request and save it in activeList
+  async function updateLike() {
+    if (!isLiked) {
+      const response = await fetch("/api/actions/collections/like", {
+        method: "POST",
+        body: JSON.stringify({ listId: activeList?.id }),
+      });
+      const data: { message: string; results: { likeCount: number } } =
+        await response.json();
+
+      if (response.ok) {
+        setLikeCount(data.results.likeCount);
+        return setIsLiked(true);
+      }
+
+      return toast.error(data.message);
+    }
+
+    const response = await fetch(
+      `/api/actions/collections/like?id=${activeList?.id}`,
+      {
+        method: "DELETE",
+      },
+    );
+    const data: { message: string; results: { likeCount: number } } =
+      await response.json();
+
+    if (response.ok) {
+      setLikeCount(data.results.likeCount);
+      return setIsLiked(false);
+    }
+
+    return toast.error(data.message);
+  }
+
   return (
-    <>
+    <main>
       <Backdrop
         collection
         alt="Decorative image describing this collection."
@@ -80,7 +142,7 @@ export default function CollectionPage() {
         </Link>
 
         <div className="mb-8">
-          <h2 className="mb-2 h-7 text-xl font-bold">{activeList?.listName}</h2>
+          <h2 className="mb-2 h-7 text-xl font-bold">{activeList?.name}</h2>
           <h3 className="mb-0.5 font-medium text-gray">
             Collection by{" "}
             <Link
@@ -96,13 +158,53 @@ export default function CollectionPage() {
             onMouseLeave={() => setHovering(false)}
             className="text-medium relative h-5 w-fit cursor-default text-sm text-gray"
           >
-            {displayText(hovering, setHovering, activeList)}
+            {displayText(hovering, activeList)}
           </p>
         </div>
 
         {listItems.length > 0 && (
-          <div className="rounded-md border border-white/10 bg-background-darker px-7 py-8">
-            <PosterGrid media={listItems} isTooltipEnabled={false} />
+          <div className="flex gap-2.5">
+            <div className="rounded-md border border-white/10 bg-background-darker px-7 py-8">
+              <PosterGrid
+                media={listItems}
+                isTooltipEnabled={false}
+                classes="grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-5 lg:gap-3.5"
+              />
+            </div>
+
+            <aside className="relative flex h-fit grow flex-col items-center justify-between rounded border border-white/5 bg-background-lighter px-7 py-8 shadow-md">
+              <div className="mb-6 flex gap-3">
+                <button className="rounded-md bg-white/5 px-4 py-2 font-medium">
+                  Edit
+                </button>
+                <button className="rounded-md bg-white/5 px-4 py-2 font-medium transition-colors duration-150 ease-in hover:bg-transparent hover:ring-1 hover:ring-red-500">
+                  Delete
+                </button>
+              </div>
+
+              <div className="flex w-full items-center justify-around gap-3 text-[#555]">
+                <div className="flex items-center justify-center gap-2">
+                  <HeartIcon
+                    fill="#333"
+                    classes={`${isLiked && "fill-[#FF153A]"} hover:fill-[#FF153A] cursor-pointer ease transition-all duration-150 active:scale-90 h-6`}
+                    onClick={() => updateLike()}
+                  />
+                  <p className="cursor-default">
+                    {formatter.format(likeCount)}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-center gap-2">
+                  <BookmarkIcon
+                    fill="#333"
+                    classes="hover:fill-[#32EC44] cursor-pointer ease transition-all duration-150 active:scale-90 h-6"
+                  />
+                  <p className="cursor-default">
+                    {formatter.format(saveCount)}
+                  </p>
+                </div>
+              </div>
+            </aside>
           </div>
         )}
       </div>
@@ -116,15 +218,11 @@ export default function CollectionPage() {
       >
         <ArrowUp strokeWidth={1.5} />
       </button>
-    </>
+    </main>
   );
 }
 
-function displayText(
-  hovering: boolean,
-  setHovering: Dispatch<SetStateAction<boolean>>,
-  activeList: ActiveList | null,
-) {
+function displayText(hovering: boolean, activeList: ActiveList | null) {
   let elapsedCreateTime = "";
   let elapsedUpdateTime = "";
 

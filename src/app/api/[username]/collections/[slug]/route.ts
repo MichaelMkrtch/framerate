@@ -1,4 +1,4 @@
-import type { ListItem } from "@/types/data.types";
+import type { List, ListItem } from "@/types/data.types";
 
 import { NextResponse } from "next/server";
 
@@ -7,7 +7,8 @@ import { getListData } from "@/features/collections/server/db/list";
 type GetApiResponse = {
   message: string;
   results?: {
-    list: { listName: string; createdAt: Date; updatedAt: Date | null };
+    list: List;
+    isLiked: boolean;
     listItems: ListItem[];
   };
   error?: string;

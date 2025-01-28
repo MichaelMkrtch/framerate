@@ -14,6 +14,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function isPostgresError(error: unknown): error is { code: string } {
+  return typeof error === "object" && error !== null && "code" in error;
+}
+
 type Category = "trending" | "details";
 type MediaType = "movie" | "tv" | "person";
 type ReturnType<C extends Category, M extends MediaType> = C extends "trending"

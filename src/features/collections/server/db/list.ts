@@ -1,9 +1,10 @@
 "use server";
 
+import type { InsertList, InsertListItem } from "@/drizzle/schema";
+
 import { db } from "@/drizzle";
 import {
-  InsertList,
-  InsertListItem,
+  likedListTable,
   listItemTable,
   listTable,
   movieTable,
@@ -47,6 +48,43 @@ export async function deleteList(listId: number) {
   return null;
 }
 
+export async function addListLike(userId: string, listId: number) {
+  const result = await db.transaction(async (trx) => {
+    await trx.insert(likedListTable).values({ userId, listId });
+    const [listResult] = await trx
+      .update(listTable)
+      .set({ likeCount: sql`${listTable.likeCount} + 1` })
+      .where(eq(listTable.id, listId))
+      .returning();
+
+    return listResult;
+  });
+
+  return { likeCount: result.likeCount };
+}
+
+export async function removeListLike(userId: string, listId: number) {
+  const result = await db.transaction(async (trx) => {
+    await trx
+      .delete(likedListTable)
+      .where(
+        and(
+          eq(likedListTable.userId, userId),
+          eq(likedListTable.listId, listId),
+        ),
+      );
+    const [listResult] = await trx
+      .update(listTable)
+      .set({ likeCount: sql`${listTable.likeCount} - 1` })
+      .where(eq(listTable.id, listId))
+      .returning();
+
+    return listResult;
+  });
+
+  return { likeCount: result.likeCount };
+}
+
 // List items
 export async function addListItem(listItem: InsertListItem) {
   const [result] = await db.transaction(async (trx) => {
@@ -67,18 +105,31 @@ export async function addListItem(listItem: InsertListItem) {
 }
 
 export async function getListData(username: string, slug: string) {
-  const [{ listId, listName, createdAt, updatedAt }] = await db
-    .select({
-      listId: listTable.id,
-      listName: listTable.name,
-      createdAt: listTable.createdAt,
-      updatedAt: listTable.updatedAt,
-    })
+  const [{ list }] = await db
+    .select()
     .from(listTable)
     .innerJoin(user, eq(user.id, listTable.userId))
     .where(and(eq(user.username, username), eq(listTable.slug, slug)));
 
-  if (listId) {
+  if (!list.id) {
+    throw new Error("Failed to find list.");
+  }
+
+  const { userId, ...safeList } = list;
+
+  const listItems = await getListItems(list.id);
+
+  const isLiked = await getLikeStatus(userId, list.id);
+
+  return {
+    list: { type: "list" as const, ...safeList },
+    isLiked,
+    listItems,
+  };
+}
+
+async function getListItems(listId: number) {
+  try {
     const results = await db
       .select({
         listId: listItemTable.listId,
@@ -88,9 +139,9 @@ export async function getListData(username: string, slug: string) {
         posterPath: sql<string>`COALESCE(${movieTable.posterPath}, ${tvShowTable.posterPath})`,
         createdAt: listItemTable.createdAt,
         mediaType: sql<"movie" | "tv">`CASE
-              WHEN ${movieTable.id} IS NOT NULL THEN 'movie'
-              ELSE 'tv'
-            END`,
+            WHEN ${movieTable.id} IS NOT NULL THEN 'movie'
+            ELSE 'tv'
+          END`,
       })
       .from(listItemTable)
       .leftJoin(movieTable, eq(listItemTable.movieId, movieTable.id))
@@ -98,12 +149,30 @@ export async function getListData(username: string, slug: string) {
       .where(eq(listItemTable.listId, listId))
       .orderBy(desc(listItemTable.createdAt));
 
-    return {
-      list: { listName, createdAt, updatedAt },
-      listItems: results,
-    };
+    return results;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Failed to get list items.");
+    }
   }
-  throw new Error("Something went wrong while fetching list data!");
+}
+
+async function getLikeStatus(userId: string, listId: number) {
+  try {
+    const [result]: Record<"isliked", boolean>[] = await db.execute(
+      sql`SELECT EXISTS (
+        SELECT 1 FROM ${likedListTable}
+        WHERE ${likedListTable.userId} = ${userId}
+        AND ${likedListTable.listId} = ${listId}
+      ) as isliked`,
+    );
+
+    return result.isliked;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Failed to get like status!");
+    }
+  }
 }
 
 export async function deleteListItem(listItemId: number) {
@@ -116,41 +185,6 @@ export async function deleteListItem(listItemId: number) {
     throw new Error("Something went wrong while deleting from list!");
   }
 }
-
-// export async function deleteListItem(
-//   userId: string,
-//   mediaType: "movie" | "tv",
-//   listItemId: number,
-//   mediaId: number,
-// ): Promise<"success" | "fail"> {
-//   if (mediaType === "movie") {
-//     const [result] = await db
-//       .delete(listItemTable)
-//       .where(
-//         and(
-//           eq(listItemTable.userId, userId),
-//           eq(listItemTable.id, listItemId),
-//           eq(listItemTable.movieId, mediaId),
-//         ),
-//       )
-//       .returning();
-
-//     return result ? "success" : "fail";
-//   } else {
-//     const [result] = await db
-//       .delete(listItemTable)
-//       .where(
-//         and(
-//           eq(listItemTable.userId, userId),
-//           eq(listItemTable.id, listItemId),
-//           eq(listItemTable.seriesId, mediaId),
-//         ),
-//       )
-//       .returning();
-
-//     return result ? "success" : "fail";
-//   }
-// }
 
 export async function deleteAllListItems(listId: number) {
   const user = await verifyUser();

@@ -3,11 +3,13 @@ import {
   bigserial,
   boolean,
   date,
+  integer,
   numeric,
   pgTable,
   primaryKey,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -148,39 +150,67 @@ export const listTable = pgTable("list", {
       onDelete: "no action",
     }),
   name: text("name").notNull(),
+  likeCount: integer("like_count").default(0).notNull(),
+  saveCount: integer("save_count").default(0).notNull(),
+  slug: text("slug").notNull().unique(),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
     .notNull()
     .defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
-  slug: text("slug").notNull().unique(),
 });
 
-export const listItemTable = pgTable("list_item", {
-  id: bigserial("id", { mode: "number" }).primaryKey(),
-  userId: text("userId").notNull(),
-  listId: bigint("list_id", { mode: "number" }).notNull(),
-  movieId: bigint("movie_id", { mode: "number" }).references(
-    () => movieTable.id,
-    {
-      onUpdate: "no action",
-      onDelete: "no action",
-    },
-  ),
-  seriesId: bigint("series_id", { mode: "number" }).references(
-    () => tvShowTable.id,
-    {
-      onUpdate: "no action",
-      onDelete: "no action",
-    },
-  ),
-  mediaType: text("media_type").notNull(),
-  createdAt: timestamp("created_at", {
-    withTimezone: true,
-    mode: "date",
-  })
-    .notNull()
-    .defaultNow(),
-});
+export const listItemTable = pgTable(
+  "list_item",
+  {
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    userId: text("userId").notNull(),
+    listId: bigint("list_id", { mode: "number" }).notNull(),
+    movieId: bigint("movie_id", { mode: "number" }).references(
+      () => movieTable.id,
+      {
+        onUpdate: "no action",
+        onDelete: "no action",
+      },
+    ),
+    seriesId: bigint("series_id", { mode: "number" }).references(
+      () => tvShowTable.id,
+      {
+        onUpdate: "no action",
+        onDelete: "no action",
+      },
+    ),
+    mediaType: text("media_type").notNull(),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "date",
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("uniqueListItem").on(
+      table.listId,
+      table.movieId,
+      table.seriesId,
+    ),
+  ],
+);
+
+export const likedListTable = pgTable(
+  "liked_list",
+  {
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    userId: text("user_id").notNull(),
+    listId: bigint("list_id", { mode: "number" }).notNull(),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "date",
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [uniqueIndex("uniqueUserList").on(table.userId, table.listId)],
+);
 
 export type InsertUser = typeof user.$inferInsert;
 export type SelectUser = typeof user.$inferSelect;
@@ -211,3 +241,6 @@ export type SelectList = typeof listTable.$inferSelect;
 
 export type InsertListItem = typeof listItemTable.$inferInsert;
 export type SelectListItem = typeof listItemTable.$inferSelect;
+
+export type InsertListLike = typeof likedListTable.$inferInsert;
+export type SelectListLike = typeof likedListTable.$inferSelect;
