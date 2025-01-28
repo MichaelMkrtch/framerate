@@ -150,14 +150,12 @@ async function getListItems(listId: number) {
       .orderBy(desc(listItemTable.createdAt));
 
     return results;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error("Failed to get list items.");
-    }
+  } catch (_error) {
+    throw new Error("Failed to get list items.");
   }
 }
 
-async function getLikeStatus(userId: string, listId: number) {
+async function getLikeStatus(userId: string, listId: number): Promise<boolean> {
   try {
     const [result]: Record<"isliked", boolean>[] = await db.execute(
       sql`SELECT EXISTS (
@@ -168,10 +166,8 @@ async function getLikeStatus(userId: string, listId: number) {
     );
 
     return result.isliked;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error("Failed to get like status!");
-    }
+  } catch (_error) {
+    throw new Error("Failed to get like status!");
   }
 }
 

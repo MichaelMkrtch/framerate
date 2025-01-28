@@ -72,6 +72,7 @@ export default [
           varsIgnorePattern: "^_",
           argsIgnorePattern: "^_",
           destructuredArrayIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
         },
       ],
       "boundaries/element-types": [

@@ -7,7 +7,7 @@ import { getListData } from "@/features/collections/server/db/list";
 type GetApiResponse = {
   message: string;
   results?: {
-    list: List;
+    list: Omit<List, "userId">;
     isLiked: boolean;
     listItems: ListItem[];
   };
