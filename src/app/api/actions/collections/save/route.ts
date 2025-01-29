@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import {
-  addLikedList,
-  removeLikedList,
+  addSavedList,
+  removeSavedList,
 } from "@/features/collections/server/db/list";
 import { isPostgresError } from "@/lib/utils";
 import { verifyUser } from "@/lib/verifyUser";
 
 type PostApiResponse = {
   message: string;
-  results?: { likeCount: number };
+  results?: { saveCount: number };
   error?: string;
 };
 
@@ -21,36 +21,36 @@ export async function POST(
     const user = await verifyUser();
 
     if (typeof listId !== "number") {
-      throw new Error("Error: Invalid Request");
+      throw new Error("Error: invalid request for like status.");
     }
 
     if (!user?.id) {
       return NextResponse.json(
-        { message: "Please create an account or log in to like lists." },
+        { message: "Please create an account or log in to save lists." },
         { status: 401 },
       );
     }
 
-    const results = await addLikedList(user.id, listId);
+    const results = await addSavedList(user.id, listId);
 
     return NextResponse.json(
-      { message: "Liked successfully", results },
+      { message: "Saved successfully", results },
       { status: 201 },
     );
   } catch (error) {
     if (isPostgresError(error) && error.code === "23505") {
       return NextResponse.json(
-        { message: "You have already liked this list" },
+        { message: "You have already saved this list" },
         { status: 409 },
       );
     }
 
     const errorMessage =
-      error instanceof Error ? error.message : "Failed to like list.";
+      error instanceof Error ? error.message : "Failed to save list.";
 
     return NextResponse.json(
       {
-        message: "An error occurred while liking list!",
+        message: "An error occurred while saving list!",
         error: errorMessage,
       },
       { status: 500 },
@@ -71,23 +71,23 @@ export async function DELETE(request: NextRequest) {
 
     if (!user?.id) {
       return NextResponse.json(
-        { message: "Please create an account or log in to like lists." },
+        { message: "Please create an account or log in to save lists." },
         { status: 401 },
       );
     }
 
-    const results = await removeLikedList(user.id, listId);
+    const results = await removeSavedList(user.id, listId);
 
     return NextResponse.json(
-      { message: "Unliked successfully", results },
+      { message: "Unsaved successfully", results },
       { status: 200 },
     );
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Failed to unlike list.";
+      error instanceof Error ? error.message : "Failed to unsave list.";
     return NextResponse.json(
       {
-        message: "An error occurred while unliking list!",
+        message: "An error occurred while unsaving list!",
         error: errorMessage,
       },
       { status: 500 },

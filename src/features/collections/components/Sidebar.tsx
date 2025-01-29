@@ -25,7 +25,6 @@ export default function Sidebar() {
           await response.json();
 
         if (response.ok) {
-          console.log(data.results);
           return setLists(data.results);
         }
 

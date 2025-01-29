@@ -200,8 +200,18 @@ export const likedListTable = pgTable(
   "liked_list",
   {
     id: bigserial("id", { mode: "number" }).primaryKey(),
-    userId: text("user_id").notNull(),
-    listId: bigint("list_id", { mode: "number" }).notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
+    listId: bigint("list_id", { mode: "number" })
+      .notNull()
+      .references(() => listTable.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
     createdAt: timestamp("created_at", {
       withTimezone: true,
       mode: "date",
@@ -211,6 +221,55 @@ export const likedListTable = pgTable(
   },
   (table) => [uniqueIndex("uniqueUserList").on(table.userId, table.listId)],
 );
+
+export const savedListTable = pgTable(
+  "saved_list",
+  {
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
+    listId: bigint("list_id", { mode: "number" })
+      .notNull()
+      .references(() => listTable.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "date",
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [uniqueIndex("uniqueSavedList").on(table.userId, table.listId)],
+);
+
+export const listViewsTable = pgTable("list_views", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, {
+      onUpdate: "no action",
+      onDelete: "no action",
+    }),
+  listId: bigint("list_id", { mode: "number" })
+    .notNull()
+    .references(() => listTable.id, {
+      onUpdate: "no action",
+      onDelete: "no action",
+    }),
+  ipAddress: text("ip_address"),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  })
+    .notNull()
+    .defaultNow(),
+});
 
 export type InsertUser = typeof user.$inferInsert;
 export type SelectUser = typeof user.$inferSelect;

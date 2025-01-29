@@ -27,12 +27,12 @@ export default function CollectionPage() {
     likeCount,
     saveCount,
     isLiked,
-    // isSaved,
+    isSaved,
     setActiveList,
     setLikeCount,
     setSaveCount,
     setIsLiked,
-    // setIsSaved,
+    setIsSaved,
   } = useActiveListStore();
   const { listItems, setListItems, clearListItems } = useListItemStore();
 
@@ -47,15 +47,22 @@ export default function CollectionPage() {
         results: {
           list: List;
           isLiked: boolean;
+          isSaved: boolean;
           listItems: ListItem[];
         };
       } = await response.json();
 
       if (response.ok) {
+        await fetch(`/api/actions/collections/view`, {
+          method: "POST",
+          body: JSON.stringify({ listId: data.results.list.id }),
+        });
+
         setActiveList(data.results.list);
         setLikeCount(data.results.list.likeCount);
         setSaveCount(data.results.list.saveCount);
         setIsLiked(data.results.isLiked);
+        setIsSaved(data.results.isSaved);
         setListItems(data.results.listItems);
         return;
       }
@@ -73,6 +80,7 @@ export default function CollectionPage() {
     setLikeCount,
     setSaveCount,
     setIsLiked,
+    setIsSaved,
     clearListItems,
   ]);
 
@@ -120,6 +128,40 @@ export default function CollectionPage() {
     if (response.ok) {
       setLikeCount(data.results.likeCount);
       return setIsLiked(false);
+    }
+
+    return toast.error(data.message);
+  }
+
+  async function updateSave() {
+    if (!isSaved) {
+      const response = await fetch("/api/actions/collections/save", {
+        method: "POST",
+        body: JSON.stringify({ listId: activeList?.id }),
+      });
+      const data: { message: string; results: { saveCount: number } } =
+        await response.json();
+
+      if (response.ok) {
+        setSaveCount(data.results.saveCount);
+        return setIsSaved(true);
+      }
+
+      return toast.error(data.message);
+    }
+
+    const response = await fetch(
+      `/api/actions/collections/save?id=${activeList?.id}`,
+      {
+        method: "DELETE",
+      },
+    );
+    const data: { message: string; results: { saveCount: number } } =
+      await response.json();
+
+    if (response.ok) {
+      setSaveCount(data.results.saveCount);
+      return setIsSaved(false);
     }
 
     return toast.error(data.message);
@@ -197,7 +239,8 @@ export default function CollectionPage() {
                 <div className="flex items-center justify-center gap-2">
                   <BookmarkIcon
                     fill="#333"
-                    classes="hover:fill-[#32EC44] cursor-pointer ease transition-all duration-150 active:scale-90 h-6"
+                    classes={`${isSaved && "fill-[#32EC44]"} hover:fill-[#32EC44] cursor-pointer ease transition-all duration-150 active:scale-90 h-6`}
+                    onClick={() => updateSave()}
                   />
                   <p className="cursor-default">
                     {formatter.format(saveCount)}

@@ -8,6 +8,7 @@ import {
   listItemTable,
   listTable,
   movieTable,
+  savedListTable,
   tvShowTable,
   user,
 } from "@/drizzle/schema";
@@ -48,7 +49,7 @@ export async function deleteList(listId: number) {
   return null;
 }
 
-export async function addListLike(userId: string, listId: number) {
+export async function addLikedList(userId: string, listId: number) {
   const result = await db.transaction(async (trx) => {
     await trx.insert(likedListTable).values({ userId, listId });
     const [listResult] = await trx
@@ -63,7 +64,22 @@ export async function addListLike(userId: string, listId: number) {
   return { likeCount: result.likeCount };
 }
 
-export async function removeListLike(userId: string, listId: number) {
+export async function addSavedList(userId: string, listId: number) {
+  const result = await db.transaction(async (trx) => {
+    await trx.insert(savedListTable).values({ userId, listId });
+    const [listResult] = await trx
+      .update(listTable)
+      .set({ saveCount: sql`${listTable.saveCount} + 1` })
+      .where(eq(listTable.id, listId))
+      .returning();
+
+    return listResult;
+  });
+
+  return { saveCount: result.saveCount };
+}
+
+export async function removeLikedList(userId: string, listId: number) {
   const result = await db.transaction(async (trx) => {
     await trx
       .delete(likedListTable)
@@ -83,6 +99,28 @@ export async function removeListLike(userId: string, listId: number) {
   });
 
   return { likeCount: result.likeCount };
+}
+
+export async function removeSavedList(userId: string, listId: number) {
+  const result = await db.transaction(async (trx) => {
+    await trx
+      .delete(savedListTable)
+      .where(
+        and(
+          eq(savedListTable.userId, userId),
+          eq(savedListTable.listId, listId),
+        ),
+      );
+    const [listResult] = await trx
+      .update(listTable)
+      .set({ saveCount: sql`${listTable.saveCount} - 1` })
+      .where(eq(listTable.id, listId))
+      .returning();
+
+    return listResult;
+  });
+
+  return { saveCount: result.saveCount };
 }
 
 // List items
@@ -120,10 +158,12 @@ export async function getListData(username: string, slug: string) {
   const listItems = await getListItems(list.id);
 
   const isLiked = await getLikeStatus(userId, list.id);
+  const isSaved = await getSaveStatus(userId, list.id);
 
   return {
     list: { type: "list" as const, ...safeList },
     isLiked,
+    isSaved,
     listItems,
   };
 }
@@ -168,6 +208,22 @@ async function getLikeStatus(userId: string, listId: number): Promise<boolean> {
     return result.isliked;
   } catch (_error) {
     throw new Error("Failed to get like status!");
+  }
+}
+
+async function getSaveStatus(userId: string, listId: number): Promise<boolean> {
+  try {
+    const [result]: Record<"issaved", boolean>[] = await db.execute(
+      sql`SELECT EXISTS (
+        SELECT 1 FROM ${savedListTable}
+        WHERE ${savedListTable.userId} = ${userId}
+        AND ${savedListTable.listId} = ${listId}
+      ) as issaved`,
+    );
+
+    return result.issaved;
+  } catch (_error) {
+    throw new Error("Failed to get save status!");
   }
 }
 

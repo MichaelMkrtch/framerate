@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import type {
   CreatedBy,
   Credits,
@@ -16,6 +17,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function isPostgresError(error: unknown): error is { code: string } {
   return typeof error === "object" && error !== null && "code" in error;
+}
+
+export function hashIpAddress(ip: string): string {
+  return crypto.createHash("sha256").update(ip).digest("hex");
 }
 
 type Category = "trending" | "details";
