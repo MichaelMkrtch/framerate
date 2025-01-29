@@ -1,8 +1,9 @@
 import type { List, ListItem } from "@/types/data.types";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-import { getListData } from "@/features/collections/server/db/list";
+import { deleteList, getListData } from "@/features/collections/server/db/list";
+import { verifyUser } from "@/lib/verifyUser";
 
 type GetApiResponse = {
   message: string;
@@ -42,6 +43,45 @@ export async function GET(
     return NextResponse.json(
       {
         message: "An error occurred while fetching list items!",
+        error: errorMessage,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const searchParams = request.nextUrl.searchParams;
+    const id = searchParams.get("id");
+    const listId = Number(id);
+    const user = await verifyUser();
+
+    if (isNaN(listId)) {
+      throw new Error("Error: Invalid Request");
+    }
+
+    if (!user?.id) {
+      return NextResponse.json(
+        { message: "Please create an account or log in to delete lists." },
+        { status: 401 },
+      );
+    }
+
+    const result = await deleteList(user.id, listId);
+
+    if (result) {
+      return NextResponse.json(
+        { message: "List deleted successfully" },
+        { status: 200 },
+      );
+    }
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to delete list.";
+    return NextResponse.json(
+      {
+        message: "An error occurred while deleting list!",
         error: errorMessage,
       },
       { status: 500 },

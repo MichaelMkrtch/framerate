@@ -15,7 +15,7 @@ import Tooltip from "@/components/Tooltip";
 import { TooltipProvider } from "@/components/ui/tooltip-ui";
 import CreateList from "@/features/details/components/CreateList";
 import Lists from "@/features/details/components/Lists";
-import ListsModal from "@/features/details/components/ListsDialog";
+import ListsModal from "@/features/details/components/ListsModal";
 import { checkIfListItem } from "@/features/details/server/db/list";
 import {
   getReview,

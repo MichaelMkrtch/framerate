@@ -65,7 +65,7 @@ export async function DELETE(request: NextRequest) {
     const listId = Number(id);
     const user = await verifyUser();
 
-    if (typeof listId !== "number") {
+    if (isNaN(listId)) {
       throw new Error("Error: Invalid Request");
     }
 

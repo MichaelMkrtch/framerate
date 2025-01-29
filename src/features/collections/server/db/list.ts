@@ -7,6 +7,7 @@ import {
   likedListTable,
   listItemTable,
   listTable,
+  listViewsTable,
   movieTable,
   savedListTable,
   tvShowTable,
@@ -37,16 +38,41 @@ export async function getLists(userId: string) {
   return formattedResults;
 }
 
-export async function deleteList(listId: number) {
-  const user = await verifyUser();
+export async function deleteList(userId: string, listId: number) {
+  try {
+    if (!userId || !listId) {
+      throw new Error("Error: Invalid inputs");
+    }
 
-  if (user?.id) {
-    await db
-      .delete(listTable)
-      .where(and(eq(listTable.userId, user.id), eq(listTable.id, listId)));
-    return;
+    const [list] = await db
+      .select()
+      .from(listTable)
+      .where(and(eq(listTable.userId, userId), eq(listTable.id, listId)));
+
+    if (!list) {
+      throw new Error("You are not authorized to make changes to this list.");
+    }
+
+    const [result] = await db.transaction(async (trx) => {
+      await trx.delete(likedListTable).where(eq(likedListTable.listId, listId));
+      await trx.delete(savedListTable).where(eq(savedListTable.listId, listId));
+      await trx.delete(listViewsTable).where(eq(listViewsTable.listId, listId));
+      await trx.delete(listItemTable).where(eq(listItemTable.listId, listId));
+      const list = await trx
+        .delete(listTable)
+        .where(eq(listTable.id, listId))
+        .returning();
+
+      return list;
+    });
+
+    return result;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to delete list.";
+
+    throw new Error(errorMessage);
   }
-  return null;
 }
 
 export async function addLikedList(userId: string, listId: number) {

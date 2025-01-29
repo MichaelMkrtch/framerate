@@ -4,16 +4,18 @@ import type { ActiveList, List, ListItem } from "@/types/data.types";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { ArrowLeftCircle, ArrowUp } from "lucide-react";
 import { toast } from "sonner";
 
 import { useActiveListStore } from "@/store/collections/active-list-store";
 import { useListItemStore } from "@/store/collections/list-item-store";
+import { useListStore } from "@/store/collections/list-store";
 import Backdrop from "@/components/Backdrop";
 import { BookmarkIcon, HeartIcon } from "@/components/icons/MediaActionIcons";
 import PosterGrid from "@/components/PosterGrid";
+import DeleteDialog from "@/features/collections/components/DeleteDialog";
 import { formatElapsedTime, scrollToTop } from "@/lib/utils";
 
 export default function CollectionPage() {
@@ -21,6 +23,7 @@ export default function CollectionPage() {
     username: string;
     collectionName: string;
   }>();
+  const router = useRouter();
 
   const {
     activeList,
@@ -34,6 +37,7 @@ export default function CollectionPage() {
     setIsLiked,
     setIsSaved,
   } = useActiveListStore();
+  const { removeList } = useListStore();
   const { listItems, setListItems, clearListItems } = useListItemStore();
 
   const [hovering, setHovering] = useState(false);
@@ -41,7 +45,7 @@ export default function CollectionPage() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`/api/michael/collections/${listName}`);
+      const response = await fetch(`/api/${username}/collections/${listName}`);
       const data: {
         message: string;
         results: {
@@ -167,6 +171,26 @@ export default function CollectionPage() {
     return toast.error(data.message);
   }
 
+  async function handleDelete() {
+    if (activeList) {
+      const response = await fetch(
+        `/api/${username}/collections/${listName}?id=${activeList.id}`,
+        {
+          method: "DELETE",
+        },
+      );
+      const data: { message: string } = await response.json();
+
+      if (response.ok) {
+        removeList(activeList.id);
+        router.replace("/collections");
+        return toast.success(data.message);
+      }
+
+      toast.error(data.message);
+    }
+  }
+
   return (
     <main>
       <Backdrop
@@ -219,9 +243,20 @@ export default function CollectionPage() {
                 <button className="rounded-md bg-white/5 px-4 py-2 font-medium">
                   Edit
                 </button>
-                <button className="rounded-md bg-white/5 px-4 py-2 font-medium transition-colors duration-150 ease-in hover:bg-transparent hover:ring-1 hover:ring-red-500">
-                  Delete
-                </button>
+                <DeleteDialog>
+                  <DeleteDialog.Trigger asChild>
+                    <button className="rounded-md bg-white/5 px-4 py-2 font-medium transition-colors duration-150 ease-in hover:bg-transparent hover:ring-1 hover:ring-red-500">
+                      Delete
+                    </button>
+                  </DeleteDialog.Trigger>
+                  <DeleteDialog.Content
+                    title="Delete this list?"
+                    description="This action cannot be undone. This will permanently delete your
+                                list and its content, including metadata such as likes, saves, and views."
+                    action="Delete"
+                    handleClick={handleDelete}
+                  />
+                </DeleteDialog>
               </div>
 
               <div className="flex w-full items-center justify-around gap-3 text-[#555]">
