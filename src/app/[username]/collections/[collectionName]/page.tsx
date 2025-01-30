@@ -74,6 +74,10 @@ export default function CollectionPage() {
     })();
 
     return () => {
+      setIsLiked(false);
+      setIsSaved(false);
+      setLikeCount(0);
+      setSaveCount(0);
       clearListItems();
     };
   }, [
