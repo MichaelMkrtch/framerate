@@ -16,7 +16,7 @@ export const listSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Collection name must be at least 1 character." })
-    .max(100, { message: "Collection name must be at most 100 characters." }),
+    .max(100, { message: "Collection name must be less than 100 characters." }),
 });
 
 export const listItemSchema = z.object({

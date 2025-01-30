@@ -1,7 +1,9 @@
+import { sql } from "drizzle-orm";
 import {
   bigint,
   bigserial,
   boolean,
+  check,
   date,
   integer,
   numeric,
@@ -248,28 +250,35 @@ export const savedListTable = pgTable(
   (table) => [uniqueIndex("uniqueSavedList").on(table.userId, table.listId)],
 );
 
-export const listViewsTable = pgTable("list_views", {
-  id: bigserial("id", { mode: "number" }).primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => user.id, {
+export const listViewsTable = pgTable(
+  "list_views",
+  {
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    userId: text("user_id").references(() => user.id, {
       onUpdate: "no action",
       onDelete: "no action",
     }),
-  listId: bigint("list_id", { mode: "number" })
-    .notNull()
-    .references(() => listTable.id, {
-      onUpdate: "no action",
-      onDelete: "no action",
-    }),
-  ipAddress: text("ip_address"),
-  createdAt: timestamp("created_at", {
-    withTimezone: true,
-    mode: "date",
-  })
-    .notNull()
-    .defaultNow(),
-});
+    listId: bigint("list_id", { mode: "number" })
+      .notNull()
+      .references(() => listTable.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
+    ipAddress: text("ip_address"),
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+      mode: "date",
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    check(
+      "at_least_one_identifier",
+      sql`${table.userId} IS NOT NULL OR ${table.ipAddress} IS NOT NULL`,
+    ),
+  ],
+);
 
 export type InsertUser = typeof user.$inferInsert;
 export type SelectUser = typeof user.$inferSelect;
@@ -301,5 +310,11 @@ export type SelectList = typeof listTable.$inferSelect;
 export type InsertListItem = typeof listItemTable.$inferInsert;
 export type SelectListItem = typeof listItemTable.$inferSelect;
 
-export type InsertListLike = typeof likedListTable.$inferInsert;
-export type SelectListLike = typeof likedListTable.$inferSelect;
+export type InsertLikedList = typeof likedListTable.$inferInsert;
+export type SelectLikedList = typeof likedListTable.$inferSelect;
+
+export type InsertSavedList = typeof savedListTable.$inferInsert;
+export type SelectSavedList = typeof savedListTable.$inferSelect;
+
+export type InsertListViews = typeof listViewsTable.$inferInsert;
+export type SelectListViews = typeof listViewsTable.$inferSelect;

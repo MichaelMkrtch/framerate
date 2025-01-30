@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { List } from "@/types/data.types";
@@ -10,11 +10,15 @@ import { toast } from "sonner";
 import { useAuthStore } from "@/store/auth/auth-store";
 import { useActiveListStore } from "@/store/collections/active-list-store";
 import { useListStore } from "@/store/collections/list-store";
+import CreateListForm from "./CreateListForm";
+import Dialog from "./Dialog";
 
 export default function Sidebar() {
   const { username } = useAuthStore();
   const { lists, setLists } = useListStore();
   const { setActiveList } = useActiveListStore();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -41,7 +45,6 @@ export default function Sidebar() {
     "bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500",
     "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500",
     "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
-    "bg-gradient-to-r from-gray-800 via-blue-700 to-gray-900",
     "bg-gradient-to-r from-yellow-200 via-amber-400 to-orange-600",
     "bg-gradient-to-r from-green-200 via-emerald-400 to-teal-600",
     "bg-gradient-to-r from-cyan-100 via-blue-300 to-indigo-400",
@@ -54,12 +57,19 @@ export default function Sidebar() {
     <nav className="sticky top-10 flex flex-col gap-4 overflow-scroll rounded-lg bg-background-darker px-3 py-5">
       <div className="flex items-center justify-between pl-2 pr-1">
         <h2 className="text-left text-lg font-semibold">Your Collections</h2>
-        <button className="rounded-full p-1 transition-colors duration-150 ease-in hover:bg-white/5">
-          <Plus
-            strokeWidth={1.5}
-            className="relative rounded-full text-gray transition-colors duration-150 ease-in hover:text-foreground"
-          />
-        </button>
+        <Dialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen}>
+          <Dialog.Trigger asChild>
+            <button className="rounded-full p-1 transition-colors duration-150 ease-in hover:bg-white/5">
+              <Plus
+                strokeWidth={1.5}
+                className="relative rounded-full text-gray transition-colors duration-150 ease-in hover:text-foreground"
+              />
+            </button>
+          </Dialog.Trigger>
+          <Dialog.Content title="Create Collection" description="">
+            <CreateListForm setDialogOpen={setDialogOpen} />
+          </Dialog.Content>
+        </Dialog>
       </div>
 
       <div>

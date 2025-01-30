@@ -15,7 +15,7 @@ import { useListStore } from "@/store/collections/list-store";
 import Backdrop from "@/components/Backdrop";
 import { BookmarkIcon, HeartIcon } from "@/components/icons/MediaActionIcons";
 import PosterGrid from "@/components/PosterGrid";
-import DeleteDialog from "@/features/collections/components/DeleteDialog";
+import Dialog from "@/features/collections/components/Dialog";
 import { formatElapsedTime, scrollToTop } from "@/lib/utils";
 
 export default function CollectionPage() {
@@ -228,63 +228,70 @@ export default function CollectionPage() {
           </p>
         </div>
 
-        {listItems.length > 0 && (
-          <div className="flex gap-2.5">
-            <div className="rounded-md border border-white/10 bg-background-darker px-7 py-8">
+        <div className="grid w-full grid-cols-[1000px,1fr] gap-2.5">
+          <div
+            className={`${listItems.length > 0 && "border border-white/10 bg-background-darker"} rounded-md px-7 py-8`}
+          >
+            {listItems.length > 0 && (
               <PosterGrid
                 media={listItems}
                 isTooltipEnabled={false}
                 classes="grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-5 lg:gap-3.5"
               />
+            )}
+          </div>
+          <aside className="relative flex h-fit grow flex-col items-center justify-between rounded border border-white/5 bg-background-lighter px-7 py-8 shadow-md">
+            <div className="mb-6 flex gap-3">
+              <button className="rounded-md bg-white/5 px-4 py-2 font-medium">
+                Edit
+              </button>
+              <Dialog>
+                <Dialog.Trigger asChild>
+                  <button className="rounded-md bg-white/5 px-4 py-2 font-medium transition-colors duration-150 ease-in hover:bg-transparent hover:ring-1 hover:ring-red-500">
+                    Delete
+                  </button>
+                </Dialog.Trigger>
+                <Dialog.Content
+                  title="Delete this list?"
+                  description="This action cannot be undone. This will permanently delete your
+                            list and its content, including metadata such as likes, saves, and views."
+                >
+                  <Dialog.Footer>
+                    <Dialog.Cancel className="border-white/10 bg-white/5 hover:bg-white/10 hover:text-foreground">
+                      Cancel
+                    </Dialog.Cancel>
+                    <Dialog.Action
+                      onClick={handleDelete}
+                      className="border-red-800 bg-red-600 hover:bg-red-700"
+                    >
+                      Delete
+                    </Dialog.Action>
+                  </Dialog.Footer>
+                </Dialog.Content>
+              </Dialog>
             </div>
 
-            <aside className="relative flex h-fit grow flex-col items-center justify-between rounded border border-white/5 bg-background-lighter px-7 py-8 shadow-md">
-              <div className="mb-6 flex gap-3">
-                <button className="rounded-md bg-white/5 px-4 py-2 font-medium">
-                  Edit
-                </button>
-                <DeleteDialog>
-                  <DeleteDialog.Trigger asChild>
-                    <button className="rounded-md bg-white/5 px-4 py-2 font-medium transition-colors duration-150 ease-in hover:bg-transparent hover:ring-1 hover:ring-red-500">
-                      Delete
-                    </button>
-                  </DeleteDialog.Trigger>
-                  <DeleteDialog.Content
-                    title="Delete this list?"
-                    description="This action cannot be undone. This will permanently delete your
-                                list and its content, including metadata such as likes, saves, and views."
-                    action="Delete"
-                    handleClick={handleDelete}
-                  />
-                </DeleteDialog>
+            <div className="flex w-full items-center justify-around gap-3 text-[#555]">
+              <div className="flex items-center justify-center gap-2">
+                <HeartIcon
+                  fill="#333"
+                  classes={`${isLiked && "fill-[#FF153A]"} hover:fill-[#FF153A] cursor-pointer ease transition-all duration-150 active:scale-90 h-6`}
+                  onClick={() => updateLike()}
+                />
+                <p className="cursor-default">{formatter.format(likeCount)}</p>
               </div>
 
-              <div className="flex w-full items-center justify-around gap-3 text-[#555]">
-                <div className="flex items-center justify-center gap-2">
-                  <HeartIcon
-                    fill="#333"
-                    classes={`${isLiked && "fill-[#FF153A]"} hover:fill-[#FF153A] cursor-pointer ease transition-all duration-150 active:scale-90 h-6`}
-                    onClick={() => updateLike()}
-                  />
-                  <p className="cursor-default">
-                    {formatter.format(likeCount)}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-center gap-2">
-                  <BookmarkIcon
-                    fill="#333"
-                    classes={`${isSaved && "fill-[#32EC44]"} hover:fill-[#32EC44] cursor-pointer ease transition-all duration-150 active:scale-90 h-6`}
-                    onClick={() => updateSave()}
-                  />
-                  <p className="cursor-default">
-                    {formatter.format(saveCount)}
-                  </p>
-                </div>
+              <div className="flex items-center justify-center gap-2">
+                <BookmarkIcon
+                  fill="#333"
+                  classes={`${isSaved && "fill-[#32EC44]"} hover:fill-[#32EC44] cursor-pointer ease transition-all duration-150 active:scale-90 h-6`}
+                  onClick={() => updateSave()}
+                />
+                <p className="cursor-default">{formatter.format(saveCount)}</p>
               </div>
-            </aside>
-          </div>
-        )}
+            </div>
+          </aside>
+        </div>
       </div>
 
       <button

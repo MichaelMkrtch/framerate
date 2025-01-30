@@ -20,7 +20,7 @@ export const useListStore = create<ListState & ListActions>()(
       lists: [],
       setLists: (lists) => set({ lists: lists }),
       addList: (list) =>
-        set((state) => ({ lists: [list, ...(state.lists ?? [])] })),
+        set((state) => ({ lists: [...(state.lists ?? []), list] })),
       removeList: (listId) =>
         set((state) => ({
           lists: state.lists?.filter((list) => list.id !== listId),

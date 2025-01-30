@@ -28,12 +28,9 @@ export async function POST(
       });
     }
 
-    await trackUniqueView(listId, ipAddress, user?.id);
+    const result = await trackUniqueView(listId, ipAddress, user?.id);
 
-    return NextResponse.json(
-      { message: "Tracked view successfully" },
-      { status: 201 },
-    );
+    return NextResponse.json({ message: result.message }, { status: 201 });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Failed to update views.";

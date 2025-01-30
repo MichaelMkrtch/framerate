@@ -1,6 +1,6 @@
 import { db } from "@/drizzle";
 import { listViewsTable } from "@/drizzle/schema";
-import { sql } from "drizzle-orm";
+import { and, eq, gte, or } from "drizzle-orm";
 
 import { hashIpAddress } from "@/lib/utils";
 
@@ -16,28 +16,49 @@ export async function trackUniqueView(
       message: "Invalid input: unable to store view.",
     };
   }
-
+  const now = new Date();
+  const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   const hashedIp = ipAddress ? hashIpAddress(ipAddress) : null;
 
   try {
-    await db.execute(sql`
-      INSERT INTO ${listViewsTable} (list_id, user_id, ip_address, created_at)
-      SELECT ${listId}, ${userId || null}, ${hashedIp}, NOW()
-      WHERE NOT EXISTS (
-        SELECT 1
-        FROM ${listViewsTable}
-        WHERE list_id = ${listId}
-          AND (user_id = ${userId || null} OR ip_address = ${hashedIp})
-          AND created_at > NOW() - INTERVAL '24 hours'
-      )
-    `);
-  } catch (error) {
-    if (error instanceof Error) {
+    const existingView = await db
+      .select()
+      .from(listViewsTable)
+      .where(
+        and(
+          eq(listViewsTable.listId, listId),
+          gte(listViewsTable.createdAt, oneDayAgo),
+          or(
+            userId ? eq(listViewsTable.userId, userId) : undefined,
+            hashedIp ? eq(listViewsTable.ipAddress, hashedIp) : undefined,
+          ),
+        ),
+      );
+
+    if (existingView.length > 0) {
       return {
-        success: false,
-        alreadyViewed: false,
-        message: `Error tracking view: ${error.message}`,
+        success: true,
+        alreadyViewed: true,
+        message: "View already logged within the last 24 hours.",
       };
     }
+
+    await db.insert(listViewsTable).values({
+      listId,
+      userId: userId || null,
+      ipAddress: hashedIp,
+    });
+
+    return {
+      success: true,
+      alreadyViewed: false,
+      message: "View logged successfully.",
+    };
+  } catch (_error) {
+    return {
+      success: false,
+      alreadyViewed: false,
+      message: "An error occurred while logging the view.",
+    };
   }
 }
