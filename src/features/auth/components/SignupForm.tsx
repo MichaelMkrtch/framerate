@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { signupSchema } from "@/features/auth/schema/auth-forms";
 import { blacklistChecks } from "@/features/auth/server/actions/auth-actions";
+// eslint-disable-next-line boundaries/element-types
 import { createList } from "@/features/collections/server/db/list";
 import { authClient } from "@/lib/auth-client";
 import { generateSlug } from "@/lib/slug";

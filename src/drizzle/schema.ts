@@ -161,12 +161,31 @@ export const listTable = pgTable("list", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }),
 });
 
+export const listSlugHistoryTable = pgTable("list_slug_history", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  listId: bigint("list_id", { mode: "number" })
+    .notNull()
+    .references(() => listTable.id, {
+      onUpdate: "no action",
+      onDelete: "no action",
+    }),
+  oldSlug: text("old_slug").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
+    .notNull()
+    .defaultNow(),
+});
+
 export const listItemTable = pgTable(
   "list_item",
   {
     id: bigserial("id", { mode: "number" }).primaryKey(),
     userId: text("userId").notNull(),
-    listId: bigint("list_id", { mode: "number" }).notNull(),
+    listId: bigint("list_id", { mode: "number" })
+      .notNull()
+      .references(() => listTable.id, {
+        onUpdate: "no action",
+        onDelete: "no action",
+      }),
     movieId: bigint("movie_id", { mode: "number" }).references(
       () => movieTable.id,
       {

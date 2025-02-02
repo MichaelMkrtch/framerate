@@ -42,6 +42,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  if (request.nextUrl.pathname.endsWith("/edit")) {
+    const session = await verifySession(request);
+    if (session) {
+      return NextResponse.next();
+    }
+
+    return NextResponse.redirect(new URL("/collections", request.url));
+  }
+
   return NextResponse.next();
 }
 

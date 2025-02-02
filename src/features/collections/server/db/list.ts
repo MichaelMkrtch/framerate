@@ -6,6 +6,7 @@ import { db } from "@/drizzle";
 import {
   likedListTable,
   listItemTable,
+  listSlugHistoryTable,
   listTable,
   listViewsTable,
   movieTable,
@@ -16,6 +17,7 @@ import {
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 
 import { verifyUser } from "@/features/collections/server/db/verifyUser";
+import { generateSlug } from "@/lib/slug";
 
 // List
 export async function createList(list: InsertList) {
@@ -38,6 +40,42 @@ export async function getLists(userId: string) {
   return formattedResults;
 }
 
+export async function updateList(
+  userId: string,
+  listName: string,
+  slug: string,
+) {
+  try {
+    const result = await db.transaction(async (trx) => {
+      const [list] = await trx
+        .select()
+        .from(listTable)
+        .where(and(eq(listTable.userId, userId), eq(listTable.slug, slug)));
+
+      if (!list) throw new Error("Couldn't get list");
+
+      const oldSlug = list.slug;
+
+      await trx
+        .insert(listSlugHistoryTable)
+        .values({ listId: list.id, oldSlug });
+
+      const newSlug = await generateSlug(listName, "list");
+
+      const [updateResult] = await trx
+        .update(listTable)
+        .set({ name: listName, slug: newSlug, updatedAt: new Date() })
+        .where(and(eq(listTable.userId, userId), eq(listTable.slug, slug)))
+        .returning();
+
+      return updateResult;
+    });
+    return result;
+  } catch (_error) {
+    throw new Error("An error occurred while updating the list.");
+  }
+}
+
 export async function deleteList(userId: string, listId: number) {
   try {
     if (!userId || !listId) {
@@ -57,6 +95,9 @@ export async function deleteList(userId: string, listId: number) {
       await trx.delete(likedListTable).where(eq(likedListTable.listId, listId));
       await trx.delete(savedListTable).where(eq(savedListTable.listId, listId));
       await trx.delete(listViewsTable).where(eq(listViewsTable.listId, listId));
+      await trx
+        .delete(listSlugHistoryTable)
+        .where(eq(listSlugHistoryTable.listId, listId));
       await trx.delete(listItemTable).where(eq(listItemTable.listId, listId));
       const list = await trx
         .delete(listTable)
@@ -169,16 +210,17 @@ export async function addListItem(listItem: InsertListItem) {
 }
 
 export async function getListData(username: string, slug: string) {
-  const [{ list }] = await db
+  const [results] = await db
     .select()
     .from(listTable)
     .innerJoin(user, eq(user.id, listTable.userId))
     .where(and(eq(user.username, username), eq(listTable.slug, slug)));
 
-  if (!list.id) {
-    throw new Error("Failed to find list.");
+  if (!results) {
+    throw new Error("Error: something went wrong!");
   }
 
+  const { list } = results;
   const { userId, ...safeList } = list;
 
   const listItems = await getListItems(list.id);
@@ -192,6 +234,21 @@ export async function getListData(username: string, slug: string) {
     isSaved,
     listItems,
   };
+
+  // // If slug is outdated, gets new slug for redirect
+  // const [{ list: listFromHistory }] = await db
+  //   .select()
+  //   .from(listTable)
+  //   .innerJoin(
+  //     listSlugHistoryTable,
+  //     eq(listTable.id, listSlugHistoryTable.listId),
+  //   )
+  //   .where(eq(listSlugHistoryTable.oldSlug, slug));
+
+  // return {
+  //   list: null,
+  //   redirectSlug: listFromHistory.slug,
+  // };
 }
 
 async function getListItems(listId: number) {

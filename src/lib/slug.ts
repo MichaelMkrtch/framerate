@@ -1,10 +1,21 @@
 "use server";
 
 import { db } from "@/drizzle";
-import { listTable, movieTable, tvShowTable } from "@/drizzle/schema";
-import { eq } from "drizzle-orm";
+import {
+  listSlugHistoryTable,
+  listTable,
+  movieTable,
+  tvShowTable,
+} from "@/drizzle/schema";
+import { and, eq, or } from "drizzle-orm";
 import slugify from "slugify";
 
+/**
+ * Generates unique slug for any content type.
+ * @param title - The name to convert to a slug.
+ * @param contentType - The content type the slug will belong to.
+ * @returns A promise that resolves to a unique slug.
+ */
 export async function generateSlug(
   title: string,
   contentType: "movie" | "tv" | "list",
@@ -44,6 +55,15 @@ async function slugExists(
   const result = await db
     .select()
     .from(table)
-    .where(eq(table.slug, uniqueSlug));
+    .innerJoin(
+      listSlugHistoryTable,
+      eq(listSlugHistoryTable.oldSlug, uniqueSlug),
+    )
+    .where(
+      or(
+        eq(table.slug, uniqueSlug),
+        eq(listSlugHistoryTable.oldSlug, uniqueSlug),
+      ),
+    );
   return result.length > 0;
 }
