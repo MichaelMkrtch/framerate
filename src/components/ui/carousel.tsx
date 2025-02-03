@@ -161,7 +161,7 @@ const CarouselContent = React.forwardRef<
     <div
       ref={carouselRef}
       // Explicitly set heights to prevent container shift on refresh
-      className="md-tablet:h-[220px] flex items-center overflow-hidden rounded md:h-[189px] lg:h-[268px]"
+      className="flex items-center overflow-hidden rounded md:h-[189px] lg:h-[268px]"
     >
       <div
         ref={ref}

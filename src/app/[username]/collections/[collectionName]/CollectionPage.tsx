@@ -234,9 +234,9 @@ export default function CollectionPage({
           </p>
         </div>
 
-        <div className="grid w-full grid-cols-[1000px,1fr] gap-2.5">
+        <div className="grid h-screen w-full grid-cols-[1000px,1fr] gap-2.5">
           <div
-            className={`${listItems.length > 0 && "border border-white/10 bg-background-darker"} rounded-md px-7 py-8`}
+            className={`${listItems.length > 0 && "overflow-auto border border-white/10 bg-background-darker"} rounded-md px-7 py-8`}
           >
             {listItems.length > 0 && (
               <PosterGrid
@@ -246,6 +246,7 @@ export default function CollectionPage({
               />
             )}
           </div>
+
           <aside className="relative flex h-fit grow flex-col items-center justify-between rounded border border-white/5 bg-background-lighter px-7 py-8 shadow-md">
             <div className="mb-6 flex gap-3">
               <Link

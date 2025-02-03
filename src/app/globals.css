@@ -168,7 +168,7 @@ img {
   }
 
   .carousel-container {
-    @apply relative mb-6 rounded-md bg-background-darker p-6 before:absolute before:-left-20 before:-right-20 before:bottom-0 before:top-0;
+    @apply relative mb-6 rounded-md bg-background-darker p-4 before:absolute before:-left-20 before:-right-20 before:bottom-0 before:top-0;
   }
 
   .carousel-item {
