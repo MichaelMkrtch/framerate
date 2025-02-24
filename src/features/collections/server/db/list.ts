@@ -2,6 +2,8 @@
 
 import type { InsertList, InsertListItem } from "@/drizzle/schema";
 
+import { headers } from "next/headers";
+
 import { db } from "@/drizzle";
 import {
   likedListTable,
@@ -17,6 +19,7 @@ import {
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 
 import { verifyUser } from "@/features/collections/server/db/verifyUser";
+import { auth } from "@/lib/auth";
 import { generateSlug } from "@/lib/slug";
 
 // List
@@ -221,19 +224,28 @@ export async function getListData(username: string, slug: string) {
   }
 
   const { list } = results;
-  const { userId, ...safeList } = list;
+  const session = await auth.api.getSession({ headers: await headers() });
 
   const listItems = await getListItems(list.id);
 
-  const isLiked = await getLikeStatus(userId, list.id);
-  const isSaved = await getSaveStatus(userId, list.id);
+  if (session?.user) {
+    const isLiked = await getLikeStatus(session.user.id, list.id);
+    const isSaved = await getSaveStatus(session.user.id, list.id);
 
-  return {
-    list: { type: "list" as const, ...safeList },
-    isLiked,
-    isSaved,
-    listItems,
-  };
+    return {
+      list: { type: "list" as const, ...list },
+      isLiked,
+      isSaved,
+      listItems,
+    };
+  } else {
+    return {
+      list: { type: "list" as const, ...list },
+      isLiked: false,
+      isSaved: false,
+      listItems,
+    };
+  }
 
   // // If slug is outdated, gets new slug for redirect
   // const [{ list: listFromHistory }] = await db
@@ -287,6 +299,18 @@ async function getLikeStatus(userId: string, listId: number): Promise<boolean> {
         AND ${likedListTable.listId} = ${listId}
       ) as isliked`,
     );
+
+    const result2 = await db
+      .select()
+      .from(likedListTable)
+      .where(
+        and(
+          eq(likedListTable.userId, userId),
+          eq(likedListTable.listId, listId),
+        ),
+      );
+
+    console.log("2", result2);
 
     return result.isliked;
   } catch (_error) {

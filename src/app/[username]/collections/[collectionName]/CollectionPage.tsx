@@ -107,8 +107,6 @@ export default function CollectionPage({
 
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
-  // Pass updated like count to zustand store so UI updates correctly
-  // Get initial like count with list data request and save it in activeList
   async function updateLike() {
     if (!isLiked) {
       const response = await fetch("/api/actions/collections/like", {
