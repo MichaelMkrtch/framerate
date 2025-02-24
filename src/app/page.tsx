@@ -27,7 +27,7 @@ export default function LandingPage() {
               <span className="text-gray transition-colors duration-200 group-hover/trial:text-white">
                 <Ticket size={18} />
               </span>
-              Start your trial
+              Create free account
             </Link>
           </div>
         </nav>

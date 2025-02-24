@@ -7,6 +7,8 @@ import { LogOut } from "lucide-react";
 import { useAuthStore } from "@/store/auth/auth-store";
 import { useActiveListStore } from "@/store/collections/active-list-store";
 import { useListItemStore } from "@/store/collections/list-item-store";
+import { useListStore } from "@/store/collections/list-store";
+import { useReviewStore } from "@/store/details/review-store";
 import Header from "@/components/Header";
 import { authClient } from "@/lib/auth-client";
 
@@ -14,11 +16,15 @@ export default function PreferencesPage() {
   const { reset } = useAuthStore();
   const { clearActiveList } = useActiveListStore();
   const { clearListItems } = useListItemStore();
+  const { clearLists } = useListStore();
+  const { clearMediaActions } = useReviewStore();
 
   async function handleSignOut() {
     reset();
     clearActiveList();
     clearListItems();
+    clearLists();
+    clearMediaActions();
     sessionStorage.clear();
     localStorage.clear();
 

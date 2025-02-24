@@ -154,7 +154,7 @@ export const listTable = pgTable("list", {
   name: text("name").notNull(),
   likeCount: integer("like_count").default(0).notNull(),
   saveCount: integer("save_count").default(0).notNull(),
-  slug: text("slug").notNull().unique(),
+  slug: text("slug").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" })
     .notNull()
     .defaultNow(),

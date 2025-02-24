@@ -119,10 +119,14 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               toast.success("Account created!");
               router.push("/");
 
-              const slug = await generateSlug("Watchlist", "list");
               const { data: sessionData } = await authClient.getSession();
 
               if (sessionData) {
+                const slug = await generateSlug(
+                  "Watchlist",
+                  "list",
+                  sessionData.user.id,
+                );
                 await createList({
                   userId: sessionData.user.id,
                   name: "Watchlist",

@@ -19,6 +19,7 @@ import slugify from "slugify";
 export async function generateSlug(
   title: string,
   contentType: "movie" | "tv" | "list",
+  userId: string,
 ) {
   const allowedContentTypes = ["movie", "tv", "list"];
 
@@ -35,7 +36,7 @@ export async function generateSlug(
   let uniqueSlug = baseSlug;
   let counter = 1;
 
-  while (await slugExists(uniqueSlug, contentType)) {
+  while (await slugExists(uniqueSlug, contentType, userId)) {
     uniqueSlug = `${baseSlug}-${counter}`;
     counter++;
   }
@@ -43,27 +44,55 @@ export async function generateSlug(
   return uniqueSlug;
 }
 
+/**
+ * Checks if a slug exists for any content type.
+ * @param uniqueSlug - The slug name to check.
+ * @param contentType - The content type the slug will belong to.
+ * @param userId - The user to check for slug uniqueness.
+ * @returns True if slug already exists, false otherwise.
+ */
 async function slugExists(
   uniqueSlug: string,
   contentType: "movie" | "tv" | "list",
+  userId: string,
 ) {
   const tableMap = { movie: movieTable, tv: tvShowTable, list: listTable };
 
   const table = tableMap[contentType];
   if (!table) throw new Error("Invalid content type");
 
-  const result = await db
+  const baseQuery = db
     .select()
     .from(table)
     .innerJoin(
       listSlugHistoryTable,
       eq(listSlugHistoryTable.oldSlug, uniqueSlug),
-    )
-    .where(
+    );
+
+  if (contentType === "list") {
+    if (!userId) {
+      throw new Error("Please provide a valid user ID.");
+    }
+
+    const result = await baseQuery.where(
+      and(
+        or(
+          eq(table.slug, uniqueSlug),
+          eq(listSlugHistoryTable.oldSlug, uniqueSlug),
+        ),
+        eq(listTable.userId, userId),
+      ),
+    );
+
+    return result.length > 0;
+  } else {
+    const result = await baseQuery.where(
       or(
         eq(table.slug, uniqueSlug),
         eq(listSlugHistoryTable.oldSlug, uniqueSlug),
       ),
     );
-  return result.length > 0;
+
+    return result.length > 0;
+  }
 }

@@ -37,7 +37,7 @@ export default function Sidebar() {
         );
       }
     })();
-  }, [username, lists, setLists]);
+  }, [username, lists.length, setLists]);
 
   const gradients = [
     "bg-gradient-to-r from-cyan-700 via-blue-500 to-indigo-600",
@@ -72,7 +72,7 @@ export default function Sidebar() {
         </Dialog>
       </div>
 
-      <div>
+      <div className="animate-fade-in-fast">
         {lists.length > 0 &&
           lists.map((list, index) => {
             const gradientIndex =

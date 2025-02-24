@@ -60,7 +60,7 @@ export async function updateList(
         .insert(listSlugHistoryTable)
         .values({ listId: list.id, oldSlug });
 
-      const newSlug = await generateSlug(listName, "list");
+      const newSlug = await generateSlug(listName, "list", userId);
 
       const [updateResult] = await trx
         .update(listTable)

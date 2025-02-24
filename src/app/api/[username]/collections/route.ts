@@ -73,7 +73,7 @@ export async function POST(
     const { listName } = parsed.data;
 
     if (user?.id) {
-      const slug = await generateSlug(listName, "list");
+      const slug = await generateSlug(listName, "list", user.id);
 
       const results = await createList({
         userId: user.id,
