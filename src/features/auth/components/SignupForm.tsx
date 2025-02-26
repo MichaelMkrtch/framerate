@@ -117,7 +117,6 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
             onSuccess: async () => {
               toast.dismiss("loading");
               toast.success("Account created!");
-              router.push("/");
 
               const { data: sessionData } = await authClient.getSession();
 
@@ -133,6 +132,8 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                   slug,
                 });
               }
+
+              router.push("/");
             },
             onError: (ctx) => {
               toast.dismiss("loading");
