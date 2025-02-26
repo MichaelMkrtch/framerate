@@ -104,12 +104,11 @@ export default [
             },
             {
               from: ["app"],
-
               allow: [
                 [
                   "app",
                   {
-                    fileName: ["*.css", "providers.tsx"],
+                    fileName: ["*.css", "*.tsx", "providers.tsx"],
                   },
                 ],
               ],
