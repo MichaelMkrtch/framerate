@@ -133,7 +133,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 });
               }
 
-              router.push("/");
+              router.push("/home");
             },
             onError: (ctx) => {
               toast.dismiss("loading");

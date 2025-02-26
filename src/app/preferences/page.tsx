@@ -22,14 +22,6 @@ export default function PreferencesPage() {
   const router = useRouter();
 
   async function handleSignOut() {
-    reset();
-    clearActiveList();
-    clearListItems();
-    clearLists();
-    clearMediaActions();
-    sessionStorage.clear();
-    localStorage.clear();
-
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
@@ -37,6 +29,14 @@ export default function PreferencesPage() {
         },
       },
     });
+
+    reset();
+    clearActiveList();
+    clearListItems();
+    clearLists();
+    clearMediaActions();
+    sessionStorage.clear();
+    localStorage.clear();
   }
 
   return (
