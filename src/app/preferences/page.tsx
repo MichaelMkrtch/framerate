@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { LogOut } from "lucide-react";
 
@@ -19,6 +19,8 @@ export default function PreferencesPage() {
   const { clearLists } = useListStore();
   const { clearMediaActions } = useReviewStore();
 
+  const router = useRouter();
+
   async function handleSignOut() {
     reset();
     clearActiveList();
@@ -31,7 +33,7 @@ export default function PreferencesPage() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          redirect("/");
+          router.push("/");
         },
       },
     });
