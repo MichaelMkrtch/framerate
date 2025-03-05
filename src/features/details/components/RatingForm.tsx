@@ -50,7 +50,6 @@ export default function RatingForm({ media }: Record<"media", Details>) {
       toast.info("Please log in to save reviews");
       return;
     } else if (session.data?.user) {
-      console.log("submitting");
       formRef.current?.dispatchEvent(
         new Event("submit", { cancelable: true, bubbles: true }),
       );

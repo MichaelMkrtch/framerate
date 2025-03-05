@@ -23,7 +23,6 @@ export async function POST(
     const parsed = listItemSchema.safeParse(body);
 
     if (!parsed.success) {
-      console.log("errors", parsed.error.errors);
       return NextResponse.json({ message: `Invalid input` }, { status: 400 });
     }
 

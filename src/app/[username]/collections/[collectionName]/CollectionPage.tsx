@@ -21,9 +21,11 @@ import { formatElapsedTime, scrollToTop } from "@/lib/utils";
 export default function CollectionPage({
   username,
   listSlug,
+  activeUser,
 }: {
   username: string;
   listSlug: string;
+  activeUser: { id: string } | undefined;
 }) {
   const router = useRouter();
 
@@ -211,6 +213,7 @@ export default function CollectionPage({
           />
         </Link>
 
+        {/* Description */}
         <div className="mb-8">
           <h2 className="mb-2 h-7 text-xl font-bold">{activeList?.name}</h2>
           <h3 className="mb-0.5 font-medium text-gray">
@@ -232,6 +235,7 @@ export default function CollectionPage({
           </p>
         </div>
 
+        {/* Grid */}
         <div className="grid h-screen w-full grid-cols-[1000px,1fr] gap-2.5">
           <div
             className={`${listItems.length > 0 && "overflow-auto border border-white/10 bg-background-darker"} rounded-md px-7 py-8`}
@@ -245,39 +249,42 @@ export default function CollectionPage({
             )}
           </div>
 
+          {/* Side Card */}
           <aside className="relative flex h-fit grow flex-col items-center justify-between rounded border border-white/5 bg-background-lighter px-7 py-8 shadow-md">
-            <div className="mb-6 flex gap-3">
-              <Link
-                href={`/${username}/collections/${listSlug}/edit`}
-                className="transiton-colors ease rounded-md border border-white/5 bg-[#28292d] px-4 py-2 font-medium duration-150 hover:border-white/10 hover:bg-transparent"
-              >
-                Edit
-              </Link>
-              <Dialog>
-                <Dialog.Trigger asChild>
-                  <button className="ease rounded-md border border-white/5 bg-[#28292d] px-4 py-2 font-medium transition-colors duration-150 hover:border-red-500 hover:bg-transparent">
-                    Delete
-                  </button>
-                </Dialog.Trigger>
-                <Dialog.Content
-                  title="Delete this list?"
-                  description="This action cannot be undone. This will permanently delete your
-                            list and its content, including metadata such as likes, saves, and views."
+            {activeUser && activeList?.userId === activeUser.id && (
+              <div className="mb-6 flex gap-3">
+                <Link
+                  href={`/${username}/collections/${listSlug}/edit`}
+                  className="transiton-colors ease rounded-md border border-white/5 bg-[#28292d] px-4 py-2 font-medium duration-150 hover:border-white/10 hover:bg-transparent"
                 >
-                  <Dialog.Footer>
-                    <Dialog.Cancel className="border-white/10 bg-white/5 hover:bg-white/10 hover:text-foreground">
-                      Cancel
-                    </Dialog.Cancel>
-                    <Dialog.Action
-                      onClick={handleDelete}
-                      className="border-red-800 bg-red-600 hover:bg-red-700"
-                    >
+                  Edit
+                </Link>
+                <Dialog>
+                  <Dialog.Trigger asChild>
+                    <button className="ease rounded-md border border-white/5 bg-[#28292d] px-4 py-2 font-medium transition-colors duration-150 hover:border-red-500 hover:bg-transparent">
                       Delete
-                    </Dialog.Action>
-                  </Dialog.Footer>
-                </Dialog.Content>
-              </Dialog>
-            </div>
+                    </button>
+                  </Dialog.Trigger>
+                  <Dialog.Content
+                    title="Delete this list?"
+                    description="This action cannot be undone. This will permanently delete your
+                            list and its content, including metadata such as likes, saves, and views."
+                  >
+                    <Dialog.Footer>
+                      <Dialog.Cancel className="border-white/10 bg-white/5 hover:bg-white/10 hover:text-foreground">
+                        Cancel
+                      </Dialog.Cancel>
+                      <Dialog.Action
+                        onClick={handleDelete}
+                        className="border-red-800 bg-red-600 hover:bg-red-700"
+                      >
+                        Delete
+                      </Dialog.Action>
+                    </Dialog.Footer>
+                  </Dialog.Content>
+                </Dialog>
+              </div>
+            )}
 
             <div className="flex w-full items-center justify-around gap-3 text-[#555]">
               <div className="flex items-center justify-center gap-2">

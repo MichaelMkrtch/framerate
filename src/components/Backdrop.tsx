@@ -28,7 +28,7 @@ export default function Backdrop({
           height={1080}
           className={`${isLoaded && "animate-fade-in"} ${collection ? "h-[450px]" : "h-auto"} w-full object-cover`}
           style={transitionStyles.highRes}
-          priority
+          loading="lazy"
         />
         {/* Tablet and Desktop shadow gradient */}
         <div

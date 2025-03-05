@@ -4,6 +4,7 @@ import { db } from "@/drizzle";
 import { listSlugHistoryTable, listTable, user } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
+import { verifyUser } from "@/lib/verifyUser";
 import CollectionPage from "./CollectionPage";
 
 /**
@@ -57,12 +58,19 @@ export default async function Page({
   }>;
 }) {
   const { username, collectionName: listName } = await params;
+  const activeUser = await verifyUser();
 
   const userId = await getUserIdByUsername(username);
   const newSlug = userId && (await resolveSlug(userId, listName));
 
   if (!newSlug) {
-    return <CollectionPage username={username} listSlug={listName} />;
+    return (
+      <CollectionPage
+        username={username}
+        listSlug={listName}
+        activeUser={activeUser}
+      />
+    );
   }
 
   return redirect(`/${username}/collections/${newSlug}`);
