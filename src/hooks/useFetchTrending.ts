@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 
+import { Trending } from "@/types/tmdb.types";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { fetchRoute } from "@/lib/utils";
 
-export default function useFetchTrending<T extends "movie" | "tv" | "person">(
-  filter: T,
-  timeWindow: string,
-  debouncedQuery?: string,
-) {
+export default function useFetchTrending<
+  T extends "all" | "movie" | "tv" | "person",
+>(filter: T, timeWindow: string, debouncedQuery?: string) {
   const { data, error } = useQuery({
     queryKey: [`${filter}-trending-${timeWindow}`],
     queryFn: () =>
@@ -30,5 +29,5 @@ export default function useFetchTrending<T extends "movie" | "tv" | "person">(
     }
   }, [error]);
 
-  return data;
+  return data as Trending<T>[];
 }

@@ -27,6 +27,7 @@ export default {
         background: "var(--background)",
         "background-lighter": "var(--background-lighter)",
         "background-darker": "var(--background-darker)",
+        "background-accent": "var(--background-accent)",
         foreground: "var(--foreground)",
         gray: "rgb(134, 143, 151)",
       },

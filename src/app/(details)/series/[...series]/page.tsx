@@ -23,7 +23,7 @@ export default function SeriesPage() {
   const seriesId = parseInt(tvShow[0]);
 
   const details = useFetchDetails([{ mediaType: "tv", id: seriesId }])[0];
-  const fetchedSeries = details.data;
+  const fetchedSeries = details;
 
   useEffect(() => {
     (async () => {

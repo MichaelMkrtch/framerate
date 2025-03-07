@@ -23,7 +23,7 @@ export default function FilmPage() {
   const movieId = parseInt(film[0]);
 
   const details = useFetchDetails([{ mediaType: "movie", id: movieId }])[0];
-  const fetchedMovie = details.data;
+  const fetchedMovie = details;
 
   useEffect(() => {
     (async () => {

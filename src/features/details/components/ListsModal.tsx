@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/modal";
+} from "@/components/ui/dialog";
 
 export default function ListsModal({ children }: { children: ReactNode }) {
   return <Dialog>{children}</Dialog>;

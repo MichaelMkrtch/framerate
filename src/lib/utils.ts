@@ -4,6 +4,7 @@ import type {
   Credits,
   Crew,
   Details,
+  Media,
   Trending,
 } from "@/types/tmdb.types";
 import type { ClassValue } from "clsx";
@@ -23,34 +24,31 @@ export function hashIpAddress(ip: string): string {
   return crypto.createHash("sha256").update(ip).digest("hex");
 }
 
-type Category = "trending" | "details";
-type MediaType = "movie" | "tv" | "person";
-type ReturnType<C extends Category, M extends MediaType> = C extends "trending"
-  ? Trending<M>[]
-  : Details<M>;
+type Category = "trending" | "details" | "search";
+type MediaType = "all" | "movie" | "tv" | "person";
+type SearchResult = { message: string; results?: Media[]; error?: string };
+
+type ReturnType<C extends Category, M extends MediaType> = C extends "search"
+  ? SearchResult
+  : C extends "trending"
+    ? Trending<M>[]
+    : Details<M>;
 
 // mediaType parameter aids type inference when calling data fetching hooks
 export async function fetchRoute<C extends Category, M extends MediaType>(
   endpoint: string,
-  mediaType: M,
-  category: C,
+  _mediaType: M,
+  _category: C,
 ): Promise<ReturnType<C, M> | undefined> {
   try {
     const response = await fetch(endpoint);
+    const data = await response.json();
 
     if (!response.ok) {
       throw new Error(`An error occurred while fetching data!`);
     }
 
-    if (category === "trending") {
-      const trendingData = await response.json();
-      return trendingData as ReturnType<C, M>;
-    }
-
-    if (category === "details") {
-      const detailsData = await response.json();
-      return detailsData as ReturnType<C, M>;
-    }
+    return data as ReturnType<C, M>;
   } catch (error) {
     if (error instanceof Error) {
       // Error will be caught by TanStack Query

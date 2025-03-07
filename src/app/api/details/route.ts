@@ -1,6 +1,7 @@
 import type { Details } from "@/types/tmdb.types";
 
 import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
 import { convertToCamelCase, formatNames, renameKeys } from "@/lib/utils";
 
@@ -9,8 +10,12 @@ const API_TOKEN = process.env.API_TOKEN as string;
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  const mediaType = searchParams.get("type") as "movie" | "tv";
+  const mediaType = searchParams.get("type") as "movie" | "tv" | "person";
   const idString = searchParams.get("id");
+
+  if (mediaType === "person") {
+    return NextResponse.json({ message: "Person search not yet supported." });
+  }
 
   if (mediaType && idString) {
     const id = parseInt(idString);
@@ -23,11 +28,11 @@ export async function GET(request: Request) {
     throw new Error("Invalid media type or ID");
   }
 
-  redirect("/");
+  redirect("/home");
 }
 
 async function fetchDetails(
-  mediaType: "movie" | "tv",
+  mediaType: "movie" | "tv" | "person",
   id: number,
 ): Promise<Details | Error> {
   const url = `https://api.themoviedb.org/3/${mediaType}/${id}?append_to_response=credits&language=en-US`;

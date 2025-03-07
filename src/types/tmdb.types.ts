@@ -1,8 +1,12 @@
-export type Trending<T = "movie" | "tv" | "person"> = T extends "movie"
-  ? TrendingMovie
-  : T extends "tv"
-    ? TrendingTV
-    : TrendingPerson;
+export type Media = TrendingMedia | Details;
+
+export type Trending<T = "all" | "movie" | "tv" | "person"> = T extends "all"
+  ? TrendingMedia
+  : T extends "movie"
+    ? TrendingMovie
+    : T extends "tv"
+      ? TrendingTV
+      : TrendingPerson;
 
 export type Details<T = "movie" | "tv"> = T extends "movie"
   ? MovieDetails
@@ -45,6 +49,8 @@ type TrendingPerson = {
   popularity: number;
   profilePath?: string;
 };
+
+type TrendingMedia = TrendingMovie | TrendingTV;
 
 type MediaDetails = {
   credits: { cast: Cast[]; crew: Crew[] };

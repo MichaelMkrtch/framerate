@@ -15,8 +15,7 @@ type GetApiResponse = {
 
 // Get all lists
 export async function GET(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  request: Request,
+  _request: Request,
 ): Promise<NextResponse<GetApiResponse>> {
   try {
     const user = await verifyUser();

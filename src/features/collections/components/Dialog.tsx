@@ -48,17 +48,6 @@ function DialogContent({
         <AlertDialogDescription>{description}</AlertDialogDescription>
       </AlertDialogHeader>
       {children}
-      {/* <AlertDialogFooter> */}
-      {/* <AlertDialogCancel className="border-white/10 bg-white/5 hover:bg-white/10 hover:text-foreground">
-          Cancel
-        </AlertDialogCancel>
-        <AlertDialogAction
-          className={`${action === "Delete" ? "border-red-800 bg-red-600 hover:bg-red-700" : "border-emerald-800 bg-emerald-600 hover:bg-emerald-700"}`}
-          onClick={() => setSubmitForm(true)}
-        >
-          {action}
-        </AlertDialogAction> */}
-      {/* </AlertDialogFooter> */}
     </AlertDialogContent>
   );
 }

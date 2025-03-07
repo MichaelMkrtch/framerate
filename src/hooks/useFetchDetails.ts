@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { Details } from "@/types/tmdb.types";
 import { useQueries } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -30,5 +31,13 @@ export default function useFetchDetails<T extends "movie" | "tv">(
     }
   }, [detailsQuery]);
 
-  return detailsQuery;
+  const data: Details[] = [];
+
+  if (detailsQuery) {
+    detailsQuery.forEach((result) => {
+      return result.data && data.push(result.data);
+    });
+  }
+
+  return data;
 }
