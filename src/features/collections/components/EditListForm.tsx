@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { useActiveListStore } from "@/store/collections/active-list-store";
 import { useListStore } from "@/store/collections/list-store";
 import {
   Form,
@@ -34,6 +35,7 @@ export default function EditListForm({
   }>();
 
   const { addList, removeList } = useListStore();
+  const { activeList } = useActiveListStore();
 
   const form = useForm<z.infer<typeof listSchema>>({
     resolver: zodResolver(listSchema),
@@ -85,7 +87,7 @@ export default function EditListForm({
                   className={`w-[500px] rounded-md ring-1 ring-white/10 ${form.formState.errors.listName && "!ring-red-500"}`}
                 >
                   <Input
-                    placeholder="Favorites"
+                    placeholder={activeList?.name ?? "Favorites"}
                     autoComplete="off"
                     autoFocus
                     className="block w-full rounded-md bg-background-lighter px-3.5 py-2 text-foreground outline-none placeholder:text-white/35"

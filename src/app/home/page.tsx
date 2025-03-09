@@ -14,12 +14,11 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const queryClient = new QueryClient();
 
-  // MOVE TO SEARCH PARENT?
-  // await queryClient.prefetchQuery({
-  //   queryKey: ["all-trending-day"],
-  //   queryFn: () => fetch(`/api/trending?filter=all&timeWindow=day`),
-  //   staleTime: 1000 * 60 * 10,
-  // });
+  await queryClient.prefetchQuery({
+    queryKey: ["all-trending-day"],
+    queryFn: () => fetch(`/api/trending?filter=all&timeWindow=day`),
+    staleTime: 1000 * 60 * 10,
+  });
 
   await queryClient.prefetchQuery({
     queryKey: ["movie-trending-week"],
@@ -38,7 +37,7 @@ export default async function HomePage() {
       {/* HydrationBoundary is a Client Component, so hydration will happen there */}
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Header />
-        <main>
+        <main className="pb-14 2xl:pb-0">
           <HomeCarousel />
         </main>
       </HydrationBoundary>

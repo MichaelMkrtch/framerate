@@ -170,7 +170,7 @@ export default function Navbar() {
     navbarEnabled && (
       <TooltipProvider>
         <div className="fixed bottom-6 left-0 right-0 mx-auto flex w-fit items-center justify-center gap-x-4">
-          <nav className="shadow-small bg-background-accent flex gap-x-[26px] rounded-full border border-white/5 px-4 py-0.5">
+          <nav className="shadow-small flex gap-x-[26px] rounded-full border border-white/5 bg-background-accent px-4 py-0.5">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
@@ -197,7 +197,7 @@ export default function Navbar() {
             <SearchDialogTrigger asChild>
               <button
                 ref={searchBtn}
-                className="shadow-small bg-background-accent relative rounded-full border border-white/5 px-3 py-0.5 transition-colors duration-200 ease-in-out hover:text-indigo-400"
+                className="shadow-small relative rounded-full border border-white/5 bg-background-accent px-3 py-0.5 transition-colors duration-200 ease-in-out hover:text-indigo-400"
               >
                 <Tooltip side="top" sideOffset={18} content="Search" key1="/">
                   <Search width={20} height={40} strokeWidth={1.5} />

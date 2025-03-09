@@ -52,7 +52,7 @@ export default function Header({ title, classes, children }: HeaderProps) {
       className={`${classes} mb-2 flex h-[120px] items-center justify-between`}
     >
       <div className="flex items-center justify-center gap-3">
-        <Link href="/">
+        <Link href="/home">
           <Image src="/logo.svg" alt="FrameRate logo" width="30" height="30" />
         </Link>
         <div>

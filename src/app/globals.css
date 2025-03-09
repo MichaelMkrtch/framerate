@@ -175,10 +175,13 @@ img {
   .carousel-item {
     @apply h-36 w-24 md:h-[180px] md:w-[120px] lg:h-[249px] lg:w-[166px] xl:h-[288px] xl:w-[192px];
   }
+
+  .library-filter-btn {
+    @apply rounded border border-white/10 bg-transparent px-2.5 py-1 text-center font-semibold tracking-wide text-white/50;
+  }
 }
 
 /* Keyframes */
-
 @keyframes fade-in {
   0% {
     opacity: 0;
