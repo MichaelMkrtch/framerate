@@ -37,7 +37,7 @@ export default async function HomePage() {
       {/* HydrationBoundary is a Client Component, so hydration will happen there */}
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Header />
-        <main className="pb-14">
+        <main className="animate-fade-in-fast pb-14">
           <HomeCarousel />
         </main>
       </HydrationBoundary>
