@@ -7,6 +7,7 @@ import {
   tvReviewTable,
   tvShowTable,
 } from "@/drizzle/schema";
+import { Review } from "@/types/data.types";
 import { and, eq } from "drizzle-orm";
 
 import { verifyUser } from "@/features/details/server/db/verifyUser";
@@ -78,23 +79,23 @@ export async function deleteSeriesReview(seriesId: number) {
   }
 }
 
-export async function getSeriesList() {
+export async function getReviewedSeries() {
   const user = await verifyUser();
 
   if (user && user.id) {
     const result = await db
       .select({
         mediaId: tvReviewTable.seriesId,
+        mediaType: tvReviewTable.mediaType,
         title: tvShowTable.title,
         posterPath: tvShowTable.posterPath,
         rating: tvReviewTable.rating,
         createdAt: tvReviewTable.createdAt,
-        mediaType: tvReviewTable.mediaType,
       })
       .from(tvShowTable)
       .innerJoin(tvReviewTable, eq(tvShowTable.id, tvReviewTable.seriesId))
       .where(eq(tvReviewTable.userId, user.id));
 
-    return result;
+    return result as Review<"tv">[];
   }
 }

@@ -9,8 +9,8 @@ import { TooltipProvider } from "@/components/ui/tooltip-ui";
 import { getSimpleTitle } from "@/lib/utils";
 
 type PosterGridProps = {
-  media: ListItem[] | Review[];
-  isTooltipEnabled: boolean;
+  media: ListItem[] | Review<"movie" | "tv">[];
+  isTooltipEnabled?: boolean;
   classes: string;
 };
 
@@ -30,8 +30,8 @@ export default function PosterGrid({
           const tooltipContent = (
             <div className="max-w-48">
               <div className="w-full">
-                <p className="font-medium tracking-wide">{result.title}</p>
-                <div className="flex justify-end">
+                <p className="font-semibold tracking-wide">{result.title}</p>
+                <div className="my-1 flex justify-start">
                   <StarIcon fill="#FFD43B" classes="h-4 w-4" />
                   <span className="ml-1 font-semibold">{rating}</span>
                 </div>
@@ -47,6 +47,7 @@ export default function PosterGrid({
                 side="bottom"
                 content={tooltipContent}
                 isEnabled={isTooltipEnabled}
+                classes="bg-background-lighter border-white/10"
               >
                 <Link
                   href={`/${mediaType}/${result.mediaId}/${simpleTitle}`}

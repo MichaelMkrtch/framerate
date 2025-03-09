@@ -27,11 +27,11 @@ export type ListItem = {
 
 export type ActiveList = List;
 
-export type Review = {
-  mediaType: "movie" | "tv";
+export type Review<T> = {
   mediaId: number;
+  mediaType: T;
   title: string;
   rating: string;
-  posterPath: string;
+  posterPath: string | null;
   createdAt: Date;
 };

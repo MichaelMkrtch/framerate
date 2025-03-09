@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -10,7 +12,7 @@ import Header from "@/components/Header";
 import Tooltip from "@/components/Tooltip";
 import { TooltipProvider } from "@/components/ui/tooltip-ui";
 
-export default function LibraryLayout() {
+export default function LibraryLayout({ children }: { children: ReactNode }) {
   const filter = useSearchParams().get("filter");
 
   const allLinkRef = useRef<HTMLAnchorElement>(null);
@@ -38,6 +40,8 @@ export default function LibraryLayout() {
             <Link
               ref={allLinkRef}
               href="/library"
+              scroll={false}
+              shallow={true}
               className={`${filter === null && "highlight-gradient border border-transparent font-semibold text-foreground"} library-filter-btn`}
             >
               All
@@ -48,6 +52,8 @@ export default function LibraryLayout() {
             <Link
               ref={filmLinkRef}
               href="/library?filter=film"
+              scroll={false}
+              shallow={true}
               className={`${filter === "film" && "highlight-gradient border border-transparent font-semibold text-foreground"} library-filter-btn`}
             >
               Film
@@ -58,6 +64,8 @@ export default function LibraryLayout() {
             <Link
               ref={seriesLinkRef}
               href="/library?filter=series"
+              scroll={false}
+              shallow={true}
               className={`${filter === "series" && "highlight-gradient border border-transparent font-semibold text-foreground"} library-filter-btn`}
             >
               Series
@@ -65,6 +73,8 @@ export default function LibraryLayout() {
           </Tooltip>
         </TooltipProvider>
       </div>
+
+      <div className="pb-20">{children}</div>
     </>
   );
 }

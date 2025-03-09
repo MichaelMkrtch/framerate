@@ -2,11 +2,12 @@
 
 import type { ActiveList, List, ListItem } from "@/types/data.types";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { ArrowLeftCircle, ArrowUp } from "lucide-react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { toast } from "sonner";
 
 import { useActiveListStore } from "@/store/collections/active-list-store";
@@ -15,6 +16,8 @@ import { useListStore } from "@/store/collections/list-store";
 import Backdrop from "@/components/Backdrop";
 import { BookmarkIcon, HeartIcon } from "@/components/icons/MediaActionIcons";
 import PosterGrid from "@/components/PosterGrid";
+import Tooltip from "@/components/Tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip-ui";
 import Dialog from "@/features/collections/components/Dialog";
 import { formatElapsedTime, scrollToTop } from "@/lib/utils";
 
@@ -45,7 +48,13 @@ export default function CollectionPage({
   const { listItems, setListItems, clearListItems } = useListItemStore();
 
   const [hovering, setHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isArrowVisible, setIsArrowVisible] = useState(false);
+
+  const scrollToTopBtn = useRef<HTMLButtonElement>(null);
+
+  useHotkeys("t", () => {
+    scrollToTopBtn.current?.click();
+  });
 
   useEffect(() => {
     (async () => {
@@ -98,7 +107,7 @@ export default function CollectionPage({
 
   useEffect(() => {
     const toggleVisibility = () => {
-      setIsVisible(window.scrollY > 500);
+      setIsArrowVisible(window.scrollY > 500);
     };
 
     window.addEventListener("scroll", toggleVisibility);
@@ -309,15 +318,20 @@ export default function CollectionPage({
         </div>
       </div>
 
-      <button
-        onClick={scrollToTop}
-        className={`${isVisible ? "animate-fade-in" : ""} fixed bottom-4 right-4 rounded-full p-2 shadow-lg transition-colors duration-200 hover:bg-white/5 ${
-          isVisible ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        aria-label="Scroll to top"
-      >
-        <ArrowUp strokeWidth={1.5} />
-      </button>
+      <TooltipProvider>
+        <Tooltip side="top" sideOffset={12} content="Scroll to top" key1="T">
+          <button
+            ref={scrollToTopBtn}
+            onClick={scrollToTop}
+            className={`${isArrowVisible ? "animate-fade-in" : ""} fixed bottom-4 right-4 rounded-full p-2 shadow-lg outline-none transition-colors duration-200 hover:bg-white/5 ${
+              isArrowVisible ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
+            aria-label="Scroll to top"
+          >
+            <ArrowUp strokeWidth={1.5} />
+          </button>
+        </Tooltip>
+      </TooltipProvider>
     </main>
   );
 }

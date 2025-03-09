@@ -41,7 +41,7 @@ export default function RootLayout({
         className={`${manrope.variable} ${bespokeSerif.variable} size-full`}
       >
         <Providers>
-          <div className="mx-auto h-full max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
+          <div className="mx-auto h-full max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px] 2xl:pb-0">
             {children}
             <Navbar />
           </div>

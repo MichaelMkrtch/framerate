@@ -7,6 +7,7 @@ import {
   movieReviewTable,
   movieTable,
 } from "@/drizzle/schema";
+import { Review } from "@/types/data.types";
 import { and, eq } from "drizzle-orm";
 
 import { verifyUser } from "@/features/details/server/db/verifyUser";
@@ -78,23 +79,23 @@ export async function deleteMovieReview(movieId: number) {
   }
 }
 
-export async function getMovieList() {
+export async function getReviewedMovies() {
   const user = await verifyUser();
 
   if (user && user.id) {
     const result = await db
       .select({
         mediaId: movieReviewTable.movieId,
+        mediaType: movieReviewTable.mediaType,
         title: movieTable.title,
         posterPath: movieTable.posterPath,
         rating: movieReviewTable.rating,
         createdAt: movieReviewTable.createdAt,
-        mediaType: movieReviewTable.mediaType,
       })
       .from(movieTable)
       .innerJoin(movieReviewTable, eq(movieTable.id, movieReviewTable.movieId))
       .where(eq(movieReviewTable.userId, user.id));
 
-    return result;
+    return result as Review<"movie">[];
   }
 }
