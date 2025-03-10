@@ -31,11 +31,11 @@ export default function Poster({
   let perspectiveClasses = "";
   if (isLoaded && perspectiveEnabled) {
     perspectiveClasses =
-      "group rounded relative transition-transform ease-out hover:scale-105 hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]";
+      "group rounded relative transform-gpu transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))]";
   }
 
   return (
-    <div className="w-fit [perspective:800px]">
+    <div className="w-fit transform-gpu transition-transform duration-200 ease-out [perspective:800px] hover:scale-110">
       <div
         onMouseEnter={(event) => {
           boundingRef.current = event.currentTarget.getBoundingClientRect();
