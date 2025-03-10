@@ -12,6 +12,7 @@ type PosterProps = {
   width: number;
   height: number;
   perspectiveEnabled: boolean;
+  scale?: number;
   classes: string;
 };
 
@@ -23,6 +24,7 @@ export default function Poster({
   height,
   classes,
   perspectiveEnabled,
+  scale,
 }: PosterProps) {
   const boundingRef = useRef<DOMRect | null>(null);
 
@@ -35,7 +37,9 @@ export default function Poster({
   }
 
   return (
-    <div className="w-fit transform-gpu transition-transform duration-200 ease-out [perspective:800px] hover:scale-110">
+    <div
+      className={`w-fit transform-gpu transition-transform duration-200 ease-out [perspective:800px] ${scale === 105 ? "hover:scale-105" : "hover:scale-[1.08]"}`}
+    >
       <div
         onMouseEnter={(event) => {
           boundingRef.current = event.currentTarget.getBoundingClientRect();

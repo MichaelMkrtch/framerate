@@ -55,17 +55,16 @@ export default function HomeCarousel() {
                   className="md:basis-1/5 xl:basis-1/6"
                 >
                   <Link href={`/film/${movie.id}/${simpleTitle}`}>
-                    <div className="transition-all duration-150 hover:scale-105">
-                      <Poster
-                        title={movie.title}
-                        src={movie.posterPath}
-                        fetchSize="w342"
-                        width={160}
-                        height={240}
-                        perspectiveEnabled={false}
-                        classes="animate-fade-in carousel-item w-[170px] h-[255px]"
-                      />
-                    </div>
+                    <Poster
+                      title={movie.title}
+                      src={movie.posterPath}
+                      fetchSize="w342"
+                      width={160}
+                      height={240}
+                      perspectiveEnabled={false}
+                      scale={105}
+                      classes="animate-fade-in carousel-item w-[170px] h-[255px]"
+                    />
                   </Link>
                 </CarouselItem>
               );
@@ -95,17 +94,16 @@ export default function HomeCarousel() {
                   className="md:basis-1/5 xl:basis-1/6"
                 >
                   <Link href={`/series/${series.id}/${simpleTitle}`}>
-                    <div className="transition-all duration-150 hover:scale-105">
-                      <Poster
-                        title={series.title}
-                        src={series.posterPath}
-                        fetchSize="w342"
-                        width={160}
-                        height={240}
-                        perspectiveEnabled={false}
-                        classes="carousel-item w-[170px] h-[255px]"
-                      />
-                    </div>
+                    <Poster
+                      title={series.title}
+                      src={series.posterPath}
+                      fetchSize="w342"
+                      width={160}
+                      height={240}
+                      perspectiveEnabled={false}
+                      scale={105}
+                      classes="carousel-item w-[170px] h-[255px]"
+                    />
                   </Link>
                 </CarouselItem>
               );
