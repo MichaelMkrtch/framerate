@@ -82,41 +82,34 @@ export default function LibraryPage({
   }, [filter]);
 
   return (
-    reviews.length > 0 && (
-      <>
-        <div>
-          <LibraryFilters filter={filter} />
-        </div>
+    <>
+      <div>
+        <LibraryFilters filter={filter} />
+      </div>
 
-        <main className="mt-4 animate-fade-in-fast rounded-md bg-background-darker px-7 py-8">
+      <main className="mt-4 animate-fade-in-fast rounded-md bg-background-darker px-7 py-8">
+        {reviews.length > 0 && (
           <PosterGrid
             media={reviews}
             classes="grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-3.5"
           />
+        )}
 
-          <TooltipProvider>
-            <Tooltip
-              side="top"
-              sideOffset={12}
-              content="Scroll to top"
-              key1="T"
+        <TooltipProvider>
+          <Tooltip side="top" sideOffset={12} content="Scroll to top" key1="T">
+            <button
+              ref={scrollToTopBtn}
+              onClick={scrollToTop}
+              className={`${isArrowVisible ? "animate-fade-in" : ""} fixed bottom-4 right-4 rounded-full p-2 shadow-lg outline-none transition-colors duration-200 hover:bg-white/5 ${
+                isArrowVisible ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+              aria-label="Scroll to top"
             >
-              <button
-                ref={scrollToTopBtn}
-                onClick={scrollToTop}
-                className={`${isArrowVisible ? "animate-fade-in" : ""} fixed bottom-4 right-4 rounded-full p-2 shadow-lg outline-none transition-colors duration-200 hover:bg-white/5 ${
-                  isArrowVisible
-                    ? "opacity-100"
-                    : "pointer-events-none opacity-0"
-                }`}
-                aria-label="Scroll to top"
-              >
-                <ArrowUp strokeWidth={1.5} />
-              </button>
-            </Tooltip>
-          </TooltipProvider>
-        </main>
-      </>
-    )
+              <ArrowUp strokeWidth={1.5} />
+            </button>
+          </Tooltip>
+        </TooltipProvider>
+      </main>
+    </>
   );
 }
