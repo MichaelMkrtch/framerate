@@ -59,12 +59,12 @@ export default function TiersPage({ result }: { result: ListResourceProduct }) {
   ];
 
   return (
-    <main className="relative h-full w-full bg-background">
-      <div className="absolute bottom-0 left-0 right-0 top-2 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:24px_34px] [mask-image:radial-gradient(ellipse_50%_90%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+    <main className="relative z-10 h-full w-full bg-background">
+      <div className="absolute bottom-0 left-0 right-0 top-2 -z-10 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:24px_34px] [mask-image:radial-gradient(ellipse_50%_90%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       <Header title="Tiers" />
 
       <div className="relative">
-        <div className="absolute left-0 right-0 top-8 z-10 mx-auto flex w-fit items-center justify-center gap-x-2 rounded-full border border-white/10 bg-background-darker px-5 py-2 font-semibold tracking-wide">
+        <div className="absolute left-0 right-0 top-[26px] z-10 mx-auto flex w-fit items-center justify-center gap-x-2 rounded-full border border-white/10 bg-background-darker px-5 py-2 font-semibold tracking-wide">
           <label htmlFor="interval">Monthly</label>
           <Switch
             id="interval"

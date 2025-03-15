@@ -41,7 +41,7 @@ export default function Header({ title, classes, children }: HeaderProps) {
 
   return (
     <header
-      className={`${classes} mb-2 flex h-[120px] items-center justify-between`}
+      className={`${classes} flex h-[115px] items-center justify-between`}
     >
       <div className="flex items-center justify-center gap-3">
         <Link href="/home">
