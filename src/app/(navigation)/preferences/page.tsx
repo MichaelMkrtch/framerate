@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { LogOut } from "lucide-react";
@@ -50,6 +51,12 @@ export default function PreferencesPage() {
           Sign out
         </button>
       </Header>
+
+      <main>
+        <Link href="/tiers" className="rounded bg-background-accent px-3 py-2">
+          View Tiers
+        </Link>
+      </main>
     </>
   );
 }

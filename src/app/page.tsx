@@ -37,7 +37,7 @@ export default function LandingPage() {
         <div className="absolute left-0 right-0 top-0 -z-10 mx-auto w-full items-center">
           <Image
             src="https://image.tmdb.org/t/p/original/ote8qQ1fmzM74Q1sJ1YgRh6UZFd.jpg"
-            alt="A still image from the film Nosferatu (2024)"
+            alt="A still image from the film Mickey 17 (2025)"
             width={1920}
             height={1080}
             priority

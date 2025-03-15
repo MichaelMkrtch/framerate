@@ -39,29 +39,18 @@ export default function Header({ title, classes, children }: HeaderProps) {
     }
   }, [error, session, setEmail, setName, setUsername]);
 
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  };
-
-  const fullDate = new Intl.DateTimeFormat("en-US", options).format();
-
   return (
     <header
       className={`${classes} mb-2 flex h-[120px] items-center justify-between`}
     >
       <div className="flex items-center justify-center gap-3">
         <Link href="/home">
-          <Image src="/logo.svg" alt="FrameRate logo" width="30" height="30" />
+          <Image src="/logo.svg" alt="FrameRate logo" width="22" height="22" />
         </Link>
         <div>
-          <h1 className="text-[22px] font-semibold">
+          <h1 className="text-xl font-semibold">
             {pathname === "/home" ? `Hello, ${name}` : title}
           </h1>
-          <p className="-mt-1 text-gray">
-            {pathname === "/preferences" ? email : fullDate}
-          </p>
         </div>
       </div>
 

@@ -1,20 +1,18 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { api } from "@/polar";
 
-import ProductCard from "@/features/tiers/components/ProductCard";
+import TiersPage from "./TiersPage";
 
-export default async function TiersPage() {
+export default async function Page() {
   const { result } = await api.products.list({ isArchived: false });
 
-  return (
-    <div className="flex flex-col gap-y-32">
-      <h1 className="text-5xl">Products</h1>
-      <div className="grid grid-cols-4 gap-12">
-        {result.items.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
-  );
+  if (result && result.items.length > 0) {
+    return <TiersPage result={result} />;
+  }
+
+  // Handle error from result being undefined
+  // redirect and handle message on destination page
+  console.log("Something went wrong while getting plans!");
+  return redirect("/home");
 }
