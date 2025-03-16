@@ -169,7 +169,7 @@ export default function Navbar() {
   return (
     navbarEnabled && (
       <TooltipProvider>
-        <div className="fixed bottom-6 left-0 right-0 mx-auto flex w-fit items-center justify-center gap-x-4">
+        <div className="fixed bottom-6 left-0 right-0 z-50 mx-auto flex w-fit items-center justify-center gap-x-4">
           <nav className="shadow-small flex gap-x-[26px] rounded-full border border-white/5 bg-background-accent px-4 py-0.5">
             {tabs.map((tab) => {
               const Icon = tab.icon;
