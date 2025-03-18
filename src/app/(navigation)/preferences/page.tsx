@@ -56,6 +56,9 @@ export default function PreferencesPage() {
         <Link href="/tiers" className="rounded bg-background-accent px-3 py-2">
           View Tiers
         </Link>
+        <a href="/api/portal" target="_blank">
+          Manage Subscription
+        </a>
       </main>
     </>
   );

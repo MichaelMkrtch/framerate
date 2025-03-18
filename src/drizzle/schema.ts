@@ -16,13 +16,14 @@ import {
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  displayUsername: text("displayUsername").unique(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("emailVerified").notNull(),
   image: text("image"),
   createdAt: timestamp("createdAt").notNull(),
   updatedAt: timestamp("updatedAt").notNull(),
-  username: text("username").notNull().unique(),
 });
 
 export const session = pgTable("session", {
@@ -63,6 +64,23 @@ export const verification = pgTable("verification", {
   expiresAt: timestamp("expiresAt").notNull(),
   createdAt: timestamp("createdAt"),
   updatedAt: timestamp("updatedAt"),
+});
+
+export const subscriptions = pgTable("subscriptions", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .unique()
+    .references(() => user.id, {
+      onUpdate: "no action",
+      onDelete: "no action",
+    }),
+  status: text("status").notNull(),
+  plan: text("plan").notNull(),
+  productId: text("product_id").notNull(),
+  startDate: timestamp("start_date").notNull().defaultNow(),
+  renewalDate: timestamp("renewal_date"),
+  endDate: timestamp("end_date"),
 });
 
 export const movieTable = pgTable("movie", {

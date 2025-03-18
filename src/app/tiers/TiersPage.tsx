@@ -15,8 +15,10 @@ import ProductCard from "@/features/polar/components/ProductCard";
 
 export default function TiersPage({
   result,
+  userId,
 }: {
   result: ListResourceProduct | undefined;
+  userId: string;
 }) {
   if (!result) {
     toast.error("Something went wrong! Please try again later.");
@@ -75,7 +77,7 @@ export default function TiersPage({
       <div className="absolute bottom-0 left-0 right-0 top-2 -z-10 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:24px_34px] [mask-image:radial-gradient(ellipse_50%_90%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       <Header title="Tiers" />
 
-      <div className="animate-fade-in-fast">
+      <div className="animate-fade-in-fast 2xl:translate-y-1/4">
         <div className="relative">
           <div className="absolute left-0 right-0 top-[26px] z-10 mx-auto flex w-fit items-center justify-center gap-x-2 rounded-full border border-white/10 bg-background-darker px-5 py-2 font-semibold tracking-wide">
             <label htmlFor="interval">Monthly</label>
@@ -91,11 +93,13 @@ export default function TiersPage({
           {plans.length >= 2 && (
             <GlowArea className="flex flex-col items-center justify-center gap-8 px-10 lg:flex-row lg:py-24">
               <ProductCard
+                userId={userId}
                 product={proTier}
                 highlightColor="#ed4b00"
                 benefits={proBenefits}
               />
               <ProductCard
+                userId={userId}
                 product={premiereTier}
                 highlightColor="#441aff"
                 benefits={premiereBenefits}
