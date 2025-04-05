@@ -14,7 +14,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default [
+const rules = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     plugins: {
@@ -113,9 +113,15 @@ export default [
                 ],
               ],
             },
+            {
+              from: ["neverImport"],
+              allow: [{ filename: ["polar.ts"] }],
+            },
           ],
         },
       ],
     },
   },
 ];
+
+export default rules;

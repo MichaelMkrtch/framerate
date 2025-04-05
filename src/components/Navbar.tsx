@@ -169,7 +169,7 @@ export default function Navbar() {
   return (
     navbarEnabled && (
       <TooltipProvider>
-        <div className="fixed bottom-6 left-0 right-0 mx-auto flex w-fit items-center justify-center gap-x-4">
+        <div className="fixed bottom-6 left-0 right-0 z-50 mx-auto flex w-fit items-center justify-center gap-x-4">
           <nav className="shadow-small flex gap-x-[26px] rounded-full border border-white/5 bg-background-accent px-4 py-0.5">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -184,7 +184,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={tab.href}
-                    className={`relative flex items-center justify-center transition-all duration-200 ease-in-out before:absolute before:bottom-0 before:top-0 before:my-auto before:size-8 before:rounded-full before:transition-all before:duration-200 before:ease-in-out hover:text-indigo-400 before:hover:bg-white/[0.08] ${pathname === tab.href ? "text-indigo-400 before:bg-white/[0.08]" : "text-white"}`}
+                    className={`relative flex items-center justify-center transition-all duration-200 ease-in-out before:absolute before:bottom-0 before:top-0 before:my-auto before:size-8 before:rounded-full before:transition-all before:duration-200 before:ease-in-out hover:text-[#522aff] before:hover:bg-white/[0.08] focus:outline-[#522aff] ${pathname === tab.href ? "text-[#522aff] before:bg-white/[0.08]" : "text-white"}`}
                   >
                     <Icon width={20} height={40} strokeWidth={1.5} />
                   </Link>
@@ -197,7 +197,7 @@ export default function Navbar() {
             <SearchDialogTrigger asChild>
               <button
                 ref={searchBtn}
-                className="shadow-small relative rounded-full border border-white/5 bg-background-accent px-3 py-0.5 transition-colors duration-200 ease-in-out hover:text-indigo-400"
+                className="shadow-small relative rounded-full border border-white/5 bg-background-accent px-3 py-0.5 outline-0 transition-colors duration-200 ease-in-out hover:text-[#522aff]"
               >
                 <Tooltip side="top" sideOffset={18} content="Search" key1="/">
                   <Search width={20} height={40} strokeWidth={1.5} />

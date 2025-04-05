@@ -87,12 +87,20 @@ export default function LibraryPage({
         <LibraryFilters filter={filter} />
       </div>
 
-      <main className="mt-4 animate-fade-in-fast rounded-md bg-background-darker px-7 py-8">
-        {reviews.length > 0 && (
-          <PosterGrid
-            media={reviews}
-            classes="grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-3.5"
-          />
+      <main className="mt-4 animate-fade-in-fast">
+        {reviews.length === 0 ? (
+          <div className="mx-auto mt-32 text-center">
+            <p className="text-lg font-medium">
+              Log your first review to start building your personal library!
+            </p>
+          </div>
+        ) : (
+          <div className="h-screen w-full rounded-md bg-background-darker px-7 py-8">
+            <PosterGrid
+              media={reviews}
+              classes="grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-3.5"
+            />
+          </div>
         )}
 
         <TooltipProvider>

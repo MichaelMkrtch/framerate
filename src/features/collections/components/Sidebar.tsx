@@ -85,6 +85,7 @@ export default function Sidebar() {
                 key={list.id}
                 href={`/${username}/collections/${list.slug}`}
                 onClick={() => setActiveList(list)}
+                prefetch
                 className="my-1 flex items-center gap-3.5 rounded-md p-2 transition-colors duration-75 ease-in hover:bg-white/5"
               >
                 <div

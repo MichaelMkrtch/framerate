@@ -35,3 +35,39 @@ export type Review<T> = {
   posterPath: string | null;
   createdAt: Date;
 };
+
+export type ActiveSubData = {
+  userId: string;
+  status: string;
+  plan: string;
+  productId: string;
+  startDate: Date;
+  renewalDate: Date | null;
+  endDate: Date | null;
+};
+
+export type CanceledSubData = {
+  userId: string;
+  status: string;
+  plan: string;
+  renewalDate: null;
+  endDate: Date;
+};
+
+export type UncancelSubData = {
+  userId: string;
+  status: string;
+  plan: string;
+  renewalDate: Date | null;
+  endDate: null;
+};
+
+export type UpdatedSubData = ActiveSubData;
+
+export type RevokedSubData = {
+  userId: string;
+  status: "canceled";
+  plan: "Free";
+  renewalDate: null;
+  endDate: Date;
+};
