@@ -60,6 +60,7 @@ export default function ProductCard({
 
           <a
             href={`/api/checkout?productId=${product.id}&customerExternalId=${userId}`}
+            rel="noopener noreferrer"
             className={`${product.name.includes("Pro") ? "border border-foreground border-opacity-50 bg-foreground text-background hover:border-[#F0602C] hover:border-opacity-100 hover:bg-[#ed4b00]" : "border border-[#5e39ff] bg-[#522aff] text-foreground"} relative flex h-10 items-center justify-center rounded-full px-4 font-bold transition-colors duration-100 ease-in before:absolute before:left-0 before:h-full before:w-full before:rounded-full before:bg-gradient-to-b before:from-white/15 before:to-transparent before:opacity-0 before:transition-opacity before:duration-100 before:ease-in hover:before:opacity-100`}
           >
             Subscribe

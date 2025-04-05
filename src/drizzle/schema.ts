@@ -76,7 +76,6 @@ export const subscriptions = pgTable("subscriptions", {
       onDelete: "no action",
     }),
   status: text("status").notNull(),
-  plan: text("plan").notNull(),
   productId: text("product_id").notNull(),
   startDate: timestamp("start_date").notNull().defaultNow(),
   renewalDate: timestamp("renewal_date"),
