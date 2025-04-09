@@ -41,9 +41,9 @@ export default function PreferencesPage() {
     });
   }
 
-  function handleChange(event, field) {
-    setName(event.target.value);
-  }
+  // function handleChange(event, field) {
+  //   setName(event.target.value);
+  // }
 
   return (
     <>
@@ -73,7 +73,7 @@ export default function PreferencesPage() {
                 type="text"
                 placeholder="Name"
                 value={name}
-                onChange={(e) => handleChange(e, "name")}
+                // onChange={(e) => handleChange(e, "name")}
                 className="rounded border border-white/5 bg-background-lighter px-3 py-2 font-medium placeholder:font-medium placeholder:text-gray/50 focus:outline focus:outline-[#522aff]"
               />
 
@@ -81,7 +81,7 @@ export default function PreferencesPage() {
                 type="text"
                 placeholder="Username"
                 value={username}
-                onChange={(e) => handleChange(e, "username")}
+                // onChange={(e) => handleChange(e, "username")}
                 className="rounded border border-white/5 bg-background-lighter px-3 py-2 font-medium placeholder:font-medium placeholder:text-gray/50 focus:outline focus:outline-[#522aff]"
               />
 
@@ -89,7 +89,7 @@ export default function PreferencesPage() {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => handleChange(e, "email")}
+                // onChange={(e) => handleChange(e, "email")}
                 className="rounded border border-white/5 bg-background-lighter px-3 py-2 font-medium placeholder:font-medium placeholder:text-gray/50 focus:outline focus:outline-[#522aff]"
               />
             </div>
