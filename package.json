@@ -6,15 +6,19 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently \"bun run dev:landing\" \"bun run dev:app\" \"bun run dev:backend\"",
-    "dev:app": "cd apps/app && bun run dev",
+    "dev": "concurrently -n turbo,go \"turbo run dev --parallel\" \"bun run dev:backend\"",
+    "build": "turbo run build",
     "dev:backend": "cd apps/backend && go run .",
-    "dev:landing": "cd apps/landing && bun run dev"
+    "lint": "turbo run lint"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "eslint-config-turbo": "^2.5.0",
+    "turbo": "^2.5.0",
+    "wrangler": "^4.10.0"
   },
+  "packageManager": "bun@1.2.9",
   "peerDependencies": {
     "typescript": "^5"
   }
