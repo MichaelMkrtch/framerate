@@ -8,13 +8,11 @@
   "scripts": {
     "dev": "concurrently -n turbo,go \"turbo run dev --parallel\" \"bun run dev:backend\"",
     "build": "turbo run build",
-    "dev:backend": "cd apps/backend && go run .",
-    "lint": "turbo run lint"
+    "dev:backend": "cd apps/backend && go run ."
   },
   "devDependencies": {
     "@types/bun": "latest",
     "concurrently": "^9.1.2",
-    "eslint-config-turbo": "^2.5.0",
     "turbo": "^2.5.0",
     "wrangler": "^4.10.0"
   },
