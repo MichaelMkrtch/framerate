@@ -9,7 +9,7 @@
         "apps/backend/go.mod",
         "apps/backend/go.sum"
       ],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".output/**", "dist/**"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
