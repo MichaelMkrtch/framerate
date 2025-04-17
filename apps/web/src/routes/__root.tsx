@@ -1,18 +1,21 @@
+import type { QueryClient } from "@tanstack/react-query";
+
+import * as React from "react";
+
+import appCss from "@/styles/app.css?url";
+import { seo } from "@/utils/seo";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
+  createRootRouteWithContext,
   HeadContent,
   Link,
   Outlet,
   Scripts,
-  createRootRouteWithContext,
 } from "@tanstack/react-router";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import * as React from "react";
-import type { QueryClient } from "@tanstack/react-query";
-import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
-import { NotFound } from "~/components/NotFound";
-import appCss from "~/styles/app.css?url";
-import { seo } from "~/utils/seo";
+
+import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
+import { NotFound } from "@/components/NotFound";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -28,10 +31,14 @@ export const Route = createRootRouteWithContext<{
       },
       ...seo({
         title: "FrameRate",
-        description: `FrameRate is the ultimate social platform for movie and show enthusiasts. Share your reviews, create and discover curated lists, and effortlessly track everything you've watched!`,
+        description: `FrameRate is the ultimate social platform for movie and TV enthusiasts. Share your reviews, create and discover lists, and effortlessly track everything you've watched!`,
       }),
     ],
     links: [
+      // {
+      //   rel: "preconnect",
+      //   href: "https://fonts.googleapis.com",
+      // },
       { rel: "stylesheet", href: appCss },
       {
         rel: "apple-touch-icon",
@@ -79,8 +86,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        <div className="p-2 flex gap-2 text-lg">
+      <body className="font-manrope dark">
+        <div className="flex gap-2 p-2 text-lg">
           <Link
             to="/"
             activeProps={{
