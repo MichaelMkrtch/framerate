@@ -9,19 +9,22 @@
     "<TYPES>^[.]",
     "",
     "^react$|react-dom$",
-    "^next",
-    "",
+    "@tanstack",
+    "@clerk",
     "<THIRD_PARTY_MODULES>",
     "",
     "^(@api|@assets|@ui)(/.*)$",
-    "",
     "@/store",
     "@/components",
     "@/features",
     "@/lib",
-    "^[.]",
+    "@/utils",
     "",
-    "^(?!.*[.]css$)[./].*$",
-    ".css$"
+    "@/styles",
+    "^(?!.*[.]css$).*$",
+    ".css$",
+    "",
+    "^[.]",
+    "/src*"
   ]
 }

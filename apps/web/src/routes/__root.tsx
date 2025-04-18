@@ -1,9 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 
 import * as React from "react";
-
-import appCss from "@/styles/app.css?url";
-import { seo } from "@/utils/seo";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   createRootRouteWithContext,
@@ -14,11 +11,15 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { ClerkProvider } from "@clerk/tanstack-react-start";
 
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
 import { NotFound } from "@/components/NotFound";
+import { seo } from "@/utils/seo";
 
+import appCss from "@/styles/app.css?url";
 import manropeFontURL from "/src/assets/fonts/manrope-variable.woff2";
+import { Toaster } from "sonner";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -96,14 +97,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <html>
-      <head>
-        <HeadContent />
-      </head>
-      <body
-        className={`${pathname === "/" ? "bg-marketing" : "bg-background"} font-manrope dark mx-auto max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]`}
-      >
-        {/* <Link
+    <ClerkProvider>
+      <html>
+        <head>
+          <HeadContent />
+        </head>
+        <body
+          className={`${pathname === "/" ? "bg-marketing" : "bg-background"} font-manrope dark mx-auto max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]`}
+        >
+          {/* <Link
             to="/"
             activeProps={{
               className: "font-bold",
@@ -112,11 +114,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           >
             Home
           </Link> */}
-        <div>{children}</div>
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
-        <Scripts />
-      </body>
-    </html>
+          {children}
+          <TanStackRouterDevtools position="bottom-right" />
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+          <Toaster
+            toastOptions={{
+              classNames: {
+                toast:
+                  "bg-background border-white/10 text-white drop-shadow-md",
+              },
+            }}
+          />
+          <Scripts />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

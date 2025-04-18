@@ -12,8 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as authSignupImport } from './routes/(auth)/signup'
-import { Route as authLoginImport } from './routes/(auth)/login'
+import { Route as HomeIndexImport } from './routes/home.index'
+import { Route as authSignupIndexImport } from './routes/(auth)/signup.index'
+import { Route as authLoginIndexImport } from './routes/(auth)/login.index'
+import { Route as authSignupVerifyImport } from './routes/(auth)/signup.verify'
 
 // Create/Update Routes
 
@@ -23,15 +25,27 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const authSignupRoute = authSignupImport.update({
-  id: '/(auth)/signup',
-  path: '/signup',
+const HomeIndexRoute = HomeIndexImport.update({
+  id: '/home/',
+  path: '/home/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const authLoginRoute = authLoginImport.update({
-  id: '/(auth)/login',
-  path: '/login',
+const authSignupIndexRoute = authSignupIndexImport.update({
+  id: '/(auth)/signup/',
+  path: '/signup/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authLoginIndexRoute = authLoginIndexImport.update({
+  id: '/(auth)/login/',
+  path: '/login/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authSignupVerifyRoute = authSignupVerifyImport.update({
+  id: '/(auth)/signup/verify',
+  path: '/signup/verify',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,18 +60,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginImport
+    '/home/': {
+      id: '/home/'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeIndexImport
       parentRoute: typeof rootRoute
     }
-    '/(auth)/signup': {
-      id: '/(auth)/signup'
+    '/(auth)/signup/verify': {
+      id: '/(auth)/signup/verify'
+      path: '/signup/verify'
+      fullPath: '/signup/verify'
+      preLoaderRoute: typeof authSignupVerifyImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/login/': {
+      id: '/(auth)/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/signup/': {
+      id: '/(auth)/signup/'
       path: '/signup'
       fullPath: '/signup'
-      preLoaderRoute: typeof authSignupImport
+      preLoaderRoute: typeof authSignupIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -67,42 +95,58 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/login': typeof authLoginRoute
-  '/signup': typeof authSignupRoute
+  '/home': typeof HomeIndexRoute
+  '/signup/verify': typeof authSignupVerifyRoute
+  '/login': typeof authLoginIndexRoute
+  '/signup': typeof authSignupIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/login': typeof authLoginRoute
-  '/signup': typeof authSignupRoute
+  '/home': typeof HomeIndexRoute
+  '/signup/verify': typeof authSignupVerifyRoute
+  '/login': typeof authLoginIndexRoute
+  '/signup': typeof authSignupIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/(auth)/login': typeof authLoginRoute
-  '/(auth)/signup': typeof authSignupRoute
+  '/home/': typeof HomeIndexRoute
+  '/(auth)/signup/verify': typeof authSignupVerifyRoute
+  '/(auth)/login/': typeof authLoginIndexRoute
+  '/(auth)/signup/': typeof authSignupIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup'
+  fullPaths: '/' | '/home' | '/signup/verify' | '/login' | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup'
-  id: '__root__' | '/' | '/(auth)/login' | '/(auth)/signup'
+  to: '/' | '/home' | '/signup/verify' | '/login' | '/signup'
+  id:
+    | '__root__'
+    | '/'
+    | '/home/'
+    | '/(auth)/signup/verify'
+    | '/(auth)/login/'
+    | '/(auth)/signup/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  authLoginRoute: typeof authLoginRoute
-  authSignupRoute: typeof authSignupRoute
+  HomeIndexRoute: typeof HomeIndexRoute
+  authSignupVerifyRoute: typeof authSignupVerifyRoute
+  authLoginIndexRoute: typeof authLoginIndexRoute
+  authSignupIndexRoute: typeof authSignupIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  authLoginRoute: authLoginRoute,
-  authSignupRoute: authSignupRoute,
+  HomeIndexRoute: HomeIndexRoute,
+  authSignupVerifyRoute: authSignupVerifyRoute,
+  authLoginIndexRoute: authLoginIndexRoute,
+  authSignupIndexRoute: authSignupIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,18 +160,26 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/(auth)/login",
-        "/(auth)/signup"
+        "/home/",
+        "/(auth)/signup/verify",
+        "/(auth)/login/",
+        "/(auth)/signup/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/(auth)/login": {
-      "filePath": "(auth)/login.tsx"
+    "/home/": {
+      "filePath": "home.index.tsx"
     },
-    "/(auth)/signup": {
-      "filePath": "(auth)/signup.tsx"
+    "/(auth)/signup/verify": {
+      "filePath": "(auth)/signup.verify.tsx"
+    },
+    "/(auth)/login/": {
+      "filePath": "(auth)/login.index.tsx"
+    },
+    "/(auth)/signup/": {
+      "filePath": "(auth)/signup.index.tsx"
     }
   }
 }

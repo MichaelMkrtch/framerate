@@ -359,4 +359,8 @@
       hsla(206, 100%, 1%, 0) 100%
     );
   }
+
+  .auth-input {
+    @apply h-10 w-80 rounded-full bg-white/[0.01] pr-3 pl-6 text-sm leading-10 font-medium ring-1 ring-white/10 outline-none placeholder:font-medium placeholder:text-white/25;
+  }
 }
