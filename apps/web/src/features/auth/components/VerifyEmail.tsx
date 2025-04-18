@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, redirect, useNavigate } from "@tanstack/react-router";
+import { Link, Navigate } from "@tanstack/react-router";
 import { useClerk } from "@clerk/tanstack-react-start";
 import {
   EmailLinkErrorCodeStatus,
@@ -8,17 +8,13 @@ import {
 
 import { toast } from "sonner";
 
-export default function VerifyEmail() {
+export default function VerifyEmail({ mode }: { mode: "login" | "signup" }) {
   const [verificationStatus, setVerificationStatus] = useState("loading");
 
   const { handleEmailLinkVerification, loaded } = useClerk();
 
   async function verify() {
     try {
-      // Dynamically set the host domain for dev and prod
-      const protocol = window.location.protocol;
-      const host = window.location.host;
-
       await handleEmailLinkVerification({});
 
       setVerificationStatus("verified");
@@ -32,7 +28,7 @@ export default function VerifyEmail() {
       }
 
       setVerificationStatus(status);
-      console.error("Something went wrong while verifying email!", err);
+      return;
     }
   }
 
@@ -48,8 +44,8 @@ export default function VerifyEmail() {
       <PageTemplate
         content="Verification failed. Please try again."
         redirect
-        redirectTo="/signup"
-        redirectText="Sign Up"
+        redirectTo={`${mode === "login" ? "/login" : "/signup"}`}
+        redirectText={`${mode === "login" ? "Login" : "Signup"}`}
       />
     );
   }
@@ -60,15 +56,13 @@ export default function VerifyEmail() {
       <PageTemplate
         content="Verification link expired. Please try again."
         redirect
-        redirectTo="/signup"
-        redirectText="Sign Up"
+        redirectTo={`${mode === "login" ? "/login" : "/signup"}`}
+        redirectText={`${mode === "login" ? "Login" : "Signup"}`}
       />
     );
   }
 
   if (verificationStatus === "verified") {
-    toast.success("Account created!");
-
     return <Navigate to="/home" replace />;
   }
 }

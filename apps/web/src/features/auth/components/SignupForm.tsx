@@ -5,7 +5,6 @@ import { useSignUp } from "@clerk/tanstack-react-start";
 import { isClerkAPIResponseError } from "@clerk/tanstack-react-start/errors";
 import { ClerkAPIError } from "@clerk/types";
 
-import { useEmailStore } from "@/store/auth/email-store";
 import {
   Form,
   FormControl,
@@ -34,11 +33,10 @@ type SignupFormProps = {
 };
 
 export default function SignupForm({ page, setPage }: SignupFormProps) {
-  const { email, setEmail } = useEmailStore();
-
   const [verified, setVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [errors, setErrors] = useState<ClerkAPIError[]>();
+
   const { signUp, isLoaded } = useSignUp();
 
   const form = useForm<z.infer<typeof signupSchema>>({
@@ -50,10 +48,6 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
       username: "",
     },
   });
-
-  useEffect(() => {
-    form.setValue("email", email);
-  }, []);
 
   // Email validation before page change necessary for UX
   // Otherwise, email input errors won't be visible to user
@@ -83,6 +77,15 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     };
   }, [page, form.setFocus]);
 
+  useEffect(() => {
+    const emailErrors = form.formState.errors.email;
+
+    if (page === 2 && emailErrors) {
+      setPage(1);
+      console.log(emailErrors);
+    }
+  }, [form.formState.errors.email]);
+
   // Checks input against filters before creating user in DB
   async function onSubmit(values: z.infer<typeof signupSchema>) {
     if (!isLoaded) return null;
@@ -101,7 +104,12 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     }
 
     if (result.status === "success") {
-      if (!isLoaded && !signUp) return null;
+      if (!isLoaded && !signUp) {
+        toast.error(
+          "Our sign up service is currently unavailable. Please try again later or contact us.",
+        );
+        return null;
+      }
 
       const { startEmailLinkFlow } = signUp.createEmailLinkFlow();
 
@@ -126,6 +134,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
           { duration: 6000 },
         );
 
+        // Send signup email link
         const signUpAttempt = await startEmailLinkFlow({
           // URL to navigate to after the user visits the link in their email
           redirectUrl: `${protocol}//${host}/signup/verify`,
@@ -133,10 +142,14 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
 
         const verification = signUpAttempt.verifications.emailAddress;
 
-        setVerifying(false);
-        setVerified(true);
+        if (verification.verifiedFromTheSameClient()) {
+          console.log("same client");
+          setVerifying(false);
+          setVerified(true);
+        }
       } catch (err: any) {
         setVerifying(false);
+        toast.dismiss("creating");
 
         if (isClerkAPIResponseError(err)) {
           setErrors(err.errors);
@@ -145,45 +158,35 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
             if (e.code === "form_identifier_exists") {
               if (e.meta?.paramName === "email_address") {
                 form.setError("email", { message: e.longMessage });
+                setPage(1);
                 form.setFocus("email");
-                toast.dismiss("creating");
                 toast.error(
                   "Email already exists. Please try again with another email or login to existing account.",
                   { duration: 6000 },
                 );
+                return;
               }
 
               if (e.meta?.paramName === "username") {
                 form.setError("username", { message: e.longMessage });
                 form.setFocus("username");
-                toast.dismiss("creating");
                 toast.error(
                   "Username already exists. Please try again with a different username",
                   { duration: 6000 },
                 );
+                return;
               }
-            } else if (e.code === "user_locked") {
-              let currentDate = new Date();
-
-              currentDate.setSeconds(
-                // @ts-ignore
-                currentDate.getSeconds() + e.meta?.lockout_expires_in_seconds,
-              );
-
-              const lockoutExpiresAt = currentDate.toLocaleString();
-
-              toast.dismiss("creating");
-              toast.error(
-                `This account has been locked. You will be able to try again at ${lockoutExpiresAt}`,
-                { duration: 6000 },
+            } else if (e.code === "session_exists") {
+              return toast.info(
+                "You are currently signed in to a different account. Please sign out first to create another account.",
               );
             } else {
-              toast.dismiss("creating");
               toast.error(`An error occurred! ${e.longMessage}`);
-              console.error("Clerk error:", e);
+              return;
             }
           }
         }
+        toast.error("An unexpected error occurred!");
         console.error(JSON.stringify(err, null, 2));
       }
     }
@@ -193,13 +196,13 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     {
       fieldName: "firstName" as const,
       label: "First Name",
-      placeholder: "your first name",
+      placeholder: "first name",
       description: "This is your public first name.",
     },
     {
       fieldName: "lastName" as const,
       label: "Last Name",
-      placeholder: "your last name",
+      placeholder: "last name",
       description: "This is your private last name.",
     },
     {
