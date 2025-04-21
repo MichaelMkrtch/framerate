@@ -1,12 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { useSignIn } from "@clerk/tanstack-react-start";
-import { isClerkAPIResponseError } from "@clerk/tanstack-react-start/errors";
-import {
-  ClerkAPIError,
-  EmailLinkFactor,
-  SignInFirstFactor,
-} from "@clerk/types";
 
 import {
   Form,
@@ -29,9 +22,6 @@ import { z } from "zod";
 export default function LoginForm() {
   const [verified, setVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [errors, setErrors] = useState<ClerkAPIError[]>();
-
-  const { signIn, isLoaded } = useSignIn();
   const navigate = useNavigate({ from: "/login" });
 
   const form = useForm<z.infer<typeof loginSchema>>({

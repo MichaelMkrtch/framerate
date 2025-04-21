@@ -1,9 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 
 import { useEffect, useState } from "react";
-import { useSignUp } from "@clerk/tanstack-react-start";
-import { isClerkAPIResponseError } from "@clerk/tanstack-react-start/errors";
-import { ClerkAPIError } from "@clerk/types";
 
 import {
   Form,
@@ -35,9 +32,6 @@ type SignupFormProps = {
 export default function SignupForm({ page, setPage }: SignupFormProps) {
   const [verified, setVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [errors, setErrors] = useState<ClerkAPIError[]>();
-
-  const { signUp, isLoaded } = useSignUp();
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
