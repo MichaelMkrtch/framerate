@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/swagger": "^1.2.2",
+    "better-auth": "^1.2.7",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.42.0",
+    "elysia": "latest",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "drizzle-kit": "^0.31.0",
+    "tsx": "^4.19.3"
+  },
+  "module": "src/index.js"
+}
