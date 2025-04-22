@@ -9,7 +9,7 @@ import "@/styles/gradients.css";
 
 import LoginForm from "@/features/auth/components/LoginForm";
 
-export const Route = createFileRoute("/(auth)/login/")({
+export const Route = createFileRoute("/(auth)/login")({
   component: LoginPage,
 });
 

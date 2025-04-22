@@ -10,7 +10,7 @@ import { CircleArrowLeft, X } from "lucide-react";
 
 import "@/styles/gradients.css";
 
-export const Route = createFileRoute("/(auth)/signup/")({
+export const Route = createFileRoute("/(auth)/signup")({
   component: SignupPage,
 });
 

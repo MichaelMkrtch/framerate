@@ -6,37 +6,40 @@ export const signupSchema = z.object({
     .trim()
     .email({ message: "Invalid email address" })
     .toLowerCase(),
-  firstName: z
+  name: z
     .string()
     .trim()
-    .min(1, { message: "First name must be at least 1 character" })
-    .max(50, { message: "First name must be less than 50 characters" })
+    .min(1, { message: "Name must be at least 1 character" })
+    .max(50, { message: "Name must be 50 characters or less" })
     .regex(/^[^+\-*/=^%&<>!@#,$(){}[\]]*$/, {
-      message: "First name cannot contain special characters",
-    }),
-  lastName: z
-    .string()
-    .trim()
-    .min(1, { message: "Last name must be at least 1 character" })
-    .max(50, { message: "Last name must be less than 50 characters" })
-    .regex(/^[^+\-*/=^%&<>!@#,$(){}[\]]*$/, {
-      message: "Last name cannot contain special characters",
+      message: "Name cannot contain special characters",
     }),
   username: z
     .string()
     .trim()
     .min(1, { message: "Username must be at least 1 character" })
-    .max(15, { message: "Username must be less than 15 characters" })
+    .max(20, { message: "Username must be 20 characters or less" })
     .regex(/[a-zA-Z]/, {
       message: "Username must contain at least 1 letter",
     })
     .regex(/^[A-Za-z].*$/, {
       message: "Username must start with a letter",
     })
-    .regex(/^[A-Za-z][A-Za-z0-9]*$/, {
-      message: "Username cannot contain special characters",
+    .regex(/^[A-Za-z0-9][A-Za-z0-9_-]*$/, {
+      message:
+        "Username must start with a letter or number, and contain only letters, numbers, hyphens, or underscores",
     })
     .refine((s) => !s.includes(" "), "Spaces are not allowed in usernames"),
+  password: z
+    .string()
+    .trim()
+    .min(10, { message: "Password must be at least 10 characters" })
+    .max(40, { message: "Password must be 40 characters or less" })
+    .regex(/[a-zA-Z]/, {
+      message: "Password must contain at least 1 letter",
+    })
+    .regex(/[0-9]/, { message: "Password must contain at least 1 number" })
+    .refine((s) => !s.includes(" "), "Spaces are not allowed in passwords"),
 });
 
 export const loginSchema = z.object({
@@ -45,4 +48,8 @@ export const loginSchema = z.object({
     .trim()
     .email({ message: "Invalid email address" })
     .toLowerCase(),
+  password: z
+    .string()
+    .trim()
+    .max(80, { message: "Password must be 80 characters or less" }),
 });

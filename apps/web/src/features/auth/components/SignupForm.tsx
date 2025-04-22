@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 
 import {
   Form,
@@ -14,12 +15,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { signupSchema } from "@/features/auth/schema/auth-forms";
 import { blacklistChecks } from "@/features/auth/server/auth-actions";
+import { authClient } from "@/lib/auth-client";
 
 // import { createList } from "@/features/collections/server/db/list";
 // import { generateSlug } from "@/lib/slug";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleArrowRight } from "lucide-react";
+import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,16 +32,16 @@ type SignupFormProps = {
 };
 
 export default function SignupForm({ page, setPage }: SignupFormProps) {
-  const [verified, setVerified] = useState(false);
-  const [verifying, setVerifying] = useState(false);
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
       email: "",
-      firstName: "",
-      lastName: "",
+      name: "",
       username: "",
+      password: "",
     },
   });
 
@@ -63,7 +65,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
   // Improves keyboard navigation by focusing relevant input on page changes
   useEffect(() => {
     if (page === 2) {
-      form.setFocus("firstName");
+      form.setFocus("name");
     }
 
     return () => {
@@ -76,133 +78,101 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
 
     if (page === 2 && emailErrors) {
       setPage(1);
-      console.log(emailErrors);
     }
   }, [form.formState.errors.email]);
 
   // Checks input against filters before creating user in DB
   async function onSubmit(values: z.infer<typeof signupSchema>) {
-    if (!isLoaded) return null;
-
-    // Reset states if form is resubmitted mid-signup
-    setVerified(false);
-    setErrors(undefined);
-    setVerifying(true);
-
     const result = await blacklistChecks(values);
+    console.log("blacklist", result);
 
     if (result.status === "error") {
       toast.error(result.message);
-      setVerifying(false);
       return;
     }
 
     if (result.status === "success") {
-      if (!isLoaded && !signUp) {
-        toast.error(
-          "Our sign up service is currently unavailable. Please try again later or contact us.",
-        );
-        return null;
-      }
+      console.log("submitted vals", values);
+      (async function signup() {
+        await authClient.signUp.email(
+          {
+            email: values.email,
+            name: values.name,
+            username: values.username,
+            password: values.password,
+          },
+          {
+            onRequest: () => {
+              toast.loading("Creating account...", { id: "signup" });
+            },
+            onSuccess: async () => {
+              toast.dismiss("signup");
+              toast.success("Account created!");
 
-      const { startEmailLinkFlow } = signUp.createEmailLinkFlow();
+              const { data: sessionData } = await authClient.getSession();
 
-      toast.loading("Creating Account...", { id: "creating" });
+              // if (sessionData) {
+              //   const slug = await generateSlug(
+              //     "Watchlist",
+              //     "list",
+              //     sessionData.user.id,
+              //   );
+              //   await createList({
+              //     userId: sessionData.user.id,
+              //     name: "Watchlist",
+              //     slug,
+              //   });
+              // }
 
-      try {
-        await signUp.create({
-          emailAddress: values.email,
-          username: values.username,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        });
+              navigate({ to: "/home" });
+            },
+            onError: (ctx) => {
+              toast.dismiss("signup");
+              const errorCode = ctx.error.code;
+              const errorMessage = ctx.error.message;
 
-        // Dynamically set the host domain for dev and prod
-        const protocol = window.location.protocol;
-        const host = window.location.host;
-
-        toast.dismiss("creating");
-
-        toast.info(
-          "Please check your email on this device and visit the link that was sent to you.",
-          { duration: 6000 },
-        );
-
-        // Send signup email link
-        const signUpAttempt = await startEmailLinkFlow({
-          // URL to navigate to after the user visits the link in their email
-          redirectUrl: `${protocol}//${host}/signup/verify`,
-        });
-
-        const verification = signUpAttempt.verifications.emailAddress;
-
-        if (verification.verifiedFromTheSameClient()) {
-          console.log("same client");
-          setVerifying(false);
-          setVerified(true);
-        }
-      } catch (err: any) {
-        setVerifying(false);
-        toast.dismiss("creating");
-
-        if (isClerkAPIResponseError(err)) {
-          setErrors(err.errors);
-
-          for (const e of err.errors) {
-            if (e.code === "form_identifier_exists") {
-              if (e.meta?.paramName === "email_address") {
-                form.setError("email", { message: e.longMessage });
-                setPage(1);
-                form.setFocus("email");
-                toast.error(
-                  "Email already exists. Please try again with another email or login to existing account.",
-                  { duration: 6000 },
-                );
-                return;
+              switch (errorCode) {
+                case "USERNAME_IS_ALREADY_TAKEN_PLEASE_TRY_ANOTHER":
+                  form.setError("username", { message: "Username is taken" });
+                  toast.error(
+                    "Username is already taken. Please try another one",
+                    { duration: 6000 },
+                  );
+                  break;
+                case "USER_ALREADY_EXISTS":
+                  form.setError("email", {
+                    message: "Account already exists",
+                  });
+                  toast.error(
+                    "An account with this email already exists. Did you mean to log in?",
+                    { duration: 6000 },
+                  );
+                  break;
+                default:
+                  toast.error(errorMessage, { duration: 6000 });
+                  console.error(ctx.error);
               }
-
-              if (e.meta?.paramName === "username") {
-                form.setError("username", { message: e.longMessage });
-                form.setFocus("username");
-                toast.error(
-                  "Username already exists. Please try again with a different username",
-                  { duration: 6000 },
-                );
-                return;
-              }
-            } else if (e.code === "session_exists") {
-              return toast.info(
-                "You are currently signed in to a different account. Please sign out first to create another account.",
-              );
-            } else {
-              toast.error(`An error occurred! ${e.longMessage}`);
-              return;
-            }
-          }
-        }
-        toast.error("An unexpected error occurred!");
-        console.error(JSON.stringify(err, null, 2));
-      }
+              // Cases to handle:
+              // 2. Already logged in to another account (session already exists)
+            },
+          },
+        );
+      })();
     }
   }
 
   const groupedFields = [
     {
-      fieldName: "firstName" as const,
-      label: "First Name",
-      placeholder: "first name",
-      description: "This is your public first name.",
-    },
-    {
-      fieldName: "lastName" as const,
-      label: "Last Name",
-      placeholder: "last name",
-      description: "This is your private last name.",
+      fieldName: "name" as const,
+      label: "Name",
+      placeholder: "your name (public)",
+      description:
+        "Enter your name. It does not have to be your full name and will be public.",
     },
     {
       fieldName: "username" as const,
       label: "Username",
-      placeholder: "username",
+      placeholder: "your username (public)",
       description: "This is your public username.",
     },
   ];
@@ -265,7 +235,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                         type="text"
                         placeholder={placeholder}
                         autoComplete={fieldName}
-                        autoFocus={fieldName === "firstName" ? true : false}
+                        autoFocus={fieldName === "name"}
                         className={`auth-input ${form.formState.errors[fieldName] ? "ring-1 ring-red-500" : ""}`}
                         {...field}
                       />
@@ -279,12 +249,52 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
               />
             );
           })}
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="sr-only">Password</FormLabel>
+                <FormControl>
+                  <div
+                    className={`relative flex w-80 items-center rounded-full bg-white/[0.01] ring-1 ring-white/10 ${form.formState.errors.password && "!ring-red-500"}`}
+                  >
+                    <Input
+                      type={isVisible ? "text" : "password"}
+                      placeholder="your password"
+                      autoComplete="new-password"
+                      className="auth-input rounded-l-full rounded-r-none bg-transparent ring-0 ring-transparent"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      className="text-gray flex cursor-pointer flex-col items-center pr-3 transition-colors duration-200 hover:text-white"
+                      onClick={() =>
+                        isVisible ? setIsVisible(false) : setIsVisible(true)
+                      }
+                    >
+                      {isVisible ? (
+                        <Eye size={28} strokeWidth={1.1} />
+                      ) : (
+                        <EyeOff size={28} strokeWidth={1.1} />
+                      )}
+                    </button>
+                  </div>
+                </FormControl>
+                <FormDescription className="sr-only">
+                  This is your password.
+                </FormDescription>
+                <FormMessage className="font-medium tracking-wide text-red-500" />
+              </FormItem>
+            )}
+          />
         </div>
 
         {page === 2 && (
           <button
             type="submit"
-            className="relative mt-8 w-full cursor-pointer rounded-full bg-transparent py-1.5 font-semibold ring-1 ring-white/10 before:absolute before:top-0 before:left-0 before:size-full before:rounded-full before:bg-white/35 before:opacity-0 before:hover:opacity-25"
+            className="relative mt-8 w-full cursor-pointer rounded-full bg-transparent py-1.5 font-semibold ring-1 ring-white/10 transition-colors duration-150 hover:bg-white/10"
           >
             Create account
           </button>

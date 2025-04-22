@@ -1,5 +1,6 @@
-import theaterImg from "@/assets/images/theater.png";
 import { createFileRoute, Link } from "@tanstack/react-router";
+
+import theaterImg from "@/assets/images/theater.png";
 import { Fingerprint, Ticket } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -87,10 +88,6 @@ function LandingPage() {
             Get started
           </Link>
         </section>
-
-        {/* <p className="text-gray text-center font-semibold">
-          From blockbusters to hidden gems, we&#39;ve got you covered.
-        </p> */}
       </main>
     </div>
   );

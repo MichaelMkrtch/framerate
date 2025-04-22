@@ -2,11 +2,19 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { username } from "better-auth/plugins";
 import { db } from "@/drizzle/index";
+import * as schema from "@/drizzle/schema";
+
+const trusted = [];
+
+if (process.env.CLIENT_ORIGIN) {
+  trusted.push(process.env.CLIENT_ORIGIN);
+}
 
 export const auth = betterAuth({
   appName: "FrameRate",
   database: drizzleAdapter(db, {
     provider: "pg",
+    schema,
   }),
   emailAndPassword: {
     enabled: true,
@@ -30,5 +38,6 @@ export const auth = betterAuth({
   advanced: {
     cookiePrefix: "framerate",
   },
+  trustedOrigins: trusted,
   plugins: [username({ minUsernameLength: 1, maxUsernameLength: 20 })],
 });

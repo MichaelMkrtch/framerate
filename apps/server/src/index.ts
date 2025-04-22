@@ -10,7 +10,7 @@ const app = new Elysia()
   .use(swagger())
   .use(
     cors({
-      origin: process.env.CORS_URL,
+      origin: process.env.CLIENT_ORIGIN,
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
