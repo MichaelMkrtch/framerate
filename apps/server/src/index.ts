@@ -5,9 +5,18 @@ import { swagger } from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
 
 import { api } from "@/api";
+import { rateLimit } from "elysia-rate-limit";
 
 const app = new Elysia()
   .use(swagger())
+  .use(
+    rateLimit({
+      max: 25,
+      errorResponse:
+        "You have made too many requests. Please wait one minute before making another request.",
+      scoping: "global",
+    }),
+  )
   .use(
     cors({
       origin: process.env.CLIENT_ORIGIN,
