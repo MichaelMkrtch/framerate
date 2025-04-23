@@ -153,7 +153,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                   console.error(ctx.error);
               }
               // Cases to handle:
-              // 2. Already logged in to another account (session already exists)
+              // 1. Already logged in to another account (session already exists)
             },
           },
         );
@@ -211,7 +211,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormDescription className="sr-only">
                   This is your email.
                 </FormDescription>
-                <FormMessage className="mt-2 font-medium text-red-500" />
+                <FormMessage className="mt-2 max-w-full font-medium text-wrap text-red-500" />
               </FormItem>
             )}
           />
@@ -243,7 +243,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                     <FormDescription className="sr-only">
                       {description}
                     </FormDescription>
-                    <FormMessage className="font-medium tracking-wide text-red-500" />
+                    <FormMessage className="mt-1 max-w-full font-medium text-wrap text-red-500" />
                   </FormItem>
                 )}
               />
@@ -285,7 +285,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                 <FormDescription className="sr-only">
                   This is your password.
                 </FormDescription>
-                <FormMessage className="font-medium tracking-wide text-red-500" />
+                <FormMessage className="mt-2 max-w-full font-medium text-wrap text-red-500" />
               </FormItem>
             )}
           />

@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { username } from "better-auth/plugins";
+
 import { db } from "@/drizzle/index";
 import * as schema from "@/drizzle/schema";
 
@@ -27,7 +28,7 @@ export const auth = betterAuth({
     updateAge: 86400, // 1 day
     cookieCache: {
       enabled: true,
-      maxAge: 5 * 60, // 5 minutes
+      maxAge: 20 * 60, // 20 minutes
     },
   },
   rateLimit: {
@@ -37,6 +38,7 @@ export const auth = betterAuth({
   },
   advanced: {
     cookiePrefix: "framerate",
+    useSecureCookies: process.env.NODE_ENV === "production",
   },
   trustedOrigins: trusted,
   plugins: [username({ minUsernameLength: 1, maxUsernameLength: 20 })],

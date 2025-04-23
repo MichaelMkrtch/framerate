@@ -1,5 +1,6 @@
-import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "@tanstack/react-start/config";
+
+import tailwindcss from "@tailwindcss/vite";
 import { cloudflare } from "unenv";
 import tsConfigPaths from "vite-tsconfig-paths";
 

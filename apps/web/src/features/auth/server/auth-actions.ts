@@ -3,15 +3,7 @@ import { signupSchema } from "@/features/auth/schema/auth-forms";
 import { blacklistFilter } from "./blacklistFilters";
 import { z } from "zod";
 
-type FilterResult = {
-  status: "success" | "error" | "";
-  message: string;
-  errors?: { [key: string]: string[] };
-};
-
-export async function blacklistChecks(
-  unsafeData: z.infer<typeof signupSchema>,
-): Promise<FilterResult> {
+export function blacklistChecks(unsafeData: z.infer<typeof signupSchema>) {
   const {
     success,
     data: parsedData,

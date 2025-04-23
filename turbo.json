@@ -1,15 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/go.mod", "**/go.sum"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": [
-        "apps/backend/**/*.go",
-        "apps/backend/go.mod",
-        "apps/backend/go.sum"
-      ],
-      "outputs": [".output/**", "dist/**"]
+      "outputs": ["dist/**"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
