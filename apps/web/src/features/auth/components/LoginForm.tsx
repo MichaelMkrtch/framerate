@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -9,12 +10,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { loginSchema } from "@/features/auth/schema/auth-forms";
-import { authClient } from "@/lib/auth-client";
-
-import { zodResolver } from "@hookform/resolvers/zod";
+} from "@web/components/ui/form";
+import { Input } from "@web/components/ui/input";
+import { loginSchema } from "@web/features/auth/schema/auth-forms";
+import { authClient } from "@web/lib/auth-client";
 import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

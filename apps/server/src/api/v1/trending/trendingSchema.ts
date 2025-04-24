@@ -1,4 +1,3 @@
-import { CamelCasedPropertiesDeep } from "type-fest";
 import { z } from "zod";
 
 const mediaBaseSchema = z.object({
@@ -54,13 +53,3 @@ export const trendingResponseSchema = z.object({
   total_pages: z.number(),
   total_results: z.number(),
 });
-
-export type TrendingMovie = CamelCasedPropertiesDeep<
-  z.infer<typeof trendingMovieSchema>
->;
-export type TrendingTV = CamelCasedPropertiesDeep<
-  z.infer<typeof trendingTVSchema>
->;
-export type TrendingPerson = CamelCasedPropertiesDeep<
-  z.infer<typeof trendingPersonSchema>
->;

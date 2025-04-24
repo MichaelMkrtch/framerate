@@ -1,13 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import AuthContent from "@/features/auth/components/AuthContent";
-import AuthFooter from "@/features/auth/components/AuthFooter";
-
+import AuthContent from "@web/features/auth/components/AuthContent";
+import AuthFooter from "@web/features/auth/components/AuthFooter";
 import { X } from "lucide-react";
 
-import "@/styles/gradients.css";
+import "@web/styles/gradients.css";
 
-import LoginForm from "@/features/auth/components/LoginForm";
+import LoginForm from "@web/features/auth/components/LoginForm";
 
 export const Route = createFileRoute("/(auth)/login")({
   component: LoginPage,
@@ -33,7 +32,7 @@ function LoginPage() {
           <X size={18} />
         </Link>
 
-        <div className="relative bottom-[70px]">
+        <div className="animate-fade-in relative bottom-[70px]">
           <AuthContent
             title="Login to FrameRate"
             description="If you have access to FrameRate, you can enter your email below."

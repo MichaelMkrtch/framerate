@@ -1,5 +1,7 @@
-import { Elysia, Context } from "elysia";
-import { auth } from "@/lib/auth";
+import type { Context } from "elysia";
+
+import { Elysia } from "elysia";
+import { auth } from "@server/lib/auth";
 
 function betterAuthView(context: Context) {
   return auth.handler(context.request);

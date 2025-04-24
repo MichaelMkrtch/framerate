@@ -1,6 +1,5 @@
-import { signupSchema } from "@/features/auth/schema/auth-forms";
-
 import { blacklistFilter } from "./blacklistFilters";
+import { signupSchema } from "@web/features/auth/schema/auth-forms";
 import { z } from "zod";
 
 export function blacklistChecks(unsafeData: z.infer<typeof signupSchema>) {

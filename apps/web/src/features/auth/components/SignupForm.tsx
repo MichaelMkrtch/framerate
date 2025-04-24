@@ -11,11 +11,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { signupSchema } from "@/features/auth/schema/auth-forms";
-import { blacklistChecks } from "@/features/auth/server/auth-actions";
-import { authClient } from "@/lib/auth-client";
+} from "@web/components/ui/form";
+import { Input } from "@web/components/ui/input";
+import { signupSchema } from "@web/features/auth/schema/auth-forms";
+import { blacklistChecks } from "@web/features/auth/server/auth-actions";
+import { authClient } from "@web/lib/auth-client";
 
 // import { createList } from "@/features/collections/server/db/list";
 // import { generateSlug } from "@/lib/slug";
@@ -83,8 +83,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
 
   // Checks input against filters before creating user in DB
   async function onSubmit(values: z.infer<typeof signupSchema>) {
-    const result = await blacklistChecks(values);
-    console.log("blacklist", result);
+    const result = blacklistChecks(values);
 
     if (result.status === "error") {
       toast.error(result.message);
@@ -92,7 +91,6 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     }
 
     if (result.status === "success") {
-      console.log("submitted vals", values);
       (async function signup() {
         await authClient.signUp.email(
           {
@@ -152,8 +150,6 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                   toast.error(errorMessage, { duration: 6000 });
                   console.error(ctx.error);
               }
-              // Cases to handle:
-              // 1. Already logged in to another account (session already exists)
             },
           },
         );

@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import AuthContent from "@/features/auth/components/AuthContent";
-import AuthFooter from "@/features/auth/components/AuthFooter";
-import RotatingQuotes from "@/features/auth/components/RotatingQuotes";
-import SignupForm from "@/features/auth/components/SignupForm";
-
+import AuthContent from "@web/features/auth/components/AuthContent";
+import AuthFooter from "@web/features/auth/components/AuthFooter";
+import RotatingQuotes from "@web/features/auth/components/RotatingQuotes";
+import SignupForm from "@web/features/auth/components/SignupForm";
 import { CircleArrowLeft, X } from "lucide-react";
 
-import "@/styles/gradients.css";
+import "@web/styles/gradients.css";
 
 export const Route = createFileRoute("/(auth)/signup")({
   component: SignupPage,

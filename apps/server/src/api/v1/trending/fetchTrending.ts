@@ -1,6 +1,7 @@
-import { renameKeys } from "@/lib/utils";
-import { trendingResponseSchema, TrendingTV } from "./trendingSchema";
 import { objectToCamel } from "ts-case-convert";
+
+import { renameKeys } from "@server/lib/utils";
+import { trendingResponseSchema } from "./trendingSchema";
 
 const API_TOKEN = process.env.API_TOKEN;
 
@@ -53,16 +54,14 @@ export async function fetchTrending(
           media,
         );
         return tvResults;
-        // } else if (media.mediaType === "movie") {
-        //   return media;
       } else {
         return media;
       }
     });
 
-    return formattedData;
+    return formattedData.slice(0, 18);
   } catch (error) {
     console.error("Error in fetchTrending:", error);
-    throw new Error("Failed to fetch trending data.");
+    throw new Error();
   }
 }

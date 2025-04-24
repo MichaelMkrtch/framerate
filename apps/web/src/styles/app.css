@@ -42,6 +42,7 @@
 
 :root {
   --background: oklch(1 0 0);
+  --background-darker: oklch(0.15 0.0109 258.32);
   --background-marketing: oklch(0.1 0.0192 227.14);
   --foreground: oklch(0.145 0 0);
   --text-secondary: oklch(0.6 0.01 230.15);
@@ -80,6 +81,7 @@
 
 .dark {
   --background: oklch(0.19 0.0109 258.32);
+  --background-darker: oklch(0.12 0.0109 258.32);
   --background-marketing: oklch(0.1 0.0192 227.14);
   --foreground: oklch(0.96 0.0017 247.84);
   --text-secondary: oklch(0.6 0.01 230.15);
@@ -119,6 +121,7 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-darker: var(--background-darker);
   --color-marketing: var(--background-marketing);
   --color-foreground: var(--foreground);
   --color-gray: var(--text-secondary);
@@ -362,5 +365,13 @@
 
   .auth-input {
     @apply h-10 w-80 rounded-full bg-white/[0.01] pr-3 pl-6 text-sm leading-10 font-medium ring-1 ring-white/10 outline-none placeholder:font-medium placeholder:text-white/25;
+  }
+
+  .carousel-container {
+    @apply bg-background-darker relative mb-6 rounded-md p-4 before:absolute before:top-0 before:-right-20 before:bottom-0 before:-left-20;
+  }
+
+  .carousel-item {
+    @apply h-36 w-24 md:h-[180px] md:w-[120px] lg:h-[249px] lg:w-[166px] xl:h-[288px] xl:w-[192px];
   }
 }

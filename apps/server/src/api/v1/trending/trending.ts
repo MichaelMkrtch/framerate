@@ -5,8 +5,8 @@ export const trending = new Elysia({ prefix: "/trending" })
   .onError(({ error }) => {
     console.error("Error in trending route:", error);
     return {
+      status: 500,
       message: "Something went wrong while fetching trending data!",
-      error,
     };
   })
   .get(

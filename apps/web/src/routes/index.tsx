@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import theaterImg from "@/assets/images/theater.png";
+import theaterImg from "@web/assets/images/theater.png";
+
 import { Fingerprint, Ticket } from "lucide-react";
 
 export const Route = createFileRoute("/")({

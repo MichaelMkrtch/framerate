@@ -11,11 +11,10 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
-import { NotFound } from "@/components/NotFound";
-import { seo } from "@/utils/seo";
-
-import appCss from "@/styles/app.css?url";
+import { DefaultCatchBoundary } from "@web/components/DefaultCatchBoundary";
+import { NotFound } from "@web/components/NotFound";
+import appCss from "@web/styles/app.css?url";
+import { seo } from "@web/utils/seo";
 import manropeFontURL from "/src/assets/fonts/manrope-variable.woff2";
 import { Toaster } from "sonner";
 

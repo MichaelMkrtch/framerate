@@ -4,7 +4,7 @@ import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
 
-import { api } from "@/api";
+import { api } from "@server/api";
 import { rateLimit } from "elysia-rate-limit";
 
 const app = new Elysia()
@@ -28,6 +28,8 @@ const app = new Elysia()
   .use(api)
   .get("/", () => "Hello Elysia")
   .listen(8000);
+
+export type App = typeof app;
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
