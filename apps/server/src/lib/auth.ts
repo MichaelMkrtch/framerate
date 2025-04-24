@@ -33,8 +33,8 @@ export const auth = betterAuth({
   },
   rateLimit: {
     enabled: true,
-    window: 10,
-    max: 100,
+    window: 60,
+    max: 60,
   },
   advanced: {
     cookiePrefix: "framerate",

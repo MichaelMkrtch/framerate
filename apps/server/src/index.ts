@@ -11,7 +11,7 @@ const app = new Elysia()
   .use(swagger())
   .use(
     rateLimit({
-      max: 25,
+      max: 60,
       errorResponse:
         "You have made too many requests. Please wait one minute before making another request.",
       scoping: "global",
