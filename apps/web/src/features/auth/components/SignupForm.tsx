@@ -198,7 +198,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                     <button
                       type="button"
                       onClick={handlePageChange}
-                      className="text-gray flex cursor-pointer flex-col items-center pr-2.5 duration-200 outline-none *:transition-colors hover:text-white"
+                      className="text-gray hover:text-foreground flex cursor-pointer flex-col items-center pr-2.5 duration-200 outline-none *:transition-colors"
                     >
                       <CircleArrowRight size={28} strokeWidth={1.1} />
                     </button>
@@ -265,7 +265,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                     />
                     <button
                       type="button"
-                      className="text-gray flex cursor-pointer flex-col items-center pr-3 transition-colors duration-200 hover:text-white"
+                      className="text-gray hover:text-foreground flex cursor-pointer flex-col items-center pr-3 transition-colors duration-200"
                       onClick={() =>
                         isVisible ? setIsVisible(false) : setIsVisible(true)
                       }

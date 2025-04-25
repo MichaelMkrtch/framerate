@@ -19,7 +19,7 @@ function LandingPage() {
 
           <div className="flex items-center gap-10 font-semibold">
             <Link to="/login" className="group/login flex items-center gap-2">
-              <span className="text-gray transition-colors duration-200 group-hover/login:text-white">
+              <span className="text-gray group-hover/login:text-foreground transition-colors duration-200">
                 <Fingerprint size={18} />
               </span>
               Login
@@ -29,7 +29,7 @@ function LandingPage() {
               to="/signup"
               className="pill-bg group/signup peer flex items-center gap-2 rounded-full border border-transparent px-3.5 py-0.5"
             >
-              <span className="text-gray transition-colors duration-200 group-hover/signup:text-white">
+              <span className="text-gray group-hover/signup:text-foreground transition-colors duration-200">
                 <Ticket size={18} />
               </span>
               Create free account
@@ -84,7 +84,7 @@ function LandingPage() {
           {/* CTA */}
           <Link
             to="/signup"
-            className="hover:bg-foreground relative rounded-full border border-white/70 px-12 py-1.5 font-bold tracking-wide text-white shadow-sm transition-all duration-200 ease-in hover:text-neutral-800"
+            className="hover:bg-foreground text-foreground relative rounded-full border border-white/70 px-12 py-1.5 font-bold tracking-wide shadow-sm transition-all duration-200 ease-in hover:text-neutral-800"
           >
             Get started
           </Link>

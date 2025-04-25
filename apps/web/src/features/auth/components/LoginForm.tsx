@@ -118,7 +118,7 @@ export default function LoginForm() {
                   <button
                     type="button"
                     onClick={handleEmailValidation}
-                    className={`text-gray flex cursor-pointer flex-col items-center pr-2.5 transition-colors duration-200 hover:text-white ${isEmailValidated ? "hidden" : "block"}`}
+                    className={`text-gray hover:text-foreground flex cursor-pointer flex-col items-center pr-2.5 transition-colors duration-200 ${isEmailValidated ? "hidden" : "block"}`}
                   >
                     <CircleArrowRight size={28} strokeWidth={1.1} />
                   </button>
@@ -155,7 +155,7 @@ export default function LoginForm() {
                       onClick={() =>
                         isVisible ? setIsVisible(false) : setIsVisible(true)
                       }
-                      className="text-gray flex cursor-pointer flex-col items-center pr-3 transition-colors duration-200 hover:text-white"
+                      className="text-gray hover:text-foreground flex cursor-pointer flex-col items-center pr-3 transition-colors duration-200"
                     >
                       {isVisible ? (
                         <Eye size={28} strokeWidth={1.1} />

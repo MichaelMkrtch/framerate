@@ -108,7 +108,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Toaster
           toastOptions={{
             classNames: {
-              toast: "bg-background border-white/10 text-white drop-shadow-md",
+              toast:
+                "bg-background border-white/10 text-foreground drop-shadow-md",
             },
           }}
         />

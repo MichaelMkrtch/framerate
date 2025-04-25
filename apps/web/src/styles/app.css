@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./gradients.css";
 
 @font-face {
   font-family: "Manrope Variable";
@@ -199,6 +200,15 @@
         border-box border-box;
   }
 
+  /* Fading border */
+  .gradient-border {
+    background: radial-gradient(
+      300px at 50% 50%,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
   /* Image vignette */
   .backdrop-fade {
     background:
@@ -367,7 +377,7 @@
   }
 
   .auth-input {
-    @apply h-10 w-80 rounded-full bg-white/[0.01] pr-3 pl-6 text-sm leading-10 font-medium ring-1 ring-white/10 outline-none placeholder:font-medium placeholder:text-white/25;
+    @apply placeholder:text-foreground/25 h-10 w-80 rounded-full bg-white/[0.01] pr-3 pl-6 text-sm leading-10 font-medium ring-1 ring-white/10 outline-none placeholder:font-medium;
   }
 
   .carousel-container {

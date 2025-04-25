@@ -5,9 +5,8 @@ import AuthContent from "@web/features/auth/components/AuthContent";
 import AuthFooter from "@web/features/auth/components/AuthFooter";
 import RotatingQuotes from "@web/features/auth/components/RotatingQuotes";
 import SignupForm from "@web/features/auth/components/SignupForm";
-import { CircleArrowLeft, X } from "lucide-react";
 
-import "@web/styles/gradients.css";
+import { CircleArrowLeft, X } from "lucide-react";
 
 export const Route = createFileRoute("/(auth)/signup")({
   component: SignupPage,
@@ -33,7 +32,7 @@ function SignupPage() {
       <main className="relative flex h-full flex-col items-center justify-center">
         <Link
           to="/"
-          className="absolute top-8 left-2 rounded-full bg-white/[0.03] p-1 text-white transition-colors duration-200 hover:bg-white/5"
+          className="text-foreground absolute top-8 left-2 rounded-full bg-white/[0.03] p-1 transition-colors duration-200 hover:bg-white/5"
         >
           <X size={18} />
         </Link>
@@ -56,7 +55,7 @@ function SignupPage() {
                 <button
                   type="button"
                   onClick={handleClick}
-                  className="text-gray mb-4 w-fit transition-colors duration-200 hover:text-white"
+                  className="text-gray hover:text-foreground mb-4 w-fit transition-colors duration-200"
                 >
                   <CircleArrowLeft size={32} strokeWidth={1.1} />
                 </button>

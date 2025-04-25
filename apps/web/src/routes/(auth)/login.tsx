@@ -2,11 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import AuthContent from "@web/features/auth/components/AuthContent";
 import AuthFooter from "@web/features/auth/components/AuthFooter";
-import { X } from "lucide-react";
-
-import "@web/styles/gradients.css";
-
 import LoginForm from "@web/features/auth/components/LoginForm";
+
+import { X } from "lucide-react";
 
 export const Route = createFileRoute("/(auth)/login")({
   component: LoginPage,
@@ -27,7 +25,7 @@ function LoginPage() {
       <main className="relative flex h-full items-center justify-center">
         <Link
           to="/"
-          className="absolute top-8 left-2 rounded-full bg-white/[0.03] p-1 text-white transition-colors duration-200 hover:bg-white/5"
+          className="text-foreground absolute top-8 left-2 rounded-full bg-white/[0.03] p-1 transition-colors duration-200 hover:bg-white/5"
         >
           <X size={18} />
         </Link>
