@@ -11,7 +11,12 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ProfileImport } from './routes/profile'
+import { Route as PreferencesImport } from './routes/preferences'
+import { Route as LibraryImport } from './routes/library'
 import { Route as HomeImport } from './routes/home'
+import { Route as ExploreImport } from './routes/explore'
+import { Route as CollectionsImport } from './routes/collections'
 import { Route as IndexImport } from './routes/index'
 import { Route as authSignupImport } from './routes/(auth)/signup'
 import { Route as authLoginImport } from './routes/(auth)/login'
@@ -20,9 +25,39 @@ import { Route as FilmsIdTitleImport } from './routes/films/$id.$title'
 
 // Create/Update Routes
 
+const ProfileRoute = ProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PreferencesRoute = PreferencesImport.update({
+  id: '/preferences',
+  path: '/preferences',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LibraryRoute = LibraryImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const HomeRoute = HomeImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ExploreRoute = ExploreImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CollectionsRoute = CollectionsImport.update({
+  id: '/collections',
+  path: '/collections',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,11 +102,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/collections': {
+      id: '/collections'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof CollectionsImport
+      parentRoute: typeof rootRoute
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreImport
+      parentRoute: typeof rootRoute
+    }
     '/home': {
       id: '/home'
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeImport
+      parentRoute: typeof rootRoute
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryImport
+      parentRoute: typeof rootRoute
+    }
+    '/preferences': {
+      id: '/preferences'
+      path: '/preferences'
+      fullPath: '/preferences'
+      preLoaderRoute: typeof PreferencesImport
+      parentRoute: typeof rootRoute
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
       parentRoute: typeof rootRoute
     }
     '/(auth)/login': {
@@ -109,7 +179,12 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/collections': typeof CollectionsRoute
+  '/explore': typeof ExploreRoute
   '/home': typeof HomeRoute
+  '/library': typeof LibraryRoute
+  '/preferences': typeof PreferencesRoute
+  '/profile': typeof ProfileRoute
   '/login': typeof authLoginRoute
   '/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
@@ -118,7 +193,12 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/collections': typeof CollectionsRoute
+  '/explore': typeof ExploreRoute
   '/home': typeof HomeRoute
+  '/library': typeof LibraryRoute
+  '/preferences': typeof PreferencesRoute
+  '/profile': typeof ProfileRoute
   '/login': typeof authLoginRoute
   '/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
@@ -128,7 +208,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/collections': typeof CollectionsRoute
+  '/explore': typeof ExploreRoute
   '/home': typeof HomeRoute
+  '/library': typeof LibraryRoute
+  '/preferences': typeof PreferencesRoute
+  '/profile': typeof ProfileRoute
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
@@ -139,7 +224,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/collections'
+    | '/explore'
     | '/home'
+    | '/library'
+    | '/preferences'
+    | '/profile'
     | '/login'
     | '/signup'
     | '/films/$id/$title'
@@ -147,7 +237,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/collections'
+    | '/explore'
     | '/home'
+    | '/library'
+    | '/preferences'
+    | '/profile'
     | '/login'
     | '/signup'
     | '/films/$id/$title'
@@ -155,7 +250,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/collections'
+    | '/explore'
     | '/home'
+    | '/library'
+    | '/preferences'
+    | '/profile'
     | '/(auth)/login'
     | '/(auth)/signup'
     | '/films/$id/$title'
@@ -165,7 +265,12 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CollectionsRoute: typeof CollectionsRoute
+  ExploreRoute: typeof ExploreRoute
   HomeRoute: typeof HomeRoute
+  LibraryRoute: typeof LibraryRoute
+  PreferencesRoute: typeof PreferencesRoute
+  ProfileRoute: typeof ProfileRoute
   authLoginRoute: typeof authLoginRoute
   authSignupRoute: typeof authSignupRoute
   FilmsIdTitleRoute: typeof FilmsIdTitleRoute
@@ -174,7 +279,12 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CollectionsRoute: CollectionsRoute,
+  ExploreRoute: ExploreRoute,
   HomeRoute: HomeRoute,
+  LibraryRoute: LibraryRoute,
+  PreferencesRoute: PreferencesRoute,
+  ProfileRoute: ProfileRoute,
   authLoginRoute: authLoginRoute,
   authSignupRoute: authSignupRoute,
   FilmsIdTitleRoute: FilmsIdTitleRoute,
@@ -192,7 +302,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/collections",
+        "/explore",
         "/home",
+        "/library",
+        "/preferences",
+        "/profile",
         "/(auth)/login",
         "/(auth)/signup",
         "/films/$id/$title",
@@ -202,8 +317,23 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
+    "/collections": {
+      "filePath": "collections.tsx"
+    },
+    "/explore": {
+      "filePath": "explore.tsx"
+    },
     "/home": {
       "filePath": "home.tsx"
+    },
+    "/library": {
+      "filePath": "library.tsx"
+    },
+    "/preferences": {
+      "filePath": "preferences.tsx"
+    },
+    "/profile": {
+      "filePath": "profile.tsx"
     },
     "/(auth)/login": {
       "filePath": "(auth)/login.tsx"

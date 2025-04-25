@@ -41,6 +41,7 @@ export default function Navbar() {
   const [results, setResults] = useState<Media[]>([]);
 
   const searchBtn = useRef<HTMLButtonElement>(null);
+  const lastKeyRef = useRef("");
 
   const navigate = useNavigate();
   const pathname = useLocation({
@@ -73,40 +74,45 @@ export default function Navbar() {
   useHotkeys(
     "g",
     () => {
-      setLastKey("g");
-      setTimeout(() => setLastKey(""), 2000);
+      lastKeyRef.current = "g";
     },
     { enabled: navbarEnabled },
   );
 
-  useHotkeys("h, l, c, p", () => {
-    if (lastKey === "g") {
-      if (isHotkeyPressed("h")) {
-        setLastKey("");
-        navigate({ to: "/home" });
+  useHotkeys(
+    "h, e, c, l, m, p",
+    (event, handler) => {
+      if (lastKeyRef.current === "g") {
+        lastKeyRef.current = "";
+
+        let pressedKey = event.key;
+
+        switch (pressedKey) {
+          case "h":
+            navigate({ to: "/home" });
+            break;
+          case "e":
+            navigate({ to: "/explore" });
+            break;
+          case "c":
+            navigate({ to: "/collections" });
+            break;
+          case "l":
+            navigate({ to: "/library" });
+            break;
+          case "m":
+            navigate({ to: "/profile" });
+            break;
+          case "p":
+            navigate({ to: "/preferences" });
+            break;
+        }
       }
-      if (isHotkeyPressed("e")) {
-        setLastKey("");
-        navigate({ to: "/explore" });
-      }
-      if (isHotkeyPressed("c")) {
-        setLastKey("");
-        navigate({ to: "/collections" });
-      }
-      if (isHotkeyPressed("l")) {
-        setLastKey("");
-        navigate({ to: "/library" });
-      }
-      if (isHotkeyPressed("m")) {
-        setLastKey("");
-        navigate({ to: "/profile" });
-      }
-      if (isHotkeyPressed("p")) {
-        setLastKey("");
-        navigate({ to: "/preferences" });
-      }
-    }
-  });
+    },
+    {
+      enabled: navbarEnabled,
+    },
+  );
 
   useEffect(() => {
     switch (pathname) {

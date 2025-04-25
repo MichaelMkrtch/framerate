@@ -11,11 +11,10 @@ import { toast } from "sonner";
 
 type HeaderProps = {
   title?: string;
-  classes?: string;
   children?: ReactNode;
 };
 
-export default function Header({ title, classes, children }: HeaderProps) {
+export default function Header({ title, children }: HeaderProps) {
   const { data: queryData, isError } = useQuery({
     queryKey: ["session"],
     queryFn: () => authClient.getSession(),
@@ -47,9 +46,7 @@ export default function Header({ title, classes, children }: HeaderProps) {
   }, [queryData, setEmail, setName, setUsername]);
 
   return (
-    <header
-      className={`${classes} flex h-[115px] items-center justify-between`}
-    >
+    <header className="flex h-[115px] items-center justify-between">
       <div className="flex items-center justify-center gap-3">
         <Link to="/home">
           <img src="/logo.svg" alt="FrameRate logo" width="22" height="22" />
