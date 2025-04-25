@@ -23,7 +23,8 @@ const trendingQueryOptions = queryOptions({
     await queryClient.prefetchQuery({
       queryKey: ["all-trending-day"],
       queryFn: () => fetchTrending({ filter: "all", timeWindow: "day" }),
-      staleTime: 1000 * 60 * 10,
+      staleTime: 10 * 60 * 1000,
+      gcTime: 15 * 60 * 1000,
     });
 
     return {
@@ -32,6 +33,7 @@ const trendingQueryOptions = queryOptions({
     };
   },
   staleTime: 10 * 60 * 1000,
+  gcTime: 15 * 60 * 1000,
 });
 
 export const Route = createFileRoute("/home")({

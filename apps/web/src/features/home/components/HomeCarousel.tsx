@@ -1,6 +1,6 @@
 import type { Trending } from "@web/types/tmdb-types";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 
 import Poster from "@web/components/Poster";
@@ -41,7 +41,7 @@ export default function HomeCarousel({
   ];
 
   return (
-    <div className="animate-in">
+    <div className="animate-fade-in">
       {groupedData.map((group) => {
         const { data } = group;
 
@@ -50,7 +50,7 @@ export default function HomeCarousel({
             key={group.title}
             className="carousel-container group/trending"
           >
-            <h2 className="mb-2 ml-2 text-lg font-medium">{group.title}</h2>
+            <h2 className="mb-3 ml-2 text-lg font-medium">{group.title}</h2>
             <Carousel
               opts={{
                 align: "start",
@@ -97,92 +97,4 @@ export default function HomeCarousel({
       })}
     </div>
   );
-
-  // return (
-  //   <div className="animate-fade-in">
-  //     <section className="carousel-container group/trending">
-  //       <h2 className="mb-2 ml-2 text-lg font-medium">Movies Making Waves</h2>
-  //       <Carousel
-  //         opts={{
-  //           align: "start",
-  //           startIndex: 0,
-  //           skipSnaps: true,
-  //         }}
-  //       >
-  //         <CarouselContent>
-  //           {movieData?.map((movie) => {
-  //             const simpleTitle = getSimpleTitle(movie.title);
-
-  //             return (
-  //               <CarouselItem
-  //                 key={movie.id}
-  //                 className="md:basis-1/5 xl:basis-1/6"
-  //               >
-  //                 <Link
-  //                   to="/films/$filmId/$title"
-  //                   params={{ filmId: String(movie.id), title: simpleTitle }}
-  //                 >
-  //                   <Poster
-  //                     title={movie.title}
-  //                     src={movie.posterPath}
-  //                     fetchSize="w342"
-  //                     width={160}
-  //                     height={240}
-  //                     perspectiveEnabled={false}
-  //                     scale={105}
-  //                     classes="animate-fade-in carousel-item w-[170px] h-[255px]"
-  //                   />
-  //                 </Link>
-  //               </CarouselItem>
-  //             );
-  //           })}
-  //         </CarouselContent>
-  //         <CarouselPrevious className="group/trending animate-fade-in hidden md:group-hover/trending:flex" />
-  //         <CarouselNext className="group/trending animate-fade-in hidden md:group-hover/trending:flex" />
-  //       </Carousel>
-  //     </section>
-
-  //     <section className="carousel-container group/trending">
-  //       <h2 className="mb-3 ml-2 text-lg font-medium">Series Sensations</h2>
-  //       <Carousel
-  //         opts={{
-  //           align: "start",
-  //           startIndex: 0,
-  //           skipSnaps: true,
-  //         }}
-  //       >
-  //         <CarouselContent>
-  //           {tvData?.map((series) => {
-  //             const simpleTitle = getSimpleTitle(series.title);
-
-  //             return (
-  //               <CarouselItem
-  //                 key={series.id}
-  //                 className="md:basis-1/5 xl:basis-1/6"
-  //               >
-  //                 <Link
-  //                   to="/series/$seriesId/$title"
-  //                   params={{ seriesId: String(series.id), title: simpleTitle }}
-  //                 >
-  //                   <Poster
-  //                     title={series.title}
-  //                     src={series.posterPath}
-  //                     fetchSize="w342"
-  //                     width={160}
-  //                     height={240}
-  //                     perspectiveEnabled={false}
-  //                     scale={105}
-  //                     classes="carousel-item w-[170px] h-[255px]"
-  //                   />
-  //                 </Link>
-  //               </CarouselItem>
-  //             );
-  //           })}
-  //         </CarouselContent>
-  //         <CarouselPrevious className="group/trending animate-fade-in hidden md:group-hover/trending:flex" />
-  //         <CarouselNext className="group/trending animate-fade-in hidden md:group-hover/trending:flex" />
-  //       </Carousel>
-  //     </section>
-  //   </div>
-  // );
 }

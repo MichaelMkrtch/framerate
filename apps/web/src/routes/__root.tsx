@@ -12,9 +12,11 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import { DefaultCatchBoundary } from "@web/components/DefaultCatchBoundary";
+import Navbar from "@web/components/Navbar";
 import { NotFound } from "@web/components/NotFound";
 import appCss from "@web/styles/app.css?url";
 import { seo } from "@web/utils/seo";
+
 import manropeFontURL from "/src/assets/fonts/manrope-variable.woff2";
 import { Toaster } from "sonner";
 
@@ -101,18 +103,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body
         className={`${pathname === "/" ? "bg-marketing" : "bg-background"} font-manrope dark mx-auto max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]`}
       >
-        {/* <Link
-            to="/"
-            activeProps={{
-              className: "font-bold",
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link> */}
         {children}
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <Navbar />
         <Toaster
           toastOptions={{
             classNames: {
@@ -120,6 +112,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             },
           }}
         />
+        <TanStackRouterDevtools position="bottom-right" />
+        <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />
       </body>
     </html>

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "@tanstack/react-router";
 
 import { authClient } from "@web/lib/auth-client";
@@ -15,26 +16,35 @@ type HeaderProps = {
 };
 
 export default function Header({ title, classes, children }: HeaderProps) {
-  const { data: session, error } = authClient.useSession();
+  const { data: queryData, isError } = useQuery({
+    queryKey: ["session"],
+    queryFn: () => authClient.getSession(),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+
   const { name, setEmail, setName, setUsername } = useAuthStore();
   const pathname = useLocation({
     select: (location) => location.pathname,
   });
 
   useEffect(() => {
-    if (session) {
-      setEmail(session.user.email);
-      setName(session.user.name);
-      setUsername(session.user.username!);
-    }
-
-    if (error) {
+    if (isError) {
       setName("User");
       toast.error("Something went wrong while getting user information!", {
         duration: 5000,
       });
+      return;
     }
-  }, [error, session, setEmail, setName, setUsername]);
+
+    const user = queryData?.data?.user;
+
+    if (user) {
+      setEmail(user.email);
+      setName(user.name);
+      setUsername(user.username!);
+    }
+  }, [queryData, setEmail, setName, setUsername]);
 
   return (
     <header
