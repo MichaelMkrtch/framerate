@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type PosterProps = {
   title: string;
@@ -21,7 +21,9 @@ export default function Poster({
   perspectiveEnabled,
   scale,
 }: PosterProps) {
+  const [imageLoaded, setImageLoaded] = useState(false);
   const boundingRef = useRef<DOMRect | null>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   let perspectiveClasses = "";
   if (perspectiveEnabled) {
@@ -29,47 +31,77 @@ export default function Poster({
       "group rounded relative transform-gpu transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))]";
   }
 
+  const handleMouseEnter = perspectiveEnabled
+    ? (event: React.MouseEvent<HTMLDivElement>) => {
+        boundingRef.current = event.currentTarget.getBoundingClientRect();
+      }
+    : undefined;
+  const handleMouseLeave = perspectiveEnabled
+    ? () => (boundingRef.current = null)
+    : undefined;
+  const handleMouseMove = perspectiveEnabled
+    ? (event: React.MouseEvent<HTMLDivElement>) => {
+        if (!boundingRef.current) return;
+        const x = event.clientX - boundingRef.current.left;
+        const y = event.clientY - boundingRef.current.top;
+        const xPercentage = x / boundingRef.current.width;
+        const yPercentage = y / boundingRef.current.height;
+        // converts the positions into degrees
+        // x needs to be subtracted from 0.5 so all corners have the same behavior
+        const xRotation = (0.5 - xPercentage) * 20;
+        const yRotation = (yPercentage - 0.5) * 20;
+        // x needs to rotate vertically so apply yRotation
+        // y needs to rotate horizontally so apply xRotation
+        event.currentTarget.style.setProperty(
+          "--x-rotation",
+          `${yRotation}deg`,
+        );
+        event.currentTarget.style.setProperty(
+          "--y-rotation",
+          `${xRotation}deg`,
+        );
+        event.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
+        event.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
+      }
+    : undefined;
+
+  function handleImageLoad() {
+    setImageLoaded(true);
+  }
+
+  // Check if image is already complete (for cached images)
+  useEffect(() => {
+    if (imageRef.current && imageRef.current.complete) {
+      setImageLoaded(true);
+    }
+
+    // Add a fallback timer for any edge cases
+    const timer = setTimeout(() => {
+      setImageLoaded(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div
       className={`w-fit transform-gpu transition-transform duration-200 ease-out [perspective:800px] ${scale === 105 ? "hover:scale-105" : "hover:scale-[1.08]"}`}
     >
       <div
-        onMouseEnter={(event) => {
-          boundingRef.current = event.currentTarget.getBoundingClientRect();
-        }}
-        onMouseLeave={() => (boundingRef.current = null)}
-        onMouseMove={(event) => {
-          if (!boundingRef.current) return;
-          const x = event.clientX - boundingRef.current.left;
-          const y = event.clientY - boundingRef.current.top;
-          const xPercentage = x / boundingRef.current.width;
-          const yPercentage = y / boundingRef.current.height;
-          // converts the positions into degrees
-          // x needs to be subtracted from 0.5 so all corners have the same behavior
-          const xRotation = (0.5 - xPercentage) * 20;
-          const yRotation = (yPercentage - 0.5) * 20;
-          // x needs to rotate vertically so apply yRotation
-          // y needs to rotate horizontally so apply xRotation
-          event.currentTarget.style.setProperty(
-            "--x-rotation",
-            `${yRotation}deg`,
-          );
-          event.currentTarget.style.setProperty(
-            "--y-rotation",
-            `${xRotation}deg`,
-          );
-          event.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
-          event.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
-        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseMove={handleMouseMove}
         className={perspectiveClasses}
       >
         {src && (
           <img
+            ref={imageRef}
             src={`https://image.tmdb.org/t/p/${fetchSize}${src}`}
             alt={`A poster from the film ${title}`}
             width={width}
             height={height}
-            className={`${classes} ${"animate-fade-in"} peer relative top-0 rounded object-cover drop-shadow select-none`}
+            onLoad={handleImageLoad}
+            className={`${classes} ${imageLoaded ? "animate-fade-in" : "opacity-0"} peer relative top-0 rounded object-cover drop-shadow select-none`}
           />
         )}
         {/* the radial gradient is positioned according to mouse position */}

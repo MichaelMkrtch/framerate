@@ -82,7 +82,7 @@ export default function HomeCarousel({
                           height={240}
                           perspectiveEnabled={false}
                           scale={105}
-                          classes="animate-fade-in carousel-item w-[170px] h-[255px]"
+                          classes="carousel-item w-[170px] h-[255px]"
                         />
                       </Link>
                     </CarouselItem>
