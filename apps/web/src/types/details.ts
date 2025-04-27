@@ -59,7 +59,6 @@ interface MediaBase {
   id: number;
   originCountry: string[];
   originalLanguage: string;
-  originalTitle: string;
   overview: string;
   popularity: number;
   posterPath: string;
@@ -69,7 +68,6 @@ interface MediaBase {
   spokenLanguages: SpokenLanguage[];
   status: string;
   tagline: string;
-  title: string;
   voteAverage: number;
   voteCount: number;
   credits: Credits;
@@ -87,6 +85,7 @@ interface TVDetails extends MediaBase {
     profilePath: string | null;
   }[];
   episodeRunTime: number[];
+  firstAirDate: string;
   inProduction: boolean;
   languages: string[];
   lastAirDate: string;
@@ -105,6 +104,7 @@ interface TVDetails extends MediaBase {
     showId: number;
     stillPath: string;
   };
+  name: string;
   nextEpisodeToAir: any;
   networks: {
     id: number;
@@ -114,6 +114,7 @@ interface TVDetails extends MediaBase {
   }[];
   numberOfEpisodes: number;
   numberOfSeasons: number;
+  originalName: string;
   seasons: {
     airDate: string;
     episodeCount: number;
@@ -146,9 +147,10 @@ interface MovieDetails extends MediaBase {
     job: string;
   }[];
   imdbId: string;
-  releaseDate: string;
+  originalTitle: string;
   revenue: number;
   runtime: number;
+  title: string;
   video: boolean;
 }
 

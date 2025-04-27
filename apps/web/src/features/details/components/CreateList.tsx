@@ -1,4 +1,3 @@
-import type { List } from "@web/types/lists";
 import type { RefObject } from "react";
 
 import { useRef, useState } from "react";
@@ -14,7 +13,7 @@ import {
   FormMessage,
 } from "@web/components/ui/form";
 import { listSchema } from "@web/features/details/schema/list";
-import { useAuthStore } from "@web/store/auth/auth-store";
+import { createList } from "@web/server/lists";
 import { useListStore } from "@web/store/collections/list-store";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +23,6 @@ import { useOnClickOutside } from "usehooks-ts";
 import { z } from "zod";
 
 export default function CreateList() {
-  const { username } = useAuthStore();
   const { addList } = useListStore();
   const [isChecked, setIsChecked] = useState<boolean | undefined>();
 
@@ -58,23 +56,15 @@ export default function CreateList() {
 
     if (!parsed.success) return toast.error("Please enter a valid name");
 
-    // const response = await fetch(`/api/${username}/collections`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(parsed.data),
-    // });
+    const data = await createList(parsed.data.listName);
 
-    // const data: { message: string; results: List } = await response.json();
-
-    // if (response.ok) {
-    //   addList(data.results);
-    //   toggleCreateList();
-    //   return toast.success(data.message);
-    // }
-
-    // toast.error(data.message);
+    if ("list" in data) {
+      addList(data);
+      toggleCreateList();
+      return toast.success("List created successfully");
+    } else {
+      return toast.error("Failed to create list. Please try again later.");
+    }
   }
 
   return (
