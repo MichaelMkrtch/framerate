@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 import { fetchTrending } from "@server/services/v1/fetch-trending";
 
-export const trending = new Elysia({ prefix: "/trending" })
+export const trending = new Elysia({ name: "trending", prefix: "/trending" })
   .onError(({ code, error }) => {
     console.error("Error in trending route:", error);
     if (code === "VALIDATION") {

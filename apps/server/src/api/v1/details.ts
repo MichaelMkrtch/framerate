@@ -1,7 +1,10 @@
 import { fetchDetails } from "@server/services/v1/fetch-details";
 import Elysia, { t } from "elysia";
 
-export const details = new Elysia({ prefix: "/details/:type/:id" })
+export const details = new Elysia({
+  name: "details",
+  prefix: "/details/:type/:id",
+})
   .onError(({ code, error }) => {
     console.error(`${code}: Error in details route – ${error}`);
     if (code === "VALIDATION") {
