@@ -1,13 +1,20 @@
 import { Elysia, t } from "elysia";
-import { fetchTrending } from "./fetchTrending";
+import { fetchTrending } from "@server/services/v1/fetch-trending";
 
 export const trending = new Elysia({ prefix: "/trending" })
-  .onError(({ error }) => {
+  .onError(({ code, error }) => {
     console.error("Error in trending route:", error);
-    return {
-      status: 500,
-      message: "Something went wrong while fetching trending data!",
-    };
+    if (code === "VALIDATION") {
+      return {
+        status: 400,
+        message: "Invaid request",
+      };
+    } else {
+      return {
+        status: 500,
+        message: "Something went wrong while fetching trending data!",
+      };
+    }
   })
   .get(
     "/",

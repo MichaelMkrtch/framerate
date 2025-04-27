@@ -1,9 +1,15 @@
 import { objectToCamel } from "ts-case-convert";
 
 import { renameKeys } from "@server/lib/utils";
-import { trendingResponseSchema } from "./trendingSchema";
+import { trendingResponseSchema } from "@server/schemas/v1/trending-schema";
 
 const API_TOKEN = process.env.API_TOKEN;
+
+type TMDBError = {
+  success: boolean;
+  status_code: number;
+  status_message: string;
+};
 
 export async function fetchTrending(
   filter: "all" | "movie" | "tv" | "person",
@@ -23,9 +29,9 @@ export async function fetchTrending(
     const response = await fetch(url, options);
 
     if (!response.ok) {
-      const errorText = await response.text();
+      const tmdbError = (await response.json()) as TMDBError;
       const error = new Error(
-        `TMDB API Error: ${response.status} – ${errorText}`,
+        `TMDB API Error: ${tmdbError.status_code} – ${tmdbError.status_message}`,
       );
       throw error;
     }
@@ -35,7 +41,7 @@ export async function fetchTrending(
     const validationResult = trendingResponseSchema.safeParse(rawData);
 
     if (!validationResult.success) {
-      console.error("Zod validation failed:", validationResult.error.errors);
+      console.error("Zod validation failed:", validationResult.error.message);
       throw new Error("Invalid data received from TMDB API.");
     }
 
@@ -62,6 +68,6 @@ export async function fetchTrending(
     return formattedData.slice(0, 18);
   } catch (error) {
     console.error("Error in fetchTrending:", error);
-    throw new Error();
+    throw error;
   }
 }

@@ -4,7 +4,7 @@ import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { cors } from "@elysiajs/cors";
 
-import { api } from "@server/api";
+import { api } from "@server/api/api-index";
 import { rateLimit } from "elysia-rate-limit";
 
 const app = new Elysia()

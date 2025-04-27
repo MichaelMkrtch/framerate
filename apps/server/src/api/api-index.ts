@@ -1,10 +1,10 @@
 import { Elysia } from "elysia";
 
 import { betterAuth } from "@server/middlewares/auth-middleware";
-import { apiV1 } from "./v1";
+import { v1 } from "./v1/v1-index";
 import { betterAuthHandler } from "./better-auth";
 
 export const api = new Elysia({ prefix: "/api" })
   .use(betterAuthHandler)
   .use(betterAuth)
-  .use(apiV1);
+  .use(v1);

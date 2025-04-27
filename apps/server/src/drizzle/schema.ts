@@ -87,7 +87,7 @@ export const movie = pgTable("movie", {
   title: text("title").notNull(),
   posterPath: text("poster_path").default(""),
   backdropPath: text("backdrop_path").default(""),
-  releaseDate: date("release_date").notNull(),
+  releaseDate: date("release_date"),
   slug: text("slug").unique(),
 });
 
