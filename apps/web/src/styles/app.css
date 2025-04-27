@@ -25,9 +25,11 @@
 
 @theme {
   --font-manrope: "Manrope Variable";
-  --font-beskpoke: "Bespoke Serif";
+  --font-bespoke: "Bespoke Serif";
 
-  --animate-fade-in: fade-in 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+  --animate-fade-in: fade-in 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+  --animate-scale-to-right: scale-to-right 0.2s
+    cubic-bezier(0.39, 0.575, 0.565, 1) both;
 
   @keyframes fade-in {
     0% {
@@ -35,6 +37,21 @@
     }
     100% {
       opacity: 1;
+    }
+  }
+
+  @keyframes scale-to-right {
+    0% {
+      -webkit-transform: scaleX(0.4);
+      transform: scaleX(0.4);
+      -webkit-transform-origin: 0% 0%;
+      transform-origin: 0% 0%;
+    }
+    100% {
+      -webkit-transform: scaleX(1);
+      transform: scaleX(1);
+      -webkit-transform-origin: 0% 0%;
+      transform-origin: 0% 0%;
     }
   }
 }
@@ -209,8 +226,77 @@
     );
   }
 
-  /* Image vignette */
+  .auth-input {
+    @apply placeholder:text-foreground/25 h-10 w-80 rounded-full bg-white/[0.01] pr-3 pl-6 text-sm leading-10 font-medium ring-1 ring-white/10 outline-none placeholder:font-medium;
+  }
+
+  .carousel-container {
+    @apply bg-background-darker relative mb-6 rounded-md p-4 before:absolute before:top-0 before:-right-20 before:bottom-0 before:-left-20;
+  }
+
+  .carousel-item {
+    @apply h-36 w-24 md:h-[180px] md:w-[120px] lg:h-[249px] lg:w-[166px] xl:h-[288px] xl:w-[192px];
+  }
+
+  /* Detail page image vignette */
   .backdrop-fade {
+    background:
+      linear-gradient(
+        90deg,
+        #111419 0,
+        rgba(17, 20, 25, 0.986) 0.97%,
+        rgba(17, 20, 25, 0.945) 2.07833333%,
+        rgba(17, 20, 25, 0.883) 3.29666667%,
+        rgba(17, 20, 25, 0.803) 4.60166667%,
+        rgba(17, 20, 25, 0.711) 5.96666667%,
+        rgba(17, 20, 25, 0.61) 7.365%,
+        rgba(17, 20, 25, 0.504) 8.77166667%,
+        rgba(17, 20, 25, 0.398) 10.16%,
+        rgba(17, 20, 25, 0.296) 11.505%,
+        rgba(17, 20, 25, 0.203) 12.78%,
+        rgba(17, 20, 25, 0.122) 13.95833333%,
+        rgba(17, 20, 25, 0.059) 15.01666667%,
+        rgba(17, 20, 25, 0.016) 15.92833333%,
+        rgba(17, 20, 25, 0) 16.66666667%,
+        rgba(17, 20, 25, 0) 83.33333333%,
+        rgba(17, 20, 25, 0.016) 84.07166667%,
+        rgba(17, 20, 25, 0.059) 84.98333333%,
+        rgba(17, 20, 25, 0.122) 86.04166667%,
+        rgba(17, 20, 25, 0.203) 87.22%,
+        rgba(17, 20, 25, 0.296) 88.495%,
+        rgba(17, 20, 25, 0.398) 89.84%,
+        rgba(17, 20, 25, 0.504) 91.22833333%,
+        rgba(17, 20, 25, 0.61) 92.635%,
+        rgba(17, 20, 25, 0.711) 94.03333333%,
+        rgba(17, 20, 25, 0.803) 95.39833333%,
+        rgba(17, 20, 25, 0.883) 96.70333333%,
+        rgba(17, 20, 25, 0.945) 97.92166667%,
+        rgba(17, 20, 25, 0.996) 100%,
+        #111419
+      ),
+      linear-gradient(
+        0deg,
+        #111419 0,
+        #111419 19.48148148%,
+        rgba(17, 20, 25, 0.986) 22.63703704%,
+        rgba(17, 20, 25, 0.945) 25.1%,
+        rgba(17, 20, 25, 0.883) 27.80740741%,
+        rgba(17, 20, 25, 0.803) 31.70740741%,
+        rgba(17, 20, 25, 0.711) 33.74074074%,
+        rgba(17, 20, 25, 0.61) 36.84814815%,
+        rgba(17, 20, 25, 0.504) 39.97407407%,
+        rgba(17, 20, 25, 0.398) 43.05925926%,
+        rgba(17, 20, 25, 0.296) 46.04814815%,
+        rgba(17, 20, 25, 0.203) 48.88148148%,
+        rgba(17, 20, 25, 0.122) 51.5%,
+        rgba(17, 20, 25, 0.059) 53.85185185%,
+        rgba(17, 20, 25, 0.016) 55.87777778%,
+        rgba(17, 20, 25, 0) 58.51851852%
+      );
+  }
+
+  /* Marketing image vignette */
+  .marketing-image-fade {
     background:
       /* Top fade, short reach */
       linear-gradient(
@@ -374,17 +460,5 @@
       hsla(206, 100%, 1%, 0.013) 81.3%,
       hsla(206, 100%, 1%, 0) 100%
     );
-  }
-
-  .auth-input {
-    @apply placeholder:text-foreground/25 h-10 w-80 rounded-full bg-white/[0.01] pr-3 pl-6 text-sm leading-10 font-medium ring-1 ring-white/10 outline-none placeholder:font-medium;
-  }
-
-  .carousel-container {
-    @apply bg-background-darker relative mb-6 rounded-md p-4 before:absolute before:top-0 before:-right-20 before:bottom-0 before:-left-20;
-  }
-
-  .carousel-item {
-    @apply h-36 w-24 md:h-[180px] md:w-[120px] lg:h-[249px] lg:w-[166px] xl:h-[288px] xl:w-[192px];
   }
 }

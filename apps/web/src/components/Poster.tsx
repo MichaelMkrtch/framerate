@@ -8,6 +8,7 @@ type PosterProps = {
   height: number;
   perspectiveEnabled: boolean;
   scale?: number;
+  loading: "eager" | "lazy";
   classes: string;
 };
 
@@ -17,9 +18,10 @@ export default function Poster({
   src,
   width,
   height,
-  classes,
   perspectiveEnabled,
   scale,
+  loading,
+  classes,
 }: PosterProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const boundingRef = useRef<DOMRect | null>(null);
@@ -101,6 +103,7 @@ export default function Poster({
             width={width}
             height={height}
             onLoad={handleImageLoad}
+            loading={loading}
             className={`${classes} ${imageLoaded ? "animate-fade-in" : "opacity-0"} peer relative top-0 rounded object-cover drop-shadow select-none`}
           />
         )}

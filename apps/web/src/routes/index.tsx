@@ -61,7 +61,7 @@ function LandingPage() {
               loading="eager"
               className="animate-fade-in"
             />
-            <div className="backdrop-fade absolute top-0 right-0 left-0 z-10 size-full"></div>
+            <div className="marketing-image-fade absolute top-0 right-0 left-0 z-10 size-full"></div>
             <div className="easing-gradient absolute top-0 right-0 left-0 size-full"></div>
             <span className="text-gray/40 absolute top-1/2 -right-4 z-10 -rotate-90 text-sm font-medium text-nowrap">
               The Last of Us (2023)

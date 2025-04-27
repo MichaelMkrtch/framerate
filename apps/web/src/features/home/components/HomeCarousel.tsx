@@ -59,8 +59,9 @@ export default function HomeCarousel({
               }}
             >
               <CarouselContent>
-                {data?.map((media) => {
+                {data?.map((media, index) => {
                   const simpleTitle = getSimpleTitle(media.title);
+                  const loadingStrategy = index < 6 ? "eager" : "lazy";
 
                   return (
                     <CarouselItem
@@ -82,6 +83,7 @@ export default function HomeCarousel({
                           height={240}
                           perspectiveEnabled={false}
                           scale={105}
+                          loading={loadingStrategy}
                           classes="carousel-item w-[170px] h-[255px]"
                         />
                       </Link>

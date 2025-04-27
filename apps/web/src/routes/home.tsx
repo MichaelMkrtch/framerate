@@ -8,12 +8,11 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
 
 import { DefaultCatchBoundary } from "@web/components/DefaultCatchBoundary";
 import Header from "@web/components/Header";
 import HomeCarousel from "@web/features/home/components/HomeCarousel";
-import { fetchTrending } from "@web/server/fetchTrending";
+import { getTrending } from "@web/server/trending";
 
 const queryClient = new QueryClient();
 
@@ -22,14 +21,14 @@ const trendingQueryOptions = queryOptions({
   queryFn: async () => {
     await queryClient.prefetchQuery({
       queryKey: ["all-trending-day"],
-      queryFn: () => fetchTrending({ filter: "all", timeWindow: "day" }),
+      queryFn: () => getTrending({ filter: "all", timeWindow: "day" }),
       staleTime: 10 * 60 * 1000,
       gcTime: 15 * 60 * 1000,
     });
 
     return {
-      movie: await fetchTrending({ filter: "movie", timeWindow: "week" }),
-      tv: await fetchTrending({ filter: "tv", timeWindow: "week" }),
+      movie: await getTrending({ filter: "movie", timeWindow: "week" }),
+      tv: await getTrending({ filter: "tv", timeWindow: "week" }),
     };
   },
   staleTime: 10 * 60 * 1000,
