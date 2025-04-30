@@ -1,15 +1,16 @@
-import { objectToCamel } from "ts-case-convert";
-
-import { formatNames, renameKeys } from "@server/lib/utils";
-
 import type {
   MovieDetails,
   TVDetails,
 } from "@server/schemas/v1/details-schema";
-
 import { combinedMediaDetailsSchema } from "@server/schemas/v1/details-schema";
+
+import { objectToCamel } from "ts-case-convert";
+
+import { formatNames, getTables, renameKeys } from "@server/lib/utils";
+
 import { ZodError } from "zod";
-import { addMovieToDB, getMovieMedia } from "@server/services/v1/movie";
+import { db } from "@server/drizzle";
+import { eq } from "drizzle-orm";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 
@@ -76,25 +77,44 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
       (crewMember) => crewMember.job === "Director",
     );
 
-    if (validatedData.media_type === "movie") {
-      let storedMovie = await getMovieMedia(id);
+    let storedMedia = await getDBImages(id, mediaType);
 
-      if (!storedMovie) {
-        const movieToAdd = {
-          id,
-          title: validatedData.title,
-          posterPath: validatedData.poster_path,
-          backdropPath: validatedData.backdrop_path,
-          releaseDate: validatedData.release_date,
-        };
-        storedMovie = await addMovieToDB(movieToAdd);
-      }
+    if (!storedMedia) {
+      const title =
+        validatedData.media_type === "movie"
+          ? validatedData.title
+          : validatedData.name;
+      const releaseDate =
+        validatedData.media_type === "movie"
+          ? validatedData.release_date
+          : validatedData.first_air_date;
+
+      const mediaToAdd = {
+        id,
+        title,
+        posterPath: validatedData.poster_path,
+        backdropPath: validatedData.backdrop_path,
+        releaseDate,
+        slug: null,
+      };
+
+      storedMedia = await addMediaToDB(mediaToAdd, mediaType);
+    }
+
+    if (validatedData.media_type === "movie") {
+      // if (!storedMedia) {
+      //   const movieToAdd = {
+      //     id,
+      //     title: validatedData.title,
+      //     posterPath: validatedData.poster_path,
+      //     backdropPath: validatedData.backdrop_path,
+      //     releaseDate: validatedData.release_date,
+      //     slug: null,
+      //   };
+      //   storedMedia = await addMediaToDB(movieToAdd, "movie");
+      // }
 
       const movieData: MovieDetails = validatedData;
-
-      // const directorList = movieData.credits.crew.filter(
-      //   (crewMember) => crewMember.job === "Director",
-      // );
 
       const directorList = movieData.credits.crew;
 
@@ -104,8 +124,8 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
         ...movieData,
         director,
         director_list: directorList,
-        poster_path: storedMovie?.posterPath ?? movieData.poster_path,
-        backdrop_path: storedMovie?.backdropPath ?? movieData.backdrop_path,
+        poster_path: storedMedia?.posterPath ?? movieData.poster_path,
+        backdrop_path: storedMedia?.backdropPath ?? movieData.backdrop_path,
       };
 
       const movieResults = objectToCamel(finalMovieData);
@@ -119,10 +139,13 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
       const creator = formatNames(creatorList);
 
       const { created_by, ...restOfTvData } = tvData;
+
       const tvDataBase = {
         ...restOfTvData,
         creator,
         creator_list: creatorList,
+        poster_path: storedMedia?.posterPath ?? tvData.poster_path,
+        backdrop_path: storedMedia?.backdropPath ?? tvData.backdrop_path,
       };
 
       const renamedTvData = renameKeys(
@@ -146,4 +169,56 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
     }
     throw error;
   }
+}
+
+/**
+ * Gets the poster and backdrop for a movie or series
+ *
+ * @param id - The ID of the media to get
+ * @returns The poster and backdrop from the database
+ */
+export async function getDBImages(id: number, mediaType: "movie" | "tv") {
+  const tablesMap = getTables();
+  const { table, idCol } = tablesMap[mediaType];
+
+  const [result] = await db
+    .select({
+      posterPath: table.posterPath,
+      backdropPath: table.backdropPath,
+    })
+    .from(table)
+    .where(eq(idCol, id));
+
+  return result;
+}
+
+type InsertMedia = {
+  id: number;
+  title: string;
+  posterPath: string | null;
+  backdropPath: string | null;
+  releaseDate: string | null;
+  slug: string | null;
+};
+
+/**
+ * Adds a movie or series to the database if it does not exist
+ *
+ * @param data - The media object to add to the database
+ * @returns The created media object
+ */
+export async function addMediaToDB(
+  data: InsertMedia,
+  mediaType: "movie" | "tv",
+) {
+  const tablesMap = getTables();
+  const { table, idCol } = tablesMap[mediaType];
+
+  const [result] = await db
+    .insert(table)
+    .values(data)
+    .onConflictDoNothing({ target: idCol })
+    .returning();
+
+  return result;
 }

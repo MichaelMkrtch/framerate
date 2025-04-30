@@ -82,6 +82,13 @@ export default function MediaActions({ media }: Record<"media", MediaDetails>) {
   );
 
   useEffect(() => {
+    return () => {
+      setIsLiked(false);
+      setIsWatched(false);
+    };
+  }, [setIsLiked, setIsWatched]);
+
+  useEffect(() => {
     async function fetchListItem() {
       const response = await getListItem(mediaType, mediaId);
 

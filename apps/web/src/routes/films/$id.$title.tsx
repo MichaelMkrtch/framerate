@@ -15,8 +15,8 @@ function createQueryOptions(id: string) {
   return queryOptions({
     queryKey: ["film-details", id],
     queryFn: async () => await getDetails("movie", id),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
+    staleTime: 2 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
   });
 }
 

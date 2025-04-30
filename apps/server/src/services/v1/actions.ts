@@ -1,5 +1,5 @@
 import { db } from "@server/drizzle";
-import { getTables } from "@server/lib/utils";
+import { getReviewTables } from "@server/lib/utils";
 import { and, eq } from "drizzle-orm";
 
 type ReviewData = {
@@ -26,7 +26,7 @@ export async function updateReview({
   mediaId,
   mediaType,
 }: ReviewData) {
-  const tablesMap = getTables();
+  const tablesMap = getReviewTables();
   const { table, idCol } = tablesMap[mediaType];
 
   const result = await db

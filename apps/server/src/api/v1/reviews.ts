@@ -21,13 +21,6 @@ export const reviews = new Elysia({ name: "reviews", prefix: "reviews" })
       if (user) {
         const result = await getReview(user.id, mediaType, mediaId);
 
-        if (!result) {
-          return {
-            data: null,
-            error: { code: 500, message: "Failed to get review data!" },
-          };
-        }
-
         return {
           data: result,
           error: null,

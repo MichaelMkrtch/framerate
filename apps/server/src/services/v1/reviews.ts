@@ -1,5 +1,5 @@
 import { db } from "@server/drizzle";
-import { getTables } from "@server/lib/utils";
+import { getReviewTables } from "@server/lib/utils";
 import { validateRating } from "@server/lib/validate-rating";
 import { and, avg, count, eq } from "drizzle-orm";
 
@@ -15,7 +15,7 @@ export async function getReview(
   mediaType: "movie" | "tv",
   mediaId: number,
 ) {
-  const tablesMap = getTables();
+  const tablesMap = getReviewTables();
   const { table, idCol } = tablesMap[mediaType];
 
   const [result] = await db
@@ -40,7 +40,7 @@ export async function getReview(
  *   - reviewCount (number)
  */
 export async function getAvgRating(mediaType: "movie" | "tv", mediaId: number) {
-  const tablesMap = getTables();
+  const tablesMap = getReviewTables();
   const { table, idCol } = tablesMap[mediaType];
 
   const [result] = await db
@@ -72,7 +72,7 @@ type AddReview = {
  * @returns The newly added review or undefined if it failed
  */
 export async function addReview(data: AddReview) {
-  const tablesMap = getTables();
+  const tablesMap = getReviewTables();
   const { table, idCol, idColName } = tablesMap[data.mediaType];
 
   const { userId, mediaType, mediaId, rating } = data;
@@ -116,7 +116,7 @@ export async function deleteReview(
   mediaId: number,
   mediaType: "movie" | "tv",
 ) {
-  const tablesMap = getTables();
+  const tablesMap = getReviewTables();
   const { table, idCol } = tablesMap[mediaType];
 
   const [result] = await db

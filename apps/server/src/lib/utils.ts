@@ -1,4 +1,4 @@
-import { movieReview, tvReview } from "@server/drizzle/schema";
+import { movie, movieReview, tv, tvReview } from "@server/drizzle/schema";
 
 /**
 Renames object keys and preserves types
@@ -50,11 +50,33 @@ export function formatNames(people: { name?: string | null }[] | null): string {
 }
 
 /**
- * Utility for getting a table dynamically
+ * Utility for getting table dynamically
  *
  * @returns Table object containing the table and its media ID field
  */
 export function getTables() {
+  const tables = {
+    movie: {
+      table: movie,
+      idCol: movie.id,
+      idColName: "id",
+    },
+    tv: {
+      table: tv,
+      idCol: tv.id,
+      idColName: "id",
+    },
+  } as const;
+
+  return tables;
+}
+
+/**
+ * Utility for getting review table dynamically
+ *
+ * @returns Table object containing the table and its media ID field
+ */
+export function getReviewTables() {
   const tables = {
     movie: {
       table: movieReview,
