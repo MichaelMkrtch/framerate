@@ -73,7 +73,7 @@ interface MediaBase {
   credits: Credits;
 }
 
-interface TVDetails extends MediaBase {
+export interface TVDetailsType extends MediaBase {
   mediaType: "tv";
   creator: string;
   creatorList: {
@@ -103,7 +103,6 @@ interface TVDetails extends MediaBase {
     showId: number;
     stillPath: string;
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   nextEpisodeToAir: any;
   networks: {
     id: number;
@@ -129,9 +128,8 @@ interface TVDetails extends MediaBase {
   type: string;
 }
 
-interface MovieDetails extends MediaBase {
+export interface MovieDetailsType extends MediaBase {
   mediaType: "movie";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   belongsToCollection: any;
   budget: number;
   director: string;
@@ -155,9 +153,3 @@ interface MovieDetails extends MediaBase {
   title: string;
   video: boolean;
 }
-
-export type MediaDetails<T = "movie" | "tv"> = T extends "movie"
-  ? MovieDetails
-  : T extends "tv"
-    ? TVDetails
-    : never;

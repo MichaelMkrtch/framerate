@@ -11,6 +11,7 @@ import { formatNames, getTables, renameKeys } from "@server/lib/utils";
 import { ZodError } from "zod";
 import { db } from "@server/drizzle";
 import { eq } from "drizzle-orm";
+import type { MovieDetailsType, TVDetailsType } from "@server/types/details";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 
@@ -20,6 +21,13 @@ type TMDBError = {
   status_message: string;
 };
 
+/**
+ * Gets details for movie or series by ID
+ *
+ * @param mediaType - movie or tv
+ * @param id - ID of media to fetch
+ * @returns An object containing the media data
+ */
 export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
   if (mediaType !== "movie" && mediaType !== "tv") {
     throw new Error(`Unsupported media type: ${mediaType}`);
@@ -102,18 +110,6 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
     }
 
     if (validatedData.media_type === "movie") {
-      // if (!storedMedia) {
-      //   const movieToAdd = {
-      //     id,
-      //     title: validatedData.title,
-      //     posterPath: validatedData.poster_path,
-      //     backdropPath: validatedData.backdrop_path,
-      //     releaseDate: validatedData.release_date,
-      //     slug: null,
-      //   };
-      //   storedMedia = await addMediaToDB(movieToAdd, "movie");
-      // }
-
       const movieData: MovieDetails = validatedData;
 
       const directorList = movieData.credits.crew;
@@ -130,7 +126,7 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
 
       const movieResults = objectToCamel(finalMovieData);
 
-      return movieResults;
+      return movieResults as unknown as MovieDetailsType;
     } else {
       const tvData: TVDetails = validatedData;
 
@@ -159,7 +155,7 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
 
       const tvResults = objectToCamel(renamedTvData);
 
-      return tvResults;
+      return tvResults as unknown as TVDetailsType;
     }
   } catch (error) {
     if (error instanceof ZodError) {

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function NotFound({ children }: { children?: any }) {
   return (
     <div className="space-y-2 p-2">
