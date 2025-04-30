@@ -1,4 +1,6 @@
-import type { StoredRating } from "@/types/data.types";
+import type { StoredRating } from "@web/types/ratings";
+
+import { createSelectors } from "@web/lib/store-selector";
 
 import { create } from "zustand";
 
@@ -15,7 +17,7 @@ type ReviewActions = {
   clearMediaActions: () => void;
 };
 
-export const useReviewStore = create<ReviewState & ReviewActions>()((set) => ({
+const useReviewStoreBase = create<ReviewState & ReviewActions>()((set) => ({
   storedRating: { avgRating: 0, reviewCount: 0 },
   isLiked: false,
   isWatched: false,
@@ -24,3 +26,5 @@ export const useReviewStore = create<ReviewState & ReviewActions>()((set) => ({
   setIsWatched: (bool) => set({ isWatched: bool }),
   clearMediaActions: () => set({ isLiked: false, isWatched: false }),
 }));
+
+export const useReviewStore = createSelectors(useReviewStoreBase);

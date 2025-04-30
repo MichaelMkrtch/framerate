@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { fetchTrending } from "@server/services/v1/fetch-trending";
+import { fetchTrending } from "@server/services/v1/trending";
 
 export const trending = new Elysia({ name: "trending", prefix: "/trending" })
   .onError(({ code, error }) => {

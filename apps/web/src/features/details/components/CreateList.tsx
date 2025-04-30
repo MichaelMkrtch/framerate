@@ -52,11 +52,7 @@ export default function CreateList() {
   useOnClickOutside(labelRef as RefObject<HTMLElement>, toggleCreateList);
 
   async function onSubmit(values: z.infer<typeof listSchema>) {
-    const parsed = listSchema.safeParse(values);
-
-    if (!parsed.success) return toast.error("Please enter a valid name");
-
-    const data = await createList(parsed.data.listName);
+    const data = await createList(values.listName);
 
     if ("list" in data) {
       addList(data);
@@ -67,9 +63,13 @@ export default function CreateList() {
     }
   }
 
+  function onError(_errors: unknown) {
+    toast.error("Please enter a valid name");
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit, onError)}>
         <FormField
           control={form.control}
           name="listName"

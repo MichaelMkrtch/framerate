@@ -1,4 +1,4 @@
-import { fetchDetails } from "@server/services/v1/fetch-details";
+import { fetchDetails } from "@server/services/v1/details";
 import Elysia, { t } from "elysia";
 
 export const details = new Elysia({

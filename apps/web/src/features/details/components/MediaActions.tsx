@@ -1,6 +1,7 @@
 import type { MediaDetails } from "@web/types/details";
 
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import {
   BookmarkIcon,
@@ -13,13 +14,10 @@ import { TooltipProvider } from "@web/components/ui/tooltip-ui";
 import CreateList from "@web/features/details/components/CreateList";
 import Lists from "@web/features/details/components/Lists";
 import ListsModal from "@web/features/details/components/ListsModal";
-// import { checkIfListItem } from "@web/features/details/server/db/list";
-// import {
-//   getReview,
-//   updateLikeStatus,
-//   updateWatchStatus,
-// } from "@web/features/details/server/db/review";
+import { useMediaActions } from "@web/hooks/useMediaActions";
 import { authClient } from "@web/lib/auth-client";
+import { getListItem } from "@web/server/lists";
+import { getReview } from "@web/server/reviews";
 import { useReviewStore } from "@web/store/details/review-store";
 
 import { toast } from "sonner";
@@ -31,98 +29,114 @@ type SavedToList = {
   mediaId: number | null;
 };
 
+type ActionType = "like" | "watch" | "review";
+
+const actions = [
+  {
+    id: 1,
+    name: "like" as const,
+    content: "Like",
+    icon: HeartIcon,
+    active: "fill-[#FF153A]",
+    hover: "hover:fill-[#FF153A]",
+  },
+  {
+    id: 2,
+    name: "watch" as const,
+    content: "Mark watched",
+    icon: EyeIcon,
+    active: "fill-[#00e4f5]",
+    hover: "hover:fill-[#00e4f5]",
+  },
+  {
+    id: 4,
+    name: "review" as const,
+    content: "Review",
+    icon: PenIcon,
+    active: "fill-[#7468F3]",
+    hover: "hover:fill-[#7468F3]",
+  },
+];
+
 export default function MediaActions({ media }: Record<"media", MediaDetails>) {
-  const { isLiked, setIsLiked, isWatched, setIsWatched } = useReviewStore();
   const [savedToLists, setSavedToLists] = useState<SavedToList[]>([]);
+
+  const setIsLiked = useReviewStore.use.setIsLiked();
+  const setIsWatched = useReviewStore.use.setIsWatched();
+
+  const { data: authData } = authClient.useSession();
 
   const { id: mediaId, mediaType } = media;
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const reviewResult = await getReview(mediaType, mediaId);
-  //     if (reviewResult) {
-  //       setIsLiked(reviewResult.liked);
-  //       setIsWatched(reviewResult.watched);
-  //     }
-  //   })();
+  const { data: reviewData } = useQuery({
+    queryKey: ["review", mediaType, mediaId],
+    queryFn: async () => await getReview(mediaType, mediaId),
+    staleTime: 2 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
+  });
 
-  //   return () => {
-  //     setIsLiked(false);
-  //     setIsWatched(false);
-  //   };
-  // }, [mediaType, mediaId, setIsLiked, setIsWatched]);
+  const { isLiked, isWatched, debouncedHandleClick } = useMediaActions(
+    mediaType,
+    mediaId,
+    reviewData?.data,
+  );
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const savedItems = await checkIfListItem(mediaId, mediaType);
-  //     if (savedItems && savedItems.length > 0) {
-  //       setSavedToLists(savedItems);
-  //     }
-  //   })();
+  useEffect(() => {
+    async function fetchListItem() {
+      const response = await getListItem(mediaType, mediaId);
 
-  //   return () => setSavedToLists([]);
-  // }, [mediaId, mediaType]);
+      if (response.error) {
+        toast.error(response.error.message);
+      }
 
-  async function handleClick(icon: string) {
-    const session = await authClient.getSession();
+      const savedMedia = response.data;
 
-    if (!session?.data?.user) {
-      toast.info("Please log in to save data");
+      if (savedMedia) {
+        setSavedToLists((prevState) => [...prevState, savedMedia]);
+      }
+    }
+
+    fetchListItem();
+
+    return () => setSavedToLists([]);
+  }, [mediaId, mediaType]);
+
+  async function handleClick(actionName: ActionType) {
+    if (actionName === "review") {
+      toast.error("Reviews are not supported yet!");
       return;
     }
 
-    // switch (icon) {
-    //   case "like":
-    //     await updateLikeStatus({
-    //       status: !isLiked,
-    //       mediaId,
-    //       mediaType,
-    //     });
-    //     setIsLiked(!isLiked);
-    //     break;
-    //   case "watch":
-    //     await updateWatchStatus({
-    //       status: !isWatched,
-    //       mediaId,
-    //       mediaType,
-    //     });
-    //     setIsWatched(!isWatched);
-    //     break;
-    //   default:
-    //     toast.error("Something went wrong! Please try again later.");
-    //     break;
-    // }
-  }
+    const user = authData?.user;
 
-  const actions = [
-    {
-      id: 1,
-      name: "like",
-      content: "Like",
-      icon: HeartIcon,
-      classes: `${isLiked && "fill-[#FF153A]"} cursor-pointer hover:fill-[#FF153A]`,
-    },
-    {
-      id: 2,
-      name: "watch",
-      content: "Mark as watched",
-      icon: EyeIcon,
-      classes: `${isWatched && "fill-[#00e4f5]"} hover:fill-[#00e4f5]`,
-    },
-    {
-      id: 4,
-      name: "review",
-      content: "Review",
-      icon: PenIcon,
-      classes: `hover:fill-[#7468F3] cursor-pointer`,
-    },
-  ];
+    if (!user || !user.id) {
+      toast.info("Please log in to continue");
+      return;
+    }
+
+    if (reviewData && !reviewData.data) {
+      toast.info("Please submit a rating first");
+      return;
+    }
+
+    if (actionName === "like") {
+      setIsLiked(!isLiked);
+      return debouncedHandleClick(actionName, !isLiked);
+    } else {
+      setIsWatched(!isWatched);
+      return debouncedHandleClick(actionName, !isWatched);
+    }
+  }
 
   return (
     <div className="mt-3 flex w-full items-center justify-between gap-0 px-1.5">
       <TooltipProvider>
         {actions.map((action) => {
           const Icon = action.icon;
+
+          const isActive =
+            (action.name === "like" && isLiked) ||
+            (action.name === "watch" && isWatched);
 
           return (
             <Tooltip
@@ -135,7 +149,7 @@ export default function MediaActions({ media }: Record<"media", MediaDetails>) {
               <div>
                 <Icon
                   fill="#333"
-                  classes={`${action.classes} cursor-pointer ease transition-all duration-150 active:scale-90 md:h-7 lg:h-8`}
+                  classes={`${action.hover} ${isActive && action.active} cursor-pointer ease transition-all duration-150 active:scale-90 md:h-7 lg:h-8`}
                   onClick={() => handleClick(action.name)}
                 />
               </div>
@@ -144,13 +158,13 @@ export default function MediaActions({ media }: Record<"media", MediaDetails>) {
         })}
 
         <ListsModal>
-          <Tooltip side="top" sideOffset={12} content={"Save to list"}>
+          <Tooltip side="top" sideOffset={12} content={"Save"}>
             <ListsModal.Trigger asChild>
               {/* Div is necessary for tooltip to work */}
               <div>
                 <BookmarkIcon
                   fill="#333"
-                  classes={`${savedToLists && savedToLists.length > 0 && "fill-[#32EC44]"} hover:fill-[#32EC44] h-8 cursor-pointer`}
+                  classes={`${savedToLists.length > 0 && "fill-[#32EC44]"} cursor-pointer hover:fill-[#32EC44] h-8`}
                 />
               </div>
             </ListsModal.Trigger>

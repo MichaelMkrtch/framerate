@@ -2,11 +2,11 @@ import type { MediaDetails } from "@web/types/details";
 import type { Dispatch, SetStateAction } from "react";
 
 import { useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { BoxIcon } from "@web/components/icons/BoxIcon";
 import { CheckBoxIcon } from "@web/components/icons/CheckboxIcon";
-import { deleteListItem, getListItems, getLists } from "@web/server/lists";
-import { useAuthStore } from "@web/store/auth/auth-store";
+import { addListItem, deleteListItem, getLists } from "@web/server/lists";
 import { useListStore } from "@web/store/collections/list-store";
 
 import { toast } from "sonner";
@@ -29,22 +29,30 @@ export default function Lists({
   savedToLists,
   setSavedToLists,
 }: ListsProps) {
-  const { username } = useAuthStore();
   const { lists, setLists, clearLists } = useListStore();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const { mediaType, id: mediaId } = media;
 
+  const { data: listsData } = useQuery({
+    queryKey: ["lists"],
+    queryFn: async () => await getLists(),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+
   useEffect(() => {
-    (async () => {
-      const response = await getLists();
+    if (!listsData) {
+      toast.error("Failed to get lists!");
+      return;
+    }
 
-      if (response.error) {
-        return toast.error(response.error.message);
-      }
+    if (listsData.error) {
+      toast.error(listsData.error.message);
+      return;
+    }
 
-      setLists(response.data);
-    })();
-  }, [username, lists.length, setLists, clearLists]);
+    setLists(listsData.data);
+  }, [listsData, lists.length, setLists, clearLists]);
 
   async function handleClick(listId: number) {
     const matchedLists = savedToLists.filter(
@@ -55,7 +63,7 @@ export default function Lists({
     if (matchedLists.length === 0) {
       const requestData = { listId, mediaType, mediaId };
 
-      const response = await getListItems(requestData);
+      const response = await addListItem(requestData);
 
       if (response.error) {
         return toast.error(response.error.message);

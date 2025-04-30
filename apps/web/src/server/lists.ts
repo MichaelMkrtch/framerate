@@ -31,14 +31,26 @@ type InsertListItem = {
   mediaId: number;
 };
 
-export async function getListItems(data: InsertListItem) {
-  const { data: listItems, error } = await listItemsRoute.post(data);
+export async function addListItem(data: InsertListItem) {
+  const { data: listItems, error } = await listItemsRoute.index.post(data);
 
   if (error) {
     throw new Error(`${error.status} - ${error.value.message}`);
   }
 
   return listItems;
+}
+
+export async function getListItem(mediaType: "movie" | "tv", mediaId: number) {
+  const { data, error } = await listItemsRoute.index.get({
+    query: { mediaType, mediaId },
+  });
+
+  if (error) {
+    throw new Error(`${error.status} - ${error.value.message}`);
+  }
+
+  return data;
 }
 
 export async function deleteListItem(id: number) {

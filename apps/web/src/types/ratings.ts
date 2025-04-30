@@ -1,4 +1,4 @@
 export type StoredRating = {
-  avgRating: number;
+  avgRating: number | null;
   reviewCount: number;
 };

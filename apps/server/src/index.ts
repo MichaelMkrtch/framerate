@@ -11,7 +11,7 @@ const app = new Elysia()
   .use(swagger())
   .use(
     rateLimit({
-      max: 60,
+      max: 100,
       errorResponse:
         "You have made too many requests. Please wait one minute before making another request.",
       scoping: "global",
@@ -20,7 +20,7 @@ const app = new Elysia()
   .use(
     cors({
       origin: process.env.CLIENT_ORIGIN,
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
     }),

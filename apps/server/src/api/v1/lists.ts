@@ -1,7 +1,7 @@
 import { generateSlug } from "@server/lib/slug";
 import { betterAuth } from "@server/middlewares/auth-middleware";
 import { clientListSchema } from "@server/schemas/v1/list-schema";
-import { createList, getLists } from "@server/services/v1/list";
+import { createList, getLists } from "@server/services/v1/lists";
 import Elysia, { t } from "elysia";
 
 export const lists = new Elysia({ name: "lists" })

@@ -2,10 +2,10 @@ import type { MediaDetails } from "@web/types/details";
 
 import { useEffect, useState } from "react";
 
+import RatingForm from "@web/features/details/components/RatingForm";
 import { useReviewStore } from "@web/store/details/review-store";
 
-// import MediaActions from "./MediaActions";
-// import RatingForm from "@/features/details/components/RatingForm";
+import MediaActions from "./MediaActions";
 
 export default function ReviewCard({ media }: Record<"media", MediaDetails>) {
   const [isStoredReview, setIsStoredReview] = useState<boolean | null>(false);
@@ -13,9 +13,9 @@ export default function ReviewCard({ media }: Record<"media", MediaDetails>) {
   const [avgRating, setAvgRating] = useState<number>();
 
   useEffect(() => {
-    if (storedRating && storedRating?.reviewCount > 0) {
+    if (storedRating && storedRating.reviewCount > 0) {
       setIsStoredReview(storedRating.reviewCount > 0);
-      setAvgRating(parseFloat(storedRating.avgRating.toFixed(2)));
+      setAvgRating(parseFloat(storedRating.avgRating!.toFixed(2)) ?? null);
     }
   }, [storedRating]);
 
@@ -48,8 +48,8 @@ export default function ReviewCard({ media }: Record<"media", MediaDetails>) {
         </div>
       </div>
 
-      {/* <RatingForm media={media} /> */}
-      {/* <MediaActions media={media} /> */}
+      <RatingForm media={media} />
+      <MediaActions media={media} />
     </div>
   );
 }

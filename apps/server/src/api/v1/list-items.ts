@@ -1,25 +1,44 @@
 import { betterAuth } from "@server/middlewares/auth-middleware";
-import { clientListItemSchema } from "@server/schemas/v1/list-schema";
-import { addListItem, deleteListItem } from "@server/services/v1/list";
+import {
+  addListItem,
+  deleteListItem,
+  getListItem,
+} from "@server/services/v1/lists";
 import Elysia, { t } from "elysia";
 
-export const listItems = new Elysia({ name: "list-items" })
+export const listItems = new Elysia({
+  name: "list-items",
+  prefix: "list-items",
+})
   .use(betterAuth)
-  .post(
-    "/list-items",
-    async ({ user, body }) => {
-      const parsed = clientListItemSchema.safeParse(body);
+  .get(
+    "/",
+    async ({ user, query: { mediaType, mediaId } }) => {
+      if (user) {
+        const result = await getListItem(user.id, mediaId, mediaType);
 
-      if (!parsed.success) {
+        return {
+          data: result,
+          error: null,
+        };
+      } else {
         return {
           data: null,
-          error: {
-            code: 400,
-            message: "Please provide valid list items",
-          },
+          error: { code: 401, message: "Please login or signup to continue" },
         };
       }
-
+    },
+    {
+      auth: true,
+      query: t.Object({
+        mediaId: t.Number(),
+        mediaType: t.Union([t.Literal("movie"), t.Literal("tv")]),
+      }),
+    },
+  )
+  .post(
+    "/",
+    async ({ user, body }) => {
       if (user) {
         const { listId, mediaType, mediaId } = body;
 
@@ -62,10 +81,10 @@ export const listItems = new Elysia({ name: "list-items" })
     },
   )
   .delete(
-    "/list-items/:id",
-    async ({ user, params: { id } }) => {
+    "/:id",
+    async ({ user, params: { id: listItemId } }) => {
       if (user) {
-        const result = await deleteListItem(id);
+        const result = await deleteListItem(user.id, listItemId);
 
         if (!result) {
           return {

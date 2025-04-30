@@ -1,3 +1,5 @@
+import { movieReview, tvReview } from "@server/drizzle/schema";
+
 /**
 Renames object keys and preserves types
  * @param keysMap - An object mapping the keys to rename with their new names as values
@@ -45,4 +47,26 @@ export function formatNames(people: { name?: string | null }[] | null): string {
   } else {
     return validNames[0] || "Unknown";
   }
+}
+
+/**
+ * Utility for getting a table dynamically
+ *
+ * @returns Table object containing the table and its media ID field
+ */
+export function getTables() {
+  const tables = {
+    movie: {
+      table: movieReview,
+      idCol: movieReview.movieId,
+      idColName: "movieId",
+    },
+    tv: {
+      table: tvReview,
+      idCol: tvReview.seriesId,
+      idColName: "seriesId",
+    },
+  } as const;
+
+  return tables;
 }

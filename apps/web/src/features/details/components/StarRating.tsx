@@ -2,20 +2,20 @@ import type { MediaDetails } from "@web/types/details";
 import type { Dispatch, SetStateAction } from "react";
 
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { StarIcon } from "@web/components/icons/StarIcon";
 import { authClient } from "@web/lib/auth-client";
+import { deleteReview, getReview } from "@web/server/reviews";
 import { useReviewStore } from "@web/store/details/review-store";
 
-// import { deleteMovieReview, getMovieRating } from "../server/db/movie";
-// import { deleteSeriesReview, getSeriesRating } from "../server/db/series";
 import { toast } from "sonner";
 
 type StarRatingProps = {
   media: MediaDetails;
   rating: number | null;
   setRating: Dispatch<SetStateAction<number | null>>;
-  handleRating: () => Promise<void>;
+  handleRating: (rating: number) => Promise<void>;
 };
 
 export default function StarRating({
@@ -24,8 +24,17 @@ export default function StarRating({
   setRating,
   handleRating,
 }: StarRatingProps) {
-  const { setIsWatched, clearMediaActions } = useReviewStore();
+  const { isWatched, setIsWatched, clearMediaActions } = useReviewStore();
   const [hover, setHover] = useState<number | null>(null);
+
+  const { data: authData } = authClient.useSession();
+
+  const { data: reviewData } = useQuery({
+    queryKey: ["review", media.mediaType, media.id],
+    queryFn: async () => await getReview(media.mediaType, media.id),
+    staleTime: 2 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
+  });
 
   const groupedStars = [
     [0.5, 1],
@@ -35,30 +44,39 @@ export default function StarRating({
     [4.5, 5],
   ];
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const result =
-  //       media.mediaType === "movie"
-  //         ? await getMovieRating(media.id)
-  //         : await getSeriesRating(media.id);
-  //     if (result && result.rating !== null) {
-  //       const dbRating = parseFloat(result.rating);
-  //       setRating(dbRating);
-  //     }
-  //   })();
-  // }, [media.id, media.mediaType, setRating]);
+  useEffect(() => {
+    if (reviewData) {
+      if (reviewData.error) {
+        toast.error(reviewData.error.message);
+      }
+
+      if (reviewData.data) {
+        const dbRating = parseFloat(reviewData.data.rating);
+        setRating(dbRating);
+      }
+    }
+  }, [reviewData, setRating]);
 
   async function handleClick(ratingValue: number) {
-    const session = await authClient.getSession();
-
-    if (rating === ratingValue && session?.data?.user) {
+    if (rating === ratingValue && authData?.user) {
+      const { mediaType, id: mediaId } = media;
       setRating(null);
       setHover(null);
       clearMediaActions();
-      // if (media.mediaType === "movie") await deleteMovieReview(media.id);
-      // if (media.mediaType === "tv") await deleteSeriesReview(media.id);
-      toast.info("Rating removed");
+
+      const response = await deleteReview(mediaType, mediaId);
+
+      if (response && response.data === "success") {
+        return toast.info("Rating removed");
+      }
+
+      toast.info("Failed to delete rating! Please try again later");
     } else {
+      if (rating && !isWatched) {
+        // if not marked watched, prevents changing that when user changes rating
+        setRating(ratingValue);
+        return;
+      }
       setRating(ratingValue);
       setIsWatched(true);
     }
@@ -87,7 +105,7 @@ export default function StarRating({
                       value={ratingValue}
                       onClick={() => {
                         handleClick(ratingValue);
-                        if (rating !== ratingValue) handleRating();
+                        if (rating !== ratingValue) handleRating(ratingValue);
                       }}
                       className="hidden"
                     />

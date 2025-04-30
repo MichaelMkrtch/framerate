@@ -9,7 +9,7 @@ import type {
 
 import { combinedMediaDetailsSchema } from "@server/schemas/v1/details-schema";
 import { ZodError } from "zod";
-import { addMovieToDB, getMovieMedia } from "@server/db/movie";
+import { addMovieToDB, getMovieMedia } from "@server/services/v1/movie";
 
 const API_TOKEN = process.env.API_TOKEN as string;
 
@@ -71,6 +71,11 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
 
     const validatedData = validationResult.data;
 
+    validatedData.credits.cast = validatedData.credits.cast.slice(0, 12);
+    validatedData.credits.crew = validatedData.credits.crew.filter(
+      (crewMember) => crewMember.job === "Director",
+    );
+
     if (validatedData.media_type === "movie") {
       let storedMovie = await getMovieMedia(id);
 
@@ -87,11 +92,11 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
 
       const movieData: MovieDetails = validatedData;
 
-      // format director field so it is ready to use on client rather than list
+      // const directorList = movieData.credits.crew.filter(
+      //   (crewMember) => crewMember.job === "Director",
+      // );
 
-      const directorList = movieData.credits.crew.filter(
-        (crewMember) => crewMember.job === "Director",
-      );
+      const directorList = movieData.credits.crew;
 
       const director = formatNames(directorList);
 
