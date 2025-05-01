@@ -12,6 +12,18 @@ export async function getReview(mediaType: "movie" | "tv", mediaId: number) {
   return data;
 }
 
+export async function getAllReviews() {
+  const { data, error } = await reviewRoute.index.get();
+
+  if (error) {
+    throw new Error(
+      `${error.status} - Something went wrong while getting reviews!`,
+    );
+  }
+
+  return data;
+}
+
 export async function getAvgRating(mediaType: "movie" | "tv", mediaId: number) {
   const { data, error } = await reviewRoute({ mediaType })({
     mediaId,

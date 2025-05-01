@@ -69,7 +69,6 @@ export default function LoginForm() {
           toast.loading("Signing in...", { id: "sign in" });
         },
         onSuccess: () => {
-          authClient.revokeOtherSessions();
           toast.dismiss("sign in");
           toast.success("Signed in");
           navigate({ to: "/home" });

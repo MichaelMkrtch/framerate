@@ -1,4 +1,4 @@
-import type { Trending } from "@web/types/tmdb-types";
+import type { Trending } from "@web/types/trending";
 
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";

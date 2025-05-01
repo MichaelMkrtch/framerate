@@ -1,15 +1,10 @@
-import {
-  QueryClient,
-  queryOptions,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 import Backdrop from "@web/features/details/components/Backdrop";
 import MediaDetails from "@web/features/details/components/MediaDetails";
+import { queryClient } from "@web/router";
 import { getDetails } from "@web/server/details";
-
-const queryClient = new QueryClient();
 
 function createQueryOptions(id: string) {
   return queryOptions({

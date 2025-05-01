@@ -1,5 +1,3 @@
-import type { Media } from "@web/types/tmdb-types";
-
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 
@@ -28,17 +26,16 @@ import { TooltipProvider } from "@web/components/ui/tooltip-ui";
 import {
   Bolt,
   CircleUserIcon,
-  Compass,
+  // Compass,
   Search,
   SquareLibrary,
 } from "lucide-react";
-import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Navbar() {
   const [navbarEnabled, setNavbarEnabled] = useState(false);
-  const [lastKey, setLastKey] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [results, setResults] = useState<Media[]>([]);
+  // const [searchQuery, setSearchQuery] = useState("");
+  // const [results, setResults] = useState<Media[]>([]);
 
   const searchBtn = useRef<HTMLButtonElement>(null);
   const lastKeyRef = useRef("");
@@ -85,20 +82,20 @@ export default function Navbar() {
       if (lastKeyRef.current === "g") {
         lastKeyRef.current = "";
 
-        let pressedKey = event.key;
+        const pressedKey = event.key;
 
         switch (pressedKey) {
           case "h":
             navigate({ to: "/home" });
             break;
-          case "e":
-            navigate({ to: "/explore" });
-            break;
+          // case "e":
+          //   navigate({ to: "/explore" });
+          //   break;
           case "c":
             navigate({ to: "/collections" });
             break;
           case "l":
-            navigate({ to: "/library" });
+            navigate({ to: "/library", search: { filter: undefined } });
             break;
           case "m":
             navigate({ to: "/profile" });
@@ -135,14 +132,14 @@ export default function Navbar() {
       key2: "H",
       icon: HomeIcon,
     },
-    {
-      id: 2,
-      name: "Explore",
-      href: "/explore",
-      key1: "G",
-      key2: "E",
-      icon: Compass,
-    },
+    // {
+    //   id: 2,
+    //   name: "Explore",
+    //   href: "/explore",
+    //   key1: "G",
+    //   key2: "E",
+    //   icon: Compass,
+    // },
     {
       id: 3,
       name: "Collections",

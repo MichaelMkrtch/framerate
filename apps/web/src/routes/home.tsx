@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import {
   dehydrate,
   HydrationBoundary,
-  QueryClient,
   queryOptions,
-  useQueryErrorResetBoundary,
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -12,9 +9,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DefaultCatchBoundary } from "@web/components/DefaultCatchBoundary";
 import Header from "@web/components/Header";
 import HomeCarousel from "@web/features/home/components/HomeCarousel";
+import { queryClient } from "@web/router";
 import { getTrending } from "@web/server/trending";
-
-const queryClient = new QueryClient();
 
 const trendingQueryOptions = queryOptions({
   queryKey: ["trending"],
@@ -37,17 +33,8 @@ const trendingQueryOptions = queryOptions({
 
 export const Route = createFileRoute("/home")({
   loader: () => queryClient.ensureQueryData(trendingQueryOptions),
+  errorComponent: DefaultCatchBoundary,
   component: Home,
-  errorComponent: ({ error, reset }) => {
-    const queryErrorResetBoundary = useQueryErrorResetBoundary();
-
-    useEffect(() => {
-      // Reset the query error boundary
-      queryErrorResetBoundary.reset();
-    }, [queryErrorResetBoundary]);
-
-    return <DefaultCatchBoundary error={error} reset={reset} />;
-  },
 });
 
 function Home() {

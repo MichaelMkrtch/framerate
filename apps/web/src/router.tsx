@@ -10,9 +10,9 @@ import { routeTree } from "./routeTree.gen";
 // definitely end up in a more streamlined API in the future. This is just
 // to show what's possible with the current APIs.
 
-export function createRouter() {
-  const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
+export function createRouter() {
   return routerWithQueryClient(
     createTanStackRouter({
       routeTree,

@@ -2,18 +2,36 @@ import { betterAuth } from "@server/middlewares/auth-middleware";
 import {
   addReview,
   deleteReview,
+  getAllReviews,
   getAvgRating,
   getReview,
 } from "@server/services/v1/reviews";
 import Elysia, { t } from "elysia";
 
-const reviewParams = t.Object({
-  mediaType: t.Union([t.Literal("movie"), t.Literal("tv")]),
-  mediaId: t.Number(),
-});
-
 export const reviews = new Elysia({ name: "reviews", prefix: "reviews" })
   .use(betterAuth)
+  // gets all user reviews
+  .get(
+    "/",
+    async ({ user }) => {
+      if (user) {
+        const result = await getAllReviews(user.id);
+
+        return {
+          data: result,
+          error: null,
+        };
+      } else {
+        return {
+          data: null,
+          error: "Not logged in",
+        };
+      }
+    },
+    {
+      auth: true,
+    },
+  )
   // gets user review
   .get(
     "/:mediaType/:mediaId",

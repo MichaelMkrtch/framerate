@@ -1,8 +1,3 @@
-export type StoredRating = {
-  avgRating: number | null;
-  reviewCount: number;
-};
-
 export type Review<T> = {
   mediaId: number;
   mediaType: T;
