@@ -8,7 +8,7 @@ import { getDetails } from "@web/server/details";
 
 function createQueryOptions(id: string) {
   return queryOptions({
-    queryKey: ["film-details", id],
+    queryKey: ["movie-details", id],
     queryFn: () => getDetails("movie", id),
     staleTime: 2 * 60 * 1000,
     gcTime: 5 * 60 * 1000,

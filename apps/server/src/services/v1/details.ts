@@ -102,7 +102,7 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
         title,
         posterPath: validatedData.poster_path,
         backdropPath: validatedData.backdrop_path,
-        releaseDate,
+        releaseDate: releaseDate === "" ? null : releaseDate,
         slug: null,
       };
 

@@ -2,7 +2,7 @@ import type { MediaDetails } from "@web/types/details";
 
 import { client } from "./client-instance";
 
-export async function getDetails<T extends "movie" | "tv">(
+export async function getDetails<T extends "movie" | "tv" | "person">(
   mediaType: T,
   id: string,
 ) {

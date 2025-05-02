@@ -59,6 +59,7 @@ export default function PosterGrid({
                 <Link
                   to={route}
                   params={{ id: result.mediaId.toString(), title: simpleTitle }}
+                  preload={false}
                   className="relative"
                 >
                   <Poster

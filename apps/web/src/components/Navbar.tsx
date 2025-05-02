@@ -5,23 +5,16 @@ import CollectionsIcon from "@web/components/icons/CollectionsIcon";
 import HomeIcon from "@web/components/icons/HomeIcon";
 import Tooltip from "@web/components/Tooltip";
 import { TooltipProvider } from "@web/components/ui/tooltip-ui";
-
-// // import SearchBar from "@web/components/search/SearchBar";
-// import {
-//   SearchDialog,
-//   SearchDialogContent,
-//   SearchDialogDescription,
-//   SearchDialogHeader,
-//   SearchDialogTitle,
-//   SearchDialogTrigger,
-// } from "@web/components/search/SearchDialog";
-// import SearchResultList from "@web/components/search/SearchResultList";
-// import Tooltip from "@web/components/Tooltip";
-// import { TooltipProvider } from "@web/components/ui/tooltip-ui";
-// import useFetchDetails from "@web/hooks/useFetchDetails";
-// import useFetchTrending from "@web/hooks/useFetchTrending";
-// import useSearch from "@web/hooks/useSearch";
-// import { Media } from "@web/types/tmdb.types";
+import SearchBar from "@web/features/search/components/SearchBar";
+import {
+  SearchDialog,
+  SearchDialogContent,
+  SearchDialogDescription,
+  SearchDialogHeader,
+  SearchDialogTitle,
+  SearchDialogTrigger,
+} from "@web/features/search/components/SearchDialog";
+import SearchResultList from "@web/features/search/components/SearchResultList";
 
 import {
   Bolt,
@@ -34,8 +27,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 export default function Navbar() {
   const [navbarEnabled, setNavbarEnabled] = useState(false);
-  // const [searchQuery, setSearchQuery] = useState("");
-  // const [results, setResults] = useState<Media[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const searchBtn = useRef<HTMLButtonElement>(null);
   const lastKeyRef = useRef("");
@@ -45,23 +37,10 @@ export default function Navbar() {
     select: (location) => location.pathname,
   });
 
-  // const trendingData = useFetchTrending("all", "day");
-  // const detailsData = useFetchDetails(results);
-  // const { searchData, isFetching } = useSearch(searchQuery);
-
-  // useEffect(() => {
-  //   if (trendingData && !isFetching) {
-  //     setResults(trendingData.slice(0, 10));
-  //   }
-
-  //   if (searchData && searchData.results) {
-  //     setResults(searchData.results);
-  //   }
-  // }, [trendingData, searchData, isFetching]);
-
   useHotkeys(
     "/",
     (event) => {
+      console.log("search");
       event.preventDefault();
       searchBtn.current?.click();
     },
@@ -205,11 +184,11 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* <SearchDialog>
+          <SearchDialog>
             <SearchDialogTrigger asChild>
               <button
                 ref={searchBtn}
-                className="shadow-small bg-background-accent relative rounded-full border border-white/5 px-3 py-0.5 outline-0 transition-colors duration-200 ease-in-out hover:text-[#522aff]"
+                className="bg-background-lighter relative rounded-full border border-white/5 px-3 py-0.5 shadow-sm outline-0 transition-colors duration-200 ease-in-out hover:text-[#522aff]"
               >
                 <Tooltip side="top" sideOffset={18} content="Search" key1="/">
                   <Search width={20} height={40} strokeWidth={1.5} />
@@ -218,20 +197,20 @@ export default function Navbar() {
             </SearchDialogTrigger>
 
             <SearchDialogContent>
-              <SearchDialogHeader>
+              <SearchDialogHeader className="sr-only">
                 <SearchDialogTitle>Search</SearchDialogTitle>
                 <SearchDialogDescription>
                   Search for a movie or tv series by name.
                 </SearchDialogDescription>
               </SearchDialogHeader>
 
-              <SearchResultList results={detailsData} />
+              <SearchResultList searchQuery={searchQuery} />
               <SearchBar
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
               />
             </SearchDialogContent>
-          </SearchDialog> */}
+          </SearchDialog>
         </div>
       </TooltipProvider>
     )

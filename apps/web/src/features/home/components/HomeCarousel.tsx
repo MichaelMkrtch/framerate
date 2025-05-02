@@ -74,6 +74,7 @@ export default function HomeCarousel({
                           id: String(media.id),
                           title: simpleTitle,
                         }}
+                        preload={false}
                       >
                         <Poster
                           title={media.title}
