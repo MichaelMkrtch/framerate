@@ -38,9 +38,8 @@ export default function Navbar() {
   });
 
   useHotkeys(
-    "/",
+    "slash",
     (event) => {
-      console.log("search");
       event.preventDefault();
       searchBtn.current?.click();
     },
