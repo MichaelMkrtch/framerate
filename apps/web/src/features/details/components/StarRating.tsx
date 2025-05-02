@@ -55,6 +55,10 @@ export default function StarRating({
         setRating(dbRating);
       }
     }
+
+    return () => {
+      setRating(null);
+    };
   }, [reviewData, setRating]);
 
   async function handleClick(ratingValue: number) {
@@ -73,7 +77,7 @@ export default function StarRating({
       toast.info("Failed to delete rating! Please try again later");
     } else {
       if (rating && !isWatched) {
-        // if not marked watched, prevents changing that when user changes rating
+        // if not already marked watched, prevents changing that when user updates rating
         setRating(ratingValue);
         return;
       }

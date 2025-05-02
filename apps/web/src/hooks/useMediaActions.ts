@@ -27,6 +27,11 @@ export function useMediaActions(
       setIsLiked(initialState.liked);
       setIsWatched(initialState.watched);
     }
+
+    return () => {
+      setIsLiked(false);
+      setIsWatched(false);
+    };
   }, [
     initialState,
     initialState?.liked,

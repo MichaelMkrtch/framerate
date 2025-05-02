@@ -17,6 +17,10 @@ export default function ReviewCard({ media }: Record<"media", MediaDetails>) {
       setIsStoredReview(storedRating.reviewCount > 0);
       setAvgRating(parseFloat(storedRating.avgRating!.toFixed(2)) ?? null);
     }
+
+    return () => {
+      setIsStoredReview(false);
+    };
   }, [storedRating]);
 
   const formatter = Intl.NumberFormat("en", { notation: "compact" });

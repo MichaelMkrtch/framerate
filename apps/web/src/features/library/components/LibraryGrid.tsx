@@ -6,9 +6,8 @@ import PosterGrid from "@web/components/PosterGrid";
 import Tooltip from "@web/components/Tooltip";
 import { TooltipProvider } from "@web/components/ui/tooltip-ui";
 import LibraryFilters from "@web/features/library/components/LibraryFilters";
+import { scrollToTop } from "@web/lib/scroll-to-top";
 import { Route } from "@web/routes/library";
-
-// import { scrollToTop } from "@web/lib/utils";
 
 import { ArrowUp } from "lucide-react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -41,33 +40,29 @@ export default function LibraryGrid({
   }, []);
 
   useEffect(() => {
+    if (fetchedReviews.length > 0) {
+      fetchedReviews.sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return dateB - dateA;
+      });
+    }
+
     if (filter === "film") {
       if (fetchedReviews.length > 0) {
         const filtered = fetchedReviews.filter(
           (review) => review.mediaType === "movie",
         );
-        if (filtered.length > 0) {
-          filtered.sort((a, b) => {
-            const dateA = new Date(a.createdAt).getTime();
-            const dateB = new Date(b.createdAt).getTime();
-            return dateB - dateA;
-          });
-          return setReviews(filtered);
-        }
+
+        return setReviews(filtered);
       }
     } else if (filter === "series") {
       if (fetchedReviews.length > 0) {
         const filtered = fetchedReviews.filter(
           (review) => review.mediaType === "tv",
         );
-        if (filtered.length > 0) {
-          filtered.sort((a, b) => {
-            const dateA = new Date(a.createdAt).getTime();
-            const dateB = new Date(b.createdAt).getTime();
-            return dateB - dateA;
-          });
-          return setReviews(filtered);
-        }
+
+        return setReviews(filtered);
       }
     } else {
       setReviews(fetchedReviews);
@@ -100,7 +95,7 @@ export default function LibraryGrid({
           <Tooltip side="top" sideOffset={12} content="Scroll to top" key1="T">
             <button
               ref={scrollToTopBtn}
-              // onClick={scrollToTop}
+              onClick={scrollToTop}
               className={`${isArrowVisible ? "animate-fade-in" : ""} fixed right-4 bottom-4 rounded-full p-2 shadow-lg transition-colors duration-200 outline-none hover:bg-white/5 ${
                 isArrowVisible ? "opacity-100" : "pointer-events-none opacity-0"
               }`}

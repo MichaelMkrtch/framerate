@@ -1,3 +1,5 @@
+import { queryClient } from "@web/router";
+
 import { client } from "./client-instance";
 
 const reviewRoute = client.api.v1.reviews;
@@ -49,6 +51,7 @@ export async function addReview(
     throw new Error(`${error.status} - ${error.value.message}`);
   }
 
+  queryClient.invalidateQueries({ queryKey: ["library"] });
   return data;
 }
 
@@ -61,5 +64,6 @@ export async function deleteReview(mediaType: "movie" | "tv", mediaId: number) {
     throw new Error(`${error.status} - ${error.value.message}`);
   }
 
+  queryClient.invalidateQueries({ queryKey: ["library"] });
   return data;
 }

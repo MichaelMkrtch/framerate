@@ -54,6 +54,7 @@ export async function fetchDetails(mediaType: "movie" | "tv", id: number) {
       } catch (jsonError) {
         // Ignore JSON parsing error if the response wasn't JSON
       }
+      console.error("response", response);
       throw new Error(errorMessage);
     }
 
