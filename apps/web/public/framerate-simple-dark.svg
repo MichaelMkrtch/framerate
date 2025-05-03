@@ -1,0 +1,55 @@
+<svg width="330" height="330" viewBox="0 0 330 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="330" height="330" fill="#111419"/>
+<g clip-path="url(#clip0_9_2)">
+<rect x="27" y="171.421" width="200" height="200" rx="6" transform="rotate(-45 27 171.421)" fill="#111413"/>
+<g filter="url(#filter0_iiii_9_2)">
+<rect x="43.9706" y="171.421" width="175" height="176" rx="2" transform="rotate(-45 43.9706 171.421)" fill="#FF153A"/>
+</g>
+<g filter="url(#filter1_d_9_2)">
+<path d="M166.573 111.391C167.022 110.009 168.978 110.009 169.427 111.391L182.257 150.877C182.457 151.495 183.033 151.914 183.683 151.914H225.202C226.655 151.914 227.259 153.773 226.084 154.627L192.494 179.032C191.969 179.414 191.749 180.091 191.949 180.709L204.779 220.196C205.228 221.577 203.647 222.727 202.471 221.873L168.882 197.468C168.356 197.086 167.644 197.086 167.118 197.468L133.529 221.873C132.353 222.727 130.772 221.577 131.221 220.196L144.051 180.709C144.251 180.091 144.031 179.414 143.506 179.032L109.916 154.627C108.741 153.773 109.345 151.914 110.798 151.914H152.317C152.967 151.914 153.543 151.495 153.743 150.877L166.573 111.391Z" fill="#111419"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_iiii_9_2" x="42.799" y="46.5061" width="250.538" height="250.538" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="-2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0666667 0 0 0 0 0.0784314 0 0 0 0 0.0980392 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_9_2"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0666667 0 0 0 0 0.0784314 0 0 0 0 0.0980392 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="effect1_innerShadow_9_2" result="effect2_innerShadow_9_2"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0666667 0 0 0 0 0.0784314 0 0 0 0 0.0980392 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="effect2_innerShadow_9_2" result="effect3_innerShadow_9_2"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0666667 0 0 0 0 0.0784314 0 0 0 0 0.0980392 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="effect3_innerShadow_9_2" result="effect4_innerShadow_9_2"/>
+</filter>
+<filter id="filter1_d_9_2" x="104.295" y="110.354" width="125.41" height="119.812" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-1" dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0666667 0 0 0 0 0.0784314 0 0 0 0 0.0980392 0 0 0 0.15 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_9_2"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_9_2" result="shape"/>
+</filter>
+<clipPath id="clip0_9_2">
+<rect x="27" y="171.421" width="200" height="200" rx="6" transform="rotate(-45 27 171.421)" fill="white"/>
+</clipPath>
+</defs>
+</svg>

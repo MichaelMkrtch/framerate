@@ -50,23 +50,11 @@ export const Route = createRootRouteWithContext<{
         crossOrigin: "anonymous",
       },
       { rel: "stylesheet", href: appCss },
-      {
-        rel: "apple-touch-icon",
-        sizes: "180x180",
-        href: "/apple-touch-icon.png",
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "32x32",
-        href: "/favicon-32x32.png",
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "16x16",
-        href: "/favicon-16x16.png",
-      },
+      // {
+      //   rel: "apple-touch-icon",
+      //   sizes: "180x180",
+      //   href: "/apple-touch-icon.png",
+      // },
       { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
       { rel: "icon", href: "/favicon.ico" },
     ],
@@ -101,21 +89,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body
-        className={`${pathname === "/" ? "bg-marketing" : "bg-background"} font-manrope dark mx-auto max-w-md antialiased md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]`}
+        className={`${pathname === "/" ? "bg-marketing" : "bg-background"} font-manrope dark antialiased`}
       >
-        {children}
-        <Navbar />
-        <Toaster
-          toastOptions={{
-            classNames: {
-              toast:
-                "bg-background border-white/10 text-foreground drop-shadow-md",
-            },
-          }}
-        />
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
-        <Scripts />
+        <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
+          {children}
+          <Navbar />
+          <Toaster
+            toastOptions={{
+              classNames: {
+                toast:
+                  "bg-background border-white/10 text-foreground drop-shadow-md",
+              },
+            }}
+          />
+          <TanStackRouterDevtools position="bottom-right" />
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+          <Scripts />
+        </div>
       </body>
     </html>
   );

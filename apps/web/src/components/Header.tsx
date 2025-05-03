@@ -43,13 +43,18 @@ export default function Header({ title, children }: HeaderProps) {
       setName(user.name);
       setUsername(user.username!);
     }
-  }, [queryData, setEmail, setName, setUsername]);
+  }, [queryData, setEmail, setName, setUsername, isError]);
 
   return (
     <header className="flex h-[115px] items-center justify-between">
       <div className="flex items-center justify-center gap-3">
         <Link to="/home">
-          <img src="/logo.svg" alt="FrameRate logo" width="22" height="22" />
+          <img
+            src="/framerate-simple-dark.svg"
+            alt="FrameRate logo"
+            width="40"
+            height="40"
+          />
         </Link>
         <div>
           <h1 className="text-xl font-semibold">
