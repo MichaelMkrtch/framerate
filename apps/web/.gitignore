@@ -9,6 +9,8 @@ yarn.lock
 .output
 .vinxi
 .wrangler
+app.config.timestamp*
+
 
 /build/
 /api/
