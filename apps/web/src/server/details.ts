@@ -6,7 +6,7 @@ export async function getDetails<T extends "movie" | "tv" | "person">(
   mediaType: T,
   id: string,
 ) {
-  const detailsRoute = client.api.v1.details({ type: mediaType })({ id }).index;
+  const detailsRoute = client.api.v1.details({ type: mediaType })({ id });
 
   const { data: details, error } = await detailsRoute.get();
 

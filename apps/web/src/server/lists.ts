@@ -32,7 +32,7 @@ type InsertListItem = {
 };
 
 export async function addListItem(data: InsertListItem) {
-  const { data: listItems, error } = await listItemsRoute.index.post(data);
+  const { data: listItems, error } = await listItemsRoute.post(data);
 
   if (error) {
     throw new Error(`${error.status} - ${error.value.message}`);
@@ -42,7 +42,7 @@ export async function addListItem(data: InsertListItem) {
 }
 
 export async function getListItem(mediaType: "movie" | "tv", mediaId: number) {
-  const { data, error } = await listItemsRoute.index.get({
+  const { data, error } = await listItemsRoute.get({
     query: { mediaType, mediaId },
   });
 

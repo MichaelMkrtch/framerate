@@ -15,7 +15,7 @@ export async function updateReview({
   field,
   value,
 }: ReviewData) {
-  const { data, error } = await actionsRoute.index.patch({
+  const { data, error } = await actionsRoute.patch({
     mediaType,
     mediaId,
     field,

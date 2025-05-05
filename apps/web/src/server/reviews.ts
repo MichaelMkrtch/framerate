@@ -15,7 +15,7 @@ export async function getReview(mediaType: "movie" | "tv", mediaId: number) {
 }
 
 export async function getAllReviews() {
-  const { data, error } = await reviewRoute.index.get();
+  const { data, error } = await reviewRoute.get();
 
   if (error) {
     throw new Error(

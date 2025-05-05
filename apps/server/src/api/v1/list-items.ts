@@ -8,11 +8,10 @@ import Elysia, { t } from "elysia";
 
 export const listItems = new Elysia({
   name: "list-items",
-  prefix: "list-items",
 })
   .use(betterAuth)
   .get(
-    "/",
+    "/list-items",
     async ({ user, query: { mediaType, mediaId } }) => {
       if (user) {
         const result = await getListItem(user.id, mediaId, mediaType);
@@ -37,7 +36,7 @@ export const listItems = new Elysia({
     },
   )
   .post(
-    "/",
+    "/list-items",
     async ({ user, body }) => {
       if (user) {
         const { listId, mediaType, mediaId } = body;
@@ -81,7 +80,7 @@ export const listItems = new Elysia({
     },
   )
   .delete(
-    "/:id",
+    "/list-items/:id",
     async ({ user, params: { id: listItemId } }) => {
       if (user) {
         const result = await deleteListItem(user.id, listItemId);

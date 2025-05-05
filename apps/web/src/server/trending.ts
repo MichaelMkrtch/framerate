@@ -11,9 +11,7 @@ export async function getTrending<T extends "all" | "movie" | "tv" | "person">({
   filter,
   timeWindow,
 }: GetTrendingParams<T>) {
-  const trendingRoute = client.api.v1.trending.index;
-
-  const { data: trending, error } = await trendingRoute.get({
+  const { data: trending, error } = await client.api.v1.trending.get({
     query: { filter, timeWindow },
   });
 

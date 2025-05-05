@@ -8,11 +8,11 @@ import {
 } from "@server/services/v1/reviews";
 import Elysia, { t } from "elysia";
 
-export const reviews = new Elysia({ name: "reviews", prefix: "reviews" })
+export const reviews = new Elysia({ name: "reviews" })
   .use(betterAuth)
   // gets all user reviews
   .get(
-    "/",
+    "/reviews",
     async ({ user }) => {
       if (user) {
         const result = await getAllReviews(user.id);
@@ -34,7 +34,7 @@ export const reviews = new Elysia({ name: "reviews", prefix: "reviews" })
   )
   // gets user review
   .get(
-    "/:mediaType/:mediaId",
+    "/reviews/:mediaType/:mediaId",
     async ({ user, params: { mediaType, mediaId } }) => {
       if (user) {
         const result = await getReview(user.id, mediaType, mediaId);
@@ -60,7 +60,7 @@ export const reviews = new Elysia({ name: "reviews", prefix: "reviews" })
   )
   // creates user review
   .post(
-    "/:mediaType/:mediaId",
+    "/reviews/:mediaType/:mediaId",
     async ({ user, params: { mediaType, mediaId }, body: { rating } }) => {
       if (user) {
         const reviewData = { userId: user.id, mediaType, mediaId, rating };
@@ -84,7 +84,7 @@ export const reviews = new Elysia({ name: "reviews", prefix: "reviews" })
   )
   // deletes user review
   .delete(
-    "/:mediaType/:mediaId",
+    "/reviews/:mediaType/:mediaId",
     async ({ user, params: { mediaType, mediaId } }) => {
       if (user) {
         const result = await deleteReview(user.id, mediaId, mediaType);
@@ -104,7 +104,7 @@ export const reviews = new Elysia({ name: "reviews", prefix: "reviews" })
   )
   // gets average rating
   .get(
-    "/:mediaType/:mediaId/average",
+    "/reviews/:mediaType/:mediaId/average",
     async ({ params: { mediaType, mediaId } }) => {
       const result = await getAvgRating(mediaType, mediaId);
 

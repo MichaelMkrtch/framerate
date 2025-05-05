@@ -3,7 +3,6 @@ import Elysia, { t } from "elysia";
 
 export const details = new Elysia({
   name: "details",
-  prefix: "/details/:type/:id",
 })
   .onError(({ code, error }) => {
     console.error(`${code}: Error in details route – ${error}`);
@@ -20,7 +19,7 @@ export const details = new Elysia({
     }
   })
   .get(
-    "/",
+    "/details/:type/:id",
     async ({ params: { type, id } }) => {
       if (type === "person") {
         throw new Error("Sorry, we don't support people search yet!");
