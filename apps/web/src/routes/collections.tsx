@@ -11,7 +11,9 @@ function RouteComponent() {
     <>
       <Header title="Collections" />
       <main className="animate-fade-in pb-14">
-        <div>Collections</div>
+        <div className="text-center text-xl font-medium">
+          This page is coming soon!
+        </div>
       </main>
     </>
   );
