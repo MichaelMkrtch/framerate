@@ -39,6 +39,11 @@ export const auth = betterAuth({
   advanced: {
     cookiePrefix: "framerate",
     useSecureCookies: process.env.NODE_ENV === "production",
+    defaultCookieAttributes: {
+      httpOnly: true,
+      sameSite: "None",
+      partitioned: true,
+    },
   },
   trustedOrigins: trusted,
   plugins: [username({ minUsernameLength: 1, maxUsernameLength: 20 })],

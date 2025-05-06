@@ -52,7 +52,7 @@ export const searchMedia = createServerFn({ method: "GET" })
 
       return filteredResults;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw error;
     }
   });

@@ -2,10 +2,16 @@ import type { App } from "@server/index";
 
 import { treaty } from "@elysiajs/eden";
 
-let serverUrl = import.meta.env.VITE_BETTER_AUTH_URL ?? "localhost:8000";
+// let serverUrl = import.meta.env.VITE_SERVER_URL ?? "failed prod";
+
+// if (import.meta.env.DEV) {
+//   serverUrl = import.meta.env.VITE_SERVER_DEV_URL ?? "failed dev";
+// }
+
+let serverUrl = "https://framerate-production.up.railway.app";
 
 if (import.meta.env.DEV) {
-  serverUrl = import.meta.env.VITE_BETTER_AUTH_DEV_URL ?? "localhost:8000";
+  serverUrl = "localhost:8000";
 }
 
 export const client = treaty<App>(serverUrl, {

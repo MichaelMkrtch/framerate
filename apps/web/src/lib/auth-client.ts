@@ -1,10 +1,17 @@
 import { usernameClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 
-let serverUrl = import.meta.env.VITE_BETTER_AUTH_URL;
+// Issue with env variables in Cloudflare
+// let serverUrl = import.meta.env.VITE_SERVER_URL;
+
+// if (import.meta.env.DEV) {
+//   serverUrl = import.meta.env.VITE_SERVER_DEV_URL;
+// }
+
+let serverUrl = "https://framerate-production.up.railway.app";
 
 if (import.meta.env.DEV) {
-  serverUrl = import.meta.env.VITE_BETTER_AUTH_DEV_URL;
+  serverUrl = "localhost:8000";
 }
 
 export const authClient = createAuthClient({
