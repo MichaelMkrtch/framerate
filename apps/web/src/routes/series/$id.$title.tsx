@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import Backdrop from "@web/features/details/components/Backdrop";
 import MediaDetails from "@web/features/details/components/MediaDetails";
-import { queryClient } from "@web/router";
 import { getDetails } from "@web/server/details";
 
 function createQueryOptions(id: string) {
@@ -16,9 +15,9 @@ function createQueryOptions(id: string) {
 }
 
 export const Route = createFileRoute("/series/$id/$title")({
-  loader: ({ params }) => {
+  loader: ({ context, params }) => {
     const detailsQueryOptions = createQueryOptions(params.id);
-    return queryClient.ensureQueryData(detailsQueryOptions);
+    return context.queryClient.ensureQueryData(detailsQueryOptions);
   },
   component: SeriesPage,
 });

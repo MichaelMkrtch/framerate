@@ -1,4 +1,4 @@
-import { queryClient } from "@web/router";
+import type { QueryClient } from "@tanstack/react-query";
 
 import { client } from "./client-instance";
 
@@ -42,6 +42,7 @@ export async function addReview(
   mediaType: "movie" | "tv",
   mediaId: number,
   rating: string,
+  qc: QueryClient,
 ) {
   const { data, error } = await reviewRoute({ mediaType })({ mediaId }).post({
     rating,
@@ -51,11 +52,15 @@ export async function addReview(
     throw new Error(`${error.status} - ${error.value.message}`);
   }
 
-  queryClient.invalidateQueries({ queryKey: ["library"] });
+  // qc.invalidateQueries({ queryKey: ["library"] });
   return data;
 }
 
-export async function deleteReview(mediaType: "movie" | "tv", mediaId: number) {
+export async function deleteReview(
+  mediaType: "movie" | "tv",
+  mediaId: number,
+  qc: QueryClient,
+) {
   const { data, error } = await reviewRoute({ mediaType })({
     mediaId,
   }).delete();
@@ -64,6 +69,6 @@ export async function deleteReview(mediaType: "movie" | "tv", mediaId: number) {
     throw new Error(`${error.status} - ${error.value.message}`);
   }
 
-  queryClient.invalidateQueries({ queryKey: ["library"] });
+  // qc.invalidateQueries({ queryKey: ["library"] });
   return data;
 }

@@ -2,7 +2,7 @@ import type { MediaDetails } from "@web/types/details";
 import type { Dispatch, SetStateAction } from "react";
 
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { StarIcon } from "@web/components/icons/StarIcon";
 import { authClient } from "@web/lib/auth-client";
@@ -27,6 +27,7 @@ export default function StarRating({
   const { isWatched, setIsWatched, clearMediaActions } = useReviewStore();
   const [hover, setHover] = useState<number | null>(null);
 
+  const queryClient = useQueryClient();
   const { data: authData } = authClient.useSession();
 
   const { data: reviewData } = useQuery({
@@ -68,10 +69,22 @@ export default function StarRating({
       setHover(null);
       clearMediaActions();
 
-      const response = await deleteReview(mediaType, mediaId);
+      const response = await deleteReview(mediaType, mediaId, queryClient);
 
       if (response && response.data === "success") {
-        return toast.info("Rating removed");
+        toast.info("Rating removed");
+
+        queryClient.invalidateQueries({
+          queryKey: ["average-rating", media.mediaType, media.id],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["review", mediaType, mediaId],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["library"],
+        });
+
+        return;
       }
 
       toast.info("Failed to delete rating! Please try again later");

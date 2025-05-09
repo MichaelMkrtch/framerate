@@ -17,20 +17,20 @@ export const Route = createFileRoute("/library")({
 });
 
 function Library() {
-  const { data: fetchedReviews } = useQuery({
+  const { data: fetchedReviews, isFetching } = useQuery({
     queryKey: ["library"],
     queryFn: () => getAllReviews(),
     staleTime: 2 * 60 * 1000,
     gcTime: 5 * 60 * 1000,
   });
 
+  const libraryIsReady = !isFetching && fetchedReviews && fetchedReviews.data;
+
   return (
     <>
       <Header title="Library" />
       <main className="animate-fade-in">
-        {fetchedReviews && fetchedReviews.data && (
-          <LibraryGrid fetchedReviews={fetchedReviews.data} />
-        )}
+        {libraryIsReady && <LibraryGrid fetchedReviews={fetchedReviews.data} />}
       </main>
     </>
   );

@@ -1,43 +1,53 @@
 import {
   dehydrate,
   HydrationBoundary,
+  QueryClient,
   queryOptions,
   useSuspenseQuery,
 } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 
 import { DefaultCatchBoundary } from "@web/components/DefaultCatchBoundary";
 import Header from "@web/components/Header";
 import HomeCarousel from "@web/features/home/components/HomeCarousel";
-import { queryClient } from "@web/router";
 import { getTrending } from "@web/server/trending";
 
-const trendingQueryOptions = queryOptions({
-  queryKey: ["trending"],
-  queryFn: async () => {
-    await queryClient.prefetchQuery({
-      queryKey: ["all-trending-day"],
-      queryFn: () => getTrending({ filter: "all", timeWindow: "day" }),
-      staleTime: 10 * 60 * 1000,
-      gcTime: 15 * 60 * 1000,
-    });
+const createQueryOptions = (qc: QueryClient) =>
+  queryOptions({
+    queryKey: ["trending"],
+    queryFn: async () => {
+      await qc.prefetchQuery({
+        queryKey: ["all-trending-day"],
+        queryFn: () => getTrending({ filter: "all", timeWindow: "day" }),
+        staleTime: 10 * 60 * 1000,
+        gcTime: 15 * 60 * 1000,
+      });
 
-    return {
-      movie: await getTrending({ filter: "movie", timeWindow: "week" }),
-      tv: await getTrending({ filter: "tv", timeWindow: "week" }),
-    };
-  },
-  staleTime: 10 * 60 * 1000,
-  gcTime: 15 * 60 * 1000,
-});
+      const movieData = getTrending({ filter: "movie", timeWindow: "week" });
+      const tvData = getTrending({ filter: "tv", timeWindow: "week" });
+
+      const [movie, tv] = await Promise.all([movieData, tvData]);
+
+      return { movie, tv };
+    },
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 15 * 60 * 1000, // 15 minutes
+  });
 
 export const Route = createFileRoute("/home")({
-  loader: () => queryClient.ensureQueryData(trendingQueryOptions),
+  loader: ({ context }) => {
+    const trendingQueryOptions = createQueryOptions(context.queryClient);
+    return context.queryClient.ensureQueryData(trendingQueryOptions);
+  },
   errorComponent: DefaultCatchBoundary,
   component: Home,
 });
 
 function Home() {
+  const { queryClient } = useRouteContext({ from: "/home" });
+
+  const trendingQueryOptions = createQueryOptions(queryClient);
+
   const {
     data: { movie, tv },
   } = useSuspenseQuery(trendingQueryOptions);
