@@ -91,7 +91,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body
         className={`${pathname === "/" ? "bg-marketing" : "bg-background"} font-manrope dark antialiased`}
       >
-        <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
+        <div className="mx-auto size-full max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
           {children}
           <Navbar />
           <Toaster
