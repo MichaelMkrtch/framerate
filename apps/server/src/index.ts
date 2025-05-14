@@ -14,9 +14,6 @@ const regexPatternFromEnv = process.env.CORS_ORIGIN_REGEX_PATTERN;
 if (regexPatternFromEnv) {
   try {
     corsOriginConfig = new RegExp(regexPatternFromEnv);
-    console.log(
-      `SERVER: Using CORS regex from environment: ${corsOriginConfig}`,
-    );
   } catch (e) {
     console.error(
       `SERVER: Invalid regex pattern in CORS_ORIGIN_REGEX_PATTERN: "${regexPatternFromEnv}". Error: ${e}`,
@@ -29,9 +26,6 @@ if (regexPatternFromEnv) {
   }
 } else if (process.env.CLIENT_ORIGIN) {
   corsOriginConfig = process.env.CLIENT_ORIGIN;
-  console.log(
-    `SERVER: Using static CORS origin from CLIENT_ORIGIN: ${JSON.stringify(corsOriginConfig)}`,
-  );
 } else {
   console.warn(
     "SERVER: Neither CORS_ORIGIN_REGEX_PATTERN nor CLIENT_ORIGIN is set. CORS might be restrictive.",
@@ -58,7 +52,6 @@ const app = new Elysia()
     }),
   )
   .use(api)
-  .get("/", () => "Hello Elysia")
   .listen(8000);
 
 export type App = typeof app;

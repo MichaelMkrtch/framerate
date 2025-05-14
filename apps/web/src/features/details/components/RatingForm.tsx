@@ -57,9 +57,7 @@ export default function RatingForm({ media }: Record<"media", MediaDetails>) {
   const { data: averageData } = useQuery({
     queryKey: ["average-rating", media.mediaType, media.id],
     queryFn: async () => {
-      console.log("running");
       const data = await getAvgRating(media.mediaType, media.id);
-      console.log("recieved", data);
       return data;
     },
     staleTime: 2 * 60 * 1000,
@@ -119,8 +117,6 @@ export default function RatingForm({ media }: Record<"media", MediaDetails>) {
         toast.error(averageData.error.message);
         return;
       }
-
-      console.log("setting rating to: ", averageData.data);
       setStoredRating(averageData.data);
     }
     return () => setStoredRating({ avgRating: null, reviewCount: 0 });

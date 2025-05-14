@@ -11,6 +11,8 @@ if (process.env.CLIENT_ORIGIN) {
   trusted.push(process.env.CLIENT_ORIGIN);
 }
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export const auth = betterAuth({
   appName: "FrameRate",
   database: drizzleAdapter(db, {
@@ -38,11 +40,11 @@ export const auth = betterAuth({
   },
   advanced: {
     cookiePrefix: "framerate",
-    useSecureCookies: process.env.NODE_ENV === "production",
+    useSecureCookies: isProduction,
     defaultCookieAttributes: {
       httpOnly: true,
-      sameSite: "None",
-      partitioned: true,
+      sameSite: isProduction ? "None" : "Lax",
+      partitioned: isProduction,
     },
   },
   trustedOrigins: trusted,
