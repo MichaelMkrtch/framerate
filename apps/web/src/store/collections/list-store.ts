@@ -1,5 +1,7 @@
 import type { List } from "@web/types/lists";
 
+import { createSelectors } from "@web/lib/store-selector";
+
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -14,7 +16,7 @@ type ListActions = {
   clearLists: () => void;
 };
 
-export const useListStore = create<ListState & ListActions>()(
+const useListStoreBase = create<ListState & ListActions>()(
   persist(
     (set) => ({
       lists: [],
@@ -33,3 +35,5 @@ export const useListStore = create<ListState & ListActions>()(
     },
   ),
 );
+
+export const useListStore = createSelectors(useListStoreBase);

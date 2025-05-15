@@ -65,6 +65,8 @@
   --background-marketing: oklch(0.1 0.0192 227.14);
   --foreground: oklch(0.145 0 0);
   --text-secondary: oklch(0.6 0.01 230.15);
+  --header-height: 115px;
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);

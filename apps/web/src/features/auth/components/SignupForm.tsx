@@ -16,9 +16,7 @@ import { Input } from "@web/components/ui/input";
 import { signupSchema } from "@web/features/auth/schema/auth-forms";
 import { blacklistChecks } from "@web/features/auth/server/auth-actions";
 import { authClient } from "@web/lib/auth-client";
-
-// import { createList } from "@/features/collections/server/db/list";
-// import { generateSlug } from "@/lib/slug";
+import { createList } from "@web/server/lists";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleArrowRight, Eye, EyeOff } from "lucide-react";
@@ -71,7 +69,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     return () => {
       form.setFocus("email");
     };
-  }, [page, form.setFocus]);
+  }, [page, form, form.setFocus]);
 
   useEffect(() => {
     const emailErrors = form.formState.errors.email;
@@ -79,7 +77,7 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
     if (page === 2 && emailErrors) {
       setPage(1);
     }
-  }, [form.formState.errors.email]);
+  }, [page, setPage, form.formState.errors.email]);
 
   // Checks input against filters before creating user in DB
   async function onSubmit(values: z.infer<typeof signupSchema>) {
@@ -109,18 +107,9 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
 
               const { data: sessionData } = await authClient.getSession();
 
-              // if (sessionData) {
-              //   const slug = await generateSlug(
-              //     "Watchlist",
-              //     "list",
-              //     sessionData.user.id,
-              //   );
-              //   await createList({
-              //     userId: sessionData.user.id,
-              //     name: "Watchlist",
-              //     slug,
-              //   });
-              // }
+              if (sessionData) {
+                await createList("Watchlist");
+              }
 
               navigate({ to: "/home" });
             },

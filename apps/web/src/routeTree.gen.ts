@@ -22,6 +22,7 @@ import { Route as authSignupImport } from './routes/(auth)/signup'
 import { Route as authLoginImport } from './routes/(auth)/login'
 import { Route as SeriesIdTitleImport } from './routes/series/$id.$title'
 import { Route as FilmsIdTitleImport } from './routes/films/$id.$title'
+import { Route as userUsernameCollectionsSlugImport } from './routes/(user)/$username/collections/$slug'
 
 // Create/Update Routes
 
@@ -90,6 +91,13 @@ const FilmsIdTitleRoute = FilmsIdTitleImport.update({
   path: '/films/$id/$title',
   getParentRoute: () => rootRoute,
 } as any)
+
+const userUsernameCollectionsSlugRoute =
+  userUsernameCollectionsSlugImport.update({
+    id: '/(user)/$username/collections/$slug',
+    path: '/$username/collections/$slug',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -172,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SeriesIdTitleImport
       parentRoute: typeof rootRoute
     }
+    '/(user)/$username/collections/$slug': {
+      id: '/(user)/$username/collections/$slug'
+      path: '/$username/collections/$slug'
+      fullPath: '/$username/collections/$slug'
+      preLoaderRoute: typeof userUsernameCollectionsSlugImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -189,6 +204,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
   '/series/$id/$title': typeof SeriesIdTitleRoute
+  '/$username/collections/$slug': typeof userUsernameCollectionsSlugRoute
 }
 
 export interface FileRoutesByTo {
@@ -203,6 +219,7 @@ export interface FileRoutesByTo {
   '/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
   '/series/$id/$title': typeof SeriesIdTitleRoute
+  '/$username/collections/$slug': typeof userUsernameCollectionsSlugRoute
 }
 
 export interface FileRoutesById {
@@ -218,6 +235,7 @@ export interface FileRoutesById {
   '/(auth)/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
   '/series/$id/$title': typeof SeriesIdTitleRoute
+  '/(user)/$username/collections/$slug': typeof userUsernameCollectionsSlugRoute
 }
 
 export interface FileRouteTypes {
@@ -234,6 +252,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/films/$id/$title'
     | '/series/$id/$title'
+    | '/$username/collections/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -247,6 +266,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/films/$id/$title'
     | '/series/$id/$title'
+    | '/$username/collections/$slug'
   id:
     | '__root__'
     | '/'
@@ -260,6 +280,7 @@ export interface FileRouteTypes {
     | '/(auth)/signup'
     | '/films/$id/$title'
     | '/series/$id/$title'
+    | '/(user)/$username/collections/$slug'
   fileRoutesById: FileRoutesById
 }
 
@@ -275,6 +296,7 @@ export interface RootRouteChildren {
   authSignupRoute: typeof authSignupRoute
   FilmsIdTitleRoute: typeof FilmsIdTitleRoute
   SeriesIdTitleRoute: typeof SeriesIdTitleRoute
+  userUsernameCollectionsSlugRoute: typeof userUsernameCollectionsSlugRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -289,6 +311,7 @@ const rootRouteChildren: RootRouteChildren = {
   authSignupRoute: authSignupRoute,
   FilmsIdTitleRoute: FilmsIdTitleRoute,
   SeriesIdTitleRoute: SeriesIdTitleRoute,
+  userUsernameCollectionsSlugRoute: userUsernameCollectionsSlugRoute,
 }
 
 export const routeTree = rootRoute
@@ -311,7 +334,8 @@ export const routeTree = rootRoute
         "/(auth)/login",
         "/(auth)/signup",
         "/films/$id/$title",
-        "/series/$id/$title"
+        "/series/$id/$title",
+        "/(user)/$username/collections/$slug"
       ]
     },
     "/": {
@@ -346,6 +370,9 @@ export const routeTree = rootRoute
     },
     "/series/$id/$title": {
       "filePath": "series/$id.$title.tsx"
+    },
+    "/(user)/$username/collections/$slug": {
+      "filePath": "(user)/$username/collections/$slug.tsx"
     }
   }
 }
