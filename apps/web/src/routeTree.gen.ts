@@ -22,7 +22,8 @@ import { Route as authSignupImport } from './routes/(auth)/signup'
 import { Route as authLoginImport } from './routes/(auth)/login'
 import { Route as SeriesIdTitleImport } from './routes/series/$id.$title'
 import { Route as FilmsIdTitleImport } from './routes/films/$id.$title'
-import { Route as userUsernameCollectionsSlugImport } from './routes/(user)/$username/collections/$slug'
+import { Route as userUsernameCollectionsSlugIndexImport } from './routes/(user)/$username/collections/$slug.index'
+import { Route as userUsernameCollectionsSlugEditImport } from './routes/(user)/$username/collections/$slug.edit'
 
 // Create/Update Routes
 
@@ -92,10 +93,17 @@ const FilmsIdTitleRoute = FilmsIdTitleImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const userUsernameCollectionsSlugRoute =
-  userUsernameCollectionsSlugImport.update({
-    id: '/(user)/$username/collections/$slug',
-    path: '/$username/collections/$slug',
+const userUsernameCollectionsSlugIndexRoute =
+  userUsernameCollectionsSlugIndexImport.update({
+    id: '/(user)/$username/collections/$slug/',
+    path: '/$username/collections/$slug/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const userUsernameCollectionsSlugEditRoute =
+  userUsernameCollectionsSlugEditImport.update({
+    id: '/(user)/$username/collections/$slug/edit',
+    path: '/$username/collections/$slug/edit',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -180,11 +188,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SeriesIdTitleImport
       parentRoute: typeof rootRoute
     }
-    '/(user)/$username/collections/$slug': {
-      id: '/(user)/$username/collections/$slug'
+    '/(user)/$username/collections/$slug/edit': {
+      id: '/(user)/$username/collections/$slug/edit'
+      path: '/$username/collections/$slug/edit'
+      fullPath: '/$username/collections/$slug/edit'
+      preLoaderRoute: typeof userUsernameCollectionsSlugEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/(user)/$username/collections/$slug/': {
+      id: '/(user)/$username/collections/$slug/'
       path: '/$username/collections/$slug'
       fullPath: '/$username/collections/$slug'
-      preLoaderRoute: typeof userUsernameCollectionsSlugImport
+      preLoaderRoute: typeof userUsernameCollectionsSlugIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -204,7 +219,8 @@ export interface FileRoutesByFullPath {
   '/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
   '/series/$id/$title': typeof SeriesIdTitleRoute
-  '/$username/collections/$slug': typeof userUsernameCollectionsSlugRoute
+  '/$username/collections/$slug/edit': typeof userUsernameCollectionsSlugEditRoute
+  '/$username/collections/$slug': typeof userUsernameCollectionsSlugIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -219,7 +235,8 @@ export interface FileRoutesByTo {
   '/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
   '/series/$id/$title': typeof SeriesIdTitleRoute
-  '/$username/collections/$slug': typeof userUsernameCollectionsSlugRoute
+  '/$username/collections/$slug/edit': typeof userUsernameCollectionsSlugEditRoute
+  '/$username/collections/$slug': typeof userUsernameCollectionsSlugIndexRoute
 }
 
 export interface FileRoutesById {
@@ -235,7 +252,8 @@ export interface FileRoutesById {
   '/(auth)/signup': typeof authSignupRoute
   '/films/$id/$title': typeof FilmsIdTitleRoute
   '/series/$id/$title': typeof SeriesIdTitleRoute
-  '/(user)/$username/collections/$slug': typeof userUsernameCollectionsSlugRoute
+  '/(user)/$username/collections/$slug/edit': typeof userUsernameCollectionsSlugEditRoute
+  '/(user)/$username/collections/$slug/': typeof userUsernameCollectionsSlugIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -252,6 +270,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/films/$id/$title'
     | '/series/$id/$title'
+    | '/$username/collections/$slug/edit'
     | '/$username/collections/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -266,6 +285,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/films/$id/$title'
     | '/series/$id/$title'
+    | '/$username/collections/$slug/edit'
     | '/$username/collections/$slug'
   id:
     | '__root__'
@@ -280,7 +300,8 @@ export interface FileRouteTypes {
     | '/(auth)/signup'
     | '/films/$id/$title'
     | '/series/$id/$title'
-    | '/(user)/$username/collections/$slug'
+    | '/(user)/$username/collections/$slug/edit'
+    | '/(user)/$username/collections/$slug/'
   fileRoutesById: FileRoutesById
 }
 
@@ -296,7 +317,8 @@ export interface RootRouteChildren {
   authSignupRoute: typeof authSignupRoute
   FilmsIdTitleRoute: typeof FilmsIdTitleRoute
   SeriesIdTitleRoute: typeof SeriesIdTitleRoute
-  userUsernameCollectionsSlugRoute: typeof userUsernameCollectionsSlugRoute
+  userUsernameCollectionsSlugEditRoute: typeof userUsernameCollectionsSlugEditRoute
+  userUsernameCollectionsSlugIndexRoute: typeof userUsernameCollectionsSlugIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -311,7 +333,8 @@ const rootRouteChildren: RootRouteChildren = {
   authSignupRoute: authSignupRoute,
   FilmsIdTitleRoute: FilmsIdTitleRoute,
   SeriesIdTitleRoute: SeriesIdTitleRoute,
-  userUsernameCollectionsSlugRoute: userUsernameCollectionsSlugRoute,
+  userUsernameCollectionsSlugEditRoute: userUsernameCollectionsSlugEditRoute,
+  userUsernameCollectionsSlugIndexRoute: userUsernameCollectionsSlugIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -335,7 +358,8 @@ export const routeTree = rootRoute
         "/(auth)/signup",
         "/films/$id/$title",
         "/series/$id/$title",
-        "/(user)/$username/collections/$slug"
+        "/(user)/$username/collections/$slug/edit",
+        "/(user)/$username/collections/$slug/"
       ]
     },
     "/": {
@@ -371,8 +395,11 @@ export const routeTree = rootRoute
     "/series/$id/$title": {
       "filePath": "series/$id.$title.tsx"
     },
-    "/(user)/$username/collections/$slug": {
-      "filePath": "(user)/$username/collections/$slug.tsx"
+    "/(user)/$username/collections/$slug/edit": {
+      "filePath": "(user)/$username/collections/$slug.edit.tsx"
+    },
+    "/(user)/$username/collections/$slug/": {
+      "filePath": "(user)/$username/collections/$slug.index.tsx"
     }
   }
 }

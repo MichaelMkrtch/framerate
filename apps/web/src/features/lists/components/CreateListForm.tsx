@@ -1,5 +1,7 @@
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 import {
   Form,
   FormControl,
@@ -25,6 +27,8 @@ export default function CreateListForm({
 }: {
   setDialogOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const queryClient = useQueryClient();
+
   const addList = useListStore.use.addList();
 
   const form = useForm<z.infer<typeof listSchema>>({
@@ -60,6 +64,8 @@ export default function CreateListForm({
 
     const formData = form.getValues();
     await onSubmit(formData);
+
+    queryClient.invalidateQueries({ queryKey: ["lists"] });
   }
 
   return (

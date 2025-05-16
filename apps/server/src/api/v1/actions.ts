@@ -3,7 +3,7 @@ import { updateReview } from "@server/services/v1/actions";
 import Elysia, { t } from "elysia";
 
 export const actions = new Elysia({ name: "actions" }).use(betterAuth).patch(
-  "/actions",
+  "/actions/media",
   async ({ user, body: { mediaType, mediaId, field, value } }) => {
     if (user) {
       const updatedField = {

@@ -1,6 +1,7 @@
 import type { RefObject } from "react";
 
 import { useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { PlusIcon } from "@web/components/icons/PlusIcon";
 import {
@@ -25,6 +26,8 @@ import { z } from "zod";
 export default function CreateList() {
   const { addList } = useListStore();
   const [isChecked, setIsChecked] = useState<boolean | undefined>();
+
+  const queryClient = useQueryClient();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const createListRef = useRef<HTMLInputElement>(null);
@@ -54,13 +57,16 @@ export default function CreateList() {
   async function onSubmit(values: z.infer<typeof listSchema>) {
     const data = await createList(values.listName);
 
-    if ("list" in data) {
-      addList(data);
-      toggleCreateList();
-      return toast.success("List created successfully");
-    } else {
+    if (!data) {
       return toast.error("Failed to create list. Please try again later.");
     }
+
+    addList(data);
+    toggleCreateList();
+
+    queryClient.invalidateQueries({ queryKey: ["lists"] });
+
+    return toast.success("List created successfully");
   }
 
   function onError(_errors: unknown) {

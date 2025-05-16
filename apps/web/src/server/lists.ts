@@ -2,6 +2,12 @@ import type { List } from "@web/types/lists";
 
 import { client } from "./client-instance";
 
+type InsertListItem = {
+  listId: number;
+  mediaType: "movie" | "tv";
+  mediaId: number;
+};
+
 const listsRoute = client.api.v1.lists;
 const listItemsRoute = client.api.v1["list-items"];
 
@@ -25,11 +31,18 @@ export async function getLists() {
   return data;
 }
 
-type InsertListItem = {
-  listId: number;
-  mediaType: "movie" | "tv";
-  mediaId: number;
-};
+export async function getListData(username: string, slug: string) {
+  const { data, error } = await client.api.v1
+    .user({ username })
+    .collections({ slug })
+    .get();
+
+  if (error) {
+    throw new Error(`${error.status} - ${error.value.message}`);
+  }
+
+  return data;
+}
 
 export async function addListItem(data: InsertListItem) {
   const { data: listItems, error } = await listItemsRoute.post(data);

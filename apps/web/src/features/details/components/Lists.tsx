@@ -2,11 +2,12 @@ import type { MediaDetails } from "@web/types/details";
 import type { Dispatch, SetStateAction } from "react";
 
 import { useEffect, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { BoxIcon } from "@web/components/icons/BoxIcon";
 import { CheckBoxIcon } from "@web/components/icons/CheckboxIcon";
 import { addListItem, deleteListItem, getLists } from "@web/server/lists";
+import { useAuthStore } from "@web/store/auth/auth-store";
 import { useListStore } from "@web/store/collections/list-store";
 
 import { toast } from "sonner";
@@ -29,11 +30,19 @@ export default function Lists({
   savedToLists,
   setSavedToLists,
 }: ListsProps) {
-  const { lists, setLists, clearLists } = useListStore();
   const checkboxRef = useRef<HTMLInputElement>(null);
+
+  const { username } = useAuthStore();
+
+  const lists = useListStore.use.lists();
+  const setLists = useListStore.use.setLists();
+  const clearLists = useListStore.use.clearLists();
+
   const { mediaType, id: mediaId } = media;
 
-  const { data: listsData } = useQuery({
+  const queryClient = useQueryClient();
+
+  const { data: listsData, isFetching } = useQuery({
     queryKey: ["lists"],
     queryFn: async () => await getLists(),
     staleTime: 5 * 60 * 1000,
@@ -41,18 +50,20 @@ export default function Lists({
   });
 
   useEffect(() => {
-    if (!listsData) {
-      toast.error("Failed to get lists!");
-      return;
-    }
+    if (!isFetching) {
+      if (!listsData) {
+        toast.error("Failed to get lists!");
+        return;
+      }
 
-    if (listsData.error) {
-      toast.error(listsData.error.message);
-      return;
-    }
+      if (listsData.error) {
+        toast.error(listsData.error.message);
+        return;
+      }
 
-    setLists(listsData.data);
-  }, [listsData, lists.length, setLists, clearLists]);
+      setLists(listsData.data);
+    }
+  }, [isFetching, listsData, lists.length, setLists, clearLists]);
 
   async function handleClick(listId: number) {
     const matchedLists = savedToLists.filter(
@@ -83,7 +94,8 @@ export default function Lists({
           },
         ];
       });
-      return toast.success("Added to list");
+
+      toast.success("Added to list");
     }
 
     // Clicked list matches a list that the item is saved in
@@ -100,8 +112,18 @@ export default function Lists({
         const newSavedToLists = savedToLists.filter(
           (list) => list.listId !== listId,
         );
+
         setSavedToLists(newSavedToLists);
+
         toast.success("Removed from list");
+      });
+    }
+
+    const listData = lists.filter((list) => list.id === listId)[0];
+
+    if (listData) {
+      queryClient.invalidateQueries({
+        queryKey: ["list-items", username, listData.slug],
       });
     }
   }
