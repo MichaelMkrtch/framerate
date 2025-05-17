@@ -94,7 +94,7 @@ export default function CreateListForm({
                 This is the name of the list where you will save movies and TV
                 shows.
               </FormDescription>
-              <FormMessage className="absolute" />
+              <FormMessage className="tracking-wide text-red-500" />
             </FormItem>
           )}
         />

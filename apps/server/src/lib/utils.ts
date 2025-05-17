@@ -92,3 +92,9 @@ export function getReviewTables() {
 
   return tables;
 }
+
+export function getHashedValue(v: string): string {
+  const hasher = new Bun.CryptoHasher("sha256");
+  hasher.update(v);
+  return hasher.digest("hex");
+}

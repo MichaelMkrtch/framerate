@@ -2,15 +2,18 @@ import type { Session, User } from "better-auth";
 
 import { db } from "@server/drizzle";
 import {
-  likedList,
+  listLikes,
   list,
   listItem,
   movie,
-  savedList,
+  listSaves,
   tv,
   user,
+  listView,
+  listSlugHistory,
 } from "@server/drizzle/schema";
-import { and, asc, desc, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, or, sql } from "drizzle-orm";
+import { getHashedValue } from "@server/lib/utils";
 
 /**
  * Creates a list in database
@@ -40,6 +43,36 @@ export async function getLists(userId: string) {
     ...result,
   }));
   return formattedResults;
+}
+
+/**
+ * Deletes a user's list, including all related data such as slug history, likes, saves, and views
+ * @param userId - ID of the list owner
+ * @param listId - ID of the list to delete
+ * @returns An object representing the deleted list
+ */
+export async function deleteList(userId: string, listId: number) {
+  const [listRecord] = await db
+    .select({ id: list.id })
+    .from(list)
+    .where(and(eq(list.userId, userId), eq(list.id, listId)));
+
+  if (!listRecord) {
+    throw new Error(
+      "List not found or you are not authorized to make changes to this list.",
+    );
+  }
+
+  const [deletedList] = await db
+    .delete(list)
+    .where(and(eq(list.id, listId), eq(list.userId, userId)))
+    .returning();
+
+  if (!deletedList) {
+    throw new Error("Failed to delete the list or list was already deleted.");
+  }
+
+  return deletedList;
 }
 
 /**
@@ -177,9 +210,9 @@ async function getLikeStatus(userId: string, listId: number): Promise<boolean> {
   try {
     const [result]: Record<"isliked", boolean>[] = await db.execute(
       sql`SELECT EXISTS (
-        SELECT 1 FROM ${likedList}
-        WHERE ${likedList.userId} = ${userId}
-        AND ${likedList.listId} = ${listId}
+        SELECT 1 FROM ${listLikes}
+        WHERE ${listLikes.userId} = ${userId}
+        AND ${listLikes.listId} = ${listId}
       ) as isliked`,
     );
 
@@ -203,9 +236,9 @@ async function getSaveStatus(userId: string, listId: number): Promise<boolean> {
   try {
     const [result]: Record<"issaved", boolean>[] = await db.execute(
       sql`SELECT EXISTS (
-        SELECT 1 FROM ${savedList}
-        WHERE ${savedList.userId} = ${userId}
-        AND ${savedList.listId} = ${listId}
+        SELECT 1 FROM ${listSaves}
+        WHERE ${listSaves.userId} = ${userId}
+        AND ${listSaves.listId} = ${listId}
       ) as issaved`,
     );
 
@@ -231,4 +264,71 @@ export async function deleteListItem(userId: string, listItemId: number) {
     .returning();
 
   return result;
+}
+
+/**
+ * Logs a view on a list if it is unique in a rolling 24-hour window
+ * @param listId - ID of the list viewed
+ * @param ipAddress - IP Adress of the viewer
+ * @param userId - Optional ID of the viewer
+ * @returns An object representing the status of the view
+ */
+export async function trackUniqueView(
+  listId: number,
+  ipAddress: string | null,
+  userId?: string,
+) {
+  if (!listId || (!userId && !ipAddress)) {
+    return {
+      success: false,
+      alreadyViewed: false,
+      message: "Invalid input: unable to store view.",
+    };
+  }
+  const now = new Date();
+  const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const hashedIp = ipAddress ? getHashedValue(ipAddress) : null;
+
+  try {
+    const existingView = await db
+      .select()
+      .from(listView)
+      .where(
+        and(
+          eq(listView.listId, listId),
+          gte(listView.createdAt, oneDayAgo),
+          or(
+            userId ? eq(listView.userId, userId) : undefined,
+            hashedIp ? eq(listView.ipAddress, hashedIp) : undefined,
+          ),
+        ),
+      );
+
+    if (existingView.length > 0) {
+      return {
+        success: true,
+        alreadyViewed: true,
+        message: "View already logged within the last 24 hours.",
+      };
+    }
+
+    await db.insert(listView).values({
+      listId,
+      userId: userId || null,
+      ipAddress: hashedIp,
+    });
+
+    return {
+      success: true,
+      alreadyViewed: false,
+      message: "View logged successfully.",
+    };
+  } catch (error) {
+    console.error("Error occurred while tracking list view", error);
+    return {
+      success: false,
+      alreadyViewed: false,
+      message: "An error occurred while logging the view.",
+    };
+  }
 }

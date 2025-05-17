@@ -1,57 +1,79 @@
-import type { ActiveList } from "@web/types/lists";
+import type { List, ListItem } from "@web/types/lists";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 
 import { formatElapsedTime } from "@web/lib/utils";
 import { Route as CollectionPageRoute } from "@web/routes/(user)/$username/collections/$slug.index";
-import { useActiveListStore } from "@web/store/collections/active-list-store";
 
 import { toast } from "sonner";
 
-export default function ListDescription() {
+type ListData = {
+  list: List;
+  isLiked: boolean;
+  isSaved: boolean;
+  listItems: ListItem[];
+};
+
+type ListDescriptionProps = {
+  listData: ListData | undefined;
+};
+
+export default function ListDescription({ listData }: ListDescriptionProps) {
+  const [displayData, setDisplayData] = useState<ListData>();
+  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+
   const { username } = CollectionPageRoute.useParams();
 
   const [hovering, setHovering] = useState(false);
 
-  const activeList = useActiveListStore.use.activeList();
+  // This method of assigning query data to local state is necessary to prevent
+  // component flashing when the cache is invalidated due to list actions (like/save)
+  useEffect(() => {
+    if (listData && !initialDataLoaded) {
+      setDisplayData(listData);
+      setInitialDataLoaded(true);
+    }
+  }, [listData, initialDataLoaded]);
 
   return (
-    <div className="mb-8">
-      <h2 className="mb-2 h-7 text-xl font-bold">{activeList?.name}</h2>
-      <h3 className="text-gray mb-0.5 font-medium">
-        Collection by{" "}
-        <Link
-          to="/home"
-          className="hover:text-foreground font-bold opacity-100 transition-colors duration-200"
-        >
-          {username}
-        </Link>
-      </h3>
+    displayData && (
+      <div className="mb-8">
+        <h2 className="mb-2 h-7 text-xl font-bold">{displayData.list.name}</h2>
+        <h3 className="text-gray mb-0.5 font-medium">
+          Collection by{" "}
+          <Link
+            to="/home"
+            className="hover:text-foreground font-bold opacity-100 transition-colors duration-200"
+          >
+            {username}
+          </Link>
+        </h3>
 
-      <p
-        onMouseEnter={() => setHovering(true)}
-        onMouseLeave={() => setHovering(false)}
-        className="text-medium text-gray relative h-5 w-fit cursor-default text-sm"
-      >
-        {getElapsedTimeText(hovering, activeList)}
-      </p>
-    </div>
+        <p
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
+          className="text-medium text-gray relative h-5 w-fit cursor-default text-sm"
+        >
+          {getElapsedTimeText(hovering, displayData.list)}
+        </p>
+      </div>
+    )
   );
 }
 
-function getElapsedTimeText(hovering: boolean, activeList: ActiveList | null) {
+function getElapsedTimeText(hovering: boolean, list: List) {
   let elapsedCreateTime = "";
   let elapsedUpdateTime = "";
 
   try {
-    if (activeList?.updatedAt && !elapsedUpdateTime) {
-      const updatedAt = formatElapsedTime(activeList.updatedAt);
+    if (list.updatedAt && !elapsedUpdateTime) {
+      const updatedAt = formatElapsedTime(list.updatedAt);
       elapsedUpdateTime = updatedAt;
     }
 
-    if (activeList?.createdAt && !elapsedCreateTime) {
-      const createdAt = formatElapsedTime(activeList.createdAt);
+    if (list.createdAt && !elapsedCreateTime) {
+      const createdAt = formatElapsedTime(list.createdAt);
       elapsedCreateTime = createdAt;
     }
   } catch (error) {

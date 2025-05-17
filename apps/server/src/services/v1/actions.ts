@@ -1,6 +1,7 @@
 import { db } from "@server/drizzle";
+import { list, listLikes, listSaves } from "@server/drizzle/schema";
 import { getReviewTables } from "@server/lib/utils";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 
 type ReviewData = {
   userId: string;
@@ -8,6 +9,12 @@ type ReviewData = {
   mediaId: number;
   field: "liked" | "watched";
   value: boolean;
+};
+
+type ListAction<T> = {
+  userId: string;
+  listId: number;
+  field: T;
 };
 
 /**
@@ -36,4 +43,110 @@ export async function updateReview({
     .returning();
 
   return result;
+}
+
+/**
+ * Inserts a row to the DB representing a like or save action on a list
+ * @param listAction - An object containing the user conducting the action and the action to take
+ * @returns An object containing the like or save count for the list
+ */
+export async function addListAction<T extends "like" | "save">(
+  listAction: ListAction<T>,
+) {
+  const { userId, listId, field } = listAction;
+
+  const tablesMap = {
+    like: {
+      actionTable: listLikes,
+      actionCol: list.likeCount,
+      actionColName: "likeCount",
+    },
+    save: {
+      actionTable: listSaves,
+      actionCol: list.saveCount,
+      actionColName: "saveCount",
+    },
+  };
+
+  const { actionTable, actionCol, actionColName } = tablesMap[field];
+
+  const result = await db.transaction(async (trx) => {
+    const insertResult = await trx
+      .insert(actionTable)
+      .values({ userId, listId })
+      .onConflictDoNothing({
+        target: [actionTable.userId, actionTable.listId],
+      })
+      .returning();
+
+    if (insertResult.length === 0) {
+      return;
+    }
+
+    const [listResult] = await trx
+      .update(list)
+      .set({ [actionColName]: sql`${actionCol} + 1` })
+      .where(eq(list.id, listId))
+      .returning();
+
+    return listResult;
+  });
+
+  if (result && field === "like") {
+    return { likeCount: result.likeCount };
+  }
+
+  if (result && field === "save") {
+    return { saveCount: result.saveCount };
+  }
+}
+
+/**
+ * Deletes a row from the DB representing a like or save action on a list
+ * @param listAction - An object containing the user conducting the action and the action to take
+ * @returns An object containing the like or save count for the list
+ */
+export async function deleteListAction<T extends "like" | "save">(
+  listAction: ListAction<T>,
+) {
+  const { userId, listId, field } = listAction;
+
+  const tablesMap = {
+    like: {
+      actionTable: listLikes,
+      actionCol: list.likeCount,
+      actionColName: "likeCount",
+    },
+    save: {
+      actionTable: listSaves,
+      actionCol: list.saveCount,
+      actionColName: "saveCount",
+    },
+  };
+
+  const { actionTable, actionCol, actionColName } = tablesMap[field];
+
+  const result = await db.transaction(async (trx) => {
+    await trx
+      .delete(actionTable)
+      .where(
+        and(eq(actionTable.userId, userId), eq(actionTable.listId, listId)),
+      );
+
+    const [listResult] = await trx
+      .update(list)
+      .set({ [actionColName]: sql`${actionCol} - 1` })
+      .where(eq(list.id, listId))
+      .returning();
+
+    return listResult;
+  });
+
+  if (result && field === "like") {
+    return { likeCount: result.likeCount };
+  }
+
+  if (result && field === "save") {
+    return { saveCount: result.saveCount };
+  }
 }

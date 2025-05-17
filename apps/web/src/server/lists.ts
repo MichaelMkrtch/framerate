@@ -31,6 +31,16 @@ export async function getLists() {
   return data;
 }
 
+export async function deleteList(listId: number) {
+  const { data, error } = await listsRoute({ listId }).delete();
+
+  if (error) {
+    throw new Error(`${error.status} - ${error.value.message}`);
+  }
+
+  return data;
+}
+
 export async function getListData(username: string, slug: string) {
   const { data, error } = await client.api.v1
     .user({ username })

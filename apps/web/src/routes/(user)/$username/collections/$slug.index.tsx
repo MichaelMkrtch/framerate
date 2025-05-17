@@ -66,10 +66,6 @@ function RouteComponent() {
     }
 
     return () => {
-      setIsLiked(false);
-      setIsSaved(false);
-      setLikeCount(0);
-      setSaveCount(0);
       clearActiveList();
       clearListItems();
     };
@@ -113,11 +109,11 @@ function RouteComponent() {
           />
         </Link>
 
-        <ListDescription />
+        <ListDescription listData={listData} />
 
         <div className="flex size-full gap-2.5">
-          <ListGrid isFetching={isFetching} />
-          <SideCard />
+          <ListGrid listData={listData} isFetching={isFetching} />
+          <SideCard listData={listData} />
         </div>
       </div>
 

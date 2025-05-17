@@ -228,8 +228,8 @@ export const listItem = pgTable(
   ],
 );
 
-export const likedList = pgTable(
-  "liked_list",
+export const listLikes = pgTable(
+  "list_likes",
   {
     id: bigserial("id", { mode: "number" }).primaryKey(),
     userId: text("user_id")
@@ -254,8 +254,8 @@ export const likedList = pgTable(
   (table) => [uniqueIndex("uniqueUserList").on(table.userId, table.listId)],
 );
 
-export const savedList = pgTable(
-  "saved_list",
+export const listSaves = pgTable(
+  "list_saves",
   {
     id: bigserial("id", { mode: "number" }).primaryKey(),
     userId: text("user_id")
@@ -281,7 +281,7 @@ export const savedList = pgTable(
 );
 
 export const listView = pgTable(
-  "list_view",
+  "list_views",
   {
     id: bigserial("id", { mode: "number" }).primaryKey(),
     userId: text("user_id").references(() => user.id, {

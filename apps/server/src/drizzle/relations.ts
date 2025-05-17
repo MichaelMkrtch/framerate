@@ -1,10 +1,10 @@
 import { relations } from "drizzle-orm/relations";
 import {
   list,
-  savedList,
+  listSaves,
   user,
   listView,
-  likedList,
+  listLikes,
   subscription,
   session,
   account,
@@ -16,34 +16,34 @@ import {
   movieReview,
 } from "./schema";
 
-export const savedListRelations = relations(savedList, ({ one }) => ({
+export const savedListRelations = relations(listSaves, ({ one }) => ({
   list: one(list, {
-    fields: [savedList.listId],
+    fields: [listSaves.listId],
     references: [list.id],
   }),
   user: one(user, {
-    fields: [savedList.userId],
+    fields: [listSaves.userId],
     references: [user.id],
   }),
 }));
 
 export const listRelations = relations(list, ({ one, many }) => ({
-  savedLists: many(savedList),
+  savedLists: many(listSaves),
   user: one(user, {
     fields: [list.userId],
     references: [user.id],
   }),
   listViews: many(listView),
-  likedLists: many(likedList),
+  likedLists: many(listLikes),
   listItems: many(listItem),
   listSlugHistories: many(listSlugHistory),
 }));
 
 export const userRelations = relations(user, ({ many }) => ({
-  savedLists: many(savedList),
+  savedLists: many(listSaves),
   lists: many(list),
   listViews: many(listView),
-  likedLists: many(likedList),
+  likedLists: many(listLikes),
   subscriptions: many(subscription),
   sessions: many(session),
   accounts: many(account),
@@ -62,13 +62,13 @@ export const listViewRelations = relations(listView, ({ one }) => ({
   }),
 }));
 
-export const likedListRelations = relations(likedList, ({ one }) => ({
+export const listLikesRelations = relations(listLikes, ({ one }) => ({
   list: one(list, {
-    fields: [likedList.listId],
+    fields: [listLikes.listId],
     references: [list.id],
   }),
   user: one(user, {
-    fields: [likedList.userId],
+    fields: [listLikes.userId],
     references: [user.id],
   }),
 }));

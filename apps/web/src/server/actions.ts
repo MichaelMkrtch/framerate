@@ -28,3 +28,25 @@ export async function updateReview({
 
   return data;
 }
+
+export async function addListAction(listId: number, field: "like" | "save") {
+  const { data, error } = await actionsRoute.lists.put({ listId, field });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function deleteListAction(listId: number, field: "like" | "save") {
+  const { data, error } = await actionsRoute.lists.delete(null, {
+    query: { listId, field },
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
