@@ -37,7 +37,7 @@ export default function Sidebar() {
 
       <div className="animate-fade-in-fast">
         {lists.length > 0 &&
-          lists.map((list, index) => {
+          lists.map((list) => {
             return (
               <Link
                 key={list.id}

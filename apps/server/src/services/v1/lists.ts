@@ -14,6 +14,11 @@ import {
 } from "@server/drizzle/schema";
 import { and, asc, desc, eq, gte, or, sql } from "drizzle-orm";
 import { getHashedValue } from "@server/lib/utils";
+import { generateSlug } from "@server/lib/slug";
+
+type ListUpdates = {
+  name: string;
+};
 
 /**
  * Creates a list in database
@@ -46,6 +51,56 @@ export async function getLists(userId: string) {
 }
 
 /**
+ * Updates list values if they have changed
+ * @param userId - User that owns the list
+ * @param listId - List to update
+ * @param updates - Updates to make to the list
+ * @returns The updated list object from the DB
+ */
+export async function updateList(
+  userId: string,
+  listId: number,
+  updates: ListUpdates,
+) {
+  const result = await db.transaction(async (trx) => {
+    const [listRecord] = await trx
+      .select()
+      .from(list)
+      .where(and(eq(list.userId, userId), eq(list.id, listId)));
+
+    if (!listRecord) {
+      throw new Error(
+        "List not found or you are not authorized to make changes to this list.",
+      );
+    }
+
+    if (updates.name && updates.name !== listRecord.name) {
+      const oldSlug = listRecord.slug;
+
+      await trx
+        .insert(listSlugHistory)
+        .values({ listId: listRecord.id, oldSlug });
+
+      const newSlug = await generateSlug(updates.name, "list", userId);
+
+      const [updateResult] = await trx
+        .update(list)
+        .set({ name: updates.name, slug: newSlug, updatedAt: new Date() })
+        .where(and(eq(list.userId, userId), eq(list.id, listId)))
+        .returning();
+
+      if (updateResult) {
+        return updateResult;
+      }
+    }
+
+    return listRecord;
+  });
+
+  return { type: "list" as const, ...result };
+}
+
+/**
  * Deletes a user's list, including all related data such as slug history, likes, saves, and views
  * @param userId - ID of the list owner
  * @param listId - ID of the list to delete
@@ -63,6 +118,7 @@ export async function deleteList(userId: string, listId: number) {
     );
   }
 
+  // This is a cascading delete operation
   const [deletedList] = await db
     .delete(list)
     .where(and(eq(list.id, listId), eq(list.userId, userId)))

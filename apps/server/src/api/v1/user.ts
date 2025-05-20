@@ -6,8 +6,10 @@ import { getListData, trackUniqueView } from "@server/services/v1/lists";
 
 export const user = new Elysia({ name: "user", prefix: "/user" })
   .use(betterAuth)
+  // Allows list queries when ID is unknown (navigating directly to list page
+  // from URL or bookmark)
   .get(
-    "/:username/collections/:slug",
+    "/:username/lists/:slug",
     async ({ server, request, headers, params: { username, slug } }) => {
       const reqHeaders = headers as any as Headers;
       const session = await auth.api.getSession({ headers: reqHeaders });

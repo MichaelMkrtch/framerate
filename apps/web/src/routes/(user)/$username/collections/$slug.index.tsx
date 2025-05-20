@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import Tooltip from "@web/components/Tooltip";
 import { TooltipProvider } from "@web/components/ui/tooltip-ui";
-import Backdrop from "@web/features/details/components/Backdrop";
+// import Backdrop from "@web/features/details/components/Backdrop";
 import ListDescription from "@web/features/lists/components/ListDescription";
 import ListGrid from "@web/features/lists/components/ListGrid";
 import SideCard from "@web/features/lists/components/SideCard";
@@ -95,12 +95,13 @@ function RouteComponent() {
 
   return (
     <main>
-      <Backdrop
+      {/* <Backdrop
         collection
         backdropPath="/lvOLivVeX3DVVcwfVkxKf0R22D8.jpg"
         alt="Decorative image describing this collection."
-      />
-      <div className="relative -top-28 mt-10">
+      /> */}
+      {/* <div className="relative -top-28 mt-10"> */}
+      <div className="relative mt-10">
         <Link to="/collections">
           <ArrowLeftCircle
             size={26}

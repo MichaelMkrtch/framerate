@@ -1,7 +1,12 @@
 import { generateSlug } from "@server/lib/slug";
 import { betterAuth } from "@server/middlewares/auth-middleware";
 import { clientListSchema } from "@server/schemas/v1/list-schema";
-import { createList, deleteList, getLists } from "@server/services/v1/lists";
+import {
+  createList,
+  deleteList,
+  getLists,
+  updateList,
+} from "@server/services/v1/lists";
 import Elysia, { t } from "elysia";
 
 export const lists = new Elysia({ name: "lists" })
@@ -75,6 +80,29 @@ export const lists = new Elysia({ name: "lists" })
       auth: true,
       body: t.Object({
         listName: t.String(),
+      }),
+    },
+  )
+  .patch(
+    "/lists/:listId",
+    async ({ user, body, params: { listId } }) => {
+      const updates = { name: body.listName };
+
+      const result = await updateList(user.id, listId, updates);
+
+      if (result) {
+        return { data: result, error: null };
+      }
+
+      return { data: null, error: "Failed to update list!" };
+    },
+    {
+      auth: true,
+      body: t.Object({
+        listName: t.String(),
+      }),
+      params: t.Object({
+        listId: t.Number(),
       }),
     },
   )

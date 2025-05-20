@@ -8,6 +8,10 @@ type InsertListItem = {
   mediaId: number;
 };
 
+type ListUpdates = {
+  name: string;
+};
+
 const listsRoute = client.api.v1.lists;
 const listItemsRoute = client.api.v1["list-items"];
 
@@ -31,6 +35,18 @@ export async function getLists() {
   return data;
 }
 
+export async function updateList(listId: number, updates: ListUpdates) {
+  const { data, error } = await listsRoute({ listId }).patch({
+    listName: updates.name,
+  });
+
+  if (error) {
+    throw new Error("Something went wrong while updating list!");
+  }
+
+  return data;
+}
+
 export async function deleteList(listId: number) {
   const { data, error } = await listsRoute({ listId }).delete();
 
@@ -44,7 +60,7 @@ export async function deleteList(listId: number) {
 export async function getListData(username: string, slug: string) {
   const { data, error } = await client.api.v1
     .user({ username })
-    .collections({ slug })
+    .lists({ slug })
     .get();
 
   if (error) {
