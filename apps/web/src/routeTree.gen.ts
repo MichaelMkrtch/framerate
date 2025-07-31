@@ -8,204 +8,88 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PreferencesRouteImport } from './routes/preferences'
+import { Route as LibraryRouteImport } from './routes/library'
+import { Route as HomeRouteImport } from './routes/home'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as CollectionsRouteImport } from './routes/collections'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as authSignupRouteImport } from './routes/(auth)/signup'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as SeriesIdTitleRouteImport } from './routes/series/$id.$title'
+import { Route as FilmsIdTitleRouteImport } from './routes/films/$id.$title'
+import { Route as userUsernameCollectionsSlugIndexRouteImport } from './routes/(user)/$username/collections/$slug.index'
+import { Route as userUsernameCollectionsSlugEditRouteImport } from './routes/(user)/$username/collections/$slug.edit'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as ProfileImport } from './routes/profile'
-import { Route as PreferencesImport } from './routes/preferences'
-import { Route as LibraryImport } from './routes/library'
-import { Route as HomeImport } from './routes/home'
-import { Route as ExploreImport } from './routes/explore'
-import { Route as CollectionsImport } from './routes/collections'
-import { Route as IndexImport } from './routes/index'
-import { Route as authSignupImport } from './routes/(auth)/signup'
-import { Route as authLoginImport } from './routes/(auth)/login'
-import { Route as SeriesIdTitleImport } from './routes/series/$id.$title'
-import { Route as FilmsIdTitleImport } from './routes/films/$id.$title'
-import { Route as userUsernameCollectionsSlugIndexImport } from './routes/(user)/$username/collections/$slug.index'
-import { Route as userUsernameCollectionsSlugEditImport } from './routes/(user)/$username/collections/$slug.edit'
-
-// Create/Update Routes
-
-const ProfileRoute = ProfileImport.update({
+const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const PreferencesRoute = PreferencesImport.update({
+const PreferencesRoute = PreferencesRouteImport.update({
   id: '/preferences',
   path: '/preferences',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const LibraryRoute = LibraryImport.update({
+const LibraryRoute = LibraryRouteImport.update({
   id: '/library',
   path: '/library',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const HomeRoute = HomeImport.update({
+const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ExploreRoute = ExploreImport.update({
+const ExploreRoute = ExploreRouteImport.update({
   id: '/explore',
   path: '/explore',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CollectionsRoute = CollectionsImport.update({
+const CollectionsRoute = CollectionsRouteImport.update({
   id: '/collections',
   path: '/collections',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const authSignupRoute = authSignupImport.update({
+const authSignupRoute = authSignupRouteImport.update({
   id: '/(auth)/signup',
   path: '/signup',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const authLoginRoute = authLoginImport.update({
+const authLoginRoute = authLoginRouteImport.update({
   id: '/(auth)/login',
   path: '/login',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const SeriesIdTitleRoute = SeriesIdTitleImport.update({
+const SeriesIdTitleRoute = SeriesIdTitleRouteImport.update({
   id: '/series/$id/$title',
   path: '/series/$id/$title',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const FilmsIdTitleRoute = FilmsIdTitleImport.update({
+const FilmsIdTitleRoute = FilmsIdTitleRouteImport.update({
   id: '/films/$id/$title',
   path: '/films/$id/$title',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
 const userUsernameCollectionsSlugIndexRoute =
-  userUsernameCollectionsSlugIndexImport.update({
+  userUsernameCollectionsSlugIndexRouteImport.update({
     id: '/(user)/$username/collections/$slug/',
     path: '/$username/collections/$slug/',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
-
 const userUsernameCollectionsSlugEditRoute =
-  userUsernameCollectionsSlugEditImport.update({
+  userUsernameCollectionsSlugEditRouteImport.update({
     id: '/(user)/$username/collections/$slug/edit',
     path: '/$username/collections/$slug/edit',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/collections': {
-      id: '/collections'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof CollectionsImport
-      parentRoute: typeof rootRoute
-    }
-    '/explore': {
-      id: '/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof ExploreImport
-      parentRoute: typeof rootRoute
-    }
-    '/home': {
-      id: '/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeImport
-      parentRoute: typeof rootRoute
-    }
-    '/library': {
-      id: '/library'
-      path: '/library'
-      fullPath: '/library'
-      preLoaderRoute: typeof LibraryImport
-      parentRoute: typeof rootRoute
-    }
-    '/preferences': {
-      id: '/preferences'
-      path: '/preferences'
-      fullPath: '/preferences'
-      preLoaderRoute: typeof PreferencesImport
-      parentRoute: typeof rootRoute
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/signup': {
-      id: '/(auth)/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof authSignupImport
-      parentRoute: typeof rootRoute
-    }
-    '/films/$id/$title': {
-      id: '/films/$id/$title'
-      path: '/films/$id/$title'
-      fullPath: '/films/$id/$title'
-      preLoaderRoute: typeof FilmsIdTitleImport
-      parentRoute: typeof rootRoute
-    }
-    '/series/$id/$title': {
-      id: '/series/$id/$title'
-      path: '/series/$id/$title'
-      fullPath: '/series/$id/$title'
-      preLoaderRoute: typeof SeriesIdTitleImport
-      parentRoute: typeof rootRoute
-    }
-    '/(user)/$username/collections/$slug/edit': {
-      id: '/(user)/$username/collections/$slug/edit'
-      path: '/$username/collections/$slug/edit'
-      fullPath: '/$username/collections/$slug/edit'
-      preLoaderRoute: typeof userUsernameCollectionsSlugEditImport
-      parentRoute: typeof rootRoute
-    }
-    '/(user)/$username/collections/$slug/': {
-      id: '/(user)/$username/collections/$slug/'
-      path: '/$username/collections/$slug'
-      fullPath: '/$username/collections/$slug'
-      preLoaderRoute: typeof userUsernameCollectionsSlugIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -222,7 +106,6 @@ export interface FileRoutesByFullPath {
   '/$username/collections/$slug/edit': typeof userUsernameCollectionsSlugEditRoute
   '/$username/collections/$slug': typeof userUsernameCollectionsSlugIndexRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/collections': typeof CollectionsRoute
@@ -238,9 +121,8 @@ export interface FileRoutesByTo {
   '/$username/collections/$slug/edit': typeof userUsernameCollectionsSlugEditRoute
   '/$username/collections/$slug': typeof userUsernameCollectionsSlugIndexRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/collections': typeof CollectionsRoute
   '/explore': typeof ExploreRoute
@@ -255,7 +137,6 @@ export interface FileRoutesById {
   '/(user)/$username/collections/$slug/edit': typeof userUsernameCollectionsSlugEditRoute
   '/(user)/$username/collections/$slug/': typeof userUsernameCollectionsSlugIndexRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -304,7 +185,6 @@ export interface FileRouteTypes {
     | '/(user)/$username/collections/$slug/'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CollectionsRoute: typeof CollectionsRoute
@@ -319,6 +199,102 @@ export interface RootRouteChildren {
   SeriesIdTitleRoute: typeof SeriesIdTitleRoute
   userUsernameCollectionsSlugEditRoute: typeof userUsernameCollectionsSlugEditRoute
   userUsernameCollectionsSlugIndexRoute: typeof userUsernameCollectionsSlugIndexRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preferences': {
+      id: '/preferences'
+      path: '/preferences'
+      fullPath: '/preferences'
+      preLoaderRoute: typeof PreferencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections': {
+      id: '/collections'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof CollectionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/signup': {
+      id: '/(auth)/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof authSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/series/$id/$title': {
+      id: '/series/$id/$title'
+      path: '/series/$id/$title'
+      fullPath: '/series/$id/$title'
+      preLoaderRoute: typeof SeriesIdTitleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/films/$id/$title': {
+      id: '/films/$id/$title'
+      path: '/films/$id/$title'
+      fullPath: '/films/$id/$title'
+      preLoaderRoute: typeof FilmsIdTitleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(user)/$username/collections/$slug/': {
+      id: '/(user)/$username/collections/$slug/'
+      path: '/$username/collections/$slug'
+      fullPath: '/$username/collections/$slug'
+      preLoaderRoute: typeof userUsernameCollectionsSlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(user)/$username/collections/$slug/edit': {
+      id: '/(user)/$username/collections/$slug/edit'
+      path: '/$username/collections/$slug/edit'
+      fullPath: '/$username/collections/$slug/edit'
+      preLoaderRoute: typeof userUsernameCollectionsSlugEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -336,71 +312,6 @@ const rootRouteChildren: RootRouteChildren = {
   userUsernameCollectionsSlugEditRoute: userUsernameCollectionsSlugEditRoute,
   userUsernameCollectionsSlugIndexRoute: userUsernameCollectionsSlugIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/collections",
-        "/explore",
-        "/home",
-        "/library",
-        "/preferences",
-        "/profile",
-        "/(auth)/login",
-        "/(auth)/signup",
-        "/films/$id/$title",
-        "/series/$id/$title",
-        "/(user)/$username/collections/$slug/edit",
-        "/(user)/$username/collections/$slug/"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/collections": {
-      "filePath": "collections.tsx"
-    },
-    "/explore": {
-      "filePath": "explore.tsx"
-    },
-    "/home": {
-      "filePath": "home.tsx"
-    },
-    "/library": {
-      "filePath": "library.tsx"
-    },
-    "/preferences": {
-      "filePath": "preferences.tsx"
-    },
-    "/profile": {
-      "filePath": "profile.tsx"
-    },
-    "/(auth)/login": {
-      "filePath": "(auth)/login.tsx"
-    },
-    "/(auth)/signup": {
-      "filePath": "(auth)/signup.tsx"
-    },
-    "/films/$id/$title": {
-      "filePath": "films/$id.$title.tsx"
-    },
-    "/series/$id/$title": {
-      "filePath": "series/$id.$title.tsx"
-    },
-    "/(user)/$username/collections/$slug/edit": {
-      "filePath": "(user)/$username/collections/$slug.edit.tsx"
-    },
-    "/(user)/$username/collections/$slug/": {
-      "filePath": "(user)/$username/collections/$slug.index.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

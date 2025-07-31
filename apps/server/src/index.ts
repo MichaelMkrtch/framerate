@@ -7,30 +7,14 @@ import { cors } from "@elysiajs/cors";
 import { api } from "@server/api/api-index";
 import { rateLimit } from "elysia-rate-limit";
 
-let corsOriginConfig;
+let allowedOrigins: string[] = [];
 
-const regexPatternFromEnv = process.env.CORS_ORIGIN_REGEX_PATTERN;
+if (process.env.CLIENT_ORIGIN) {
+  allowedOrigins.push(process.env.CLIENT_ORIGIN);
+}
 
-if (regexPatternFromEnv) {
-  try {
-    corsOriginConfig = new RegExp(regexPatternFromEnv);
-  } catch (e) {
-    console.error(
-      `SERVER: Invalid regex pattern in CORS_ORIGIN_REGEX_PATTERN: "${regexPatternFromEnv}". Error: ${e}`,
-    );
-    console.warn(
-      "SERVER: Falling back to CLIENT_ORIGIN or default due to invalid regex.",
-    );
-    // Fallback
-    corsOriginConfig = process.env.CLIENT_ORIGIN;
-  }
-} else if (process.env.CLIENT_ORIGIN) {
-  corsOriginConfig = process.env.CLIENT_ORIGIN;
-} else {
-  console.warn(
-    "SERVER: Neither CORS_ORIGIN_REGEX_PATTERN nor CLIENT_ORIGIN is set. CORS might be restrictive.",
-  );
-  corsOriginConfig = false;
+if (process.env.NODE_ENV === "development" && process.env.DEV_ORIGIN) {
+  allowedOrigins.push(process.env.DEV_ORIGIN);
 }
 
 const app = new Elysia()
@@ -45,7 +29,7 @@ const app = new Elysia()
   )
   .use(
     cors({
-      origin: corsOriginConfig,
+      origin: allowedOrigins,
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],

@@ -5,10 +5,15 @@ yarn.lock
 .DS_Store
 .cache
 .env
+.env.development
+.env.production
 .vercel
 .output
 .vinxi
 .wrangler
+.nitro
+.tanstack
+routeTree.gen.ts
 app.config.timestamp*
 
 
