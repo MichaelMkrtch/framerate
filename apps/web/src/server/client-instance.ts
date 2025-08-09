@@ -11,7 +11,7 @@ import { treaty } from "@elysiajs/eden";
 let serverUrl = "https://framerate-production.up.railway.app";
 
 if (import.meta.env.DEV) {
-  serverUrl = "http://localhost:8000";
+  serverUrl = "http://localhost:3000";
 }
 
 export const client = treaty<App>(serverUrl, {
