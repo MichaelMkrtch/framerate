@@ -1,8 +1,8 @@
 name = "framerate"
+main = "./apps/web/.output/server/index.mjs"
 compatibility_date = "2025-04-01"
-main = "./.output/server/index.mjs"
 compatibility_flags = ["nodejs_compat"]
 
 [assets]
 binding = "ASSETS"
-directory = "./.output/public"
+directory = "./apps/web/.output/public"
