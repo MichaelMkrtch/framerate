@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { Fingerprint, Ticket } from 'lucide-react';
 
+import { GlassElement } from '@/components/liquid-glass/glass-element';
+
 export const Route = createFileRoute('/')({
   component: LandingPage,
 });
 
-function LandingPage() {
+export default function LandingPage() {
   return (
-    <div className="relative h-full">
+    <div className="relative min-h-screen">
       <header>
         <nav className="flex items-center justify-between pt-8">
           <Link to="/">
@@ -15,7 +17,7 @@ function LandingPage() {
           </Link>
 
           <div className="flex items-center gap-10 font-semibold">
-            <Link to="/" className="group/login flex items-center gap-2">
+            <Link to="/login" className="group/login flex items-center gap-2">
               <span className="text-gray group-hover/login:text-foreground transition-colors duration-200">
                 <Fingerprint size={18} />
               </span>
@@ -23,8 +25,8 @@ function LandingPage() {
             </Link>
 
             <Link
-              to="/"
-              className="pill-bg group/signup peer flex items-center gap-2 rounded-full border border-transparent px-3.5 py-0.5"
+              to="/signup"
+              className="group/signup peer flex items-center gap-2 rounded-full border border-transparent bg-clip-border bg-origin-padding px-3.5 py-0.5"
             >
               <span className="text-gray group-hover/signup:text-foreground transition-colors duration-200">
                 <Ticket size={18} />
@@ -36,44 +38,51 @@ function LandingPage() {
       </header>
 
       <main className="mx-auto px-20">
-        {/* Images */}
+        {/* Image */}
         <section className="absolute top-0 right-0 left-0 -z-10 mx-auto w-full items-center">
           <div className="absolute top-24 right-0 left-0 mx-auto w-[90%]">
             <img
-              src="https://image.tmdb.org/t/p/original/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg"
-              alt="Joel and Ellie from the TV series The Last of Us, released in 2023."
+              src="https://image.tmdb.org/t/p/original/5syRZHBCzzCwkluq7EMrE8vYdlE.jpg"
+              alt="Julia Garner in Weapons (2025)."
               width={1920}
               height={1080}
               decoding="async"
               loading="eager"
-              className="animate-fade-in"
+              className="animate-fade-in aspect-[143/100] rounded-3xl object-cover"
             />
-            <div className="marketing-image-fade absolute top-0 right-0 left-0 z-10 size-full"></div>
             <div className="easing-gradient absolute top-0 right-0 left-0 size-full"></div>
-            <span className="text-gray/40 absolute top-1/2 -right-4 z-10 -rotate-90 text-sm font-medium text-nowrap">
-              The Last of Us (2023)
+            <span className="text-foreground/70 absolute top-1/2 -right-8 z-10 -rotate-90 text-sm font-medium text-nowrap">
+              Weapons (2025)
             </span>
           </div>
-          <div className="side-bottom-fade absolute top-0 right-0 left-0 z-10 size-full"></div>
         </section>
 
         {/* Hero Text */}
-        <section className="mb-10 pt-[475px] text-center">
-          <div className="mb-8">
-            <h2 className="text-[32px] font-bold tracking-tight">
-              Movie madness, managed.
+        <section className="absolute top-[45%] right-0 left-0 mx-auto mb-10 w-fit text-center">
+          <div className="mb-6">
+            <h2 className="text-4xl font-bold tracking-tight">
+              From premieres to finales.
             </h2>
-            <p className="mt-3 text-[18px] font-medium tracking-wide">
-              Track your cinematic journey.
+            <p className="mt-2 text-[18px] font-semibold tracking-wide">
+              Every movie. Every show. Every moment.
             </p>
           </div>
 
           {/* CTA */}
-          <Link
-            to="/"
-            className="hover:bg-foreground text-foreground relative rounded-full border border-white/70 px-12 py-1.5 font-bold tracking-wide shadow-sm transition-all duration-200 ease-in hover:text-neutral-800"
-          >
-            Get started
+          <Link to="/signup" className="inline-block">
+            <GlassElement
+              width={275}
+              height={38}
+              radius={50}
+              depth={10}
+              blur={2}
+              chromaticAberration={5}
+              debug={false}
+            >
+              <span className="text-foreground font-bold tracking-wide">
+                Start Tracking
+              </span>
+            </GlassElement>
           </Link>
         </section>
       </main>

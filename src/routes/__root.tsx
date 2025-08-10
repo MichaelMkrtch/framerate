@@ -1,4 +1,9 @@
-import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  HeadContent,
+  Scripts,
+  useRouterState,
+} from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 import appCss from '@/styles/app.css?url';
@@ -14,10 +19,18 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'FrameRate',
+        description: `FrameRate is the ultimate social platform for movie and TV enthusiasts. Share your reviews, create and discover lists, and effortlessly track everything you've watched!`,
       },
     ],
     links: [
+      {
+        rel: 'preload',
+        href: '/src/assets/fonts/manrope-variable.woff2',
+        as: 'font',
+        type: 'font/woff2',
+        crossOrigin: 'anonymous',
+      },
       {
         rel: 'stylesheet',
         href: appCss,
@@ -29,15 +42,23 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
-      <body>
-        {children}
-        <TanStackRouterDevtools />
-        <Scripts />
+      <body
+        className={`${pathname === '/' ? 'bg-marketing' : 'bg-background'} font-manrope dark antialiased`}
+      >
+        <div className="mx-auto size-full max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
+          {children}
+          <TanStackRouterDevtools position="bottom-right" />
+          <Scripts />
+        </div>
       </body>
     </html>
   );
