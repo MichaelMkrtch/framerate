@@ -9,6 +9,7 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
     "noEmit": true,
@@ -22,7 +23,7 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     }
   }
 }
