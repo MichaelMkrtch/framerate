@@ -12,7 +12,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { slugify } from '@/lib/string-utils';
+import { slugify } from '@/lib/strings';
 
 type HomeComponentProps = {
   trendingMovies: Trending<'movie'>[];
