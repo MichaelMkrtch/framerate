@@ -7,12 +7,15 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import Dialog from '@/components/dialog';
-import { BookmarkIcon, HeartIcon } from '@/components/icons/MediaActionIcons';
+import {
+  BookmarkIcon,
+  HeartIcon,
+} from '@/components/icons/media-actions-icons';
 import { authClient } from '@/lib/auth-client';
 import { Route as CollectionPageRoute } from '@/routes/(user)/$username/collections/$slug.index';
 import { addListAction, deleteListAction } from '@/server/actions';
 import { deleteList } from '@/server/lists';
-import { useListStore } from '@/store/collections/list-store';
+import { useListStore } from '@/store/lists/list-store';
 
 type ListData = {
   list: List;

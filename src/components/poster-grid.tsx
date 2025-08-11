@@ -3,7 +3,7 @@ import type { Review } from '@/types/ratings';
 
 import { Link } from '@tanstack/react-router';
 
-import { StarIcon } from '@/components/icons/StarIcon';
+import { StarIcon } from '@/components/icons/star-icon';
 import Poster from '@/components/poster';
 import Tooltip from '@/components/tooltip';
 import { TooltipProvider } from '@/components/ui/tooltip-ui';
