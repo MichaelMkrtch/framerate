@@ -10,6 +10,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { Toaster } from 'sonner';
 
 import { DefaultCatchBoundary } from '@/components/default-catch-boundary';
+import Navbar from '@/components/navbar';
 import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRouteWithContext<{
@@ -68,6 +69,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       >
         <div className="mx-auto size-full max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
           {children}
+          <Navbar />
           <Toaster
             toastOptions={{
               classNames: {
