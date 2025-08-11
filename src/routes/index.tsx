@@ -48,7 +48,7 @@ export default function LandingPage() {
               height={1080}
               decoding="async"
               loading="eager"
-              className="animate-fade-in aspect-[143/100] rounded-3xl object-cover"
+              className="animate-fade-in aspect-[143/100] rounded-3xl rounded-br-none rounded-bl-none object-cover"
             />
             <div className="easing-gradient absolute top-0 right-0 left-0 size-full"></div>
             <span className="text-foreground/70 absolute top-1/2 -right-8 z-10 -rotate-90 text-sm font-medium text-nowrap">
