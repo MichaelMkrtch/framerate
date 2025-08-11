@@ -67,7 +67,7 @@ export default function RatingForm({ media }: Record<'media', MediaDetails>) {
   const reviewMutation = useMutation({
     mutationFn: ({ qc, values }: { qc: QueryClient; values: Review }) =>
       submitReviewToServer(qc, values),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       const {
         values: { mediaType, mediaId },
       } = variables;
