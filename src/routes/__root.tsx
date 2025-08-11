@@ -9,6 +9,7 @@ import {
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { Toaster } from 'sonner';
 
+import { DefaultCatchBoundary } from '@/components/default-catch-boundary';
 import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRouteWithContext<{
@@ -42,7 +43,13 @@ export const Route = createRootRouteWithContext<{
       },
     ],
   }),
-
+  errorComponent: (props) => {
+    return (
+      <RootDocument>
+        <DefaultCatchBoundary {...props} />
+      </RootDocument>
+    );
+  },
   shellComponent: RootDocument,
 });
 
