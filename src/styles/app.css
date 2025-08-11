@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import './gradients.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -194,6 +195,11 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+
+  html,
+  body {
+    height: 100%;
   }
 
   body {

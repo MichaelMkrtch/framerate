@@ -7,6 +7,7 @@ import {
   useRouterState,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { Toaster } from 'sonner';
 
 import appCss from '@/styles/app.css?url';
 
@@ -60,6 +61,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       >
         <div className="mx-auto size-full max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
           {children}
+          <Toaster
+            toastOptions={{
+              classNames: {
+                toast:
+                  'bg-background border-white/10 text-foreground drop-shadow-md',
+              },
+            }}
+          />
           <TanStackRouterDevtools position="bottom-right" />
           <ReactQueryDevtools buttonPosition="bottom-left" />
           <Scripts />
