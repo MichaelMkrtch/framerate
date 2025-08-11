@@ -1,5 +1,7 @@
+import { QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import {
-  createRootRoute,
+  createRootRouteWithContext,
   HeadContent,
   Scripts,
   useRouterState,
@@ -8,7 +10,9 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 import appCss from '@/styles/app.css?url';
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+}>()({
   head: () => ({
     meta: [
       {
@@ -57,6 +61,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <div className="mx-auto size-full max-w-md md:max-w-2xl lg:max-w-6xl xl:max-w-[1200px]">
           {children}
           <TanStackRouterDevtools position="bottom-right" />
+          <ReactQueryDevtools buttonPosition="bottom-left" />
           <Scripts />
         </div>
       </body>
