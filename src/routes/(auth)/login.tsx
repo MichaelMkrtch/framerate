@@ -14,7 +14,7 @@ function LoginPage() {
     <>
       <div
         aria-hidden={true}
-        className="login-animated-mesh absolute top-24 right-0 bottom-0 left-0 m-auto h-[400px] w-[500px]"
+        className="login-animated-mesh absolute top-24 right-0 bottom-0 left-0 m-auto h-1/2 w-1/2"
       />
       <div
         aria-hidden={true}
@@ -24,7 +24,7 @@ function LoginPage() {
       <main className="relative flex h-full items-center justify-center">
         <Link
           to="/"
-          className="text-foreground absolute top-8 left-2 rounded-full bg-white/[0.03] p-1 transition-colors duration-200 hover:bg-white/5"
+          className="text-foreground absolute top-2 left-2 rounded-full bg-white/[0.03] p-1 transition-colors duration-200 hover:bg-white/5 md:top-8"
         >
           <X size={18} />
         </Link>

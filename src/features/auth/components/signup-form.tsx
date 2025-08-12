@@ -66,9 +66,10 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
       form.setFocus('name');
     }
 
-    return () => {
-      form.setFocus('email');
-    };
+    // Causes issues on iOS Safari
+    // return () => {
+    //   form.setFocus('email');
+    // };
   }, [page, form, form.setFocus]);
 
   useEffect(() => {
@@ -180,7 +181,6 @@ export default function SignupForm({ page, setPage }: SignupFormProps) {
                       type="email"
                       placeholder="account email"
                       autoComplete="email"
-                      autoFocus
                       className="auth-input rounded-l-full rounded-r-none bg-transparent ring-0 ring-transparent"
                       {...field}
                     />

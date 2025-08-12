@@ -53,9 +53,10 @@ export default function LoginForm() {
       form.setFocus('password');
     }
 
-    return () => {
-      form.setFocus('email');
-    };
+    // Causes issues on iOS Safari
+    // return () => {
+    //   form.setFocus('email');
+    // };
   }, [isEmailValidated, form]);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
@@ -110,7 +111,6 @@ export default function LoginForm() {
                     type="email"
                     placeholder="account email"
                     autoComplete="email"
-                    autoFocus
                     className="auth-input rounded-l-full rounded-r-none bg-transparent ring-0 ring-transparent"
                     {...field}
                   />
