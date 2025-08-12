@@ -11,13 +11,16 @@ export default function LandingPage() {
   return (
     <div className="relative min-h-screen">
       <header>
-        <nav className="flex items-center justify-between pt-8">
+        <nav className="flex items-center justify-between md:pt-8">
           <Link to="/">
-            <h1 className="text-3xl font-extrabold">FrameRate</h1>
+            <h1 className="text-lg font-extrabold md:text-3xl">FrameRate</h1>
           </Link>
 
-          <div className="flex items-center gap-10 font-semibold">
-            <Link to="/login" className="group/login flex items-center gap-2">
+          <div className="flex items-center gap-4 text-sm font-semibold md:gap-10 md:text-base">
+            <Link
+              to="/login"
+              className="group/login flex items-center gap-1.5 md:gap-2"
+            >
               <span className="text-gray group-hover/login:text-foreground transition-colors duration-200">
                 <Fingerprint size={18} />
               </span>
@@ -26,7 +29,7 @@ export default function LandingPage() {
 
             <Link
               to="/signup"
-              className="group/signup peer flex items-center gap-2 rounded-full border border-transparent bg-clip-border bg-origin-padding px-3.5 py-0.5"
+              className="group/signup peer flex items-center gap-1.5 md:gap-2"
             >
               <span className="text-gray group-hover/signup:text-foreground transition-colors duration-200">
                 <Ticket size={18} />
@@ -40,7 +43,7 @@ export default function LandingPage() {
       <main className="mx-auto">
         {/* Image */}
         <section className="relative mx-auto w-full">
-          <div className="relative top-24 right-0 left-0 mx-auto w-[95%]">
+          <div className="relative top-10 right-0 left-0 mx-auto w-[95%] md:top-24">
             <img
               src="https://image.tmdb.org/t/p/original/5syRZHBCzzCwkluq7EMrE8vYdlE.jpg"
               alt="Julia Garner in Weapons (2025)."
@@ -51,18 +54,18 @@ export default function LandingPage() {
               className="animate-fade-in aspect-[143/100] rounded-3xl rounded-br-none rounded-bl-none object-cover"
             />
             <div className="easing-gradient absolute top-0 right-0 left-0 size-full"></div>
-            <span className="text-foreground/70 absolute top-1/2 -right-8 z-10 -rotate-90 text-sm font-medium text-nowrap">
+            <span className="text-foreground/70 absolute top-1/2 -right-8 z-10 -rotate-90 text-[0.625rem] font-medium tracking-wide text-nowrap md:text-sm md:tracking-normal">
               Weapons (2025)
             </span>
           </div>
 
           {/* Hero Text */}
-          <section className="absolute top-4/5 right-0 left-0 z-50 mx-auto mb-10 w-fit text-center">
-            <div className="mb-6">
-              <h2 className="text-4xl font-bold tracking-tight">
+          <section className="absolute top-11/12 right-0 left-0 z-50 mx-auto mb-5 w-fit text-center md:top-4/5 md:mb-10">
+            <div className="mb-4 md:mb-6">
+              <h2 className="text-[1.375rem] font-bold md:text-4xl md:tracking-tight">
                 From premieres to finales.
               </h2>
-              <p className="mt-2 text-[18px] font-semibold tracking-wide">
+              <p className="mt-1 text-sm font-semibold md:mt-2 md:text-[1.125rem] md:tracking-wide">
                 Every movie. Every show. Every moment.
               </p>
             </div>
@@ -70,11 +73,11 @@ export default function LandingPage() {
             {/* CTA */}
             <Link to="/signup" className="inline-block">
               <GlassElement
-                width={275}
-                height={38}
-                radius={50}
-                depth={10}
-                blur={2}
+                width={210}
+                height={36}
+                radius={100}
+                depth={3}
+                blur={0.5}
                 chromaticAberration={5}
                 debug={false}
               >
