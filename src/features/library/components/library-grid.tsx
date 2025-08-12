@@ -75,7 +75,7 @@ export default function LibraryGrid({
         <LibraryFilters />
       </div>
 
-      <section className="animate-fade-in-fast mt-4">
+      <section className="animate-fade-in-fast mt-4 pb-20">
         {reviews.length === 0 ? (
           <div className="mx-auto mt-32 text-center">
             <p className="text-lg font-medium">
@@ -83,10 +83,10 @@ export default function LibraryGrid({
             </p>
           </div>
         ) : (
-          <div className="bg-background-dark h-screen w-full rounded-md px-7 py-8">
+          <div className="bg-background-dark min-h-screen w-full rounded-md p-4 md:px-7 md:py-8">
             <PosterGrid
               media={reviews}
-              classes="pb-20 grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-3.5"
+              classes="grid-cols-4 gap-1.5 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-3.5"
             />
           </div>
         )}

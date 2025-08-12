@@ -98,7 +98,7 @@ export default function SearchResultList({
   }
 
   return (
-    <div className="bg-background-light h-[350px] w-full overflow-auto rounded-lg border border-white/5 p-2 shadow-sm">
+    <div className="bg-background-light h-2/3 w-full overflow-auto rounded border border-white/5 p-2 shadow-sm md:h-[350px] md:rounded-lg">
       {detailsData.map((data) => {
         return (
           <SearchResult key={`${data.mediaType}-${data.id}`} media={data} />

@@ -21,14 +21,14 @@ export default function SearchResult({ media }: { media: MediaDetails }) {
       alt={`A promotional poster from ${media.title}`}
       width={92}
       height={138}
-      className="h-12 w-8 rounded"
+      className="aspect-[2/3] h-14 w-fit rounded-xs md:h-12 md:rounded"
     />
   );
 
   return (
     media.title &&
     media.releaseDate && (
-      <div className="animate-fade-in hover:bg-background mt-0 flex items-center justify-start rounded-md md:py-2">
+      <div className="animate-fade-in hover:bg-background mt-0 flex items-center justify-start rounded-md py-1 md:py-2">
         <SearchDialogClose asChild>
           <Link
             to={route}

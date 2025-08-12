@@ -36,7 +36,7 @@ export default function Sidebar() {
         </ListDialog>
       </div>
 
-      <div className="animate-fade-in-fast">
+      <div className="animate-fade-in">
         {lists.length > 0 &&
           lists.map((list) => {
             return (

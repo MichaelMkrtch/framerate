@@ -27,7 +27,7 @@ export default function LibraryFilters() {
   });
 
   return (
-    <div className="flex justify-end gap-3">
+    <div className="flex justify-end gap-2 md:gap-3">
       <TooltipProvider>
         <Tooltip content="Show All" side="top" sideOffset={12} key1="A">
           <Link

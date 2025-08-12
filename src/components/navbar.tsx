@@ -231,11 +231,11 @@ export default function Navbar() {
                 </SearchDialogDescription>
               </SearchDialogHeader>
 
-              <SearchResultList searchQuery={searchQuery} />
               <SearchBar
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
               />
+              <SearchResultList searchQuery={searchQuery} />
             </SearchDialogContent>
           </SearchDialog>
         </div>
