@@ -108,11 +108,11 @@ export default function CreateList() {
                       ref={createListRef}
                       type="text"
                       autoComplete="off"
-                      className="bg-background-lighter relative ml-1 h-8 w-5/6 rounded rounded-r-none border border-r-0 border-white/5 pr-1 pl-2 text-[15px] leading-8 outline-none md:pr-2"
+                      className="bg-background-light relative ml-1 h-8 w-5/6 rounded rounded-r-none border border-r-0 border-white/5 pr-1 pl-2 text-[15px] leading-8 outline-none md:pr-2"
                     />
                     <button
                       type="submit"
-                      className="bg-background-lighter h-8 overflow-x-scroll rounded rounded-tl-none rounded-bl-none border border-l-0 border-white/5 pr-2 pl-1 text-sm font-medium transition-colors duration-150 ease-in outline-none hover:text-[#00e4f5] md:pl-2"
+                      className="bg-background-light h-8 overflow-x-scroll rounded rounded-tl-none rounded-bl-none border border-l-0 border-white/5 pr-2 pl-1 text-sm font-medium transition-colors duration-150 ease-in outline-none hover:text-[#00e4f5] md:pl-2"
                     >
                       Create
                     </button>

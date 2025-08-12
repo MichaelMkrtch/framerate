@@ -171,7 +171,7 @@ export default function SideCard({ listData }: SideCardProps) {
                 >
                   <Dialog.Footer>
                     <Dialog.Close asChild>
-                      <button className="hover:text-foreground text-foreground border-background-lighter hover:bg-background-lighter inline-flex h-9 cursor-pointer items-center justify-center rounded-md border bg-transparent px-4 py-2 text-sm font-medium transition-colors">
+                      <button className="hover:text-foreground text-foreground border-background-light hover:bg-background-light inline-flex h-9 cursor-pointer items-center justify-center rounded-md border bg-transparent px-4 py-2 text-sm font-medium transition-colors">
                         Cancel
                       </button>
                     </Dialog.Close>

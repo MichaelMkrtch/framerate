@@ -26,7 +26,7 @@ export default function ReviewCard({ media }: Record<'media', MediaDetails>) {
   const formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
   return (
-    <div className="bg-background-lighter flex h-[206.5px] flex-col items-center justify-between gap-7 rounded p-3 shadow-md ring-1 ring-white/5 lg:px-5 lg:pt-4 lg:pb-5">
+    <div className="bg-background-light flex h-[206.5px] flex-col items-center justify-between gap-7 rounded p-3 shadow-md ring-1 ring-white/5 lg:px-5 lg:pt-4 lg:pb-5">
       <div className="flex w-full items-center justify-between">
         <h3 className={`${!isStoredReview ? 'm-auto' : ''} inline font-medium`}>
           {isStoredReview

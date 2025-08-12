@@ -48,7 +48,7 @@ function RouteComponent() {
         {listData && (
           <div className="grid grid-cols-[500px,1fr] gap-5">
             <EditListForm listData={listData} setReturnSlug={setReturnSlug} />
-            <div className="bg-background-lighter flex h-[320px] items-center justify-center rounded-md">
+            <div className="bg-background-light flex h-[320px] items-center justify-center rounded-md">
               <p className="text-base font-medium">Image upload coming soon!</p>
             </div>
           </div>

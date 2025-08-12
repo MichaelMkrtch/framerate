@@ -42,7 +42,7 @@ export default function Tooltip({
               <span
                 className={`${key1 && key2 ? 'pl-3.5' : ''} ${key1 && !key2 ? 'pl-2' : ''}`}
               ></span>
-              <span className="bg-background-darker rounded px-1 py-[1px] text-xs">
+              <span className="bg-background-dark rounded px-1 py-[1px] text-xs">
                 {key1}
               </span>
             </>
@@ -50,7 +50,7 @@ export default function Tooltip({
           {key2 && (
             <>
               <span> then </span>
-              <span className="bg-background-darker rounded px-1 py-[1px] text-xs">
+              <span className="bg-background-dark rounded px-1 py-[1px] text-xs">
                 {key2}
               </span>
             </>

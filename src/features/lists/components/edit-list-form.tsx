@@ -91,7 +91,7 @@ export default function EditListForm({
                       placeholder={listData.list.name}
                       autoComplete="off"
                       autoFocus
-                      className="bg-background-lighter text-foreground block w-full rounded-md px-3.5 py-2 outline-none placeholder:text-white/35"
+                      className="bg-background-light text-foreground block w-full rounded-md px-3.5 py-2 outline-none placeholder:text-white/35"
                       {...field}
                     />
                   </div>

@@ -31,7 +31,7 @@ export default function ListGrid({ listData, isFetching }: ListGridProps) {
 
   return (
     <section
-      className={`${displayData && displayData.length > 0 && 'bg-background-darker overflow-auto border border-white/10'} w-4/5 rounded-md px-7 py-8`}
+      className={`${displayData && displayData.length > 0 && 'bg-background-dark overflow-auto border border-white/10'} w-4/5 rounded-md px-7 py-8`}
     >
       {displayData && displayData.length > 0 && (
         <PosterGrid

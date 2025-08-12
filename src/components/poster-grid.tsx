@@ -54,7 +54,7 @@ export default function PosterGrid({
                 side="bottom"
                 content={tooltipContent}
                 isEnabled={isTooltipEnabled}
-                classes="bg-background-lighter border-white/10"
+                classes="bg-background-light border-white/10"
               >
                 <Link
                   to={route}
