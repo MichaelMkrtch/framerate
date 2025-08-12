@@ -59,7 +59,6 @@ export default function EditListForm({
       if (data) {
         // After migrating lists to TanStack Query,
         // invalidate lists query instead of changing zustand state
-        console.log(data.id);
         removeList(data.id);
         addList(data);
         setReturnSlug(data.slug);

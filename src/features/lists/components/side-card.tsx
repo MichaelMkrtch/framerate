@@ -160,7 +160,7 @@ export default function SideCard({ listData }: SideCardProps) {
               </Link>
               <Dialog>
                 <Dialog.Trigger asChild>
-                  <button className="ease rounded-md border border-white/5 bg-[#28292d] px-4 py-2 font-medium transition-colors duration-150 hover:border-red-500 hover:bg-transparent">
+                  <button className="ease cursor-pointer rounded-md border border-white/5 bg-[#28292d] px-4 py-2 font-medium transition-colors duration-150 hover:border-red-500 hover:bg-transparent">
                     Delete
                   </button>
                 </Dialog.Trigger>
@@ -178,7 +178,7 @@ export default function SideCard({ listData }: SideCardProps) {
                     <Dialog.Close asChild>
                       <button
                         onClick={handleDelete}
-                        className="text-foreground inline-flex h-9 cursor-pointer items-center justify-center rounded-md border-red-800 bg-red-600 px-4 py-2 text-sm font-medium transition-colors hover:bg-red-700"
+                        className="text-foreground inline-flex h-9 cursor-pointer items-center justify-center rounded-md border-red-800 bg-red-700 px-4 py-2 text-sm font-medium transition-colors hover:bg-red-800"
                       >
                         Delete
                       </button>

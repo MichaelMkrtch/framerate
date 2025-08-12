@@ -5,6 +5,8 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { ArrowLeftCircle } from 'lucide-react';
 
 import EditListForm from '@/features/lists/components/edit-list-form';
+import EditListItems from '@/features/lists/components/edit-list-items';
+import { sortTitles } from '@/lib/strings';
 import { getListData } from '@/server/lists';
 
 export const Route = createFileRoute(
@@ -27,6 +29,8 @@ function RouteComponent() {
     gcTime: 5 * 60 * 1000,
   });
 
+  const sortedListItems = sortTitles(listData?.listItems);
+
   function handleClick() {
     navigate({ to: `/${username}/collections/${returnSlug}` });
   }
@@ -46,11 +50,25 @@ function RouteComponent() {
           />
         </button>
         {listData && (
-          <div className="grid grid-cols-[500px,1fr] gap-5">
+          <div className="grid grid-cols-1 gap-5">
             <EditListForm listData={listData} setReturnSlug={setReturnSlug} />
-            <div className="bg-background-light flex h-[320px] items-center justify-center rounded-md">
+
+            <section className="bg-background-light flex h-[320px] items-center justify-center rounded-md">
               <p className="text-base font-medium">Image upload coming soon!</p>
-            </div>
+            </section>
+
+            <hr className="bg-background my-3" />
+
+            <section className="mb-20">
+              <div className="mb-6">
+                <h2 className="font-medium">Edit Items</h2>
+                <span className="text-gray text-sm tracking-wide">
+                  Select poster to remove from list
+                </span>
+              </div>
+
+              <EditListItems listItems={sortedListItems} />
+            </section>
           </div>
         )}
       </main>
