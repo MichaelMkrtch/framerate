@@ -65,10 +65,7 @@ export default function HomeCarousel({
                   const loadingStrategy = index < 6 ? 'eager' : 'lazy';
 
                   return (
-                    <CarouselItem
-                      key={media.id}
-                      className="md:basis-1/5 xl:basis-1/6"
-                    >
+                    <CarouselItem key={media.id}>
                       <Link
                         to={group.link}
                         params={{
@@ -86,7 +83,7 @@ export default function HomeCarousel({
                           perspectiveEnabled={false}
                           scale={105}
                           loading={loadingStrategy}
-                          classes="carousel-item w-[170px] h-[255px]"
+                          classes="w-fit aspect-[2/3] h-[164px] md:h-[255px]"
                         />
                       </Link>
                     </CarouselItem>

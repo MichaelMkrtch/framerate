@@ -239,11 +239,7 @@
   }
 
   .carousel-container {
-    @apply bg-background-dark relative mb-6 rounded-md p-4 before:absolute before:top-0 before:-right-20 before:bottom-0 before:-left-20;
-  }
-
-  .carousel-item {
-    @apply h-36 w-24 md:h-[180px] md:w-[120px] lg:h-[249px] lg:w-[166px] xl:h-[288px] xl:w-[192px];
+    @apply bg-background-dark relative mb-6 rounded-md p-3 before:absolute before:top-0 before:-right-20 before:bottom-0 before:-left-20 md:p-4;
   }
 
   .library-filter-btn {

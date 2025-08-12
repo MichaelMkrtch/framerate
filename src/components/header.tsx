@@ -46,14 +46,13 @@ export default function Header({ title, children }: HeaderProps) {
   }, [queryData, setEmail, setName, setUsername, isError]);
 
   return (
-    <header className="flex h-[115px] items-center justify-between">
-      <div className="flex items-center justify-center gap-3">
+    <header className="flex h-24 items-center justify-between md:h-[115px]">
+      <div className="flex flex-col justify-center gap-3 md:flex-row md:items-center">
         <Link to="/home" className="mr-2 flex flex-col text-2xl leading-5">
-          <span>Frame</span>
-          <span>Rate</span>
+          <span>FrameRate</span>
         </Link>
         <div>
-          <h1 className="text-xl font-semibold">
+          <h1 className="text-lg font-semibold md:text-xl">
             {pathname === '/home' ? `Hello, ${name}` : title}
           </h1>
         </div>
