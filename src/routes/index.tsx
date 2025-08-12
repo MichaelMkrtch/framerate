@@ -37,10 +37,10 @@ export default function LandingPage() {
         </nav>
       </header>
 
-      <main className="mx-auto px-20">
+      <main className="mx-auto">
         {/* Image */}
-        <section className="absolute top-0 right-0 left-0 -z-10 mx-auto w-full items-center">
-          <div className="absolute top-24 right-0 left-0 mx-auto w-[90%]">
+        <section className="relative mx-auto w-full">
+          <div className="relative top-24 right-0 left-0 mx-auto w-[95%]">
             <img
               src="https://image.tmdb.org/t/p/original/5syRZHBCzzCwkluq7EMrE8vYdlE.jpg"
               alt="Julia Garner in Weapons (2025)."
@@ -55,35 +55,35 @@ export default function LandingPage() {
               Weapons (2025)
             </span>
           </div>
-        </section>
 
-        {/* Hero Text */}
-        <section className="absolute top-[43%] right-0 left-0 mx-auto mb-10 w-fit text-center">
-          <div className="mb-6">
-            <h2 className="text-4xl font-bold tracking-tight">
-              From premieres to finales.
-            </h2>
-            <p className="mt-2 text-[18px] font-semibold tracking-wide">
-              Every movie. Every show. Every moment.
-            </p>
-          </div>
+          {/* Hero Text */}
+          <section className="absolute top-4/5 right-0 left-0 z-50 mx-auto mb-10 w-fit text-center">
+            <div className="mb-6">
+              <h2 className="text-4xl font-bold tracking-tight">
+                From premieres to finales.
+              </h2>
+              <p className="mt-2 text-[18px] font-semibold tracking-wide">
+                Every movie. Every show. Every moment.
+              </p>
+            </div>
 
-          {/* CTA */}
-          <Link to="/signup" className="inline-block">
-            <GlassElement
-              width={275}
-              height={38}
-              radius={50}
-              depth={10}
-              blur={2}
-              chromaticAberration={5}
-              debug={false}
-            >
-              <span className="text-foreground font-bold tracking-wide">
-                Start Tracking
-              </span>
-            </GlassElement>
-          </Link>
+            {/* CTA */}
+            <Link to="/signup" className="inline-block">
+              <GlassElement
+                width={275}
+                height={38}
+                radius={50}
+                depth={10}
+                blur={2}
+                chromaticAberration={5}
+                debug={false}
+              >
+                <span className="text-foreground font-bold tracking-wide">
+                  Start Tracking
+                </span>
+              </GlassElement>
+            </Link>
+          </section>
         </section>
       </main>
     </div>

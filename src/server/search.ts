@@ -33,7 +33,9 @@ export const searchMedia = createServerFn({ method: 'GET' })
     };
 
     try {
+      console.log(API_TOKEN);
       const response = await fetch(url, options);
+      console.log(response);
 
       if (!response.ok) {
         throw new Error('An error occured while searching!');
