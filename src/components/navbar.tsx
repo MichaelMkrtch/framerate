@@ -25,6 +25,8 @@ import {
 } from '@/features/search/components/search-dialog';
 import SearchResultList from '@/features/search/components/search-result-list';
 
+import { GlassElement } from './liquid-glass/glass-element';
+
 export default function Navbar() {
   const [navbarEnabled, setNavbarEnabled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -155,48 +157,69 @@ export default function Navbar() {
   return (
     navbarEnabled && (
       <TooltipProvider>
-        <div className="fixed right-0 bottom-6 left-0 z-50 mx-auto flex w-fit items-center justify-center gap-x-4">
-          <nav className="before:bg-background-light/85 relative flex gap-x-[26px] rounded-full border border-white/5 px-4 py-0.5 shadow-md backdrop-blur-lg before:absolute before:top-0 before:left-0 before:size-full before:rounded-full">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <Tooltip
-                  key={tab.id}
-                  side="top"
-                  sideOffset={18}
-                  content={tab.name}
-                  key1={tab.key1}
-                  key2={tab.key2}
-                >
-                  <Link
-                    to={tab.href}
-                    activeProps={{
-                      className: 'text-[#522aff] before:bg-white/5',
-                    }}
-                    activeOptions={{ exact: true }}
-                    className="relative flex items-center justify-center transition-all duration-200 ease-in-out before:absolute before:top-0 before:bottom-0 before:my-auto before:size-8 before:rounded-full before:transition-all before:duration-200 before:ease-in-out hover:text-[#522aff] focus:outline-[#522aff]"
+        <div className="fixed right-0 bottom-2 left-0 z-50 mx-auto flex w-fit items-center justify-center gap-x-2">
+          <GlassElement
+            height={44}
+            width={236}
+            radius={100}
+            depth={3}
+            blur={0.5}
+          >
+            <nav className="relative flex gap-x-6 px-4 py-0.5 before:absolute before:top-0 before:left-0 before:size-full before:rounded-full">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <Tooltip
+                    key={tab.id}
+                    side="top"
+                    sideOffset={18}
+                    content={tab.name}
+                    key1={tab.key1}
+                    key2={tab.key2}
                   >
-                    <Icon width={20} height={40} strokeWidth={1.5} />
-                  </Link>
-                </Tooltip>
-              );
-            })}
-          </nav>
+                    <Link
+                      to={tab.href}
+                      activeProps={{
+                        className: 'text-[#522aff]',
+                      }}
+                      activeOptions={{ exact: true }}
+                      className="relative flex items-center justify-center bg-transparent transition-all duration-200 ease-in-out before:absolute before:top-0 before:bottom-0 before:my-auto before:size-8 before:rounded-full before:transition-all before:duration-200 before:ease-in-out hover:text-[#522aff] focus:outline-[#522aff]"
+                    >
+                      <Icon
+                        width={20}
+                        height={40}
+                        strokeWidth={2}
+                        className=""
+                      />
+                    </Link>
+                  </Tooltip>
+                );
+              })}
+            </nav>
+          </GlassElement>
 
           <SearchDialog>
             <SearchDialogTrigger asChild>
               <button
                 ref={searchBtn}
-                className="before:bg-background-light/85 relative rounded-full border border-white/5 px-3 py-0.5 shadow-sm outline-0 backdrop-blur-lg transition-colors duration-200 ease-in-out before:absolute before:top-0 before:left-0 before:size-full before:rounded-full hover:text-[#522aff]"
+                className="relative px-3 py-0.5 outline-0 transition-colors duration-200 ease-in-out before:absolute before:top-0 before:left-0 before:size-full before:rounded-full hover:text-[#522aff]"
               >
-                <Tooltip side="top" sideOffset={18} content="Search" key1="/">
-                  <Search
-                    width={20}
-                    height={40}
-                    strokeWidth={1.5}
-                    className="relative"
-                  />
-                </Tooltip>
+                <GlassElement
+                  height={44}
+                  width={44}
+                  radius={100}
+                  depth={3}
+                  blur={0.5}
+                >
+                  <Tooltip side="top" sideOffset={18} content="Search" key1="/">
+                    <Search
+                      width={20}
+                      height={40}
+                      strokeWidth={2}
+                      className="relative"
+                    />
+                  </Tooltip>
+                </GlassElement>
               </button>
             </SearchDialogTrigger>
 

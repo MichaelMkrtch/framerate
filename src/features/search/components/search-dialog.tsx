@@ -38,7 +38,7 @@ function SearchDialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-bottom-1 data-[state=open]:slide-in-from-bottom-1 fixed right-0 bottom-6 left-0 z-50 mx-auto grid w-[550px] grid-rows-[350px,_46px] gap-2.5 shadow-sm sm:rounded-lg 2xl:w-[600px]',
+          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-bottom-1 data-[state=open]:slide-in-from-bottom-1 fixed right-0 bottom-2 left-0 z-50 mx-auto grid w-[550px] grid-rows-[350px,_46px] gap-2.5 shadow-sm sm:rounded-lg 2xl:w-[600px]',
           className,
         )}
         {...props}

@@ -52,7 +52,7 @@ export const GlassElement = ({
   }
   return (
     <div
-      className="flex items-center justify-center bg-white/5 inset-shadow-[0_0_4px_0_white]"
+      className="flex items-center justify-center bg-black/50 inset-shadow-[0_0_2px_0_rgba(255,255,255,0.45)]"
       style={style}
       onMouseDown={() => setClicked(true)}
       onMouseUp={() => setClicked(false)}

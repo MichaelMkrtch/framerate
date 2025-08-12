@@ -17,15 +17,15 @@ export const getDisplacementMap = ({
           id="Y"
           x1="0"
           x2="0"
-          y1="${Math.ceil((radius / height) * 15)}%"
-          y2="${Math.floor(100 - (radius / height) * 15)}%">
+          y1="${Math.ceil((radius / height) * 10)}%"
+          y2="${Math.floor(100 - (radius / height) * 10)}%">
             <stop offset="0%" stop-color="#0F0" />
             <stop offset="100%" stop-color="#000" />
         </linearGradient>
         <linearGradient
           id="X"
-          x1="${Math.ceil((radius / width) * 15)}%"
-          x2="${Math.floor(100 - (radius / width) * 15)}%"
+          x1="${Math.ceil((radius / width) * 10)}%"
+          x2="${Math.floor(100 - (radius / width) * 10)}%"
           y1="0"
           y2="0">
             <stop offset="0%" stop-color="#F00" />

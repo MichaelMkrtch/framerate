@@ -15,7 +15,7 @@ export const getDisplacementFilter = ({
   radius,
   depth,
   strength = 100,
-  chromaticAberration = 0,
+  chromaticAberration = 3,
 }: DisplacementOptions) =>
   'data:image/svg+xml;utf8,' +
   encodeURIComponent(`<svg height="${height}" width="${width}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">

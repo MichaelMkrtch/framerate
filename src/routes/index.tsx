@@ -58,7 +58,7 @@ export default function LandingPage() {
         </section>
 
         {/* Hero Text */}
-        <section className="absolute top-[45%] right-0 left-0 mx-auto mb-10 w-fit text-center">
+        <section className="absolute top-[43%] right-0 left-0 mx-auto mb-10 w-fit text-center">
           <div className="mb-6">
             <h2 className="text-4xl font-bold tracking-tight">
               From premieres to finales.
