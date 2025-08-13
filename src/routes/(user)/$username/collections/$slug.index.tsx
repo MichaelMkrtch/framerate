@@ -94,7 +94,7 @@ function RouteComponent() {
   }, []);
 
   return (
-    <main>
+    <main className="pb-20">
       {/* <Backdrop
         collection
         backdropPath="/lvOLivVeX3DVVcwfVkxKf0R22D8.jpg"
@@ -112,7 +112,7 @@ function RouteComponent() {
 
         <ListDescription listData={listData} />
 
-        <div className="flex size-full gap-2.5">
+        <div className="flex size-full flex-col gap-2.5 md:flex-row">
           <ListGrid listData={listData} isFetching={isFetching} />
           <SideCard listData={listData} />
         </div>

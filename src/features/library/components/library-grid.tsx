@@ -83,7 +83,7 @@ export default function LibraryGrid({
             </p>
           </div>
         ) : (
-          <div className="bg-background-dark min-h-screen w-full rounded-md p-4 md:px-7 md:py-8">
+          <div className="bg-background-dark min-h-screen w-full rounded-md p-3 md:px-7 md:py-8">
             <PosterGrid
               media={reviews}
               classes="grid-cols-4 gap-1.5 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 lg:gap-3.5"

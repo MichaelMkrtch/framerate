@@ -147,7 +147,7 @@ export default function SideCard({ listData }: SideCardProps) {
 
   return (
     displayData && (
-      <aside className="bg-background relative flex h-40 grow flex-col items-center justify-between rounded-md border border-white/5 px-7 py-8 shadow-md">
+      <aside className="bg-background relative order-1 flex h-40 grow flex-col items-center justify-between rounded-md border border-white/5 px-7 py-8 shadow-md md:order-2">
         {activeUser.data &&
           displayData.list.userId === activeUser.data.user.id && (
             <div className="mb-6 flex gap-3">
@@ -189,7 +189,7 @@ export default function SideCard({ listData }: SideCardProps) {
             </div>
           )}
 
-        <div className="flex w-full items-center justify-around gap-3 text-[#555]">
+        <div className="flex items-center justify-around gap-10 text-[#555] md:w-full md:gap-3">
           <div className="flex items-center justify-center gap-2">
             <HeartIcon
               fill="#333"
