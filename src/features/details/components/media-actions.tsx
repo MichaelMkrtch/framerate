@@ -156,7 +156,7 @@ export default function MediaActions({ media }: Record<'media', MediaDetails>) {
               <div>
                 <Icon
                   fill="#333"
-                  classes={`${action.hover} ${isActive && action.active} cursor-pointer ease transition-all duration-150 active:scale-90 md:h-7 lg:h-8`}
+                  classes={`${action.hover} ${isActive && action.active} cursor-pointer ease transition-all duration-150 active:scale-90 h-8`}
                   onClick={() => handleClick(action.name)}
                 />
               </div>

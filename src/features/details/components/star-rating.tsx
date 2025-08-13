@@ -101,7 +101,7 @@ export default function StarRating({
 
   return (
     <div className="relative">
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center gap-1 md:gap-0">
         {groupedStars.map((group, index) => {
           return (
             <span
@@ -130,7 +130,7 @@ export default function StarRating({
                       fill={
                         ratingValue <= (hover || rating!) ? '#FFD43B' : '#333'
                       }
-                      classes="h-8 w-10 md:h-7 md:w-9 lg:h-8 lg:w-10"
+                      classes="size-10 md:w-9 lg:h-8 lg:w-10"
                       onMouseEnter={() => setHover(ratingValue)}
                       onMouseLeave={() => setHover(null)}
                     />
